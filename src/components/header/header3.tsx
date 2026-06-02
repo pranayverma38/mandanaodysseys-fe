@@ -27,7 +27,7 @@ const Header3: FC<Props> = ({ className }) => {
         <div className="container flex h-20 flex-1 justify-between">
           {/* Logo (lg+) */}
           <div className="relative z-11 flex flex-1/2 items-center">
-            <Logo />
+            <Logo variant="full-white" />
           </div>
 
           <div className="mx-auto hidden w-full max-w-lg shrink-0 justify-center lg:flex">

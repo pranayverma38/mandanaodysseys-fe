@@ -45,7 +45,7 @@ export function HeaderNavigation({ variant = 'default' }: HeaderNavigationProps)
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className={isHero ? heroNavTriggerClassName : undefined}>Travelers</NavigationMenuTrigger>
+          <NavigationMenuTrigger className={isHero ? heroNavTriggerClassName : undefined}>Destinations</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-80 grid-cols-1 gap-5 p-4">
               {travelers.map((item, index) => (
@@ -67,7 +67,7 @@ export function HeaderNavigation({ variant = 'default' }: HeaderNavigationProps)
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem className="hidden md:flex">
-          <NavigationMenuTrigger className={isHero ? heroNavTriggerClassName : undefined}>Explore</NavigationMenuTrigger>
+          <NavigationMenuTrigger className={isHero ? heroNavTriggerClassName : undefined}>Packages</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] flex-1 grid-cols-3 gap-x-5 gap-y-10 p-5 text-sm md:w-[500px] lg:w-[600px]">
               {megaMenuItems.map((megaMenuItem, index) => (
@@ -89,7 +89,7 @@ export function HeaderNavigation({ variant = 'default' }: HeaderNavigationProps)
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={linkTriggerClassName}>
-            <Link href="/stay-search-with-map">Search</Link>
+            <Link href="/about">About</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

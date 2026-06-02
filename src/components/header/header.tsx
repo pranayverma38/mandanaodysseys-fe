@@ -23,7 +23,7 @@ const Header: FC<Props> = async ({ hasBorderBottom = true, className }) => {
       >
         <div className="container flex h-20 justify-between">
           <div className="flex flex-1 items-center">
-            <Logo />
+            <Logo variant="full-colored" />
           </div>
 
           <div className="mx-4 hidden flex-2 lg:flex">

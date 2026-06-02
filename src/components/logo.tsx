@@ -1,15 +1,53 @@
+import fullColoredLogo from '@/images/logos/full-colored.png'
+import fullWhiteLogo from '@/images/logos/full-white.png'
+import clsx from 'clsx'
+import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
 interface LogoProps {
   className?: string
+  variant?: 'default' | 'full-colored' | 'full-white'
 }
 
-const Logo: React.FC<LogoProps> = ({ className = 'w-22 sm:w-24' }) => {
+const logoImages: Record<'full-colored' | 'full-white', StaticImageData> = {
+  'full-colored': fullColoredLogo,
+  'full-white': fullWhiteLogo,
+}
+
+const Logo: React.FC<LogoProps> = ({ className, variant = 'default' }) => {
+  if (variant !== 'default') {
+    const image = logoImages[variant]
+    const displayWidth = 128
+    const displayHeight = Math.round((displayWidth / image.width) * image.height)
+
+    return (
+      <Link
+        href="/"
+        className={clsx(
+          'inline-block shrink-0 transition-opacity duration-150 hover:opacity-90 focus:ring-0 focus:outline-hidden',
+          className
+        )}
+      >
+        <Image
+          src={image}
+          alt="Mandana Odyssey"
+          width={displayWidth}
+          height={displayHeight}
+          className="!h-auto !w-[112px] !max-w-none sm:!w-[128px]"
+          priority
+        />
+      </Link>
+    )
+  }
+
   return (
     <Link
       href="/"
-      className={`inline-block transition-colors duration-150 focus:ring-0 focus:outline-hidden ${className}`}
+      className={clsx(
+        'inline-block transition-colors duration-150 focus:ring-0 focus:outline-hidden',
+        className ?? 'w-22 sm:w-24'
+      )}
     >
       <svg width="96" height="35" viewBox="0 0 96 35" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
