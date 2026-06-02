@@ -3,7 +3,7 @@ import AsideSidebarNavigation from '@/components/aside-sidebar-navigation'
 import FooterQuickNavigation from '@/components/footer-quick-navigation'
 import Footer3 from '@/components/footer3'
 import Header3 from '@/components/header/header3'
-import HeroSearchFormMobile from '@/components/hero-search-form-mobile/hero-search-form-mobile'
+// import HeroSearchFormMobile from '@/components/hero-search-form-mobile/hero-search-form-mobile'
 import { MotionDiv } from '@/components/motion-div'
 import { Metadata } from 'next'
 import 'rc-slider/assets/index.css'
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Aside.Provider>
-      {/* Desktop Header - Will be hidden on mobile devices  */}
+      {/* Header */}
       <MotionDiv
-        className="absolute top-0 left-0 z-10 hidden w-full lg:block"
+        className="absolute top-0 left-0 z-30 w-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
@@ -32,11 +32,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Header3 initSearchFormTab="Stays" />
       </MotionDiv>
       {/* HeroSearchFormMobile - will display on mobile devices instead of Header-desktop */}
-      <div className="sticky top-0 z-20 bg-background shadow-sm lg:hidden">
+      {/* <div className="sticky top-0 z-20 bg-background shadow-sm lg:hidden">
         <div className="container flex h-20 items-center justify-center">
           <HeroSearchFormMobile />
         </div>
-      </div>
+      </div> */}
       {/*  */}
       {children}
       {/*  */}

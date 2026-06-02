@@ -19,17 +19,33 @@ import * as React from 'react'
 const megaMenuItems = getMegaMenuItems()
 const travelers = getTravelersMenu()
 
-export function HeaderNavigation() {
+const heroNavListClassName =
+  'rounded-full border border-white/25 bg-white/15 text-white shadow-md-for-card backdrop-blur-md transition ease-in-out hover:bg-white/20 hover:shadow-lg-for-card px-2 py-1.5'
+
+const heroNavTriggerClassName =
+  'group/navigation-menu-trigger inline-flex h-9 w-max items-center justify-center rounded-2xl bg-transparent px-4.5 py-2.5 text-sm font-[450] text-inherit transition-all outline-none hover:bg-white/20 focus:bg-white/20 focus-visible:ring-[3px] focus-visible:ring-white/30 disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-white/15 data-popup-open:hover:bg-white/20 data-open:bg-white/15 data-open:hover:bg-white/20 data-open:focus:bg-white/20'
+
+type HeaderNavigationVariant = 'default' | 'hero'
+
+interface HeaderNavigationProps {
+  variant?: HeaderNavigationVariant
+}
+
+export function HeaderNavigation({ variant = 'default' }: HeaderNavigationProps) {
+  const isHero = variant === 'hero'
+  const listClassName = isHero ? heroNavListClassName : 'rounded-full shadow-md-for-card px-2 py-1.5'
+  const linkTriggerClassName = isHero ? heroNavTriggerClassName : navigationMenuTriggerStyle()
+
   return (
     <NavigationMenu>
-      <NavigationMenuList className="rounded-full shadow-md-for-card px-2 py-1.5">
+      <NavigationMenuList className={listClassName}>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink asChild className={linkTriggerClassName}>
             <Link href="/">Home</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Travelers</NavigationMenuTrigger>
+          <NavigationMenuTrigger className={isHero ? heroNavTriggerClassName : undefined}>Travelers</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-80 grid-cols-1 gap-5 p-4">
               {travelers.map((item, index) => (
@@ -51,7 +67,7 @@ export function HeaderNavigation() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem className="hidden md:flex">
-          <NavigationMenuTrigger>Explore</NavigationMenuTrigger>
+          <NavigationMenuTrigger className={isHero ? heroNavTriggerClassName : undefined}>Explore</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] flex-1 grid-cols-3 gap-x-5 gap-y-10 p-5 text-sm md:w-[500px] lg:w-[600px]">
               {megaMenuItems.map((megaMenuItem, index) => (
@@ -72,7 +88,7 @@ export function HeaderNavigation() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink asChild className={linkTriggerClassName}>
             <Link href="/stay-search-with-map">Search</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>

@@ -1,4 +1,4 @@
-import Header2 from '@/components/header/header2'
+import Header from '@/components/header/header'
 import React, { FC } from 'react'
 import { ApplicationLayout } from '../application-layout'
 import { PageNavigation } from './page-navigation'
@@ -9,7 +9,7 @@ interface Props {
 
 const Layout: FC<Props> = ({ children }) => {
   return (
-    <ApplicationLayout header={<Header2 initSearchFormTab="Stays" />}>
+    <ApplicationLayout header={<Header />}>
       <div className="bg-neutral-50 dark:bg-neutral-900">
         <div className="border-b border-border bg-background pt-12">
           <PageNavigation />

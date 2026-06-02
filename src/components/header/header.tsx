@@ -1,7 +1,6 @@
 import Logo from '@/components/logo'
 import clsx from 'clsx'
 import { FC } from 'react'
-import { Button } from '../button'
 import AvatarDropdown from './avatar-dropdown'
 import CurrLangDropdown from './curr-lang-dropdown'
 import HamburgerBtnMenu from './hamburger-btn-menu'
@@ -23,24 +22,18 @@ const Header: FC<Props> = async ({ hasBorderBottom = true, className }) => {
         )}
       >
         <div className="container flex h-20 justify-between">
-          <div className="flex flex-1 items-center lg:hidden">
-            <HamburgerBtnMenu />
-          </div>
-
-          <div className="flex items-center lg:flex-1">
+          <div className="flex flex-1 items-center">
             <Logo />
           </div>
 
-          <div className="mx-4 flex flex-2">
+          <div className="mx-4 hidden flex-2 lg:flex">
             <HeaderNavigation />
           </div>
 
-          <div className="flex flex-1 items-center justify-end gap-x-2.5">
-            <Button className="sm:text-sm" plain href={'/add-listing/1'}>
-              List your property
-            </Button>
+          <div className="flex flex-1 items-center justify-end gap-x-1">
             <CurrLangDropdown />
             <AvatarDropdown />
+            <HamburgerBtnMenu variant="plain" />
           </div>
         </div>
       </div>

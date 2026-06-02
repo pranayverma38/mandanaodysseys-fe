@@ -25,7 +25,7 @@ const HeroSection2 = ({
   return (
     <div
       className={clsx(
-        'section-hero-2 relative flex w-full min-h-[100dvh] lg:min-h-dvh',
+        'section-hero-2 relative flex w-full min-h-[100dvh] lg:h-[90dvh] lg:min-h-[90dvh] lg:max-h-[90dvh] lg:justify-center',
         className
       )}
     >

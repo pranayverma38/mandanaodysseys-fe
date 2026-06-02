@@ -2,7 +2,7 @@ import { ApplicationLayout } from '@/app/application-layout'
 import { Button } from '@/components/button'
 import { Divider } from '@/components/divider'
 import FeatureSection2 from '@/components/feature-section-2'
-import Header2 from '@/components/header/header2'
+import Header from '@/components/header/header'
 import { Heading } from '@/components/heading'
 import NewsletterSection from '@/components/newsletter-section-1'
 import SectionGridCategoryBox from '@/components/section-grid-category-box'
@@ -14,7 +14,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
   const categories = await getFlightCategories()
 
   return (
-    <ApplicationLayout header={<Header2 initSearchFormTab="Flights" hasBorderBottom={false} />}>
+    <ApplicationLayout header={<Header hasBorderBottom={false} />}>
       {children}
 
       <div className="container mb-24 flex flex-col gap-y-20 lg:mb-28 lg:gap-y-28">

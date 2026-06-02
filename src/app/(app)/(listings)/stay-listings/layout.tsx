@@ -1,11 +1,11 @@
 import { ApplicationLayout } from '@/app/application-layout'
-import Header2 from '@/components/header/header2'
+import Header from '@/components/header/header'
 import { ReactNode } from 'react'
 import { BreadcrumbExample } from '../components/beadcrumb'
 
 const Layout = async ({ children }: { children: ReactNode }) => {
   return (
-    <ApplicationLayout header={<Header2 initSearchFormTab="Stays" hasBorderBottom={true} />}>
+    <ApplicationLayout header={<Header hasBorderBottom={true} />}>
       <div className="container mt-5 max-w-7xl lg:mt-8">
         {children}
 

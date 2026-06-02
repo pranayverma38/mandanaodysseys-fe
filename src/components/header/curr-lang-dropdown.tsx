@@ -17,7 +17,7 @@ import {
 import { Globe02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
-import { FC } from 'react'
+import { FC, Fragment, ReactNode } from 'react'
 import { ButtonCircle } from '../button'
 
 const Currencies = ({ currencies }: { currencies: Awaited<ReturnType<typeof getCurrencies>> }) => {
@@ -69,6 +69,7 @@ interface Props {
   panelClassName?: PopoverPanelProps['className']
 
   className?: string
+  triggerButton?: ReactNode
 }
 
 const CurrLangDropdown: FC<Props> = ({
@@ -78,14 +79,19 @@ const CurrLangDropdown: FC<Props> = ({
   },
   className,
   panelClassName = 'w-sm',
+  triggerButton,
 }) => {
   const currencies = getCurrencies()
   const languages = getLanguages()
 
   return (
     <Popover className={clsx('group', className)}>
-      <PopoverButton as={ButtonCircle} color="accent">
-        <HugeiconsIcon icon={Globe02Icon} size={22} />
+      <PopoverButton as={triggerButton ? Fragment : undefined}>
+        {triggerButton || (
+          <ButtonCircle color="accent">
+            <HugeiconsIcon icon={Globe02Icon} size={22} />
+          </ButtonCircle>
+        )}
       </PopoverButton>
 
       <PopoverPanel
