@@ -367,8 +367,33 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Hero bottom wave divider (section-hero-2) */
+.hero-shape-bottom {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+.hero-shape-bottom svg {
+  display: block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% + 1.3px);
+  height: 54px;
+}
+.hero-shape-bottom .shape-fill {
+  fill: #fff;
+}
+
 @theme inline {
   --font-sans: var(--font-sans);
+  --font-marcellus: var(--font-marcellus);
+  --font-style-script: var(--font-style-script);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

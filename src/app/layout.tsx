@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import '@/styles/tailwind.css'
 import clsx from 'clsx'
 import { Metadata } from 'next'
-import { Google_Sans_Flex, Playfair_Display } from 'next/font/google'
+import { Google_Sans_Flex, Marcellus, Playfair_Display, Style_Script } from 'next/font/google'
 import 'rc-slider/assets/index.css'
 
 const googleSansFlex = Google_Sans_Flex({
@@ -22,6 +22,20 @@ const playfair_display = Playfair_Display({
   variable: '--font-serif',
 })
 
+const marcellus = Marcellus({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-marcellus',
+})
+
+const styleScript = Style_Script({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-style-script',
+})
+
 export const metadata: Metadata = {
   title: {
     template: '%s - Ceepii | Booking online React Next.js template',
@@ -37,7 +51,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang={process.env.NEXT_PUBLIC_THEME_DIR === 'rtl' ? 'ar' : 'en'}
       dir={process.env.NEXT_PUBLIC_THEME_DIR}
       suppressHydrationWarning
-      className={cn(clsx(googleSansFlex.variable, playfair_display.variable), 'font-sans')}
+      className={cn(
+        clsx(googleSansFlex.variable, playfair_display.variable, marcellus.variable, styleScript.variable),
+        'font-sans'
+      )}
     >
       <body className="bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>

@@ -1,39 +1,34 @@
-import { StarIcon } from '@heroicons/react/20/solid'
-import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import { ReactNode } from 'react'
-import { Button } from './button'
-import { Heading } from './heading'
+import { Link } from './link'
 import { MotionDiv } from './motion-div'
 
 interface Props {
   className?: string
-  title1?: ReactNode
-  title2?: ReactNode
-  description?: ReactNode
+  title?: ReactNode
+  ctaLabel?: string
+  ctaHref?: string
   videoUrl?: string
 }
 
 const HeroSection2 = ({
   className,
-  title1 = (
+  title = (
     <>
-      Co<span data-slot="italic">llect</span> moments
+      Extraordinary <span data-slot="italic">Journey</span> Awaits
     </>
   ),
-  title2 = (
-    <>
-      n<span data-slot="italic">ot</span> things.
-    </>
-  ),
-  description = (
-    <> Unrivaled expertise for unique travel experiences. We&lsquo;re here to take you there dream travels!</>
-  ),
-  videoUrl = 'https://www.pexels.com/vi-vn/download/video/36861387/',
+  ctaLabel = 'Explore Now',
+  ctaHref = '/stay-search',
+  videoUrl = '/videos/header/header-video.mp4',
 }: Props) => {
   return (
-    <div className={clsx('section-hero-2 relative flex w-full lg:min-h-dvh', className)}>
-      {/* VIDEO BACKGROUND */}
+    <div
+      className={clsx(
+        'section-hero-2 relative flex w-full min-h-[100dvh] lg:min-h-dvh',
+        className
+      )}
+    >
       <div className="absolute inset-0 overflow-hidden">
         <video
           width="100%"
@@ -44,59 +39,54 @@ const HeroSection2 = ({
           autoPlay
           loop
           playsInline
-          className="absolute inset-0 size-full object-cover"
+          className="absolute inset-0 size-full object-cover object-center"
         >
           <source src={videoUrl} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
-      <div className="absolute inset-0 bg-black/40 lg:bg-black/30" />
 
-      {/* THE MAIN CONTENT */}
-      <div
-        className={clsx(
-          'relative container flex flex-1 flex-col py-12 text-white lg:gap-14 lg:pt-36 lg:pb-14 2xl:pt-40 2xl:pb-16',
-          className
-        )}
-      >
-        <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.75, duration: 1.25 }}>
-          <Heading
-            level={1}
-            fontSize="text-6xl/none sm:text-7xl/none lg:text-8xl/none xl:text-9xl/[0.85em] 2xl:text-[9rem]/[0.85em]"
-            className="max-w-sm font-features-['ss02'] font-normal tracking-tighter"
-          >
-            {title1}
-          </Heading>
+      <div className="absolute inset-0 bg-[#0a0705]/55" aria-hidden />
+
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 py-28 text-center text-white sm:py-32">
+        <MotionDiv initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
+          <h1 className="max-w-4xl text-[2rem]/[1.1] font-normal tracking-[-0.02em] sm:text-5xl/none md:text-6xl/none lg:text-7xl/none [&_span[data-slot=italic]]:font-serif [&_span[data-slot=italic]]:text-[1.12em] [&_span[data-slot=italic]]:font-normal [&_span[data-slot=italic]]:italic">
+            {title}
+          </h1>
         </MotionDiv>
 
-        <div className="mt-auto flex flex-col-reverse items-start justify-between gap-14 lg:flex-row lg:items-end lg:gap-10">
-          <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.25, duration: 1.25 }}>
-            <p className="max-w-xs text-base xl:text-lg">{description}</p>
-            <Button color="light" className="mt-6">
-              Discover more
-              <ArrowRightIcon className="size-5 rtl:rotate-180" />
-            </Button>
-          </MotionDiv>
-
-          <MotionDiv
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1.25 }}
-            className="flex flex-col-reverse gap-2.5 lg:flex-col lg:gap-0 lg:text-right"
+        <MotionDiv
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.9 }}
+          className="mt-8 sm:mt-10"
+        >
+          <Link
+            href={ctaHref}
+            className="inline-flex items-center justify-center rounded-full border border-[#c47a3a]/90 bg-[#0a0a0a]/75 px-7 py-2.5 text-sm font-medium tracking-wide text-white shadow-[0_0_0_1px_rgba(196,122,58,0.15)_inset] backdrop-blur-[2px] transition-colors hover:border-[#d4894a] hover:bg-[#141414]/85"
           >
-            <div className="flex items-center gap-1 lg:justify-end">
-              <StarIcon className="mb-px size-4" />
-              <span>4.9/5 from 8K+ reviews</span>
-            </div>
-            <Heading
-              level={2}
-              fontSize="text-6xl/none sm:text-7xl/none lg:text-8xl/none xl:text-9xl/[0.85em] 2xl:text-[9rem]/[0.85em]"
-              className="max-w-sm font-features-['ss02'] font-normal tracking-tighter"
-            >
-              {title2}
-            </Heading>
-          </MotionDiv>
-        </div>
+            {ctaLabel}
+          </Link>
+        </MotionDiv>
+      </div>
+
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 z-10 w-full overflow-hidden leading-0"
+        aria-hidden
+      >
+        <svg
+          className="relative left-1/2 block h-[71px] w-[calc(100%+1.3px)] -translate-x-1/2"
+          viewBox="0 0 1000 100"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g transform="matrix(-1 0 0 -1 1000 100)">
+            <path
+              className="fill-white"
+              d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"
+            />
+          </g>
+        </svg>
       </div>
     </div>
   )
