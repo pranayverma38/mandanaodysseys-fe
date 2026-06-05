@@ -313,6 +313,25 @@
   .animate-marquee-reverse {
     animation: marquee-reverse 60s linear infinite;
   }
+
+  @keyframes travel-quote-wave {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-travel-quote-wave {
+    animation: travel-quote-wave 3s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-travel-quote-wave {
+      animation: none;
+    }
+  }
 }
 
 :root {

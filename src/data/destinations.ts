@@ -44,7 +44,7 @@ export const DESTINATIONS: Destination[] = [
     country: 'Thailand',
     description: 'Tropical islands, bustling Bangkok, and world-renowned hospitality.',
     thumbnail:
-      'https://images.pexels.com/photos/360142/pexels-photo-360142.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/14573822/pexels-photo-14573822.jpeg?auto=compress&cs=tinysrgb&w=800',
     packageCount: 56,
   },
   {
@@ -131,7 +131,7 @@ export const TOUR_TYPES: TourType[] = [
     description: 'Short breaks packed with the best sights in two to four days.',
   },
   {
-    name: 'Mountain & Hill Station Tours',
+    name: 'Hill Station Tours',
     slug: 'mountain-and-hill-station-tours',
     description: 'Scenic highland routes, trekking, and cool-climate retreats.',
   },
@@ -172,4 +172,8 @@ export function getDestinationPath(slug: string): string {
 
 export function getTourTypePath(destinationSlug: string, tourTypeSlug: string): string {
   return `/destinations/${destinationSlug}/${tourTypeSlug}`
+}
+
+export function getInspirationPath(tourTypeSlug: string): string {
+  return `/inspirations/${tourTypeSlug}`
 }

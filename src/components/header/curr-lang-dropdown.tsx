@@ -40,7 +40,7 @@ const Currencies = ({
           key={item.id}
           onClick={() => onSelect(item.id)}
           className={clsx(
-            '-m-2.5 flex items-center rounded-lg p-2.5 transition duration-150 ease-in-out hover:bg-neutral-100 focus:outline-hidden dark:hover:bg-neutral-700',
+            'flex items-center rounded-lg p-2.5 transition duration-150 ease-in-out hover:bg-neutral-100 focus:outline-hidden dark:hover:bg-neutral-700',
             activeCurrency === item.id ? 'bg-neutral-100 dark:bg-neutral-700' : 'opacity-80'
           )}
         >
@@ -70,7 +70,7 @@ const Languages = ({
           key={item.id}
           onClick={() => onSelect(item.code)}
           className={clsx(
-            '-m-2.5 flex items-center rounded-lg p-2.5 text-start transition duration-150 ease-in-out hover:bg-neutral-100 focus:outline-hidden dark:hover:bg-neutral-700',
+            'flex items-center rounded-lg p-2.5 text-start transition duration-150 ease-in-out hover:bg-neutral-100 focus:outline-hidden dark:hover:bg-neutral-700',
             activeLanguage === item.code ? 'bg-neutral-100 dark:bg-neutral-700' : 'opacity-80'
           )}
         >
