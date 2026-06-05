@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 import AmenitiesChips from './amenities-chips'
+import FormattedPrice from './formatted-price'
 
 interface Props {
   className?: string
@@ -61,7 +62,7 @@ const ExperiencesCard: FC<Props> = ({ size = 'default', className = '', data }) 
 
         <div className="mt-5 flex items-center justify-between gap-2">
           <div>
-            <span className="text-base font-medium underline">{price}</span>
+            <FormattedPrice value={price} className="text-base font-medium underline" />
             <span className="text-sm text-gray-500 dark:text-gray-400"> / guest</span>
           </div>
           <StartRating reviewCount={reviewCount} point={reviewStart} />

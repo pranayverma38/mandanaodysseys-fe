@@ -4,8 +4,9 @@ import Avatar from '@/components/avatar'
 import { Divider } from '@/components/divider'
 import { Link } from '@/components/link'
 import SwitchDarkMode2 from '@/components/switch-dark-mode2'
+import { useHoverPopover } from '@/hooks/use-hover-popover'
 import avatarImage from '@/images/avatars/Image-1.png'
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
+import { Popover, PopoverPanel } from '@headlessui/react'
 import { ArrowUpRightIcon } from '@heroicons/react/20/solid'
 import {
   AlphabetArabicIcon,
@@ -18,12 +19,14 @@ import {
   UserIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { Fragment, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import ButtonCircle from '../button-circle'
+import { HeaderPopoverTrigger } from './header-popover-trigger'
 
 interface Props {
   className?: string
   triggerButton?: ReactNode
+  popoverId?: string
 }
 
 const menuItems = [
@@ -49,99 +52,102 @@ const menuItems = [
   },
 ]
 
-export default function AvatarDropdown({ className, triggerButton }: Props) {
+export default function AvatarDropdown({ className, triggerButton, popoverId }: Props) {
+  const { getTriggerHandlers, getPanelHandlers } = useHoverPopover(popoverId)
+
   return (
     <div className={className}>
-      <Popover>
-        <PopoverButton as={Fragment}>
-          {triggerButton || (
-            <ButtonCircle color={'accent'}>
-              <HugeiconsIcon icon={UserCircle02Icon} size={24} />
-            </ButtonCircle>
-          )}
-        </PopoverButton>
-
-        <PopoverPanel
-          transition
-          anchor={{
-            to: 'bottom end',
-            gap: 12,
-          }}
-          className="z-20 w-80 rounded-3xl shadow-lg-for-card bg-card transition duration-200 ease-in-out data-closed:translate-y-1 data-closed:opacity-0"
-        >
-          <div className="relative grid grid-cols-1 gap-6 px-6 py-7">
-            <div className="flex items-center space-x-3">
-              <Avatar src={avatarImage.src} className="size-12" />
-
-              <div className="grow">
-                <h4 className="font-semibold">Eden Smith</h4>
-                <p className="mt-0.5 text-xs">Los Angeles, CA</p>
-              </div>
-            </div>
-
-            <Divider />
-
-            {/* ------------------ 1 --------------------- */}
-
-            {menuItems.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className="-m-3 flex items-center rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none"
-              >
-                <div className="flex shrink-0 items-center justify-center text-muted-foreground">
-                  <HugeiconsIcon icon={item.icon} size={20} />
-                </div>
-                <p className="ms-4 text-sm font-medium">{item.label}</p>
-              </Link>
-            ))}
-
-            <Divider />
-
-            {/* ------------------ 2 --------------------- */}
-            <div className="-m-3 flex items-center justify-between rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none">
-              <div className="flex items-center">
-                <div className="flex shrink-0 items-center justify-center text-muted-foreground">
-                  <HugeiconsIcon icon={Idea01Icon} size={20} />
-                </div>
-                <p className="ms-4 text-sm font-medium">Dark mode</p>
-              </div>
-              <SwitchDarkMode2 />
-            </div>
-
-            {/* ------------------ 2 --------------------- */}
-
-            <Link
-              href={
-                process.env.NEXT_PUBLIC_THEME_DIR !== 'rtl'
-                  ? 'https://ceepii-nextjs-template-rtl.vercel.app'
-                  : 'https://ceepii-nextjs-template.vercel.app'
+      <Popover className="group/popover relative">
+        {({ open, close }) => (
+          <>
+            <HeaderPopoverTrigger
+              triggerButton={triggerButton}
+              triggerHandlers={getTriggerHandlers(open, close)}
+              fallback={
+                <ButtonCircle color="accent">
+                  <HugeiconsIcon icon={UserCircle02Icon} size={24} />
+                </ButtonCircle>
               }
-              target="_blank"
-              rel="noopener noreferrer"
-              className="-m-3 flex items-center rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none"
-            >
-              <div className="flex shrink-0 items-center justify-center text-muted-foreground">
-                <HugeiconsIcon icon={AlphabetArabicIcon} size={20} />
-              </div>
-              <p className="ms-4 flex items-center gap-0.5 text-sm font-medium">
-                {process.env.NEXT_PUBLIC_THEME_DIR !== 'rtl' ? 'RTL theme' : 'LTR theme'}
-                <ArrowUpRightIcon className="size-5! rtl:rotate-270" />
-              </p>
-            </Link>
+            />
 
-            {/* ------------------ 2 --------------------- */}
-            <Link
-              href={'#'}
-              className="-m-3 flex items-center rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none"
+            <PopoverPanel
+              {...getPanelHandlers(close)}
+              transition
+              anchor={{
+                to: 'bottom end',
+                gap: 12,
+              }}
+              className="z-20 w-80 rounded-3xl shadow-lg-for-card bg-card transition duration-200 ease-in-out data-closed:translate-y-1 data-closed:opacity-0"
             >
-              <div className="flex shrink-0 items-center justify-center text-muted-foreground">
-                <HugeiconsIcon icon={Logout01Icon} size={20} />
+              <div className="relative grid grid-cols-1 gap-6 px-6 py-7">
+                <div className="flex items-center space-x-3">
+                  <Avatar src={avatarImage.src} className="size-12" />
+
+                  <div className="grow">
+                    <h4 className="font-semibold">Eden Smith</h4>
+                    <p className="mt-0.5 text-xs">Los Angeles, CA</p>
+                  </div>
+                </div>
+
+                <Divider />
+
+                {menuItems.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="-m-3 flex items-center rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none"
+                  >
+                    <div className="flex shrink-0 items-center justify-center text-muted-foreground">
+                      <HugeiconsIcon icon={item.icon} size={20} />
+                    </div>
+                    <p className="ms-4 text-sm font-medium">{item.label}</p>
+                  </Link>
+                ))}
+
+                <Divider />
+
+                <div className="-m-3 flex items-center justify-between rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none">
+                  <div className="flex items-center">
+                    <div className="flex shrink-0 items-center justify-center text-muted-foreground">
+                      <HugeiconsIcon icon={Idea01Icon} size={20} />
+                    </div>
+                    <p className="ms-4 text-sm font-medium">Dark mode</p>
+                  </div>
+                  <SwitchDarkMode2 />
+                </div>
+
+                <Link
+                  href={
+                    process.env.NEXT_PUBLIC_THEME_DIR !== 'rtl'
+                      ? 'https://ceepii-nextjs-template-rtl.vercel.app'
+                      : 'https://ceepii-nextjs-template.vercel.app'
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="-m-3 flex items-center rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none"
+                >
+                  <div className="flex shrink-0 items-center justify-center text-muted-foreground">
+                    <HugeiconsIcon icon={AlphabetArabicIcon} size={20} />
+                  </div>
+                  <p className="ms-4 flex items-center gap-0.5 text-sm font-medium">
+                    {process.env.NEXT_PUBLIC_THEME_DIR !== 'rtl' ? 'RTL theme' : 'LTR theme'}
+                    <ArrowUpRightIcon className="size-5! rtl:rotate-270" />
+                  </p>
+                </Link>
+
+                <Link
+                  href={'#'}
+                  className="-m-3 flex items-center rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none"
+                >
+                  <div className="flex shrink-0 items-center justify-center text-muted-foreground">
+                    <HugeiconsIcon icon={Logout01Icon} size={20} />
+                  </div>
+                  <p className="ms-4 text-sm font-medium">{'Log out'}</p>
+                </Link>
               </div>
-              <p className="ms-4 text-sm font-medium">{'Log out'}</p>
-            </Link>
-          </div>
-        </PopoverPanel>
+            </PopoverPanel>
+          </>
+        )}
       </Popover>
     </div>
   )

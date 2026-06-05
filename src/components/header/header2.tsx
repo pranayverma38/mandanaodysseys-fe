@@ -17,7 +17,7 @@ import clsx from 'clsx'
 import { usePathname } from 'next/navigation'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import HeroSearchFormSmall from '../hero-search-form/hero-search-form-small'
-import AvatarDropdown from './avatar-dropdown'
+import { HeaderActionDropdowns } from './header-action-dropdowns'
 import HamburgerBtnMenu from './hamburger-btn-menu'
 
 interface Props {
@@ -188,7 +188,7 @@ const Header2: FC<Props> = ({ className, hasBorderBottom = true, initSearchFormT
                 </Button>
               </div>
 
-              <AvatarDropdown />
+              <HeaderActionDropdowns showCurrLang={false} />
               <HamburgerBtnMenu />
             </div>
           </div>

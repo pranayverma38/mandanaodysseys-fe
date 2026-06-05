@@ -7,6 +7,7 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { FC } from 'react'
 import AmenitiesChips from './amenities-chips'
+import FormattedPrice from './formatted-price'
 
 interface StayCard2Props {
   className?: string
@@ -62,7 +63,7 @@ const StayCard2: FC<StayCard2Props> = ({
         <div className="mt-1 line-clamp-1 text-sm text-neutral-500 dark:text-neutral-400">{nameLocalized}</div>
         <AmenitiesChips data={amenities} className="mt-3.5 max-w-xs" />
         <div className="mt-5">
-          <span className="text-base font-medium underline">{price}</span>
+          <FormattedPrice value={price} className="text-base font-medium underline" />
           <span className="text-sm font-normal text-neutral-500 dark:text-neutral-400"> for 2 nights</span>
         </div>
       </div>

@@ -1,5 +1,6 @@
 'use client'
 
+import FormattedPrice from '@/components/formatted-price'
 import { ButtonCircle } from '@/components/button'
 import { TFlightListing } from '@/data/listings'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
@@ -166,7 +167,7 @@ const FlightCard: FC<FlightCardProps> = ({ className = '', data }) => {
 
           {/* PRICE */}
           <div className="flex-4 whitespace-nowrap sm:text-right">
-            <p className="text-lg font-semibold">{price}</p>
+            <FormattedPrice value={price} className="text-lg font-semibold" />
             <div className="mt-0.5 text-xs font-normal text-muted-foreground lg:text-sm">Includes taxes and fees</div>
           </div>
         </div>

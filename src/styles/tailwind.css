@@ -44,13 +44,13 @@
     @apply font-sans;
   }
 
-  html,
-  body {
+  html.smooth-scroll-enabled,
+  html.smooth-scroll-enabled body {
     overflow: hidden;
     height: 100%;
   }
 
-  #smooth-wrapper {
+  html.smooth-scroll-enabled #smooth-wrapper {
     position: fixed;
     inset: 0;
     overflow: hidden;
@@ -58,7 +58,7 @@
     height: 100%;
   }
 
-  #smooth-content {
+  html.smooth-scroll-enabled #smooth-content {
     overflow: visible;
     width: 100%;
   }
@@ -452,4 +452,26 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* Google Translate widget — hidden UI, site uses custom language picker */
+.goog-te-banner-frame.skiptranslate,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+#google_translate_element,
+.skiptranslate {
+  display: none !important;
+}
+
+.goog-te-gadget {
+  display: none !important;
 }

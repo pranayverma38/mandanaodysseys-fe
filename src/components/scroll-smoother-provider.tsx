@@ -1,5 +1,6 @@
 'use client'
 
+import { isSmoothScrollEnabled } from '@/lib/smooth-scroll'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { ScrollSmoother } from 'gsap/ScrollSmoother'
@@ -9,11 +10,16 @@ import { PropsWithChildren, useRef } from 'react'
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
 
 export function ScrollSmootherProvider({ children }: PropsWithChildren) {
+  const enabled = isSmoothScrollEnabled()
   const wrapperRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
   useGSAP(
     () => {
+      if (!enabled) {
+        return
+      }
+
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       if (prefersReducedMotion || !wrapperRef.current || !contentRef.current) {
         return
@@ -32,8 +38,12 @@ export function ScrollSmootherProvider({ children }: PropsWithChildren) {
         smoother.kill()
       }
     },
-    { dependencies: [], scope: wrapperRef }
+    { dependencies: [enabled], scope: wrapperRef }
   )
+
+  if (!enabled) {
+    return <>{children}</>
+  }
 
   return (
     <div id="smooth-wrapper" ref={wrapperRef}>

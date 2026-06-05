@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 import AmenitiesChips from './amenities-chips'
+import FormattedPrice from './formatted-price'
 import StartRating from './start-rating'
 
 interface CarCardProps {
@@ -68,7 +69,7 @@ const CarCard: FC<CarCardProps> = ({ size = 'default', className = '', data }) =
         <AmenitiesChips className="mt-3.5 max-w-xs" data={amenities} />
 
         <div className="mt-5">
-          <span className="text-base font-medium underline">{price}</span>
+          <FormattedPrice value={price} className="text-base font-medium underline" />
           <span className="text-sm text-gray-500 dark:text-gray-400"> / day</span>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import ButtonPrimary from '@/components/button-primary'
+import FormattedPrice from '@/components/formatted-price'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/description-list'
 import { Divider } from '@/components/divider'
 import { Text } from '@/components/text'
@@ -131,7 +132,9 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
           {roomRates.map((item) => (
             <Fragment key={item.name}>
               <DescriptionTerm>{item.title}</DescriptionTerm>
-              <DescriptionDetails>{item.price}</DescriptionDetails>
+              <DescriptionDetails>
+                <FormattedPrice value={item.price} />
+              </DescriptionDetails>
             </Fragment>
           ))}
         </DescriptionList>
@@ -145,7 +148,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
         {/* PRICE */}
         <div className="flex items-end text-2xl font-[540]">
           <span className="font-normal text-muted-foreground-lighter line-through">$611</span>
-          <span className="mx-2">{price}</span>
+          <FormattedPrice value={price} className="mx-2" />
           <span className="text-base font-normal text-muted-foreground"> for 3 nights</span>
         </div>
 

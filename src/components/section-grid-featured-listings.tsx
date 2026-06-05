@@ -1,5 +1,6 @@
 'use client'
 
+import FormattedPrice from '@/components/formatted-price'
 import { TStayListing } from '@/data/listings'
 import { useCarouselDotButton } from '@/hooks/use-carousel-dot-buttons'
 import avatar2 from '@/images/avatars/Image-1.png'
@@ -77,7 +78,7 @@ const FeaturedListingCard = ({ stay }: { stay: TStayListing }) => {
         <AmenitiesChips data={amenities} className="mt-3.5" />
         <div className="mt-6 flex items-center justify-between">
           <span>
-            <span className="text-base font-medium underline">{price}</span>
+            <FormattedPrice value={price} className="text-base font-medium underline" />
             <span className="text-sm font-normal text-neutral-500 dark:text-neutral-400"> for 2 nights</span>
           </span>
         </div>

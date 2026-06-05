@@ -1,3 +1,6 @@
+'use client'
+
+import FormattedPrice from '@/components/formatted-price'
 import StayCard2 from '@/components/stay-card2'
 import { Map, MapControls, MapMarker, MarkerContent, MarkerPopup } from '@/components/ui/map'
 import { TStayListing } from '@/data/listings'
@@ -28,7 +31,7 @@ const MapWithMarkers = ({ currentHoverID: selectedID, listings }: Props) => {
                   : 'bg-white text-neutral-900 hover:scale-110 dark:bg-neutral-600 dark:text-white'
               }`}
             >
-              {listing.price}
+              <FormattedPrice value={listing.price} />
             </p>
           </MarkerContent>
           <MarkerPopup className="rounded-3xl p-1 pb-4">

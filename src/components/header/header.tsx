@@ -1,8 +1,7 @@
 import Logo from '@/components/logo'
 import clsx from 'clsx'
 import { FC } from 'react'
-import AvatarDropdown from './avatar-dropdown'
-import CurrLangDropdown from './curr-lang-dropdown'
+import { HeaderActionDropdowns } from './header-action-dropdowns'
 import HamburgerBtnMenu from './hamburger-btn-menu'
 import { HeaderNavigation } from './navigation/header-navigation'
 
@@ -31,8 +30,7 @@ const Header: FC<Props> = async ({ hasBorderBottom = true, className }) => {
           </div>
 
           <div className="flex flex-1 items-center justify-end gap-x-1">
-            <CurrLangDropdown />
-            <AvatarDropdown />
+            <HeaderActionDropdowns />
             <HamburgerBtnMenu variant="plain" />
           </div>
         </div>

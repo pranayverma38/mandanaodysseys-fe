@@ -1,7 +1,9 @@
 import { ScrollSmootherProvider } from '@/components/scroll-smoother-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { DirectionProvider } from '@/components/ui/direction'
+import { isSmoothScrollEnabled } from '@/lib/smooth-scroll'
 import { cn } from '@/lib/utils'
+import { LocaleProvider } from '@/providers/locale-provider'
 import '@/styles/tailwind.css'
 import clsx from 'clsx'
 import { Metadata } from 'next'
@@ -54,18 +56,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
       className={cn(
         clsx(googleSansFlex.variable, playfair_display.variable, marcellus.variable, styleScript.variable),
-        'font-sans'
+        'font-sans',
+        isSmoothScrollEnabled() && 'smooth-scroll-enabled'
       )}
     >
       <body className="bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <DirectionProvider direction={process.env.NEXT_PUBLIC_THEME_DIR} dir={process.env.NEXT_PUBLIC_THEME_DIR}>
-            <ScrollSmootherProvider>
-              {children}
+            <LocaleProvider>
+              <ScrollSmootherProvider>
+                {children}
 
-              {/* For Ceepii's demo  -- you can remove it  */}
-              {/* <CustomizeControl /> */}
-            </ScrollSmootherProvider>
+                {/* For Ceepii's demo  -- you can remove it  */}
+                {/* <CustomizeControl /> */}
+              </ScrollSmootherProvider>
+            </LocaleProvider>
           </DirectionProvider>
         </ThemeProvider>
       </body>

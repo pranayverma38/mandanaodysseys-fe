@@ -1,4 +1,5 @@
 import ButtonPrimary from '@/components/button-primary'
+import FormattedPrice from '@/components/formatted-price'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/description-list'
 import { Divider } from '@/components/divider'
 import NcInputNumber from '@/components/nc-input-number'
@@ -215,7 +216,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
         {/* PRICE */}
         <div className="flex items-end text-2xl font-[540]">
           <span className="font-normal text-muted-foreground-lighter line-through">$599</span>
-          <span className="mx-2">{price}</span>
+          <FormattedPrice value={price} className="mx-2" />
           <span className="text-base font-normal text-muted-foreground"> / day</span>
         </div>
 
