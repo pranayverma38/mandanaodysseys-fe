@@ -1,3 +1,4 @@
+import { ScrollSmootherProvider } from '@/components/scroll-smoother-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { DirectionProvider } from '@/components/ui/direction'
 import { cn } from '@/lib/utils'
@@ -59,12 +60,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <DirectionProvider direction={process.env.NEXT_PUBLIC_THEME_DIR} dir={process.env.NEXT_PUBLIC_THEME_DIR}>
-            <div>
+            <ScrollSmootherProvider>
               {children}
 
               {/* For Ceepii's demo  -- you can remove it  */}
               {/* <CustomizeControl /> */}
-            </div>
+            </ScrollSmootherProvider>
           </DirectionProvider>
         </ThemeProvider>
       </body>

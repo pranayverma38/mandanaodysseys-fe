@@ -44,11 +44,17 @@ async function Page() {
     <main className="relative section-space-bottom">
       <HeroSection2 />
 
-      <div className="container py-8 sm:py-10 lg:py-14">
-        <RevealInView>
-          <SectionCharmsOfAsia />
-        </RevealInView>
-      </div>
+      <section className="relative z-20 bg-background">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 z-30 h-0.5 -translate-y-1/2 bg-background"
+        />
+        <div className="container py-8 sm:py-10 lg:py-14">
+          <RevealInView>
+            <SectionCharmsOfAsia />
+          </RevealInView>
+        </div>
+      </section>
 
       <div className="container py-8 sm:py-10 lg:py-14">
         {/* Effect when appear screen one time */}

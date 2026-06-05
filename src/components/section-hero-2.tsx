@@ -71,11 +71,11 @@ const HeroSection2 = ({
       </div>
 
       <div
-        className="pointer-events-none absolute bottom-0 left-0 z-10 w-full overflow-hidden leading-0"
+        className="pointer-events-none absolute bottom-0 left-0 z-10 w-full leading-0"
         aria-hidden
       >
         <svg
-          className="relative left-1/2 block h-[71px] w-[calc(100%+1.3px)] -translate-x-1/2"
+          className="relative left-1/2 block h-[71px] w-[calc(100%+2px)] -translate-x-1/2"
           viewBox="0 0 1000 100"
           preserveAspectRatio="none"
           xmlns="http://www.w3.org/2000/svg"
