@@ -19,12 +19,15 @@ import { getBlogPosts } from '@/data/data'
 import { getExperienceListings } from '@/data/listings'
 import experienceHeroImg from '@/images/hero-img-exp.png'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Experience',
-  description: 'Experience page of the Stay application',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Tour & Travel Packages',
+  description:
+    'Discover curated international tour packages and travel experiences with Mandana Odysseys. Book affordable guided tours and vacation packages worldwide.',
+  path: '/experience',
+})
 
 async function Page() {
   const categories = await getExperienceCategories()

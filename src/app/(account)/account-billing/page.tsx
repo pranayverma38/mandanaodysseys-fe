@@ -1,12 +1,15 @@
 import ButtonPrimary from '@/components/button-primary'
 import { Divider } from '@/components/divider'
 import { Heading } from '@/components/heading'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Account - Payments & Payouts',
-  description: 'Manage your payments and payouts ',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Payments & Billing',
+  description: 'Manage your payment methods and billing details for Mandana Odysseys travel bookings.',
+  path: '/account-billing',
+  noIndex: true,
+})
 
 const AccountBilling = () => {
   return (

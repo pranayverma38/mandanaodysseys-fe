@@ -6,23 +6,14 @@ import SectionReadyToExplore from '@/components/section-ready-to-explore'
 import Header3 from '@/components/header/header3'
 // import HeroSearchFormMobile from '@/components/hero-search-form-mobile/hero-search-form-mobile'
 import { MotionDiv } from '@/components/motion-div'
-import { Metadata } from 'next'
+import TravelAgencyJsonLd from '@/components/travel-agency-json-ld'
 import 'rc-slider/assets/index.css'
 import React from 'react'
-
-export const metadata: Metadata = {
-  title: {
-    template: '%s - Ceepii | Booking online React Next.js template',
-    default: 'Ceepii - Booking online React Next.js template',
-  },
-  description:
-    'Ceepii is a modern and elegant template for Next.js, Tailwind CSS, and TypeScript. It is designed to be simple and easy to use, with a focus on performance and accessibility.',
-  keywords: ['Next.js', 'Tailwind CSS', 'TypeScript', 'Ceepii', 'Travel', 'E-commerce', 'Booking', 'Cars'],
-}
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Aside.Provider>
+      <TravelAgencyJsonLd />
       {/* Header */}
       <MotionDiv
         className="absolute top-0 left-0 z-30 w-full"

@@ -25,13 +25,6 @@ import { getGroupStayCategories, getStayCategories } from '@/data/categories'
 import { getBlogPosts } from '@/data/data'
 import { getExperienceListings, getStayListings } from '@/data/listings'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
-import { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Home',
-  description: 'Home page of the Stay application',
-}
-
 async function Page() {
   const categories = await getStayCategories()
   const stayListings = await getStayListings()

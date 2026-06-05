@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { LocaleProvider } from '@/providers/locale-provider'
 import '@/styles/tailwind.css'
 import clsx from 'clsx'
-import { Metadata } from 'next'
+import { rootMetadata } from '@/lib/seo'
 import { Google_Sans_Flex, Marcellus, Playfair_Display, Style_Script } from 'next/font/google'
 import 'rc-slider/assets/index.css'
 
@@ -39,14 +39,7 @@ const styleScript = Style_Script({
   variable: '--font-style-script',
 })
 
-export const metadata: Metadata = {
-  title: {
-    template: '%s - Ceepii | Booking online React Next.js template',
-    default: 'Ceepii - Booking online React Next.js template',
-  },
-  description: 'Booking online & rental online Next.js Template',
-  keywords: ['Ceepii', 'Booking online', 'Rental online', 'React Next.js template'],
-}
+export const metadata = rootMetadata
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -67,8 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <ScrollSmootherProvider>
                 {children}
 
-                {/* For Ceepii's demo  -- you can remove it  */}
-                {/* <CustomizeControl /> */}
+                {/* CustomizeControl demo removed */}
               </ScrollSmootherProvider>
             </LocaleProvider>
           </DirectionProvider>

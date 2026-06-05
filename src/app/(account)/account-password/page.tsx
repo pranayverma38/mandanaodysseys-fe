@@ -3,13 +3,16 @@ import { Divider } from '@/components/divider'
 import { Field, Label } from '@/components/fieldset'
 import { Heading } from '@/components/heading'
 import Input from '@/components/input'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import Form from 'next/form'
 
-export const metadata: Metadata = {
-  title: 'Account - password',
-  description: 'Manage your password',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Change Password',
+  description: 'Update your Mandana Odysseys account password.',
+  path: '/account-password',
+  noIndex: true,
+})
 
 const Page = () => {
   const handleSubmitForm = async (formData: FormData) => {

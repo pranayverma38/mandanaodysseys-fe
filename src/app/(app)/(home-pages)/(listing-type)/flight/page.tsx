@@ -15,12 +15,15 @@ import { getFlightCategories } from '@/data/categories'
 import { getBlogPosts } from '@/data/data'
 import flightHeroImg from '@/images/hero-img-flight.png'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Flight',
-  description: 'Home page of the flight application',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Flight Bookings',
+  description:
+    'Book affordable flights for your international tour packages with Mandana Odysseys. Seamless flight booking as part of your complete travel experience.',
+  path: '/flight',
+})
 
 async function Page() {
   const categories = await getFlightCategories()

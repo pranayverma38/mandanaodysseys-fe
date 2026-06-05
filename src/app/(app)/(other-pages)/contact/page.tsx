@@ -7,6 +7,7 @@ import SocialsList from '@/components/socials-list'
 import Textarea from '@/components/textarea'
 import { SentIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 
 const info = [
@@ -24,10 +25,12 @@ const info = [
   },
 ]
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Contact Us',
-  description: 'Explore contact us page',
-}
+  description:
+    'Get in touch with Mandana Odysseys for tour package inquiries, travel bookings, and personalized vacation planning. We are here to help plan your next adventure.',
+  path: '/contact',
+})
 
 const PageContact = () => {
   return (

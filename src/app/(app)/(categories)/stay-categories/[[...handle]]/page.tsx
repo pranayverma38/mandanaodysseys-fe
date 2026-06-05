@@ -2,6 +2,7 @@ import HeroSection4 from '@/components/section-hero-4'
 import SectionListingsCarousel from '@/components/section-listings-carousel'
 import { getStayCategoryByHandle } from '@/data/categories'
 import { getStayListings } from '@/data/listings'
+import { createCategoryMetadata, createNotFoundMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
@@ -9,13 +10,15 @@ export async function generateMetadata({ params }: { params: Promise<{ handle?: 
   const { handle } = await params
   const category = await getStayCategoryByHandle(handle?.[0])
   if (!category) {
-    return {
-      title: 'Collection not found',
-      description: 'The collection you are looking for does not exist.',
-    }
+    return createNotFoundMetadata('Destination')
   }
-  const { name, description } = category
-  return { title: name, description }
+  const { name, description, handle: categoryHandle } = category
+  return createCategoryMetadata({
+    name,
+    description,
+    path: `/stay-categories/${categoryHandle}`,
+    label: 'Accommodations',
+  })
 }
 
 const Page = async ({ params }: { params: Promise<{ handle?: string[] }> }) => {

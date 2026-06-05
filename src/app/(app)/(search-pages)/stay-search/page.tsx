@@ -4,10 +4,16 @@ import Pagination from '@/components/pagination'
 import StayCard2 from '@/components/stay-card2'
 import { getStayListingFilterOptions } from '@/data/data'
 import { getStayListings } from '@/data/listings'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ handle?: string[] }> }): Promise<Metadata> {
-  return { title: 'Search stays', description: 'Find your perfect stay' }
+  return createPageMetadata({
+    title: 'Search Accommodations',
+    description:
+      'Search and book accommodations for your international travel packages. Find the perfect stay with Mandana Odysseys.',
+    path: '/stay-search',
+  })
 }
 
 const Page = async ({ params }: { params: Promise<{ handle?: string[] }> }) => {

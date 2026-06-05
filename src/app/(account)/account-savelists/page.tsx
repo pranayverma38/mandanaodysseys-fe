@@ -3,12 +3,15 @@ import { Divider } from '@/components/divider'
 import { Heading } from '@/components/heading'
 import StayCard2 from '@/components/stay-card2'
 import { getStayListings } from '@/data/listings'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Account - Saved listings',
-  description: 'Manage your saved listings',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Saved Tour Packages',
+  description: 'View and manage your saved tour packages and travel experiences with Mandana Odysseys.',
+  path: '/account-savelists',
+  noIndex: true,
+})
 
 const Page = async () => {
   const stayListings = await getStayListings()

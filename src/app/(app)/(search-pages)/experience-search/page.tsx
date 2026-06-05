@@ -4,11 +4,15 @@ import ListingFilterTabs from '@/components/listing-filter-tabs'
 import Pagination from '@/components/pagination'
 import { getExperienceListingFilterOptions } from '@/data/data'
 import { getExperienceListings } from '@/data/listings'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 
-export async function generateMetadata({ params }: { params: Promise<{ handle?: string[] }> }): Promise<Metadata> {
-  return { title: 'Search experiences', description: 'Discover amazing experiences around you' }
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Search Tour Packages',
+  description:
+    'Search and compare affordable international tour packages and travel experiences. Find your perfect vacation with Mandana Odysseys.',
+  path: '/experience-search',
+})
 
 const Page = async ({ params }: { params: Promise<{ handle?: string[] }> }) => {
   const listings = await getExperienceListings()

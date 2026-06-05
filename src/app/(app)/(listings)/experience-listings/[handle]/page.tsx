@@ -7,6 +7,7 @@ import { getListingReviews } from '@/data/data'
 import { getExperienceListingByHandle } from '@/data/listings'
 import { CheckmarkCircle01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { createListingMetadata, createNotFoundMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import Form from 'next/form'
 import Image from 'next/image'
@@ -26,16 +27,14 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   const listing = await getExperienceListingByHandle(handle)
 
   if (!listing) {
-    return {
-      title: 'Listing not found',
-      description: 'The listing you are looking for does not exist.',
-    }
+    return createNotFoundMetadata('Tour Package')
   }
 
-  return {
-    title: listing?.title,
-    description: listing?.description,
-  }
+  return createListingMetadata({
+    title: listing.title,
+    description: listing.description,
+    path: `/experience-listings/${handle}`,
+  })
 }
 
 const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {

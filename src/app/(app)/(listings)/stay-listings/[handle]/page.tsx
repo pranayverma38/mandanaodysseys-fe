@@ -5,6 +5,7 @@ import { Divider } from '@/components/divider'
 import { Text } from '@/components/text'
 import { getListingReviews } from '@/data/data'
 import { getStayListingByHandle } from '@/data/listings'
+import { createListingMetadata, createNotFoundMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import Form from 'next/form'
 import { redirect } from 'next/navigation'
@@ -26,16 +27,14 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   const listing = await getStayListingByHandle(handle)
 
   if (!listing) {
-    return {
-      title: 'Listing not found',
-      description: 'The listing you are looking for does not exist.',
-    }
+    return createNotFoundMetadata('Accommodation')
   }
 
-  return {
-    title: listing?.title,
-    description: listing?.description,
-  }
+  return createListingMetadata({
+    title: listing.title,
+    description: listing.description,
+    path: `/stay-listings/${handle}`,
+  })
 }
 
 const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {

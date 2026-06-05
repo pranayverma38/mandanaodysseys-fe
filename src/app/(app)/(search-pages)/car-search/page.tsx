@@ -4,10 +4,16 @@ import ListingFilterTabs from '@/components/listing-filter-tabs'
 import Pagination from '@/components/pagination'
 import { getCarListingFilterOptions } from '@/data/data'
 import { getCarListings } from '@/data/listings'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ handle?: string[] }> }): Promise<Metadata> {
-  return { title: 'Search cars', description: 'Find your perfect car rental' }
+  return createPageMetadata({
+    title: 'Search Car Rentals',
+    description:
+      'Find car rental options for your international vacation. Book reliable transportation with Mandana Odysseys.',
+    path: '/car-search',
+  })
 }
 
 const Page = async ({ params }: { params: Promise<{ handle?: string[] }> }) => {

@@ -1,6 +1,7 @@
 import { Badge } from '@/components/badge'
 import ButtonPrimary from '@/components/button-primary'
 import ButtonSecondary from '@/components/button-secondary'
+import { createPageMetadata } from '@/lib/seo'
 import { CheckIcon } from '@heroicons/react/24/solid'
 import { Metadata } from 'next'
 
@@ -31,10 +32,11 @@ const pricings = [
   },
 ]
 
-export const metadata: Metadata = {
-  title: 'Subscription',
-  description: 'Subscription page for our service, offering various pricing plans to fit your needs.',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Travel Membership Plans',
+  description: 'Explore Mandana Odysseys membership plans for exclusive deals on international tour and travel packages.',
+  path: '/subscription',
+})
 
 const Page = () => {
   const renderPricingItem = (pricing: (typeof pricings)[number], index: number) => {

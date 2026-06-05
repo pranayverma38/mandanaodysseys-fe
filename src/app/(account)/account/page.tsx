@@ -9,13 +9,16 @@ import Textarea from '@/components/textarea'
 import avatar from '@/images/avatars/Image-1.png'
 import { ImageAdd02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import Form from 'next/form'
 
-export const metadata: Metadata = {
-  title: 'Account Page',
-  description: 'Booking online & rental online Next.js Template',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'My Account',
+  description: 'Manage your Mandana Odysseys account, travel bookings, and profile settings.',
+  path: '/account',
+  noIndex: true,
+})
 
 const Page = () => {
   const handleSubmitForm = async (formData: FormData) => {

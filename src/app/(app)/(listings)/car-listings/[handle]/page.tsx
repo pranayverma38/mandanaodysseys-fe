@@ -15,6 +15,7 @@ import {
   UserCircleIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { createListingMetadata, createNotFoundMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import Form from 'next/form'
 import { redirect } from 'next/navigation'
@@ -32,16 +33,14 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   const listing = await getCarListingByHandle(handle)
 
   if (!listing) {
-    return {
-      title: 'Listing not found',
-      description: 'The listing you are looking for does not exist.',
-    }
+    return createNotFoundMetadata('Car Rental')
   }
 
-  return {
-    title: listing?.title,
-    description: listing?.description,
-  }
+  return createListingMetadata({
+    title: listing.title,
+    description: listing.description,
+    path: `/car-listings/${handle}`,
+  })
 }
 
 const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {

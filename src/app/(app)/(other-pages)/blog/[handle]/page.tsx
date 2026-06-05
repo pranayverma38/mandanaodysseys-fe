@@ -9,6 +9,7 @@ import SocialsList from '@/components/socials-list'
 import Tag from '@/components/tag'
 import Textarea from '@/components/textarea'
 import { getBlogPosts, getBlogPostsByHandle } from '@/data/data'
+import { createNotFoundMetadata, createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
@@ -17,14 +18,15 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   const { handle } = await params
   const post = await getBlogPostsByHandle(handle)
   if (!post) {
-    return {
-      title: 'Blog',
-      description:
-        'Stay up-to-date with the latest industry news as our marketing teams finds new ways to re-purpose old CSS tricks articles.',
-    }
+    return createNotFoundMetadata('Article')
   }
-  const { title, excerpt } = post
-  return { title, description: excerpt }
+  const { title, excerpt, handle: postHandle } = post
+  return createPageMetadata({
+    title: title ?? 'Travel Article',
+    description: excerpt,
+    path: `/blog/${postHandle}`,
+    openGraphType: 'article',
+  })
 }
 
 export default async function Page({ params }: { params: Promise<{ handle: string }> }) {

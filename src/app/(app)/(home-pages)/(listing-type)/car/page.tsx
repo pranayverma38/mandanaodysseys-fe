@@ -15,12 +15,15 @@ import { getBlogPosts } from '@/data/data'
 import { getCarListings } from '@/data/listings'
 import carHeroImg from '@/images/hero-img-car.png'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Car rental',
-  description: 'Home page of the Car rental application',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Car Rentals for Travel',
+  description:
+    'Rent a car for your international vacation with Mandana Odysseys. Convenient car rental options to complement your tour and travel packages.',
+  path: '/car',
+})
 
 async function Page() {
   const categories = await getCarCategories()

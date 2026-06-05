@@ -2,6 +2,7 @@ import ButtonPrimary from '@/components/button-primary'
 import { Field, Label } from '@/components/fieldset'
 import Input from '@/components/input'
 import Logo from '@/components/logo'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import type { JSX } from 'react'
@@ -48,10 +49,12 @@ const socials: {
   },
 ]
 
-export const metadata: Metadata = {
-  title: 'Login',
-  description: 'Login to your account',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Sign In',
+  description: 'Sign in to your Mandana Odysseys account to manage tour bookings and travel packages.',
+  path: '/login',
+  noIndex: true,
+})
 
 const Page = () => {
   return (

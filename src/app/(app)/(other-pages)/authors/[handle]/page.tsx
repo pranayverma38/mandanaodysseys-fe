@@ -17,6 +17,7 @@ import {
   Navigation03Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { createNotFoundMetadata, createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import ListingTabs from './listing-tabs'
@@ -26,16 +27,14 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   const author = await getAuthorByHandle(handle)
 
   if (!author?.id) {
-    return {
-      title: 'Author not found',
-      description: 'The author you are looking for does not exist.',
-    }
+    return createNotFoundMetadata('Travel Guide')
   }
 
-  return {
-    title: `${author.displayName} - Author Profile`,
-    description: `Explore the profile of ${author.displayName}, a top-rated host with ${author.reviewsCount} reviews and a star rating of ${author.starRating}. Discover their listings and read reviews from guests.`,
-  }
+  return createPageMetadata({
+    title: `${author.displayName} — Travel Guide`,
+    description: `Explore tour packages and travel experiences curated by ${author.displayName} with Mandana Odysseys. ${author.reviewsCount} reviews, ${author.starRating} star rating.`,
+    path: `/authors/${handle}`,
+  })
 }
 
 const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {

@@ -3,13 +3,16 @@ import SectionMagazine5 from '@/components/blog/section-magazine5'
 import { Divider } from '@/components/divider'
 import NewsletterSection from '@/components/newsletter-section-1'
 import { getBlogPosts } from '@/data/data'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import React from 'react'
 
-export const metadata: Metadata = {
-  title: 'Blog',
-  description: 'Explore our blog for the latest news, articles, and insights on various topics.',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Travel Blog',
+  description:
+    'Travel tips, destination guides, and tour inspiration from Mandana Odysseys. Stay informed on the latest international travel trends and vacation ideas.',
+  path: '/blog',
+})
 
 const BlogPage: React.FC = async () => {
   const blogPosts = await getBlogPosts()

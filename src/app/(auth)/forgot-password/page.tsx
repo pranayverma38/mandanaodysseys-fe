@@ -2,13 +2,16 @@ import ButtonPrimary from '@/components/button-primary'
 import { Field, Label } from '@/components/fieldset'
 import Input from '@/components/input'
 import Logo from '@/components/logo'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
-  title: 'Forgot Password',
-  description: 'Reset your password',
-}
+export const metadata: Metadata = createPageMetadata({
+  title: 'Reset Password',
+  description: 'Reset your Mandana Odysseys account password.',
+  path: '/forgot-password',
+  noIndex: true,
+})
 
 const Page = () => {
   return (

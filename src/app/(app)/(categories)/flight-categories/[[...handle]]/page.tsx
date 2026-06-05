@@ -9,6 +9,7 @@ import { getFlightListings } from '@/data/listings'
 import flightHeroImg from '@/images/hero-img-flight.png'
 import convertNumbThousand from '@/utils/convert-numb-thousand'
 import { Airplane02Icon } from '@hugeicons/core-free-icons'
+import { createCategoryMetadata, createNotFoundMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
@@ -16,13 +17,15 @@ export async function generateMetadata({ params }: { params: Promise<{ handle?: 
   const { handle } = await params
   const category = await getFlightCategoryByHandle(handle?.[0])
   if (!category) {
-    return {
-      title: 'Collection not found',
-      description: 'The collection you are looking for does not exist.',
-    }
+    return createNotFoundMetadata('Destination')
   }
-  const { name, description } = category
-  return { title: name, description }
+  const { name, description, handle: categoryHandle } = category
+  return createCategoryMetadata({
+    name,
+    description,
+    path: `/flight-categories/${categoryHandle}`,
+    label: 'Flights',
+  })
 }
 
 const Page = async ({ params }: { params: Promise<{ handle?: string[] }> }) => {

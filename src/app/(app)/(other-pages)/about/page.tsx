@@ -6,14 +6,16 @@ import NewsletterSection from '@/components/newsletter-section-1'
 import SectionClientSay from '@/components/section-client-say'
 import SectionInterestingInfor from '@/components/section-interesting-infor'
 import SectionWhyUs from '@/components/section-why-us'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import Image from 'next/image'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'About Us',
   description:
-    'The about us page provides an overview of our mission, values, and the team behind our company. It highlights our commitment to excellence and innovation in our industry.',
-}
+    'Learn about Mandana Odysseys — your trusted tour and travel partner for affordable international vacation packages, guided tours, and memorable travel experiences.',
+  path: '/about',
+})
 
 const founders = [
   {

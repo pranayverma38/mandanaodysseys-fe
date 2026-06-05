@@ -4,10 +4,16 @@ import ListingFilterTabs from '@/components/listing-filter-tabs'
 import Pagination from '@/components/pagination'
 import { getFlightFilterOptions } from '@/data/data'
 import { getFlightListings } from '@/data/listings'
+import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ handle?: string[] }> }): Promise<Metadata> {
-  return { title: 'Search flights', description: 'Find your perfect flight' }
+  return createPageMetadata({
+    title: 'Search Flights',
+    description:
+      'Search and book affordable flights for your international tour packages. Mandana Odysseys makes travel booking simple.',
+    path: '/flight-search',
+  })
 }
 
 const Page = async ({ params }: { params: Promise<{ handle?: string[] }> }) => {
