@@ -17,6 +17,7 @@ import HeroSection2 from '@/components/section-hero-2'
 import SectionHowItWork2 from '@/components/section-how-it-work-2'
 import SectionInterestingInfor from '@/components/section-interesting-infor'
 import SectionListingsCarousel from '@/components/section-listings-carousel'
+import SectionStickyGridScroll from '@/components/section-sticky-grid-scroll'
 import SectionTravelQuote from '@/components/section-travel-quote'
 import SectionWhyUs from '@/components/section-why-us'
 import { Text } from '@/components/text'
@@ -67,20 +68,24 @@ async function Page() {
 
       
 
-      <section className="bg-zinc-50 section-space-xl dark:bg-zinc-900">
-      <RevealInView className="container section-space">
-          <SectionListingsCarousel
-            heading={`Hand Picked <span class="font-style-script text-[1.3em] text-[#FC6200] italic">Tours  </span> For You`}
-            listings={experienceListings.reverse().slice(0, 8)}
-            cardType="experience"
-          />
-        </RevealInView>
-        <RevealInView className="container">
-          <SectionGroupCategoriesCarousel groupCategories={groupCategories} />
-        </RevealInView>
-      </section>
+      <div className="sticky-grid-scroll-intro bg-zinc-50 dark:bg-zinc-900">
+        <section className="section-space-xl">
+          <RevealInView className="container section-space">
+            <SectionListingsCarousel
+              heading={`Hand Picked <span class="font-style-script text-[1.3em] text-[#FC6200] italic">Tours  </span> For You`}
+              listings={experienceListings.reverse().slice(0, 8)}
+              cardType="experience"
+            />
+          </RevealInView>
+          <RevealInView className="container">
+            <SectionGroupCategoriesCarousel groupCategories={groupCategories} />
+          </RevealInView>
+        </section>
+      </div>
 
-      <RevealInView className="container section-space-xl">
+      <SectionStickyGridScroll />
+
+      <RevealInView className="container section-space-xl md:hidden">
         <SectionTravelQuote />
       </RevealInView>
 

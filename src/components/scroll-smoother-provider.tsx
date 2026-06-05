@@ -34,6 +34,8 @@ export function ScrollSmootherProvider({ children }: PropsWithChildren) {
         normalizeScroll: true,
       })
 
+      ScrollTrigger.refresh()
+
       return () => {
         smoother.kill()
       }
