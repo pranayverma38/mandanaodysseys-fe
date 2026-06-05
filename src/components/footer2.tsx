@@ -2,6 +2,48 @@ import Logo from '@/components/logo'
 
 import type { JSX } from 'react'
 
+type Footer2Variant = 'light' | 'dark'
+
+interface Footer2Props {
+  variant?: Footer2Variant
+}
+
+const footerVariantStyles: Record<
+  Footer2Variant,
+  {
+    root: string
+    tagline: string
+    heading: string
+    link: string
+    bottomBar: string
+    copyright: string
+    social: string
+    logoVariant: 'default' | 'full-white'
+  }
+> = {
+  light: {
+    root: 'border-t border-border',
+    tagline: 'text-sm/6 text-balance text-gray-600 dark:text-neutral-400',
+    heading: 'text-sm/6 font-semibold text-gray-900 dark:text-neutral-300',
+    link: 'text-sm/6 text-gray-600 hover:text-gray-900 dark:text-neutral-400',
+    bottomBar:
+      'mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24 dark:border-gray-700 md:flex md:items-center md:justify-between',
+    copyright: 'text-sm/6 text-gray-600 md:order-1 dark:text-neutral-400',
+    social: 'text-gray-600 hover:text-gray-800 dark:text-neutral-400',
+    logoVariant: 'default',
+  },
+  dark: {
+    root: 'border-t border-neutral-800 bg-black',
+    tagline: 'text-sm/6 text-balance text-neutral-400',
+    heading: 'text-sm/6 font-semibold text-neutral-200',
+    link: 'text-sm/6 text-neutral-400 hover:text-white',
+    bottomBar: 'mt-16 border-t border-neutral-800 pt-8 sm:mt-20 lg:mt-24 md:flex md:items-center md:justify-between',
+    copyright: 'text-sm/6 text-neutral-400 md:order-1',
+    social: 'text-neutral-400 hover:text-white',
+    logoVariant: 'full-white',
+  },
+}
+
 const navigation: {
   solutions: { name: string; href: string }[]
   support: { name: string; href: string }[]
@@ -101,33 +143,27 @@ const navigation: {
   ],
 }
 
-export default function Footer2() {
+export default function Footer2({ variant = 'light' }: Footer2Props) {
+  const styles = footerVariantStyles[variant]
+
   return (
-    <footer className="border-t border-border">
+    <footer className={styles.root}>
       <div className="container section-space pb-8!">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8">
-            <Logo className="w-20" />
-            <p className="text-sm/6 text-balance text-gray-600 dark:text-neutral-400">
+            <Logo className="w-20" variant={styles.logoVariant} />
+            <p className={styles.tagline}>
               Making the world a better place through constructing elegant hierarchies.
             </p>
-            <div className="flex gap-x-6">
-              {navigation.social.map((item) => (
-                <a key={item.name} href={item.href} className="text-gray-600 hover:text-gray-800 dark:text-neutral-400">
-                  <span className="sr-only">{item.name}</span>
-                  <item.icon aria-hidden="true" className="size-6" />
-                </a>
-              ))}
-            </div>
           </div>
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm/6 font-semibold text-gray-900 dark:text-neutral-300">Solutions</h3>
+                <h3 className={styles.heading}>Solutions</h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.solutions.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-sm/6 text-gray-600 hover:text-gray-900 dark:text-neutral-400">
+                      <a href={item.href} className={styles.link}>
                         {item.name}
                       </a>
                     </li>
@@ -135,11 +171,11 @@ export default function Footer2() {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm/6 font-semibold text-gray-900 dark:text-neutral-300">Support</h3>
+                <h3 className={styles.heading}>Support</h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.support.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-sm/6 text-gray-600 hover:text-gray-900 dark:text-neutral-400">
+                      <a href={item.href} className={styles.link}>
                         {item.name}
                       </a>
                     </li>
@@ -149,11 +185,11 @@ export default function Footer2() {
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm/6 font-semibold text-gray-900 dark:text-neutral-300">Company</h3>
+                <h3 className={styles.heading}>Company</h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.company.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-sm/6 text-gray-600 hover:text-gray-900 dark:text-neutral-400">
+                      <a href={item.href} className={styles.link}>
                         {item.name}
                       </a>
                     </li>
@@ -161,11 +197,11 @@ export default function Footer2() {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm/6 font-semibold text-gray-900 dark:text-neutral-300">Legal</h3>
+                <h3 className={styles.heading}>Legal</h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.legal.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-sm/6 text-gray-600 hover:text-gray-900 dark:text-neutral-400">
+                      <a href={item.href} className={styles.link}>
                         {item.name}
                       </a>
                     </li>
@@ -175,10 +211,16 @@ export default function Footer2() {
             </div>
           </div>
         </div>
-        <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24 dark:border-gray-700">
-          <p className="text-sm/6 text-gray-600 dark:text-neutral-400">
-            &copy; 2026 Your Company, Inc. All rights reserved.
-          </p>
+        <div className={styles.bottomBar}>
+          <p className={styles.copyright}>&copy; 2026 Your Company, Inc. All rights reserved.</p>
+          <div className="mt-8 flex gap-x-6 md:order-2 md:mt-0">
+            {navigation.social.map((item) => (
+              <a key={item.name} href={item.href} className={styles.social}>
+                <span className="sr-only">{item.name}</span>
+                <item.icon aria-hidden="true" className="size-6" />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
