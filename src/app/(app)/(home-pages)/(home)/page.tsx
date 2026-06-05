@@ -89,9 +89,9 @@ async function Page() {
         <SectionTravelQuote />
       </RevealInView>
 
-      <RevealInView className="container section-space-xl">
+      {/* <RevealInView className="container section-space-xl">
         <SectionInterestingInfor />
-      </RevealInView>
+      </RevealInView> */}
 
 
 
