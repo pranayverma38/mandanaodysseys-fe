@@ -2,8 +2,8 @@
 
 import clsx from 'clsx'
 import Image from 'next/image'
-import { Link } from './link'
-import { MotionDiv } from './motion-div'
+import { Link } from '../link'
+import { MotionDiv } from '../motion-div'
 
 interface CharmsOfAsiaImage {
   src: string
@@ -43,7 +43,7 @@ interface Props {
   className?: string
 }
 
-const SectionCharmsOfAsia = ({ className }: Props) => {
+export default function SectionCharmsOfAsia({ className }: Props) {
   return (
     <section className={clsx('section-charms-of-asia w-full lg:pt-[100px]', className)}>
       <div
@@ -54,7 +54,8 @@ const SectionCharmsOfAsia = ({ className }: Props) => {
       >
         <div
           className={clsx(
-            'w-full shrink-0 grow-0 basis-auto',
+            'flex w-full shrink-0 grow-0 basis-auto flex-col items-center text-center',
+            'lg:items-start lg:text-left',
             'lg:w-[40%] lg:max-w-[456px] lg:pr-10'
           )}
         >
@@ -71,7 +72,7 @@ const SectionCharmsOfAsia = ({ className }: Props) => {
 
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center self-start rounded-full bg-[#FC6200] px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#e55800]"
+            className="inline-flex items-center justify-center rounded-full bg-[#FC6200] px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#e55800] lg:self-start"
           >
             Contact Us
           </Link>
@@ -111,5 +112,3 @@ const SectionCharmsOfAsia = ({ className }: Props) => {
     </section>
   )
 }
-
-export default SectionCharmsOfAsia

@@ -38,7 +38,7 @@ const SectionGroupCategoriesCarousel = ({
   className,
   heading = (
     <>
-      Explore <span data-slot="italic">popular</span> destinations
+      The Elite <span className="font-style-script text-[1.3em] text-[#FC6200] italic">Gateways</span>
     </>
   ),
   groupCategories,

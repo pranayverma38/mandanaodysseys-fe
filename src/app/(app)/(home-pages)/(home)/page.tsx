@@ -17,12 +17,13 @@ import HeroSection2 from '@/components/section-hero-2'
 import SectionHowItWork2 from '@/components/section-how-it-work-2'
 import SectionInterestingInfor from '@/components/section-interesting-infor'
 import SectionListingsCarousel from '@/components/section-listings-carousel'
+import SectionTravelQuote from '@/components/section-travel-quote'
 import SectionWhyUs from '@/components/section-why-us'
 import { Text } from '@/components/text'
 import { getAuthors } from '@/data/authors'
 import { getGroupStayCategories, getStayCategories } from '@/data/categories'
 import { getBlogPosts } from '@/data/data'
-import { getStayListings } from '@/data/listings'
+import { getExperienceListings, getStayListings } from '@/data/listings'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import { Metadata } from 'next'
 
@@ -34,6 +35,7 @@ export const metadata: Metadata = {
 async function Page() {
   const categories = await getStayCategories()
   const stayListings = await getStayListings()
+  const experienceListings = await getExperienceListings()
   const authors = await getAuthors()
   const groupCategories = await getGroupStayCategories()
   const posts = await getBlogPosts()
@@ -58,27 +60,42 @@ async function Page() {
         </RevealInView>
       </div>
 
-      <section className="bg-zinc-50 section-space-xl dark:bg-zinc-900">
+      {/* <section className="bg-zinc-50 section-space-xl dark:bg-zinc-900">
         <RevealInView className="container">
           <SectionGridFeaturedListings stayListings={stayListings.slice(0, 4)} />
         </RevealInView>
-      </section>
+      </section> */}
 
-      <RevealInView className="container section-space-xl">
-        <SectionInterestingInfor />
-      </RevealInView>
+      
 
       <section className="bg-zinc-50 section-space-xl dark:bg-zinc-900">
+      <RevealInView className="container section-space">
+          <SectionListingsCarousel
+            heading={`Hand Picked <span class="font-style-script text-[1.3em] text-[#FC6200] italic">Tours  </span> For You`}
+            listings={experienceListings.reverse().slice(0, 8)}
+            cardType="experience"
+          />
+        </RevealInView>
         <RevealInView className="container">
           <SectionGroupCategoriesCarousel groupCategories={groupCategories} />
         </RevealInView>
       </section>
 
       <RevealInView className="container section-space-xl">
-        <SectionHowItWork2 />
+        <SectionTravelQuote />
       </RevealInView>
 
-      <div className="bg-zinc-50 section-space-xl dark:bg-zinc-900">
+      <RevealInView className="container section-space-xl">
+        <SectionInterestingInfor />
+      </RevealInView>
+
+
+
+      {/* <RevealInView className="container section-space-xl">
+        <SectionHowItWork2 />
+      </RevealInView> */}
+
+      {/* <div className="bg-zinc-50 section-space-xl dark:bg-zinc-900">
         <RevealInView className="container">
           <SectionListingsCarousel listings={stayListings.slice(0, 8)} cardType="stay" />
         </RevealInView>
@@ -89,9 +106,9 @@ async function Page() {
             heading={`Popular homes <span data-slot="italic">in Bali</span>`}
           />
         </RevealInView>
-      </div>
+      </div> */}
 
-      <div className="container section-space-xl">
+      {/* <div className="container section-space-xl">
         <RevealInView className="container">
           <div className="mb-11 flex flex-wrap items-end justify-between gap-5">
             <Heading>
@@ -105,16 +122,7 @@ async function Page() {
           <SectionGridCategoryBox categories={categories.slice(0, 8)} />
         </RevealInView>
 
-        <RevealInView className="container section-space-xl pb-0">
-          <Heading>
-            Stay with top-rated <span data-slot="italic">hosts</span>
-          </Heading>
-          <Text className="mt-3 max-w-lg text-neutral-600 dark:text-neutral-400">
-            Selected for their exceptional hospitality and top-rated properties.
-          </Text>
-          <SectionGridAuthorBox className="mt-13" boxCard="box1" authors={authors} />
-        </RevealInView>
-      </div>
+      </div> */}
 
       <section className="bg-zinc-50 section-space-xl dark:bg-zinc-900">
         <RevealInView className="container">
@@ -122,21 +130,21 @@ async function Page() {
         </RevealInView>
       </section>
 
-      <RevealInView className="container section-space-xl">
+      {/* <RevealInView className="container section-space-xl">
         <FeatureSection2 variant="up" />
-      </RevealInView>
+      </RevealInView> */}
 
-      <RevealInView className="container py-5">
+      {/* <RevealInView className="container py-5">
         <Divider />
-      </RevealInView>
+      </RevealInView> */}
 
-      <RevealInView className="container section-space">
+      {/* <RevealInView className="container section-space">
         <SectionGridPosts3 posts={posts.slice(0, 4)} />
-      </RevealInView>
+      </RevealInView> */}
 
-      <RevealInView className="container section-space-smaller pt-8">
+      {/* <RevealInView className="container section-space-smaller pt-8">
         <NewsletterSection />
-      </RevealInView>
+      </RevealInView> */}
     </main>
   )
 }
