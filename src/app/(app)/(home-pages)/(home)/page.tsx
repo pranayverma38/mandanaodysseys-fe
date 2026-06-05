@@ -124,7 +124,7 @@ async function Page() {
 
       </div> */}
 
-      <section className="bg-zinc-50 section-space-xl dark:bg-zinc-900">
+      <section className="section-space-top pb-px">
         <RevealInView className="container">
           <SectionWhyUs />
         </RevealInView>

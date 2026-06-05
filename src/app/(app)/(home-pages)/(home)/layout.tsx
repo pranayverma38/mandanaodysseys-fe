@@ -2,6 +2,7 @@ import Aside from '@/components/aside'
 import AsideSidebarNavigation from '@/components/aside-sidebar-navigation'
 import FooterQuickNavigation from '@/components/footer-quick-navigation'
 import Footer2 from '@/components/footer2'
+import SectionReadyToExplore from '@/components/section-ready-to-explore'
 import Header3 from '@/components/header/header3'
 // import HeroSearchFormMobile from '@/components/hero-search-form-mobile/hero-search-form-mobile'
 import { MotionDiv } from '@/components/motion-div'
@@ -40,6 +41,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/*  */}
       {children}
       {/*  */}
+      <SectionReadyToExplore />
       {/* FooterQuickNavigation - Displays on mobile devices and is fixed at the bottom of the screen */}
       <FooterQuickNavigation />
       {/* Chose footer style here!!!! */}

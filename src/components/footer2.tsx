@@ -33,7 +33,7 @@ const footerVariantStyles: Record<
     logoVariant: 'default',
   },
   dark: {
-    root: 'border-t border-neutral-800 bg-black',
+    root: 'bg-black',
     tagline: 'text-sm/6 text-balance text-neutral-400',
     heading: 'text-sm/6 font-semibold text-neutral-200',
     link: 'text-sm/6 text-neutral-400 hover:text-white',
