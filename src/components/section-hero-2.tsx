@@ -15,7 +15,7 @@ const HeroSection2 = ({
   className,
   title = (
     <>
-      Extraordinary <span data-slot="italic">Journey</span> Awaits
+      Extraordinary <span data-slot="style-script">Journey</span> Awaits
     </>
   ),
   ctaLabel = 'Explore Now',
@@ -25,7 +25,7 @@ const HeroSection2 = ({
   return (
     <div
       className={clsx(
-        'section-hero-2 relative flex w-full min-h-[100dvh] lg:h-[90dvh] lg:min-h-[90dvh] lg:max-h-[90dvh] lg:justify-center',
+        'section-hero-2 relative flex w-full h-[85dvh] min-h-[85dvh] max-h-[85dvh] lg:h-[90dvh] lg:min-h-[90dvh] lg:max-h-[90dvh] lg:justify-center',
         className
       )}
     >
@@ -50,7 +50,7 @@ const HeroSection2 = ({
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 py-28 text-center text-white sm:py-32">
         <MotionDiv initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
-          <h1 className="max-w-4xl text-[2rem]/[1.1] font-normal tracking-[-0.02em] sm:text-5xl/none md:text-6xl/none lg:text-7xl/none [&_span[data-slot=italic]]:font-serif [&_span[data-slot=italic]]:text-[1.12em] [&_span[data-slot=italic]]:font-normal [&_span[data-slot=italic]]:italic">
+          <h1 className="max-w-4xl text-[clamp(32px,calc(32px+13*((100vw-320px)/(1024-320))),45px)] leading-[1.1] font-normal tracking-[-0.02em] [&_span[data-slot=style-script]]:font-style-script [&_span[data-slot=style-script]]:text-[clamp(40px,calc(40px+39*((100vw-320px)/(1024-320))),79px)] [&_span[data-slot=style-script]]:font-thin [&_span[data-slot=style-script]]:opacity-90 [&_span[data-slot=style-script]]:italic">
             {title}
           </h1>
         </MotionDiv>

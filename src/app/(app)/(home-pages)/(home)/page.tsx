@@ -12,6 +12,7 @@ import SectionGridAuthorBox from '@/components/section-grid-author-box'
 import SectionGridCategoryBox from '@/components/section-grid-category-box'
 import SectionGridFeaturedListings from '@/components/section-grid-featured-listings'
 import SectionGroupCategoriesCarousel from '@/components/section-group-categories-carousel'
+import SectionCharmsOfAsia from '@/components/section-charms-of-asia'
 import HeroSection2 from '@/components/section-hero-2'
 import SectionHowItWork2 from '@/components/section-how-it-work-2'
 import SectionInterestingInfor from '@/components/section-interesting-infor'
@@ -41,12 +42,18 @@ async function Page() {
     <main className="relative section-space-bottom">
       <HeroSection2 />
 
-      <div className="container section-space-xl">
-        {/* Effect when appear screen one time */}
+      <div className="container py-8 sm:py-10 lg:py-14">
         <RevealInView>
-          <SectionDreamDestination />
+          <SectionCharmsOfAsia />
         </RevealInView>
-        <RevealInView className="container section-space-xl pb-0">
+      </div>
+
+      <div className="container py-8 sm:py-10 lg:py-14">
+        {/* Effect when appear screen one time */}
+        {/* <RevealInView>
+          <SectionDreamDestination />
+        </RevealInView> */}
+        <RevealInView className="pb-0">
           <InspirationFutureGetawaysSection heading="" className="text-center" />
         </RevealInView>
       </div>
