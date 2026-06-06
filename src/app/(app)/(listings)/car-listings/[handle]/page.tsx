@@ -1,5 +1,6 @@
 import ButtonPrimary from '@/components/button-primary'
 import FormattedPrice from '@/components/formatted-price'
+import FormattedPriceText from '@/components/formatted-price-text'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/description-list'
 import { Divider } from '@/components/divider'
 import NcInputNumber from '@/components/nc-input-number'
@@ -118,7 +119,9 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
               <div className="max-w-md text-sm/5 text-muted-foreground">
                 {/* <p>{item.time}</p> */}
                 <p className="font-medium text-foreground">{item.name}</p>
-                <p className="mt-1">{item.description}</p>
+                <p className="mt-1">
+                  <FormattedPriceText text={item.description} />
+                </p>
               </div>
             </div>
           ))}
@@ -150,7 +153,9 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
           {includes_demo.map((item) => (
             <div key={item.name} className="flex items-center gap-x-3 text-sm">
               <HugeiconsIcon icon={CheckmarkCircle01Icon} size={24} className="mt-px shrink-0" />
-              <span>{item.name}</span>
+              <span>
+                <FormattedPriceText text={item.name} />
+              </span>
             </div>
           ))}
         </div>
@@ -194,16 +199,24 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
           </DescriptionDetails>
 
           <DescriptionTerm>Age surcharge</DescriptionTerm>
-          <DescriptionDetails>Drivers under 25 will be charged an additional $15.00 per day.</DescriptionDetails>
+          <DescriptionDetails>
+            <FormattedPriceText text="Drivers under 25 will be charged an additional $15.00 per day." />
+          </DescriptionDetails>
 
-          <DescriptionTerm>Deposit after exchange rate</DescriptionTerm>
-          <DescriptionDetails>US$1,000.00 &rarr; CA$1,331.93</DescriptionDetails>
+          <DescriptionTerm>Deposit</DescriptionTerm>
+          <DescriptionDetails className="notranslate">
+            <FormattedPrice value={1000} />
+          </DescriptionDetails>
 
           <DescriptionTerm>Fee</DescriptionTerm>
-          <DescriptionDetails>$4.79 USD</DescriptionDetails>
+          <DescriptionDetails className="notranslate">
+            <FormattedPrice value={4.79} />
+          </DescriptionDetails>
 
           <DescriptionTerm>Net</DescriptionTerm>
-          <DescriptionDetails>$1,955.00</DescriptionDetails>
+          <DescriptionDetails className="notranslate">
+            <FormattedPrice value={1955} />
+          </DescriptionDetails>
         </DescriptionList>
       </div>
     )
@@ -214,7 +227,9 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
       <div className="listingSection__wrap rounded-2xl shadow-lg-for-card bg-card p-4 sm:p-6 2xl:p-7">
         {/* PRICE */}
         <div className="flex items-end text-2xl font-[540]">
-          <span className="font-normal text-muted-foreground-lighter line-through">$599</span>
+          <span className="font-normal text-muted-foreground-lighter line-through notranslate">
+            <FormattedPrice value={599} />
+          </span>
           <FormattedPrice value={price} className="mx-2" />
           <span className="text-base font-normal text-muted-foreground"> / day</span>
         </div>
@@ -232,7 +247,11 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
               max={10}
               min={1}
               label={'Child seat'}
-              description={'$21.00 / day'}
+              description={
+                <span className="notranslate">
+                  <FormattedPrice value={21} /> / day
+                </span>
+              }
             />
             <NcInputNumber
               className="mt-6 w-full"
@@ -240,7 +259,11 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
               inputName="gps"
               max={4}
               label={'GPS'}
-              description={'$10.00 / day'}
+              description={
+                <span className="notranslate">
+                  <FormattedPrice value={10} /> / day
+                </span>
+              }
             />
 
             <NcInputNumber
@@ -249,7 +272,11 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
               inputName="additionalDriver"
               max={4}
               label={'Additional driver'}
-              description={'$10.00 / day'}
+              description={
+                <span className="notranslate">
+                  <FormattedPrice value={10} /> / day
+                </span>
+              }
             />
           </div>
         </Form>
@@ -260,7 +287,9 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
         <div>
           <DescriptionList>
             <DescriptionTerm className="font-medium sm:text-gray-900">Total</DescriptionTerm>
-            <DescriptionDetails className="font-medium sm:text-right">$261.00</DescriptionDetails>
+            <DescriptionDetails className="font-medium sm:text-right notranslate">
+              <FormattedPrice value={261} />
+            </DescriptionDetails>
           </DescriptionList>
           <ButtonPrimary form="booking-form" type="submit" className="mt-5 w-full sm:h-12">
             Reserve

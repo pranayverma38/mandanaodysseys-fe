@@ -1,14 +1,8 @@
-import { Button } from '@/components/button'
-import FormattedPrice from '@/components/formatted-price'
-import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/description-list'
 import { Divider } from '@/components/divider'
-import { Text } from '@/components/text'
 import type { ItineraryDetail } from '@/data/itineraries/types'
 import ItineraryInclusionsSection from './itinerary-inclusions-section'
-import Form from 'next/form'
+import ItineraryPricingSidebar from './itinerary-pricing-sidebar'
 import { redirect } from 'next/navigation'
-import DateInputPopover from '../../(listings)/components/date-input-popover'
-import GuestsInputPopover from '../../(listings)/components/guests-input-popover'
 import HeaderGallery from '../../(listings)/components/header-gallery'
 import { SectionFeaturedAmenities } from '../../(listings)/components/section-featured-amenities'
 import { SectionHeading } from '../../(listings)/components/section-heading'
@@ -98,39 +92,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
 
         <div className="w-full min-w-0 lg:flex-1 lg:basis-0">
           <div className="sticky top-17 min-w-0 max-w-full">
-            <div className="listingSection__wrap rounded-2xl shadow-lg-for-card bg-card p-4 sm:p-6 2xl:p-7">
-              <div className="flex items-end text-2xl font-[540]">
-                <span className="font-normal text-muted-foreground-lighter line-through">{pricing.originalPrice}</span>
-                <FormattedPrice value={pricing.price} className="mx-2" />
-                <span className="text-base font-normal text-muted-foreground">
-                  {pricing.priceLabel ?? ' / guest'}
-                </span>
-              </div>
-
-              <Form
-                action={handleSubmitForm}
-                className="flex flex-col rounded-3xl border border-border"
-                id="booking-form"
-              >
-                <DateInputPopover className="z-11 flex-1" />
-                <div className="w-full border-b border-border"></div>
-                <GuestsInputPopover className="flex-1" />
-              </Form>
-
-              <DescriptionList>
-                <DescriptionTerm>Fee & Taxes</DescriptionTerm>
-                <DescriptionDetails className="sm:text-right">{pricing.feeAndTaxes}</DescriptionDetails>
-                <DescriptionTerm className="font-medium sm:text-gray-900">Total</DescriptionTerm>
-                <DescriptionDetails className="font-medium sm:text-right">{pricing.total}</DescriptionDetails>
-              </DescriptionList>
-
-              <div>
-                <Button color="reserve" form="booking-form" type="submit" className="w-full sm:h-12">
-                  Reserve
-                </Button>
-                <Text className="mt-4 text-center text-sm text-muted-foreground">You won&apos;t be charged yet</Text>
-              </div>
-            </div>
+            <ItineraryPricingSidebar pricing={pricing} onSubmit={handleSubmitForm} />
 
             <ItineraryBenefitsSection />
           </div>

@@ -3,7 +3,7 @@
 import ButtonCircle from '@/components/button-circle'
 import { Description, Field, Label } from '@/components/fieldset'
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid'
-import { FC, useEffect, useState } from 'react'
+import { FC, ReactNode, useEffect, useState } from 'react'
 
 interface NcInputNumberProps {
   className?: string
@@ -12,7 +12,7 @@ interface NcInputNumberProps {
   max?: number
   onChange?: (value: number) => void
   label?: string
-  description?: string
+  description?: ReactNode
   inputName?: string
   inputId?: string
 }

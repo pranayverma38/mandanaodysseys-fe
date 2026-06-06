@@ -1,3 +1,6 @@
+'use client'
+
+import FormattedPriceText from '@/components/formatted-price-text'
 import { CheckmarkCircle01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
@@ -24,7 +27,9 @@ const ItineraryInclusionsSection = ({ includes, excludes }: Props) => {
                 className="mt-px shrink-0"
                 color={INCLUDED_ICON_COLOR}
               />
-              <span>{item}</span>
+              <span>
+                <FormattedPriceText text={item} />
+              </span>
             </div>
           ))}
         </div>
@@ -33,7 +38,9 @@ const ItineraryInclusionsSection = ({ includes, excludes }: Props) => {
           {excludes.map((item) => (
             <div key={item} className="flex items-start gap-x-3">
               <XMarkIcon aria-hidden="true" strokeWidth={2} className="mt-0.5 size-6 shrink-0 text-red-500" />
-              <span>{item}</span>
+              <span>
+                <FormattedPriceText text={item} />
+              </span>
             </div>
           ))}
         </div>

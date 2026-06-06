@@ -2,6 +2,7 @@
 
 import ButtonPrimary from '@/components/button-primary'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/description-list'
+import FormattedPrice from '@/components/formatted-price'
 import { Divider } from '@/components/divider'
 import { Heading } from '@/components/heading'
 import StartRating from '@/components/start-rating'
@@ -87,7 +88,9 @@ const Page = () => {
             <DescriptionTerm>Date</DescriptionTerm>
             <DescriptionDetails>12 Aug, 2021</DescriptionDetails>
             <DescriptionTerm>Total</DescriptionTerm>
-            <DescriptionDetails>$199</DescriptionDetails>
+            <DescriptionDetails className="notranslate">
+              <FormattedPrice value={199} />
+            </DescriptionDetails>
             <DescriptionTerm>Payment method</DescriptionTerm>
             <DescriptionDetails>Credit card</DescriptionDetails>
           </DescriptionList>

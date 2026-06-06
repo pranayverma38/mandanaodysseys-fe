@@ -2,6 +2,8 @@
 
 import ButtonPrimary from '@/components/button-primary'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/description-list'
+import FormattedPrice from '@/components/formatted-price'
+import FormattedPriceText from '@/components/formatted-price-text'
 import { Divider } from '@/components/divider'
 import { Heading } from '@/components/heading'
 import StartRating from '@/components/start-rating'
@@ -60,16 +62,28 @@ const Page = () => {
         <Divider className="block lg:hidden" />
 
         <DescriptionList>
-          <DescriptionTerm>$19.00 x 3 day</DescriptionTerm>
-          <DescriptionDetails className="sm:text-right">$57.00</DescriptionDetails>
+          <DescriptionTerm>
+            <FormattedPriceText text="$19.00 x 3 day" />
+          </DescriptionTerm>
+          <DescriptionDetails className="sm:text-right notranslate">
+            <FormattedPrice value={57} />
+          </DescriptionDetails>
           <DescriptionTerm>Service charge</DescriptionTerm>
-          <DescriptionDetails className="sm:text-right">$0.00</DescriptionDetails>
+          <DescriptionDetails className="sm:text-right notranslate">
+            <FormattedPrice value={0} />
+          </DescriptionDetails>
           <DescriptionTerm>Fee</DescriptionTerm>
-          <DescriptionDetails className="sm:text-right">$0.00</DescriptionDetails>
+          <DescriptionDetails className="sm:text-right notranslate">
+            <FormattedPrice value={0} />
+          </DescriptionDetails>
           <DescriptionTerm>Tax</DescriptionTerm>
-          <DescriptionDetails className="sm:text-right">$0.00</DescriptionDetails>
+          <DescriptionDetails className="sm:text-right notranslate">
+            <FormattedPrice value={0} />
+          </DescriptionDetails>
           <DescriptionTerm className="font-semibold text-neutral-900">Total</DescriptionTerm>
-          <DescriptionDetails className="font-semibold sm:text-right">$57.00</DescriptionDetails>
+          <DescriptionDetails className="font-semibold sm:text-right notranslate">
+            <FormattedPrice value={57} />
+          </DescriptionDetails>
         </DescriptionList>
       </div>
     )

@@ -1,4 +1,7 @@
+'use client'
+
 import { Badge } from '@/components/badge'
+import FormattedPriceText from '@/components/formatted-price-text'
 import { Link } from '@/components/link'
 import { TCategory } from '@/data/categories'
 import convertNumbThousand from '@/utils/convert-numb-thousand'
@@ -35,7 +38,9 @@ const CardCategoryBox1: FC<CardCategoryBox1Props> = ({ className, category }) =>
         <h2 className="text-base font-medium">
           <span className="line-clamp-1">{name}</span>
         </h2>
-        <span className={`mt-0.5 block text-sm text-neutral-500 dark:text-neutral-400`}>{subtitle}</span>
+        <span className={`mt-0.5 block text-sm text-neutral-500 dark:text-neutral-400`}>
+          <FormattedPriceText text={subtitle} />
+        </span>
         <Badge className="mt-2.5" color="zinc">
           +{convertNumbThousand(count)} available
         </Badge>

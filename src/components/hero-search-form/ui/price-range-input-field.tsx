@@ -1,7 +1,7 @@
 'use client'
 
 import { PriceRangeSlider } from '@/components/price-range-slider'
-import convertNumbThousand from '@/utils/convert-numb-thousand'
+import { useLocale } from '@/providers/locale-provider'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
 import { CurrencyDollarIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
@@ -44,6 +44,15 @@ export const PriceRangeInputField: FC<Props> = ({
   max = 1000000,
 }) => {
   const [rangePrices, setRangePrices] = useState([90000, 800000])
+  const { formatPrice } = useLocale()
+
+  const formatRangeLabel = (value: number) => {
+    if (value >= 1000) {
+      return `${formatPrice(value / 1000).replace(/(\d[\d.,]*)/, '$1k')}`
+    }
+
+    return formatPrice(value)
+  }
 
   return (
     <>
@@ -58,8 +67,8 @@ export const PriceRangeInputField: FC<Props> = ({
               )}
 
               <div className="flex-1 text-start">
-                <span className={clsx('block font-[550]', styles.mainText[fieldStyle])}>
-                  {`$${convertNumbThousand(rangePrices[0] / 1000)}k ~ $${convertNumbThousand(rangePrices[1] / 1000)}k`}
+                <span className={clsx('block font-[550] notranslate', styles.mainText[fieldStyle])}>
+                  {`${formatRangeLabel(rangePrices[0])} ~ ${formatRangeLabel(rangePrices[1])}`}
                 </span>
                 <span className="mt-1 block text-sm leading-none font-[350] text-neutral-400">Choose price range</span>
               </div>
