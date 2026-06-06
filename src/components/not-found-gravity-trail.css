@@ -1,0 +1,22 @@
+.not-found-trail__medias img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.not-found-trail__media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: clamp(72px, 12vw, 140px);
+  height: auto;
+  pointer-events: none;
+  border-radius: 0.375rem;
+  object-fit: cover;
+  will-change: transform;
+}
