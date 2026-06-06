@@ -1,5 +1,5 @@
 import { SocialType } from '@/components/socials-share'
-import { Facebook01Icon, Mail01Icon, NewTwitterIcon } from '@hugeicons/core-free-icons'
+import { Facebook01Icon, InstagramFreeIcons, NewTwitterIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Link from 'next/link'
 import { FC } from 'react'
@@ -16,12 +16,12 @@ const socialsDemo: SocialType[] = [
     icon: Facebook01Icon,
   },
   {
-    name: 'Email',
+    name: 'Instagram',
     href: '#',
-    icon: Mail01Icon,
+    icon: InstagramFreeIcons,
   },
   {
-    name: 'Twitter',
+    name: 'X',
     href: '#',
     icon: NewTwitterIcon,
   },

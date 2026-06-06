@@ -128,11 +128,11 @@ async function Page() {
 
       </div> */}
 
-      <section className="section-space-top pb-px">
+      {/* <section className="section-space-top pb-px">
         <RevealInView className="container">
           <SectionWhyUs />
         </RevealInView>
-      </section>
+      </section> */}
 
       {/* <RevealInView className="container section-space-xl">
         <FeatureSection2 variant="up" />

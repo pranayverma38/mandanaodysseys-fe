@@ -8,6 +8,7 @@ import React from 'react'
 interface LogoProps {
   className?: string
   variant?: 'default' | 'full-colored' | 'full-white'
+  size?: 'default' | 'lg'
 }
 
 const logoImages: Record<'full-colored' | 'full-white', StaticImageData> = {
@@ -15,10 +16,15 @@ const logoImages: Record<'full-colored' | 'full-white', StaticImageData> = {
   'full-white': fullWhiteLogo,
 }
 
-const Logo: React.FC<LogoProps> = ({ className, variant = 'default' }) => {
+const imageLogoSizes = {
+  default: { width: 128, className: '!h-auto !w-[112px] !max-w-none sm:!w-[128px]' },
+  lg: { width: 192, className: '!h-auto !w-[160px] !max-w-none sm:!w-[192px]' },
+} as const
+
+const Logo: React.FC<LogoProps> = ({ className, variant = 'default', size = 'default' }) => {
   if (variant !== 'default') {
     const image = logoImages[variant]
-    const displayWidth = 128
+    const { width: displayWidth, className: imageClassName } = imageLogoSizes[size]
     const displayHeight = Math.round((displayWidth / image.width) * image.height)
 
     return (
@@ -34,7 +40,7 @@ const Logo: React.FC<LogoProps> = ({ className, variant = 'default' }) => {
           alt="Mandana Odyssey"
           width={displayWidth}
           height={displayHeight}
-          className="!h-auto !w-[112px] !max-w-none sm:!w-[128px]"
+          className={imageClassName}
           priority
         />
       </Link>
