@@ -1,14 +1,14 @@
+import { ListingType } from '@/type'
 import clsx from 'clsx'
 import { ReactNode } from 'react'
-import { Link } from './link'
-import { MotionDiv } from './motion-div'
+import HeroSection2Content from './section-hero-2-content'
 
 interface Props {
   className?: string
   title?: ReactNode
-  ctaLabel?: string
-  ctaHref?: string
   videoUrl?: string
+  searchFormInitTab?: ListingType
+  showSearchTabs?: boolean
 }
 
 const HeroSection2 = ({
@@ -18,18 +18,18 @@ const HeroSection2 = ({
       Extraordinary <span data-slot="style-script">Journey</span> Awaits
     </>
   ),
-  ctaLabel = 'Explore Now',
-  ctaHref = '/stay-search',
   videoUrl = '/videos/header/header-video.mp4',
+  searchFormInitTab = 'Experiences',
+  showSearchTabs = false,
 }: Props) => {
   return (
     <div
       className={clsx(
-        'section-hero-2 relative flex w-full h-[85dvh] min-h-[85dvh] max-h-[85dvh] lg:h-[90dvh] lg:min-h-[90dvh] lg:max-h-[90dvh] lg:justify-center',
+        'section-hero-2 relative z-[26] flex w-full h-[85dvh] min-h-[85dvh] max-h-[85dvh] lg:h-[90dvh] lg:min-h-[90dvh] lg:max-h-[90dvh] lg:justify-center',
         className
       )}
     >
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <video
           width="100%"
           height="100%"
@@ -46,29 +46,13 @@ const HeroSection2 = ({
         </video>
       </div>
 
-      <div className="absolute inset-0 bg-[#0a0705]/55" aria-hidden />
+      <div className="pointer-events-none absolute inset-0 bg-[#0a0705]/55" aria-hidden />
 
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 py-28 text-center text-white sm:py-32">
-        <MotionDiv initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
-          <h1 className="max-w-4xl text-[clamp(32px,calc(32px+13*((100vw-320px)/(1024-320))),45px)] leading-[1.1] font-normal tracking-[-0.02em] [&_span[data-slot=style-script]]:font-style-script [&_span[data-slot=style-script]]:text-[clamp(40px,calc(40px+39*((100vw-320px)/(1024-320))),79px)] [&_span[data-slot=style-script]]:font-thin [&_span[data-slot=style-script]]:opacity-90 [&_span[data-slot=style-script]]:italic">
-            {title}
-          </h1>
-        </MotionDiv>
-
-        <MotionDiv
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.9 }}
-          className="mt-8 sm:mt-10"
-        >
-          <Link
-            href={ctaHref}
-            className="inline-flex items-center justify-center rounded-full border border-[#c47a3a]/90 bg-[#0a0a0a]/75 px-7 py-2.5 text-sm font-medium tracking-wide text-white shadow-[0_0_0_1px_rgba(196,122,58,0.15)_inset] backdrop-blur-[2px] transition-colors hover:border-[#d4894a] hover:bg-[#141414]/85"
-          >
-            {ctaLabel}
-          </Link>
-        </MotionDiv>
-      </div>
+      <HeroSection2Content
+        title={title}
+        searchFormInitTab={searchFormInitTab}
+        showSearchTabs={showSearchTabs}
+      />
 
       <div
         className="pointer-events-none absolute bottom-0 left-0 z-10 w-full leading-0"

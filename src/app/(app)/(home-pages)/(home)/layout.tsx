@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <TravelAgencyJsonLd />
       {/* Header */}
       <MotionDiv
-        className="absolute top-0 left-0 z-30 w-full"
+        className="absolute top-0 left-0 z-40 w-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}

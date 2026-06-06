@@ -1,0 +1,134 @@
+@property --glare-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.hero-search-glare {
+  --hero-search-glare-color: #fc6200;
+  --hero-search-stroke-width: 4px;
+  --hero-search-glare-duration: 10s;
+  position: relative;
+  width: 100%;
+  border-radius: 9999px;
+  overflow: visible;
+}
+
+.hero-search-glare--fit {
+  width: fit-content;
+}
+
+/* Static orange stroke — never moves */
+.hero-search-glare::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: var(--hero-search-stroke-width) solid var(--hero-search-glare-color);
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: 0 0 14px rgba(252, 98, 0, 0.28);
+}
+
+/* Bright glare spot that travels along the fixed border */
+.hero-search-glare::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--hero-search-stroke-width) * -0.5);
+  border-radius: inherit;
+  padding: var(--hero-search-stroke-width);
+  background: conic-gradient(
+    from var(--glare-angle),
+    transparent 0deg,
+    transparent 330deg,
+    rgba(255, 176, 122, 0.6) 345deg,
+    #ffffff 355deg,
+    rgba(255, 176, 122, 0.6) 5deg,
+    transparent 20deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: hero-search-glare-travel var(--hero-search-glare-duration) linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-search-glare__content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  border-radius: inherit;
+  overflow: visible;
+}
+
+@keyframes hero-search-glare-travel {
+  from {
+    --glare-angle: 0deg;
+  }
+  to {
+    --glare-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-search-glare::before {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* HeroSection2 — desktop search popups above bottom wave SVG (z-10), SVG untouched */
+.section-hero-2 .section-hero-2__search .hero-search-form [class*='top-full'] {
+  z-index: 100;
+}
+
+/* Closed search popovers must not intercept header hover/clicks (unmount={false}) */
+.section-hero-2 .hero-search-form [class*='top-full'][data-closed],
+.section-hero-2 .hero-search-form [role='listbox'][data-closed] {
+  pointer-events: none;
+}
+
+/* HeroSection2 — search active: hide title, move search bar up (desktop only) */
+@media (min-width: 1024px) {
+  .section-hero-2__stack--search-active .section-hero-2__title {
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    pointer-events: none;
+    margin: 0;
+    transition:
+      opacity 0.35s ease,
+      max-height 0.35s ease,
+      visibility 0.35s ease;
+  }
+
+  .section-hero-2__title {
+    max-height: 12rem;
+    transition:
+      opacity 0.35s ease,
+      max-height 0.35s ease,
+      visibility 0.35s ease;
+  }
+
+  .section-hero-2__stack--search-active .section-hero-2__search {
+    margin-top: 0;
+    transform: translateY(var(--hero-search-shift, -7rem));
+    transition:
+      transform 0.35s ease,
+      margin-top 0.35s ease;
+  }
+
+  .section-hero-2__search {
+    transition:
+      transform 0.35s ease,
+      margin-top 0.35s ease;
+  }
+}

@@ -77,7 +77,7 @@ export default function AvatarDropdown({ className, triggerButton, popoverId }: 
                 to: 'bottom end',
                 gap: 12,
               }}
-              className="z-20 w-80 rounded-3xl shadow-lg-for-card bg-card transition duration-200 ease-in-out data-closed:translate-y-1 data-closed:opacity-0"
+              className="z-40 w-80 rounded-3xl shadow-lg-for-card bg-card transition duration-200 ease-in-out data-closed:translate-y-1 data-closed:opacity-0"
             >
               <div className="relative grid grid-cols-1 gap-6 px-6 py-7">
                 <div className="flex items-center space-x-3">

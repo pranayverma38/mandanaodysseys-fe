@@ -50,9 +50,9 @@ const NcInputNumber: FC<NcInputNumberProps> = ({
   }
 
   return (
-    <Field className={`flex items-center justify-between gap-x-5 ${className}`}>
+    <Field className={`flex items-center justify-between gap-x-5 text-left ${className}`}>
       {label && (
-        <div className="flex flex-col text-sm sm:text-base">
+        <div className="flex flex-col items-start text-left text-sm sm:text-base">
           <Label className="font-medium text-neutral-800 dark:text-neutral-200">{label}</Label>
           {description && (
             <Description className="text-xs font-normal text-neutral-500 dark:text-neutral-400">
