@@ -1,5 +1,4 @@
 import { Badge } from '@/components/badge'
-import HostAvatar from '@/components/host-avatar'
 import LikeSaveBtns from '@/components/like-save-btns'
 import StartRating from '@/components/start-rating'
 import { Location06Icon } from '@hugeicons/core-free-icons'
@@ -11,14 +10,9 @@ interface Props {
   reviewStart: number
   reviewCount: number
   address: string
-  host: {
-    displayName: string
-    avatarUrl: string
-  }
-  hostSubtitle?: string
 }
 
-const SectionHeader = ({ address, host, hostSubtitle, listingCategory, reviewCount, reviewStart, title }: Props) => {
+const ItinerarySectionHeader = ({ address, listingCategory, reviewCount, reviewStart, title }: Props) => {
   return (
     <div className="flex flex-col items-start gap-y-6">
       <div className="flex w-full flex-col-reverse items-baseline justify-between gap-4 sm:flex-row">
@@ -35,20 +29,8 @@ const SectionHeader = ({ address, host, hostSubtitle, listingCategory, reviewCou
         <span>·</span>
         <StartRating size="lg" point={reviewStart} reviewCount={reviewCount} />
       </div>
-
-      <div className="flex items-center gap-5">
-        <HostAvatar verifiedSize="size-4 *:data-[slot=icon]:size-3!" avatarUrl={host.avatarUrl} avatarSize="size-11" />
-        <div className="flex flex-col">
-          <span className="font-medium">Hosted by {host.displayName}</span>
-          {hostSubtitle ? (
-            <span className="mt-0.5 text-sm font-[360] text-muted-foreground">{hostSubtitle}</span>
-          ) : (
-            <span className="mt-0.5 text-sm font-[360] text-muted-foreground">Superhost · 2 years hosting</span>
-          )}
-        </div>
-      </div>
     </div>
   )
 }
 
-export default SectionHeader
+export default ItinerarySectionHeader

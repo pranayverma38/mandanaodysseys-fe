@@ -16,9 +16,10 @@ interface Props {
   reviewCount: number
   reviewStart: number
   reviews: TListingReivew[]
+  showHeadingDivider?: boolean
 }
 
-const SectionListingReviews = ({ reviews, reviewCount, reviewStart }: Props) => {
+const SectionListingReviews = ({ reviews, reviewCount, reviewStart, showHeadingDivider = true }: Props) => {
   let [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -41,7 +42,7 @@ const SectionListingReviews = ({ reviews, reviewCount, reviewStart }: Props) => 
           </div>
         </div>
 
-        <Divider className="w-14!" />
+        {showHeadingDivider ? <Divider className="w-14!" /> : null}
 
         {/* Content */}
         <div className="relative">

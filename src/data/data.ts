@@ -363,6 +363,11 @@ export async function getBlogPostsByHandle(handle: string) {
   }
 }
 
+export async function getItineraryReviews(handle: string) {
+  const { getItineraryReviews: getReviews } = await import('@/data/itineraries')
+  return getReviews(handle)
+}
+
 //
 export type TListingReivew = Awaited<ReturnType<typeof getListingReviews>>[number]
 export type TBlogPost = Awaited<ReturnType<typeof getBlogPosts>>[number]

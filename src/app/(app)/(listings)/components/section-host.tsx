@@ -29,6 +29,7 @@ interface Props {
   joinedDate: string
   responseRate: number
   responseTime: string
+  languages?: string[]
 }
 
 const SectionHost = ({
@@ -38,6 +39,7 @@ const SectionHost = ({
   displayName,
   handle,
   joinedDate,
+  languages,
   rating,
   responseRate,
   responseTime,
@@ -84,7 +86,7 @@ const SectionHost = ({
         </div>
         <div className="flex items-center gap-x-4">
           <HugeiconsIcon icon={LanguageCircleIcon} size={24} />
-          <span>Speaks English and Thai</span>
+          <span>Speaks {languages?.join(' and ') ?? 'English and Thai'}</span>
         </div>
         <div className="flex items-center gap-x-4">
           <HugeiconsIcon icon={Timer01Icon} size={24} />

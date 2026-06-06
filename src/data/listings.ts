@@ -840,6 +840,15 @@ export const getExperienceListingByHandle = async (handle: string) => {
 }
 export type TExperienceListing = Awaited<ReturnType<typeof getExperienceListings>>[number]
 
+export {
+  getItineraries,
+  getItineraryByHandle,
+  getItinerariesByCategory,
+  getItinerariesBySubCategory,
+  type TItinerary,
+  type TItineraryListing,
+} from '@/data/itineraries'
+
 // FLIGHT LISTING //
 export async function getFlightListings() {
   return [
