@@ -1,8 +1,10 @@
 import type { StaticImageData } from 'next/image'
 
 export type ItineraryCategoryRef = {
+  /** Slug from `ITINERARY_CATEGORIES` in categories.ts */
   category: string
-  subCategory: string
+  /** Slug from the parent category's `subCategories` in categories.ts */
+  subCategory?: string
 }
 
 export type ItineraryAmenity = {
@@ -36,16 +38,23 @@ export type ItineraryPricing = {
   priceLabel?: string
 }
 
+export type ItineraryAccommodation = {
+  name: string
+  imageUrl: string
+  rating: number
+  location: string
+}
+
 export type ItineraryDetail = {
   id: string
   handle: string
   title: string
   badge?: string
   address: string
-  listingCategory: string
   reviewStart: number
   reviewCount: number
-  category: ItineraryCategoryRef
+  /** 2–3 category tags — slugs defined in `src/data/itineraries/categories.ts` */
+  categories: ItineraryCategoryRef[]
   featuredImage: string
   galleryImgs: string[]
   amenities: ItineraryAmenity[]
@@ -53,6 +62,7 @@ export type ItineraryDetail = {
   description: string
   thingsToDo: ItineraryThingToDo[]
   includes: string[]
+  accommodations: ItineraryAccommodation[]
   map: { lat: number; lng: number }
   reviews: ItineraryReview[]
 }

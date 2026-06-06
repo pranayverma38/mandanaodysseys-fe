@@ -7,13 +7,12 @@ export const goaPackage: ItineraryDetail = {
   title: 'Goa Beach & Heritage Package',
   badge: 'Best Seller',
   address: 'North Goa · South Goa, India',
-  listingCategory: 'Beach Holiday',
   reviewStart: 4.9,
   reviewCount: 246,
-  category: {
-    category: 'india',
-    subCategory: 'beach-getaways',
-  },
+  categories: [
+    { category: 'india', subCategory: 'beach-getaways' },
+    { category: 'india', subCategory: 'family-vacations' },
+  ],
   featuredImage: 'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -72,6 +71,32 @@ export const goaPackage: ItineraryDetail = {
     'Sunset Mandovi river cruise',
     'North & South Goa sightseeing',
     'All applicable taxes',
+  ],
+  accommodations: [
+    {
+      name: 'Taj Exotica Resort & Spa',
+      imageUrl: 'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.8,
+      location: 'Benaulim, South Goa',
+    },
+    {
+      name: 'W Goa',
+      imageUrl: 'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.7,
+      location: 'Vagator, North Goa',
+    },
+    {
+      name: 'Grand Hyatt Goa',
+      imageUrl: 'https://images.pexels.com/photos/457878/pexels-photo-457878.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.6,
+      location: 'Bambolim, North Goa',
+    },
+    {
+      name: 'Alila Diwa Goa',
+      imageUrl: 'https://images.pexels.com/photos/1450363/pexels-photo-1450363.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.8,
+      location: 'Majorda, South Goa',
+    },
   ],
   map: { lat: 15.2993, lng: 74.124 },
   reviews: createDefaultReviews([

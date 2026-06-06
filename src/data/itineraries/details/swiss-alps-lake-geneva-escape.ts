@@ -6,13 +6,12 @@ export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
   handle: 'swiss-alps-lake-geneva-escape',
   title: 'Swiss Alps & Lake Geneva Escape',
   address: 'Zurich · Interlaken · Geneva, Switzerland',
-  listingCategory: 'Luxury Tour',
   reviewStart: 4.7,
   reviewCount: 94,
-  category: {
-    category: 'international',
-    subCategory: 'luxury-escapes',
-  },
+  categories: [
+    { category: 'international', subCategory: 'luxury-escapes' },
+    { category: 'international', subCategory: 'europe-tours' },
+  ],
   featuredImage: 'https://images.pexels.com/photos/123335/pexels-photo-123335.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/123335/pexels-photo-123335.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -53,6 +52,32 @@ export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
     'Lake Geneva sunset cruise',
     'Private airport transfers',
     'Daily breakfast and two gourmet dinners',
+  ],
+  accommodations: [
+    {
+      name: 'Baur au Lac',
+      imageUrl: 'https://images.pexels.com/photos/123335/pexels-photo-123335.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.9,
+      location: 'Zurich, Switzerland',
+    },
+    {
+      name: 'Victoria-Jungfrau Grand Hotel',
+      imageUrl: 'https://images.pexels.com/photos/1365425/pexels-photo-1365425.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.8,
+      location: 'Interlaken, Switzerland',
+    },
+    {
+      name: 'Beau-Rivage Palace',
+      imageUrl: 'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.9,
+      location: 'Lausanne, Switzerland',
+    },
+    {
+      name: 'Hotel d\'Angleterre',
+      imageUrl: 'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.7,
+      location: 'Geneva, Switzerland',
+    },
   ],
   map: { lat: 46.2044, lng: 6.1432 },
   reviews: createDefaultReviews(),

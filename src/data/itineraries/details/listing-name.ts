@@ -7,13 +7,12 @@ export const listingNameItinerary: ItineraryDetail = {
   title: '7-Day London & Paris Explorer',
   badge: 'Best Seller',
   address: 'London, United Kingdom · Paris, France',
-  listingCategory: 'Guided Tour',
   reviewStart: 4.9,
   reviewCount: 312,
-  category: {
-    category: 'international',
-    subCategory: 'europe-tours',
-  },
+  categories: [
+    { category: 'international', subCategory: 'europe-tours' },
+    { category: 'international', subCategory: 'group-tours' },
+  ],
   featuredImage: 'https://images.pexels.com/photos/4348078/pexels-photo-4348078.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/4348078/pexels-photo-4348078.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -64,6 +63,32 @@ export const listingNameItinerary: ItineraryDetail = {
     'Skip-the-line Eiffel Tower ticket',
     'English-speaking tour guides in both cities',
     '6 nights hotel with daily breakfast',
+  ],
+  accommodations: [
+    {
+      name: 'The Savoy London',
+      imageUrl: 'https://images.pexels.com/photos/4348078/pexels-photo-4348078.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.7,
+      location: 'Strand, London',
+    },
+    {
+      name: 'Hotel Le Meurice',
+      imageUrl: 'https://images.pexels.com/photos/914682/pexels-photo-914682.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.8,
+      location: 'Rue de Rivoli, Paris',
+    },
+    {
+      name: 'The Langham London',
+      imageUrl: 'https://images.pexels.com/photos/3825527/pexels-photo-3825527.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.6,
+      location: 'Regent Street, London',
+    },
+    {
+      name: 'Shangri-La Paris',
+      imageUrl: 'https://images.pexels.com/photos/4706134/pexels-photo-4706134.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.9,
+      location: 'Trocadéro, Paris',
+    },
   ],
   map: { lat: 51.5074, lng: -0.1278 },
   reviews: createDefaultReviews(),

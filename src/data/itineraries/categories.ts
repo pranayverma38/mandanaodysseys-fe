@@ -1,3 +1,5 @@
+import type { ItineraryCategoryRef } from './types'
+
 export type ItinerarySubCategory = {
   slug: string
   name: string
@@ -40,4 +42,16 @@ export function getItineraryCategoryName(categorySlug: string) {
 export function getItinerarySubCategoryName(categorySlug: string, subCategorySlug: string) {
   const category = ITINERARY_CATEGORIES.find((item) => item.slug === categorySlug)
   return category?.subCategories.find((subCategory) => subCategory.slug === subCategorySlug)?.name ?? subCategorySlug
+}
+
+/** Resolve a category tag slug pair to its display label for badges. */
+export function getItineraryCategoryLabel(ref: ItineraryCategoryRef) {
+  if (ref.subCategory) {
+    return getItinerarySubCategoryName(ref.category, ref.subCategory)
+  }
+  return getItineraryCategoryName(ref.category)
+}
+
+export function getItineraryCategoryLabels(refs: ItineraryCategoryRef[]) {
+  return refs.map(getItineraryCategoryLabel)
 }

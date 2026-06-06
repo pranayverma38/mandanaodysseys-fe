@@ -7,13 +7,13 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
   title: 'Golden Triangle India Tour',
   badge: 'Popular',
   address: 'Delhi · Agra · Jaipur, India',
-  listingCategory: 'Guided Tour',
   reviewStart: 4.8,
   reviewCount: 189,
-  category: {
-    category: 'india',
-    subCategory: 'heritage-tours',
-  },
+  categories: [
+    { category: 'india', subCategory: 'heritage-tours' },
+    { category: 'india', subCategory: 'family-vacations' },
+    { category: 'india', subCategory: 'wildlife-safaris' },
+  ],
   featuredImage: 'https://images.pexels.com/photos/3761124/pexels-photo-3761124.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/3761124/pexels-photo-3761124.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -66,6 +66,32 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
     'Monument entrance fees (Taj Mahal, forts & palaces)',
     'Welcome dinner in Jaipur',
     'All applicable taxes',
+  ],
+  accommodations: [
+    {
+      name: 'The Oberoi New Delhi',
+      imageUrl: 'https://images.pexels.com/photos/1006968/pexels-photo-1006968.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.8,
+      location: 'New Delhi, India',
+    },
+    {
+      name: 'ITC Mughal, Agra',
+      imageUrl: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.7,
+      location: 'Agra, Uttar Pradesh',
+    },
+    {
+      name: 'Rambagh Palace',
+      imageUrl: 'https://images.pexels.com/photos/3581361/pexels-photo-3581361.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.9,
+      location: 'Jaipur, Rajasthan',
+    },
+    {
+      name: 'The Imperial New Delhi',
+      imageUrl: 'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.8,
+      location: 'Janpath, New Delhi',
+    },
   ],
   map: { lat: 27.1751, lng: 78.0421 },
   reviews: createDefaultReviews([

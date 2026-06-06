@@ -7,13 +7,12 @@ export const mumbaiPackage: ItineraryDetail = {
   title: 'Mumbai City Explorer Package',
   badge: 'Popular',
   address: 'Mumbai, Maharashtra, India',
-  listingCategory: 'City Break',
   reviewStart: 4.7,
   reviewCount: 178,
-  category: {
-    category: 'india',
-    subCategory: 'city-breaks',
-  },
+  categories: [
+    { category: 'india', subCategory: 'city-breaks' },
+    { category: 'india', subCategory: 'heritage-tours' },
+  ],
   featuredImage: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -72,6 +71,32 @@ export const mumbaiPackage: ItineraryDetail = {
     'Bollywood studio tour',
     'Street food tasting experience',
     'Airport transfers (BOM)',
+  ],
+  accommodations: [
+    {
+      name: 'The Taj Mahal Palace',
+      imageUrl: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.9,
+      location: 'Colaba, Mumbai',
+    },
+    {
+      name: 'Trident Nariman Point',
+      imageUrl: 'https://images.pexels.com/photos/2425019/pexels-photo-2425019.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.6,
+      location: 'Nariman Point, Mumbai',
+    },
+    {
+      name: 'The St. Regis Mumbai',
+      imageUrl: 'https://images.pexels.com/photos/358042/pexels-photo-358042.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.8,
+      location: 'Lower Parel, Mumbai',
+    },
+    {
+      name: 'ITC Maratha',
+      imageUrl: 'https://images.pexels.com/photos/3581361/pexels-photo-3581361.jpeg?auto=compress&cs=tinysrgb&w=800',
+      rating: 4.7,
+      location: 'Sahar, Mumbai',
+    },
   ],
   map: { lat: 19.076, lng: 72.8777 },
   reviews: createDefaultReviews([

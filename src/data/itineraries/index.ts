@@ -22,7 +22,7 @@ export const ITINERARY_DETAILS: ItineraryDetail[] = [
 
 export async function getItineraries() {
   return ITINERARY_DETAILS.map(
-    ({ id, handle, title, badge, featuredImage, address, reviewStart, reviewCount, pricing, amenities, category }) => ({
+    ({ id, handle, title, badge, featuredImage, address, reviewStart, reviewCount, pricing, amenities, categories }) => ({
       id,
       handle,
       title,
@@ -34,7 +34,7 @@ export async function getItineraries() {
       reviewCount,
       price: pricing.price,
       amenities,
-      category,
+      categories,
     })
   )
 }
@@ -48,12 +48,12 @@ export async function getItineraryByHandle(handle: string) {
 }
 
 export async function getItinerariesByCategory(categorySlug: string) {
-  return ITINERARY_DETAILS.filter((item) => item.category.category === categorySlug)
+  return ITINERARY_DETAILS.filter((item) => item.categories.some((tag) => tag.category === categorySlug))
 }
 
 export async function getItinerariesBySubCategory(categorySlug: string, subCategorySlug: string) {
-  return ITINERARY_DETAILS.filter(
-    (item) => item.category.category === categorySlug && item.category.subCategory === subCategorySlug
+  return ITINERARY_DETAILS.filter((item) =>
+    item.categories.some((tag) => tag.category === categorySlug && tag.subCategory === subCategorySlug)
   )
 }
 

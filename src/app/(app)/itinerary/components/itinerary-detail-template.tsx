@@ -18,6 +18,8 @@ import SectionListingReviews from '../../(listings)/components/section-listing-r
 import SectionMap from '../../(listings)/components/section-map'
 import ItinerarySectionHeader from './itinerary-section-header'
 import ItineraryStickyNav from './itinerary-sticky-nav'
+import ItineraryAccommodationSection from './itinerary-accommodation-section'
+import ItineraryBenefitsSection from './itinerary-benefits-section'
 
 interface Props {
   itinerary: ItineraryDetail
@@ -27,7 +29,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
   const {
     address,
     galleryImgs,
-    listingCategory,
+    categories,
     pricing,
     reviewCount,
     reviewStart,
@@ -36,6 +38,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
     description,
     thingsToDo,
     includes,
+    accommodations,
     reviews,
     map,
   } = itinerary
@@ -55,11 +58,11 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
           <HeaderGallery images={galleryImgs} gridType="grid4" />
         </div>
 
-      <main className="mt-10 flex flex-col gap-8 lg:flex-row xl:gap-[8%]">
+      <main className="mt-10 flex min-w-0 flex-col gap-8 lg:flex-row xl:gap-[8%]">
         <div className="flex w-full flex-col lg:w-3/5 xl:w-[59%]">
           <ItinerarySectionHeader
             address={address}
-            listingCategory={listingCategory}
+            categories={categories}
             reviewCount={reviewCount}
             reviewStart={reviewStart}
             title={title}
@@ -107,10 +110,14 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
               ))}
             </div>
           </div>
+
+          <Divider className="my-8 xl:my-12" />
+
+          <ItineraryAccommodationSection accommodations={accommodations} />
         </div>
 
-        <div className="grow">
-          <div className="sticky top-10">
+        <div className="w-full min-w-0 lg:flex-1 lg:basis-0">
+          <div className="sticky top-17 min-w-0 max-w-full">
             <div className="listingSection__wrap rounded-2xl shadow-lg-for-card bg-card p-4 sm:p-6 2xl:p-7">
               <div className="flex items-end text-2xl font-[540]">
                 <span className="font-normal text-muted-foreground-lighter line-through">{pricing.originalPrice}</span>
@@ -144,6 +151,8 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
                 <Text className="mt-4 text-center text-sm text-muted-foreground">You won&apos;t be charged yet</Text>
               </div>
             </div>
+
+            <ItineraryBenefitsSection />
           </div>
         </div>
       </main>
