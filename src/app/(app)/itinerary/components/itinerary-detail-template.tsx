@@ -6,7 +6,6 @@ import { Text } from '@/components/text'
 import type { ItineraryDetail } from '@/data/itineraries/types'
 import ItineraryInclusionsSection from './itinerary-inclusions-section'
 import Form from 'next/form'
-import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import DateInputPopover from '../../(listings)/components/date-input-popover'
 import GuestsInputPopover from '../../(listings)/components/guests-input-popover'
@@ -19,6 +18,7 @@ import ItineraryStickyNav from './itinerary-sticky-nav'
 import ItineraryAccommodationSection from './itinerary-accommodation-section'
 import ItineraryBenefitsSection from './itinerary-benefits-section'
 import ItineraryReviewsSection from './itinerary-reviews-section'
+import ItineraryThingsToDoSection from './itinerary-things-to-do-section'
 
 interface Props {
   itinerary: ItineraryDetail
@@ -78,23 +78,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
             <SectionHeading>Description</SectionHeading>
             <div className="leading-relaxed text-muted-foreground">{description}</div>
 
-            <SectionHeading id="itinerary-your-trip" className="scroll-mt-20">
-              What you&apos;ll do
-            </SectionHeading>
-            <div className="flex flex-col gap-8">
-              {thingsToDo.map((item, index) => (
-                <div key={index} className="flex items-start gap-4 sm:items-center sm:gap-8">
-                  <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-xl">
-                    <Image fill src={item.imageUrl} alt={item.name} className="object-cover shadow-inner" />
-                  </div>
-                  <div className="max-w-md text-sm/5 text-muted-foreground">
-                    <p>{item.time}</p>
-                    <p className="mt-2 font-medium text-foreground">{item.name}</p>
-                    <p className="mt-1">{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ItineraryThingsToDoSection thingsToDo={thingsToDo} />
           </div>
 
           <Divider className="my-8 xl:my-12" />
