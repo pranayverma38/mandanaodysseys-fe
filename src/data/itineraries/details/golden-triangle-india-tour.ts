@@ -27,12 +27,14 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
     { icon: 'Clock01Icon', text: '10 Days / 9 Nights' },
     { icon: 'UserMultipleIcon', text: 'Group tour' },
     { icon: 'ChefHatIcon', text: 'Meals included' },
+    { icon: 'BedSingle02Icon', text: '4-Star Hotels' },
   ],
   pricing: {
-    price: '$1,250',
-    originalPrice: '$1,499',
-    feeAndTaxes: '$85',
-    total: '$1,335',
+    price: '$3,159',
+    originalPrice: '$3,799',
+    feeAndTaxes: '$215',
+    total: '$3,374',
+    priceLabel: ' / person',
   },
   description:
     'The Golden Triangle tour is designed for first-time visitors to India and covers the country\'s most iconic destinations. Travelers explore:\n\nOld and New Delhi\nAgra and the Taj Mahal\nRanthambore National Park\nJaipur, the Pink City\n\nHighlights include rickshaw rides through Old Delhi, visits to UNESCO World Heritage sites, tiger safaris in Ranthambore, Amber Fort, Hawa Mahal, traditional handicraft workshops, and authentic Indian cultural experiences.',

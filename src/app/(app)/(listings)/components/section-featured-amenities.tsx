@@ -1,5 +1,5 @@
 import { ICONS_MAP } from '@/data/data'
-import { AddInvoiceIcon, CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
+import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 
 interface Props {
@@ -15,10 +15,6 @@ export const SectionFeaturedAmenities = ({ featuredAmenities }: Props) => {
           {item.text}
         </div>
       ))}
-      <div className="flex items-center gap-3 sm:gap-4">
-        <HugeiconsIcon icon={AddInvoiceIcon} size={24} />
-        and more...
-      </div>
     </div>
   )
 }
