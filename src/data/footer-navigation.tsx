@@ -12,18 +12,18 @@ export type FooterLinkWithIcon = FooterLink & {
 }
 
 export const footerMandanaOdysseys: FooterLink[] = [
-  { name: 'About Us', href: '#' },
-  { name: 'Careers', href: '#' },
-  { name: 'Blog', href: '#' },
-  { name: 'Testimonials', href: '#' },
+  { name: 'About Us', href: '/about' },
+  { name: 'Careers', href: '/careers' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Testimonials', href: '/testimonials' },
 ]
 
 export const footerLegal: FooterLink[] = [
-  { name: 'Terms & Conditions', href: '#' },
-  { name: 'Privacy', href: '#' },
-  { name: 'Cancellations', href: '#' },
-  { name: 'Sitemap', href: '#' },
-  { name: 'Contact Us', href: '#' },
+  { name: 'Terms & Conditions', href: '/terms-and-conditions' },
+  { name: 'Privacy', href: '/privacy' },
+  { name: 'Cancellations', href: '/cancellations' },
+  { name: 'Sitemap', href: '/sitemap.xml' },
+  { name: 'Contact Us', href: '/contact' },
 ]
 
 export const footerTalkToUs: FooterLinkWithIcon[] = [
