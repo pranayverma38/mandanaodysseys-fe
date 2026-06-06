@@ -14,12 +14,12 @@ import GuestsInputPopover from '../../(listings)/components/guests-input-popover
 import HeaderGallery from '../../(listings)/components/header-gallery'
 import { SectionFeaturedAmenities } from '../../(listings)/components/section-featured-amenities'
 import { SectionHeading } from '../../(listings)/components/section-heading'
-import SectionListingReviews from '../../(listings)/components/section-listing-reviews'
 import SectionMap from '../../(listings)/components/section-map'
 import ItinerarySectionHeader from './itinerary-section-header'
 import ItineraryStickyNav from './itinerary-sticky-nav'
 import ItineraryAccommodationSection from './itinerary-accommodation-section'
 import ItineraryBenefitsSection from './itinerary-benefits-section'
+import ItineraryReviewsSection from './itinerary-reviews-section'
 
 interface Props {
   itinerary: ItineraryDetail
@@ -160,11 +160,10 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
       <Divider className="my-10 xl:my-16" />
 
       <div id="itinerary-reviews" className="scroll-mt-20">
-        <SectionListingReviews
+        <ItineraryReviewsSection
           reviewCount={reviewCount}
           reviewStart={reviewStart}
           reviews={reviews}
-          showHeadingDivider={false}
         />
       </div>
 

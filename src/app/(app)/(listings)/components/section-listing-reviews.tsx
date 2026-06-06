@@ -17,9 +17,18 @@ interface Props {
   reviewStart: number
   reviews: TListingReivew[]
   showHeadingDivider?: boolean
+  showReviewInput?: boolean
+  showAllReviewsButton?: boolean
 }
 
-const SectionListingReviews = ({ reviews, reviewCount, reviewStart, showHeadingDivider = true }: Props) => {
+const SectionListingReviews = ({
+  reviews,
+  reviewCount,
+  reviewStart,
+  showHeadingDivider = true,
+  showReviewInput = true,
+  showAllReviewsButton = true,
+}: Props) => {
   let [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -44,43 +53,48 @@ const SectionListingReviews = ({ reviews, reviewCount, reviewStart, showHeadingD
 
         {showHeadingDivider ? <Divider className="w-14!" /> : null}
 
-        {/* Content */}
-        <div className="relative">
-          <Input
-            sizeClass="h-16 px-6 py-3"
-            fontClass="text-base/6"
-            rounded="rounded-full"
-            placeholder="Share your thoughts ..."
-          />
-          <div className="absolute end-2 top-1/2 -translate-y-1/2">
-            <ButtonCircle className="size-12!">
-              <ArrowRightIcon className="size-5 rtl:rotate-180" />
-            </ButtonCircle>
+        {showReviewInput ? (
+          <div className="relative">
+            <Input
+              sizeClass="h-16 px-6 py-3"
+              fontClass="text-base/6"
+              rounded="rounded-full"
+              placeholder="Share your thoughts ..."
+            />
+            <div className="absolute end-2 top-1/2 -translate-y-1/2">
+              <ButtonCircle className="size-12!">
+                <ArrowRightIcon className="size-5 rtl:rotate-180" />
+              </ButtonCircle>
+            </div>
           </div>
-        </div>
+        ) : null}
 
         {/* comment */}
         <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
           {reviews.slice(0, 3).map((item, index) => (
             <ListingReview key={index} className="py-7" reivew={item} />
           ))}
-          <Button className="mt-8" outline onClick={() => setIsOpen(true)}>
-            Show all {reviewCount} reviews
-          </Button>
+          {showAllReviewsButton ? (
+            <Button className="mt-8" outline onClick={() => setIsOpen(true)}>
+              Show all {reviewCount} reviews
+            </Button>
+          ) : null}
         </div>
       </div>
 
-      <Dialog size="2xl" open={isOpen} onClose={setIsOpen}>
-        <DialogTitle>{reviewCount} reviews</DialogTitle>
+      {showAllReviewsButton ? (
+        <Dialog size="2xl" open={isOpen} onClose={setIsOpen}>
+          <DialogTitle>{reviewCount} reviews</DialogTitle>
 
-        <DialogBody>
-          <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
-            {reviews.map((item, index) => (
-              <ListingReview key={index} className="py-7" reivew={item} />
-            ))}
-          </div>
-        </DialogBody>
-      </Dialog>
+          <DialogBody>
+            <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
+              {reviews.map((item, index) => (
+                <ListingReview key={index} className="py-7" reivew={item} />
+              ))}
+            </div>
+          </DialogBody>
+        </Dialog>
+      ) : null}
     </>
   )
 }
