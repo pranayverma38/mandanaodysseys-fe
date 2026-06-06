@@ -76,7 +76,13 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
 
           <div className="listingSection__wrap">
             <SectionHeading>Description</SectionHeading>
-            <div className="leading-relaxed text-muted-foreground">{description}</div>
+            <div className="flex flex-col gap-4 leading-relaxed text-muted-foreground">
+              {description.split('\n\n').map((paragraph, index) => (
+                <p key={index} className="whitespace-pre-line">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
 
             <ItineraryThingsToDoSection thingsToDo={thingsToDo} />
           </div>
@@ -143,7 +149,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
 
       <Divider className="my-10 xl:my-16" />
 
-      <div className="mt-10 mb-10 xl:mt-16 xl:mb-16">
+      <div id="itinerary-map" className="mt-10 mb-10 scroll-mt-20 xl:mt-16 xl:mb-16">
         <SectionMap location={{ ...map, id: 1, name: title }} />
       </div>
       </div>

@@ -58,7 +58,7 @@ const ItineraryAccommodationSection = ({ accommodations }: Props) => {
   const useMobileSlider = accommodations.length > 2
 
   return (
-    <div className="listingSection__wrap">
+    <div id="itinerary-accommodation" className="listingSection__wrap scroll-mt-20">
       <SectionHeading>Accommodation details</SectionHeading>
 
       {useMobileSlider ? (

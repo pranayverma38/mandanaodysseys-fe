@@ -20,7 +20,7 @@ export const ITINERARY_CATEGORIES: ItineraryCategory[] = [
       { slug: 'beach-getaways', name: 'Beach Getaways' },
       { slug: 'city-breaks', name: 'City Breaks' },
       { slug: 'family-vacations', name: 'Family Vacations' },
-      { slug: 'wildlife-safaris', name: 'Wildlife Safaris' },
+      { slug: 'group-tours', name: 'Group Tours' },
     ],
   },
   {
