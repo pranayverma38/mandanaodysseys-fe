@@ -62,6 +62,7 @@ export type ItineraryDetail = {
   description: string
   thingsToDo: ItineraryThingToDo[]
   includes: string[]
+  excludes: string[]
   accommodations: ItineraryAccommodation[]
   map: { lat: number; lng: number }
   reviews: ItineraryReview[]

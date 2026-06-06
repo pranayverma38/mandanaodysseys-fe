@@ -159,6 +159,11 @@ const styles = {
       'text-accent-foreground [--btn-hover-overlay:var(--color-accent-foreground)]/2 [--btn-bg:var(--color-accent)] [--btn-border:var(--color-accent)]/90',
       '[--btn-icon:var(--color-accent-foreground)] data-active:[--btn-icon:var(--color-accent-foreground)] data-hover:[--btn-icon:var(--color-accent-foreground)]',
     ],
+    reserve: [
+      'text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:#00b277] [--btn-border:#009f6b]/90',
+      'dark:text-white dark:[--btn-bg:#00b277] dark:[--btn-border:#009f6b]/90 dark:[--btn-hover-overlay:var(--color-white)]/10',
+      '[--btn-icon:var(--color-white)]/60 data-active:[--btn-icon:var(--color-white)]/80 data-hover:[--btn-icon:var(--color-white)]/80',
+    ],
   },
 
   //

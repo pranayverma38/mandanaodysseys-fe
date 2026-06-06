@@ -64,6 +64,14 @@ export const listingNameItinerary: ItineraryDetail = {
     'English-speaking tour guides in both cities',
     '6 nights hotel with daily breakfast',
   ],
+  excludes: [
+    'International flights',
+    'Travel insurance',
+    'Personal expenses and shopping',
+    'Visa fees (if applicable)',
+    'Tips and gratuities',
+    'Meals not mentioned in inclusions',
+  ],
   accommodations: [
     {
       name: 'The Savoy London',

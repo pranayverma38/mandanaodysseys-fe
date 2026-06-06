@@ -1,11 +1,10 @@
-import ButtonPrimary from '@/components/button-primary'
+import { Button } from '@/components/button'
 import FormattedPrice from '@/components/formatted-price'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/description-list'
 import { Divider } from '@/components/divider'
 import { Text } from '@/components/text'
 import type { ItineraryDetail } from '@/data/itineraries/types'
-import { CheckmarkCircle01Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
+import ItineraryInclusionsSection from './itinerary-inclusions-section'
 import Form from 'next/form'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
@@ -38,6 +37,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
     description,
     thingsToDo,
     includes,
+    excludes,
     accommodations,
     reviews,
     map,
@@ -99,17 +99,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
 
           <Divider className="my-8 xl:my-12" />
 
-          <div id="itinerary-inclusions" className="listingSection__wrap scroll-mt-20">
-            <SectionHeading>Included in the price</SectionHeading>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {includes.map((item) => (
-                <div key={item} className="flex items-center gap-x-3">
-                  <HugeiconsIcon icon={CheckmarkCircle01Icon} size={24} className="mt-px shrink-0" />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ItineraryInclusionsSection includes={includes} excludes={excludes} />
 
           <Divider className="my-8 xl:my-12" />
 
@@ -145,9 +135,9 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
               </DescriptionList>
 
               <div>
-                <ButtonPrimary form="booking-form" type="submit" className="w-full sm:h-12">
+                <Button color="reserve" form="booking-form" type="submit" className="w-full sm:h-12">
                   Reserve
-                </ButtonPrimary>
+                </Button>
                 <Text className="mt-4 text-center text-sm text-muted-foreground">You won&apos;t be charged yet</Text>
               </div>
             </div>

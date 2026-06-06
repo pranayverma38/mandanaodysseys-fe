@@ -53,6 +53,14 @@ export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
     'Private airport transfers',
     'Daily breakfast and two gourmet dinners',
   ],
+  excludes: [
+    'International flights',
+    'Travel insurance',
+    'Personal expenses and shopping',
+    'Visa fees (if applicable)',
+    'Tips and gratuities',
+    'Meals not mentioned in inclusions',
+  ],
   accommodations: [
     {
       name: 'Baur au Lac',

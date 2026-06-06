@@ -67,6 +67,14 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
     'Welcome dinner in Jaipur',
     'All applicable taxes',
   ],
+  excludes: [
+    'International flights',
+    'Travel insurance',
+    'Personal expenses and shopping',
+    'Visa fees (if applicable)',
+    'Tips and gratuities',
+    'Meals not mentioned in inclusions',
+  ],
   accommodations: [
     {
       name: 'The Oberoi New Delhi',

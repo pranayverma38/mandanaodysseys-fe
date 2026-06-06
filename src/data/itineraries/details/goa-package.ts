@@ -72,6 +72,14 @@ export const goaPackage: ItineraryDetail = {
     'North & South Goa sightseeing',
     'All applicable taxes',
   ],
+  excludes: [
+    'International flights',
+    'Travel insurance',
+    'Personal expenses and shopping',
+    'Optional water sports activities',
+    'Tips and gratuities',
+    'Meals not mentioned in inclusions',
+  ],
   accommodations: [
     {
       name: 'Taj Exotica Resort & Spa',
