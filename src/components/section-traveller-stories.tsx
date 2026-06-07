@@ -317,7 +317,7 @@ const SectionTravellerStories = ({ className }: { className?: string }) => {
       <div className="container">
         <h2 className="text-center text-xl font-bold tracking-wide uppercase sm:text-2xl lg:text-3xl">
           Journeys That{' '}
-          <span className="font-serif text-[1.3em] font-normal text-[#FC6200] normal-case italic">inspired</span> Us
+          <span className="font-serif text-[1.3em] font-normal text-[#FC6200] normal-case italic">Inspired</span> Us
           <span aria-hidden>❤️</span>
         </h2>
 
