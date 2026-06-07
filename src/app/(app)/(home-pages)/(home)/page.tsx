@@ -13,6 +13,7 @@ import SectionGridCategoryBox from '@/components/section-grid-category-box'
 import SectionGridFeaturedListings from '@/components/section-grid-featured-listings'
 import SectionGroupCategoriesCarousel from '@/components/section-group-categories-carousel'
 import SectionPackagesByDuration from '@/components/section-packages-by-duration'
+import SectionTravellerStories from '@/components/section-traveller-stories'
 import SectionCharmsOfAsia from '@/components/section-charms-of-asia'
 import HeroSection2 from '@/components/section-hero-2'
 import StickyFloatingReelPlayer from '@/components/sticky-floating-reel-player'
@@ -90,6 +91,8 @@ async function Page() {
           </RevealInView>
         </section>
       </div>
+
+      <SectionTravellerStories />
 
       <SectionStickyGridScroll />
 
