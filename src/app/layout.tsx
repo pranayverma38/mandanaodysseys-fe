@@ -14,7 +14,7 @@ const googleSansFlex = Google_Sans_Flex({
   subsets: ['latin'],
   display: 'swap',
   weight: 'variable',
-  variable: '--font-sans',
+  variable: '--font-family-sans',
 })
 
 const playfair_display = Playfair_Display({
@@ -22,21 +22,21 @@ const playfair_display = Playfair_Display({
   subsets: ['latin'],
   display: 'swap',
   style: 'italic',
-  variable: '--font-serif',
+  variable: '--font-family-serif',
 })
 
 const marcellus = Marcellus({
   weight: '400',
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-marcellus',
+  variable: '--font-family-marcellus',
 })
 
 const styleScript = Style_Script({
   weight: '400',
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-style-script',
+  variable: '--font-family-style-script',
 })
 
 export const metadata = rootMetadata
