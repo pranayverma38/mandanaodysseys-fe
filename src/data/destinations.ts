@@ -1,4 +1,4 @@
-export type DestinationContinent = 'Asia' | 'Oceania'
+export type DestinationContinent = 'Asia' | 'Europe' | 'Oceania'
 
 export type Destination = {
   name: string
@@ -87,6 +87,16 @@ export const DESTINATIONS: Destination[] = [
       'https://images.pexels.com/photos/1872116/pexels-photo-1872116.jpeg?auto=compress&cs=tinysrgb&w=800',
     packageCount: 36,
   },
+  {
+    name: 'Switzerland',
+    slug: 'switzerland',
+    continent: 'Europe',
+    country: 'Switzerland',
+    description: 'Alpine peaks, scenic train routes, and lakeside cities in the heart of Europe.',
+    thumbnail:
+      'https://images.pexels.com/photos/123335/pexels-photo-123335.jpeg?auto=compress&cs=tinysrgb&w=800',
+    packageCount: 12,
+  },
 ]
 
 export const TOUR_TYPES: TourType[] = [
@@ -152,7 +162,7 @@ export const TOUR_TYPES: TourType[] = [
   },
 ]
 
-export const DESTINATION_CONTINENTS: DestinationContinent[] = ['Asia', 'Oceania']
+export const DESTINATION_CONTINENTS: DestinationContinent[] = ['Asia', 'Europe', 'Oceania']
 
 export function getDestinationBySlug(slug: string): Destination | undefined {
   return DESTINATIONS.find((destination) => destination.slug === slug)

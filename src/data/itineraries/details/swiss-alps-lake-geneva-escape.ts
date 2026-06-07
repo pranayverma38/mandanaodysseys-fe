@@ -8,7 +8,7 @@ export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
   id: 'itinerary://swiss-alps-lake-geneva-escape',
   handle: 'swiss-alps-lake-geneva-escape',
   title: 'Swiss Alps & Lake Geneva Escape',
-  destination: 'nepal',
+  destination: 'switzerland',
   address: 'Zurich · Interlaken · Geneva, Switzerland',
   reviewStart: 4.7,
   reviewCount: 94,

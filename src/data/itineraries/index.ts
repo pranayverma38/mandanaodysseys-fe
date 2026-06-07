@@ -12,6 +12,7 @@ import { nepalEverestBaseCampTrek } from './details/nepal-everest-base-camp-trek
 import { nepalKathmanduPokharaWeekend } from './details/nepal-kathmandu-pokhara-weekend'
 import { thailandBangkokChiangMaiCultural } from './details/thailand-bangkok-chiang-mai-cultural'
 import { thailandPhuketSoloBeachEscape } from './details/thailand-phuket-solo-beach-escape'
+import { swissAlpsLakeGenevaEscape } from './details/swiss-alps-lake-geneva-escape'
 
 /**
  * Register every itinerary detail file here.
@@ -35,6 +36,7 @@ export const ITINERARY_DETAILS: ItineraryDetail[] = [
   australiaSydneyMelbourneLuxury,
   thailandBangkokChiangMaiCultural,
   thailandPhuketSoloBeachEscape,
+  swissAlpsLakeGenevaEscape,
 ]
 
 export async function getItineraries() {
