@@ -15,6 +15,7 @@ import SectionGroupCategoriesCarousel from '@/components/section-group-categorie
 import SectionPackagesByDuration from '@/components/section-packages-by-duration'
 import SectionCharmsOfAsia from '@/components/section-charms-of-asia'
 import HeroSection2 from '@/components/section-hero-2'
+import StickyFloatingReelPlayer from '@/components/sticky-floating-reel-player'
 import SectionHowItWork2 from '@/components/section-how-it-work-2'
 import SectionInterestingInfor from '@/components/section-interesting-infor'
 import SectionListingsCarousel from '@/components/section-listings-carousel'
@@ -36,6 +37,7 @@ async function Page() {
   return (
     <main className="relative section-space-bottom">
       <HeroSection2 />
+      <StickyFloatingReelPlayer />
 
       <section className="relative z-20 bg-background">
         <div
