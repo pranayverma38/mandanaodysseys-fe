@@ -1,5 +1,6 @@
 import type { ItineraryDetail } from './types'
 import { getItineraryDestinationName } from './destinations'
+import { filterItineraryListings } from './search'
 import { australiaGreatBarrierReefFamily } from './details/australia-great-barrier-reef-family'
 import { australiaSydneyMelbourneLuxury } from './details/australia-sydney-melbourne-luxury'
 import { baliFamilyCultureAdventure } from './details/bali-family-culture-adventure'
@@ -79,6 +80,19 @@ export async function getItineraryByHandle(handle: string) {
     ITINERARY_DETAILS.find((item) => item.handle === 'golden-triangle-india-tour')
 
   return itinerary ?? null
+}
+
+export async function getItineraryListingsByFilters(options?: {
+  destination?: string
+  category?: string
+}) {
+  const listings = await getItineraries()
+
+  return filterItineraryListings(listings, {
+    destinations: options?.destination ? [options.destination] : [],
+    categories: options?.category ? [options.category] : [],
+    durationBuckets: [],
+  })
 }
 
 export async function getItinerariesByDestination(destinationSlug: string) {

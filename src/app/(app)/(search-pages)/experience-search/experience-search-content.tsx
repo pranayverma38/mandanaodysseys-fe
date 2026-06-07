@@ -46,7 +46,7 @@ const ExperienceSearchResults = ({ listings, filterOptions }: Props) => {
         </h2>
 
         {filteredListings.length > 0 ? (
-          <div className="mt-4 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 md:gap-y-12 lg:mt-6 lg:grid-cols-3 xl:gap-x-8 2xl:grid-cols-4 2xl:gap-x-7">
+          <div className="mt-4 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 sm:gap-y-10 md:gap-y-12 lg:mt-6 lg:grid-cols-3 xl:gap-x-8 2xl:grid-cols-4 2xl:gap-x-7">
             {filteredListings.map((listing) => (
               <ExperiencesCard key={listing.id} data={listing} />
             ))}

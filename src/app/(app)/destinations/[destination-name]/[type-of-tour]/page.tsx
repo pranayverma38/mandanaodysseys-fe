@@ -1,13 +1,14 @@
 import { DestinationsBreadcrumb } from '@/app/(app)/destinations/components/destinations-breadcrumb'
-import SectionListingsCarousel from '@/components/section-listings-carousel'
 import { Heading } from '@/components/heading'
+import ItineraryListingsGrid from '@/components/itinerary-listings-grid'
+import { Text } from '@/components/text'
 import {
   DESTINATIONS,
   getDestinationBySlug,
   getTourTypeBySlug,
   TOUR_TYPES,
 } from '@/data/destinations'
-import { getExperienceListings } from '@/data/listings'
+import { getItineraryListingsByFilters } from '@/data/itineraries'
 import { createCategoryMetadata, createNotFoundMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
 import Link from 'next/link'
@@ -52,53 +53,59 @@ export default async function TourTypePage({ params }: PageProps) {
     notFound()
   }
 
-  const listings = await getExperienceListings()
+  const listings = await getItineraryListingsByFilters({
+    destination: destination.slug,
+    category: tourType.slug,
+  })
+
+  const destinationListings = await getItineraryListingsByFilters({ destination: destination.slug })
+
+  const tourTypesWithPackages = TOUR_TYPES.filter((item) => item.slug !== tourType.slug).filter((item) =>
+    destinationListings.some((listing) =>
+      listing.categories.some((category) => category.category === item.slug)
+    )
+  )
 
   return (
     <div className="flex flex-col gap-y-12 pb-16 lg:gap-y-16 lg:pb-24">
       <DestinationsBreadcrumb destinationSlug={destination.slug} tourTypeSlug={tourType.slug} />
 
       <section className="space-y-6">
-        <Heading level={2}>
-          Featured <span data-slot="italic">packages</span>
-        </Heading>
-        <SectionListingsCarousel
-          heading={`Top ${tourType.name.toLowerCase()} <span data-slot="italic">in ${destination.name}</span>`}
-          headingFontClassName="text-2xl sm:text-3xl xl:text-4xl"
-          subHeading={`Handpicked ${tourType.name.toLowerCase()} curated for travelers exploring ${destination.name}.`}
-          listings={listings.slice(0, 8)}
-          cardType="experience"
-        />
-      </section>
-
-      <section className="space-y-6">
-        <Heading level={2}>
-          More packages <span data-slot="italic">to explore</span>
-        </Heading>
-        <SectionListingsCarousel
-          heading={`Popular picks for <span data-slot="italic">${destination.name}</span>`}
-          headingFontClassName="text-2xl sm:text-3xl xl:text-4xl"
-          listings={listings.slice(2, 10)}
-          cardType="experience"
-        />
-      </section>
-
-      <section className="rounded-3xl bg-neutral-50 p-8 dark:bg-neutral-900">
-        <Heading level={3} className="mb-4">
-          Explore other holiday types in {destination.name}
-        </Heading>
-        <div className="flex flex-wrap gap-3">
-          {TOUR_TYPES.filter((item) => item.slug !== tourType.slug).map((item) => (
-            <Link
-              key={item.slug}
-              href={`/destinations/${destination.slug}/${item.slug}`}
-              className="rounded-full border border-neutral-200 bg-white px-5 py-2.5 text-sm font-medium transition-colors hover:border-neutral-900 hover:bg-neutral-900 hover:text-white dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-white dark:hover:bg-white dark:hover:text-neutral-900"
-            >
-              {item.name}
-            </Link>
-          ))}
+        <div>
+          <Heading level={2}>
+            {tourType.name} in <span data-slot="italic">{destination.name}</span>
+          </Heading>
+          <Text className="mt-3 max-w-3xl text-muted-foreground">
+            {tourType.description} Handpicked {tourType.name.toLowerCase()} curated for travelers exploring{' '}
+            {destination.name}.
+          </Text>
         </div>
+
+        <ItineraryListingsGrid
+          listings={listings}
+          className="mt-2"
+          emptyMessage={`No ${tourType.name.toLowerCase()} packages in ${destination.name} yet. Explore other holiday types below.`}
+        />
       </section>
+
+      {tourTypesWithPackages.length > 0 && (
+        <section className="rounded-3xl bg-neutral-50 p-8 dark:bg-neutral-900">
+          <Heading level={3} className="mb-4">
+            Explore other holiday types in {destination.name}
+          </Heading>
+          <div className="flex flex-wrap gap-3">
+            {tourTypesWithPackages.map((item) => (
+              <Link
+                key={item.slug}
+                href={`/destinations/${destination.slug}/${item.slug}`}
+                className="rounded-full border border-neutral-200 bg-white px-5 py-2.5 text-sm font-medium transition-colors hover:border-neutral-900 hover:bg-neutral-900 hover:text-white dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-white dark:hover:bg-white dark:hover:text-neutral-900"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   )
 }
