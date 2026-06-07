@@ -5,7 +5,7 @@ import Input from '@/components/input'
 import NewsletterSection from '@/components/newsletter-section-1'
 import SocialsList from '@/components/socials-list'
 import Textarea from '@/components/textarea'
-import { SentIcon } from '@hugeicons/core-free-icons'
+import { SentIcon, Facebook01Icon, InstagramFreeIcons } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
@@ -13,15 +13,30 @@ import { Metadata } from 'next'
 const info = [
   {
     title: 'ADDRESS',
-    description: 'Phra Khanong, Bangkok, Thailand',
+    description: 'Melbourne, Australia',
   },
   {
     title: 'EMAIL',
-    description: 'example@example.com',
+    description: 'support@mandanaodysseys.com',
+    href: 'mailto:support@mandanaodysseys.com',
   },
   {
     title: 'PHONE',
-    description: '000-123-456-7890',
+    description: '(00) 2353 7878',
+    href: 'tel:0023537878',
+  },
+] as const
+
+const contactSocials = [
+  {
+    name: 'Facebook',
+    href: '#',
+    icon: Facebook01Icon,
+  },
+  {
+    name: 'Instagram',
+    href: '#',
+    icon: InstagramFreeIcons,
   },
 ]
 
@@ -45,12 +60,21 @@ const PageContact = () => {
               {info.map((item, index) => (
                 <div key={index}>
                   <h3 className="text-sm font-medium tracking-wider uppercase dark:text-neutral-200">{item.title}</h3>
-                  <span className="mt-2 block text-muted-foreground">{item.description}</span>
+                  {'href' in item ? (
+                    <a
+                      href={item.href}
+                      className="mt-2 block text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {item.description}
+                    </a>
+                  ) : (
+                    <span className="mt-2 block text-muted-foreground">{item.description}</span>
+                  )}
                 </div>
               ))}
               <div>
                 <h3 className="text-sm font-medium tracking-wider uppercase dark:text-neutral-200">SOCIALS</h3>
-                <SocialsList className="mt-2" />
+                <SocialsList className="mt-2" socials={contactSocials} />
               </div>
             </div>
           </div>
