@@ -1,6 +1,21 @@
+const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  async headers() {
+    return [
+      {
+        source: '/videos/header/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: `public, max-age=${ONE_YEAR_SECONDS}, s-maxage=${ONE_YEAR_SECONDS}, stale-while-revalidate=86400`,
+          },
+        ],
+      },
+    ]
+  },
   images: {
     minimumCacheTTL: 2678400 * 6, // 3 months
     remotePatterns: [

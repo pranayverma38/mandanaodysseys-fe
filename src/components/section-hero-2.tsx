@@ -18,7 +18,7 @@ const HeroSection2 = ({
       Extraordinary <span data-slot="style-script">Journey</span> Awaits
     </>
   ),
-  videoUrl = '/videos/header/header-video.mp4',
+  videoUrl = '/videos/header/header-video.webm',
   searchFormInitTab = 'Experiences',
   showSearchTabs = false,
 }: Props) => {
@@ -41,7 +41,7 @@ const HeroSection2 = ({
           playsInline
           className="absolute inset-0 size-full object-cover object-center"
         >
-          <source src={videoUrl} type="video/mp4" />
+          <source src={videoUrl} type="video/webm" />
           Your browser does not support the video tag.
         </video>
       </div>

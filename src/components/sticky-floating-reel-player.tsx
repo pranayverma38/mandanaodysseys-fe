@@ -14,17 +14,17 @@ type Story = {
 
 const STORIES: Story[] = [
   {
-    src: '/videos/header/reel-player/story.mp4',
+    src: '/videos/header/reel-player/story.webm',
     name: 'THAILAND',
     avatar: DESTINATIONS.find((d) => d.slug === 'thailand')!.thumbnail,
   },
   {
-    src: '/videos/header/reel-player/story-1.mp4',
+    src: '/videos/header/reel-player/story-1.webm',
     name: 'BALI',
     avatar: DESTINATIONS.find((d) => d.slug === 'bali')!.thumbnail,
   },
   {
-    src: '/videos/header/reel-player/story-2.mp4',
+    src: '/videos/header/reel-player/story-2.webm',
     name: 'VIETNAM',
     avatar: DESTINATIONS.find((d) => d.slug === 'vietnam')!.thumbnail,
   },

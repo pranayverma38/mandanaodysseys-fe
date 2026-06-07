@@ -49,14 +49,15 @@ function TravellerStoryVideoFrame({
       {shouldLoad ? (
         <video
           ref={videoRef}
-          src={story.videoSrc}
           className="size-full object-cover transition duration-300 group-hover:scale-[1.02]"
           muted
           loop
           playsInline
           autoPlay
           preload="none"
-        />
+        >
+          <source src={story.videoSrc} type="video/webm" />
+        </video>
       ) : (
         <div className="size-full bg-zinc-800" aria-hidden />
       )}
@@ -152,13 +153,15 @@ function TravellerStoryPlayer({
       >
         <video
           ref={videoRef}
-          src={story.videoSrc}
           className="size-full object-cover"
           playsInline
           autoPlay
           loop
           muted={isMuted}
-        />
+          preload="auto"
+        >
+          <source src={story.videoSrc} type="video/webm" />
+        </video>
 
         <button
           type="button"
@@ -217,6 +220,7 @@ function RatingBadge({
 const SectionTravellerStories = ({ className }: { className?: string }) => {
   const sectionRef = useRef<HTMLElement>(null)
   const [shouldLoadVideos, setShouldLoadVideos] = useState(false)
+  const [visibleSlideIndexes, setVisibleSlideIndexes] = useState<number[]>([])
   const [activeStory, setActiveStory] = useState<TravellerStory | null>(null)
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -265,46 +269,65 @@ const SectionTravellerStories = ({ className }: { className?: string }) => {
     const section = sectionRef.current
     if (!section) return
 
-    const activateVideos = () => setShouldLoadVideos(true)
+    let cancelled = false
+    let sectionNear = false
+    let heroReady = false
 
-    const isNearViewport = () => {
-      const rect = section.getBoundingClientRect()
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight
-      return rect.top < viewportHeight + 300 && rect.bottom > -300
+    const activateVideos = () => {
+      if (!cancelled && sectionNear && heroReady) {
+        setShouldLoadVideos(true)
+      }
     }
 
-    if (isNearViewport()) {
+    const heroVideo = document.querySelector<HTMLVideoElement>('.section-hero-2 video')
+    const onHeroReady = () => {
+      heroReady = true
       activateVideos()
-      return
     }
+
+    if (!heroVideo || heroVideo.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      onHeroReady()
+    } else {
+      heroVideo.addEventListener('canplay', onHeroReady, { once: true })
+    }
+
+    const heroFallback = window.setTimeout(onHeroReady, 10000)
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {
+          sectionNear = true
           activateVideos()
           observer.disconnect()
         }
       },
-      { rootMargin: '300px 0px 300px 0px', threshold: 0.01 }
+      { rootMargin: '150px 0px', threshold: 0 }
     )
 
     observer.observe(section)
 
-    const handleScroll = () => {
-      if (isNearViewport()) {
-        activateVideos()
-        observer.disconnect()
-        window.removeEventListener('scroll', handleScroll, true)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll, true)
-
     return () => {
+      cancelled = true
+      window.clearTimeout(heroFallback)
+      heroVideo?.removeEventListener('canplay', onHeroReady)
       observer.disconnect()
-      window.removeEventListener('scroll', handleScroll, true)
     }
   }, [])
+
+  useEffect(() => {
+    if (!emblaApi || !shouldLoadVideos) return
+
+    const updateVisibleSlides = () => {
+      setVisibleSlideIndexes(emblaApi.slidesInView())
+    }
+
+    updateVisibleSlides()
+    emblaApi.on('select', updateVisibleSlides).on('reInit', updateVisibleSlides)
+
+    return () => {
+      emblaApi.off('select', updateVisibleSlides).off('reInit', updateVisibleSlides)
+    }
+  }, [emblaApi, shouldLoadVideos])
 
   return (
     <section
@@ -341,14 +364,14 @@ const SectionTravellerStories = ({ className }: { className?: string }) => {
         <div className="relative mt-10 pb-14 sm:mt-12 sm:pb-16 lg:pb-20">
           <div className="embla overflow-hidden" ref={emblaRef}>
             <div className="-ms-4 embla__container sm:-ms-6">
-              {TRAVELLER_STORIES.map((story) => (
+              {TRAVELLER_STORIES.map((story, index) => (
                 <div
                   key={story.id}
                   className="embla__slide basis-[72%] ps-4 sm:basis-[40%] sm:ps-6 md:basis-[32%] lg:basis-[26%] xl:basis-1/5"
                 >
                   <TravellerStoryCard
                     story={story}
-                    shouldLoad={shouldLoadVideos}
+                    shouldLoad={shouldLoadVideos && visibleSlideIndexes.includes(index)}
                     onOpen={() => handleOpenStory(story)}
                   />
                 </div>
