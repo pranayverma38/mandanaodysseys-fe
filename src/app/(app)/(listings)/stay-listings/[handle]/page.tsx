@@ -44,7 +44,7 @@ const Page = async ({ params }: { params: Promise<{ handle: string }> }) => {
   const reviews = await getListingReviews(handle)
 
   if (!listing?.id) {
-    return redirect('/stay')
+    return redirect('/')
   }
 
   const {

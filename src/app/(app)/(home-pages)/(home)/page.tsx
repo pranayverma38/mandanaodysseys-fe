@@ -8,7 +8,6 @@ import InspirationFutureGetawaysSection from '@/components/inspiration-future-ge
 import NewsletterSection from '@/components/newsletter-section-1'
 import { RevealInView } from '@/components/reveal-in-view'
 import SectionDreamDestination from '@/components/section-dream-destination'
-import SectionGridAuthorBox from '@/components/section-grid-author-box'
 import SectionGridCategoryBox from '@/components/section-grid-category-box'
 import SectionGridFeaturedListings from '@/components/section-grid-featured-listings'
 import SectionGroupCategoriesCarousel from '@/components/section-group-categories-carousel'
@@ -24,11 +23,10 @@ import SectionStickyGridScroll from '@/components/section-sticky-grid-scroll'
 import SectionTravelQuote from '@/components/section-travel-quote'
 import SectionWhyUs from '@/components/section-why-us'
 import { Text } from '@/components/text'
-import { getAuthors } from '@/data/authors'
 import { getEliteGatewayGroups } from '@/data/elite-gateways'
 import { getPackagesByDurationGroups } from '@/data/packages-by-duration'
 import { getBlogPosts } from '@/data/data'
-import { getItineraries, getStayListings } from '@/data/listings'
+import { getItineraries } from '@/data/listings'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 async function Page() {
   const itineraries = await getItineraries()
@@ -76,7 +74,6 @@ async function Page() {
             <SectionListingsCarousel
               heading={`Hand Picked <span class="font-style-script text-[1.3em] text-[#FC6200] italic">Tours  </span> For You`}
               listings={itineraries}
-              cardType="experience"
             />
           </RevealInView>
           <RevealInView className="container">

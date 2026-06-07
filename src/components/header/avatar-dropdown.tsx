@@ -3,15 +3,11 @@
 import Avatar from '@/components/avatar'
 import { Divider } from '@/components/divider'
 import { Link } from '@/components/link'
-import SwitchDarkMode2 from '@/components/switch-dark-mode2'
 import { useHoverPopover } from '@/hooks/use-hover-popover'
 import avatarImage from '@/images/avatars/Image-1.png'
 import { Popover, PopoverPanel } from '@headlessui/react'
-import { ArrowUpRightIcon } from '@heroicons/react/20/solid'
 import {
-  AlphabetArabicIcon,
   FavouriteIcon,
-  Idea01Icon,
   Logout01Icon,
   Notification01Icon,
   Task01Icon,
@@ -31,7 +27,7 @@ interface Props {
 
 const menuItems = [
   {
-    href: '/authors/john-doe',
+    href: '/account',
     icon: UserIcon,
     label: 'Profile',
   },
@@ -41,7 +37,7 @@ const menuItems = [
     label: 'Notifications',
   },
   {
-    href: '/authors/john-doe',
+    href: '/account',
     icon: Task01Icon,
     label: 'My listings',
   },
@@ -105,35 +101,6 @@ export default function AvatarDropdown({ className, triggerButton, popoverId }: 
                 ))}
 
                 <Divider />
-
-                <div className="-m-3 flex items-center justify-between rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none">
-                  <div className="flex items-center">
-                    <div className="flex shrink-0 items-center justify-center text-muted-foreground">
-                      <HugeiconsIcon icon={Idea01Icon} size={20} />
-                    </div>
-                    <p className="ms-4 text-sm font-medium">Dark mode</p>
-                  </div>
-                  <SwitchDarkMode2 />
-                </div>
-
-                <Link
-                  href={
-                    process.env.NEXT_PUBLIC_THEME_DIR !== 'rtl'
-                      ? 'https://ceepii-nextjs-template-rtl.vercel.app'
-                      : 'https://ceepii-nextjs-template.vercel.app'
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="-m-3 flex items-center rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none"
-                >
-                  <div className="flex shrink-0 items-center justify-center text-muted-foreground">
-                    <HugeiconsIcon icon={AlphabetArabicIcon} size={20} />
-                  </div>
-                  <p className="ms-4 flex items-center gap-0.5 text-sm font-medium">
-                    {process.env.NEXT_PUBLIC_THEME_DIR !== 'rtl' ? 'RTL theme' : 'LTR theme'}
-                    <ArrowUpRightIcon className="size-5! rtl:rotate-270" />
-                  </p>
-                </Link>
 
                 <Link
                   href={'#'}

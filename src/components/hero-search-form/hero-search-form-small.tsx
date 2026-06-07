@@ -7,7 +7,7 @@ import clsx from 'clsx'
 import { Fragment } from 'react'
 import { heroSearchFormTabsData } from './data'
 
-const HeroSearchFormSmall = ({ className, initTab = 'Stays' }: { className?: string; initTab: ListingType }) => {
+const HeroSearchFormSmall = ({ className, initTab = 'Experiences' }: { className?: string; initTab: ListingType }) => {
   return (
     <Headless.TabGroup
       defaultIndex={heroSearchFormTabsData.findIndex((tab) => tab.name === initTab)}

@@ -133,7 +133,7 @@ const HeroSection2Content = ({ title, searchFormInitTab, showSearchTabs }: Props
         className="section-hero-2__search relative z-20 mt-8 w-full max-w-lg overflow-visible px-2 sm:mt-10 sm:max-w-2xl lg:max-w-6xl"
       >
         <HeroSearchGlare fitContent className="mx-auto lg:hidden">
-          <HeroSearchFormMobile initTab={searchFormInitTab} compact showTabs={showSearchTabs} />
+          <HeroSearchFormMobile compact />
         </HeroSearchGlare>
         <HeroSearchGlare className="hidden w-full lg:block">
           <HeroSearchForm2 initTab={searchFormInitTab} showTabs={showSearchTabs} />

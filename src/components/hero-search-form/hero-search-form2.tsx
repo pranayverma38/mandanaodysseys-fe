@@ -7,7 +7,7 @@ import { heroSearchFormTabsData } from './data'
 
 const HeroSearchForm2 = ({
   className,
-  initTab = 'Stays',
+  initTab = 'Experiences',
   showTabs = true,
 }: {
   className?: string
@@ -19,9 +19,6 @@ const HeroSearchForm2 = ({
       {showTabs && (
         <div className="mb-8 flex justify-center space-x-6 sm:space-x-9">
           {heroSearchFormTabsData.map((tab) => {
-            /* Map name 'Stays' to 'Homes' for the UI display to match the design */
-            const displayName = tab.name === 'Stays' ? 'Homes' : tab.name
-
             return (
               <Link
                 key={tab.name}
@@ -31,7 +28,7 @@ const HeroSearchForm2 = ({
                 )}
               >
                 <HugeiconsIcon icon={tab.icon} className="me-2.5 size-5 sm:size-6" />
-                <span>{displayName}</span>
+                <span>{tab.name}</span>
                 <div
                   className={clsx(
                     'absolute inset-x-0 top-full h-0.5 rounded-full bg-white transition-opacity',

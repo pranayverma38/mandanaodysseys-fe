@@ -30,7 +30,7 @@ const Page = async ({ params }: { params: Promise<PageParams> }) => {
   }
 
   if (!itinerary.id) {
-    return redirect('/experience')
+    return redirect('/inspirations')
   }
 
   return <ItineraryDetailTemplate itinerary={itinerary} />

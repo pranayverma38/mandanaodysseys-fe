@@ -21,7 +21,7 @@ const FOOTER_QUICK_NAV = [
   },
   {
     name: 'Account',
-    link: '/authors/john-doe',
+    link: '/account',
     icon: UserCircleIcon,
   },
   {

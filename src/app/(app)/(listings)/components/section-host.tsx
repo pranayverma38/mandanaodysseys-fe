@@ -2,7 +2,6 @@
 import ButtonSecondary from '@/components/button-secondary'
 import { Divider } from '@/components/divider'
 import HostAvatar from '@/components/host-avatar'
-import { Link } from '@/components/link'
 import SocialsShare from '@/components/socials-share'
 import StartRating from '@/components/start-rating'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
@@ -52,9 +51,7 @@ const SectionHost = ({
       <div className="flex items-center gap-x-5">
         <HostAvatar avatarUrl={avatarUrl} />
         <div>
-          <Link className="text-xl font-medium" href={'/authors/' + handle}>
-            {displayName}
-          </Link>
+          <span className="text-xl font-medium">{displayName}</span>
           <div className="mt-1.5 flex items-center text-sm">
             <StartRating point={rating} reviewCount={reviewsCount} />
             <span className="mx-2">·</span>
@@ -97,7 +94,6 @@ const SectionHost = ({
 
       {/* == */}
       <div className="flex gap-2">
-        <ButtonSecondary href={'/authors/' + handle}>See host profile</ButtonSecondary>
         <Popover className="relative">
           <PopoverButton as={ButtonSecondary} outline>
             Share

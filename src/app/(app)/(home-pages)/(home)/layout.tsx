@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <Header3 initSearchFormTab="Stays" />
+        <Header3 initSearchFormTab="Experiences" />
       </MotionDiv>
       {/* HeroSearchFormMobile - will display on mobile devices instead of Header-desktop */}
       {/* <div className="sticky top-0 z-20 bg-background shadow-sm lg:hidden">

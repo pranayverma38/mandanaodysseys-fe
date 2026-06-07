@@ -4,7 +4,7 @@ export interface GuestsObject {
   guestInfants?: number
 }
 
-export type ListingType = 'Stays' | 'Experiences' | 'Cars' | 'Flights'
+export type ListingType = 'Experiences'
 
 export interface PropertyType {
   name: string

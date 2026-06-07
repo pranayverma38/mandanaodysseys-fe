@@ -6,12 +6,7 @@ import { Cog8ToothIcon as CogIcon, ShoppingBagIcon as ShoppingCartIcon } from '@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-const homePages = [
-  { name: 'Stays', slug: '/' },
-  { name: 'Experiences', slug: '/experience' },
-  { name: 'Car rentals', slug: '/car' },
-  { name: 'Flights', slug: '/flight' },
-]
+const homePages = [{ name: 'Home', slug: '/' }]
 
 const CustomizeControl = () => {
   //

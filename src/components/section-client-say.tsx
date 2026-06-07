@@ -19,21 +19,30 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
 import { FC } from 'react'
 
-const DEMO_DATA = [
+export interface ClientTestimonial {
+  id: number
+  clientName: string
+  content: string
+}
+
+const DEFAULT_TESTIMONIALS: ClientTestimonial[] = [
   {
     id: 1,
-    clientName: 'Tiana Abie',
-    content: 'Great quality products, affordable prices, fast and friendly delivery. I very recommend.',
+    clientName: 'Ananya Reddy',
+    content:
+      'Booking our Kerala and Sri Lanka tour through Mandana Odysseys was seamless. The package was well priced, and every transfer and hotel was exactly as promised.',
   },
   {
     id: 2,
-    clientName: 'Lennie Swiffan',
-    content: 'Great quality products, affordable prices, fast and friendly delivery. I very recommend.',
+    clientName: 'Daniel Foster',
+    content:
+      'We wanted a custom Vietnam and Thailand itinerary for our anniversary. The team listened, adjusted the plan quickly, and delivered a trip we will never forget.',
   },
   {
     id: 3,
-    clientName: 'Berta Emili',
-    content: 'Great quality products, affordable prices, fast and friendly delivery. I very recommend.',
+    clientName: 'Mei Lin Tan',
+    content:
+      'From Bali beaches to Nepal trekking, Mandana Odysseys handled visas, guides, and logistics so we could just enjoy the journey. Already booked our next package with them.',
   },
 ]
 
@@ -42,6 +51,7 @@ interface SectionClientSayProps {
   emblaOptions?: EmblaOptionsType
   heading?: string
   subHeading?: string
+  testimonials?: ClientTestimonial[]
 }
 
 const SectionClientSay: FC<SectionClientSayProps> = ({
@@ -50,8 +60,9 @@ const SectionClientSay: FC<SectionClientSayProps> = ({
     slidesToScroll: 1,
     loop: true,
   },
-  heading = 'Good news from far away 🥇',
-  subHeading = "Let's see what people think of Ceepii",
+  heading = 'Stories from the road',
+  subHeading = 'Real feedback from Mandana Odysseys travelers',
+  testimonials = DEFAULT_TESTIMONIALS,
 }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -108,7 +119,7 @@ const SectionClientSay: FC<SectionClientSayProps> = ({
           />
           <div className="embla" ref={emblaRef}>
             <ul className="embla__container">
-              {DEMO_DATA.map((item) => (
+              {testimonials.map((item) => (
                 <li key={item.id} className="flex embla__slide basis-full flex-col items-center text-center">
                   <span className="block text-2xl">{item.content}</span>
                   <span className="mt-8 block text-2xl font-semibold">{item.clientName}</span>

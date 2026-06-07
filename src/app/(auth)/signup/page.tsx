@@ -59,7 +59,7 @@ const Page = () => {
   return (
     <div className="container">
       <div className="my-16 flex justify-center">
-        <Logo className="w-32" />
+        <Logo variant="full-colored" size="lg" />
       </div>
 
       <div className="mx-auto max-w-md space-y-6">

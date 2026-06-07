@@ -1,15 +1,13 @@
 'use client'
 
-import { TCarListing, TExperienceListing, TItineraryListing, TStayListing } from '@/data/listings'
+import { TItineraryListing } from '@/data/listings'
 import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
 import type { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
-import CarCard from './car-card'
 import ExperiencesCard from './experiences-card'
 import { Heading } from './heading'
 import NextPrevButtons from './next-prev-btns'
-import StayCard2 from './stay-card2'
 import { Text } from './text'
 
 interface Props {
@@ -18,19 +16,16 @@ interface Props {
   heading?: string
   headingFontClassName?: string
   subHeading?: string
-  listings: TStayListing[] | TExperienceListing[] | TItineraryListing[] | TCarListing[]
-  cardType?: 'stay' | 'experience' | 'car'
+  listings: TItineraryListing[]
 }
 
 const SectionListingsCarousel = ({
   className,
-  heading = `Popular homes <span data-slot="italic">in London</span>`,
+  heading = `Popular tours <span data-slot="italic">for you</span>`,
   listings,
   headingFontClassName,
   subHeading,
-  cardType = 'stay',
 }: Props) => {
-  // Tạo ref để truy cập các phương thức của carousel
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: false,
@@ -70,11 +65,7 @@ const SectionListingsCarousel = ({
               key={listing.id}
               className="embla__slide basis-[86%] ps-4 sm:ps-6 md:basis-[45%] lg:basis-1/3 xl:basis-[29%] 2xl:basis-1/4"
             >
-              {cardType === 'stay' && <StayCard2 data={listing as TStayListing} />}
-              {cardType === 'experience' && (
-                <ExperiencesCard data={listing as TExperienceListing | TItineraryListing} />
-              )}
-              {cardType === 'car' && <CarCard data={listing as TCarListing} />}
+              <ExperiencesCard data={listing} />
             </div>
           ))}
         </div>
