@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(12, 11)
 
@@ -11,6 +11,12 @@ export const nepalEverestBaseCampTrek: ItineraryDetail = {
   badge: 'Adventure',
   destination: 'nepal',
   address: 'Kathmandu · Lukla · Namche Bazaar · Everest Base Camp',
+  locations: createItineraryLocations([
+    { name: 'Kathmandu', lat: 27.7172, lng: 85.324 },
+    { name: 'Lukla', lat: 27.6867, lng: 86.7308 },
+    { name: 'Namche Bazaar', lat: 27.8056, lng: 86.7106 },
+    { name: 'Everest Base Camp', lat: 28.0026, lng: 86.8528 },
+  ]),
   reviewStart: 4.9,
   reviewCount: 142,
   categories: [

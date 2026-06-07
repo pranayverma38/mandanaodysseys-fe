@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(4, 3)
 
@@ -10,6 +10,11 @@ export const baliFamilyCultureAdventure: ItineraryDetail = {
   title: 'Bali Family Culture & Adventure',
   destination: 'bali',
   address: 'Ubud · Tanah Lot · Nusa Dua',
+  locations: createItineraryLocations([
+    { name: 'Ubud', lat: -8.5069, lng: 115.2625 },
+    { name: 'Tanah Lot', lat: -8.6211, lng: 115.0868 },
+    { name: 'Nusa Dua', lat: -8.8006, lng: 115.2314 },
+  ]),
   reviewStart: 4.8,
   reviewCount: 156,
   categories: [

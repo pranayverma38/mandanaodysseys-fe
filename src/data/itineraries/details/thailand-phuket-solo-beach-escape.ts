@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(5, 4)
 
@@ -10,6 +10,11 @@ export const thailandPhuketSoloBeachEscape: ItineraryDetail = {
   title: 'Phuket Solo Beach Escape',
   destination: 'thailand',
   address: 'Phuket · Phi Phi Islands · Phang Nga Bay',
+  locations: createItineraryLocations([
+    { name: 'Phuket', lat: 7.8804, lng: 98.3923 },
+    { name: 'Phi Phi Islands', lat: 7.7407, lng: 98.7784 },
+    { name: 'Phang Nga Bay', lat: 8.2774, lng: 98.5022 },
+  ]),
   reviewStart: 4.7,
   reviewCount: 164,
   categories: [

@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(4, 3)
 
@@ -11,6 +11,7 @@ export const mumbaiPackage: ItineraryDetail = {
   badge: 'Popular',
   destination: 'india',
   address: 'Mumbai, Maharashtra',
+  locations: createItineraryLocations([{ name: 'Mumbai', lat: 19.076, lng: 72.8777 }]),
   reviewStart: 4.7,
   reviewCount: 178,
   categories: [

@@ -44,6 +44,13 @@ export type ItineraryAccommodation = {
   location: string
 }
 
+/** A stop within the itinerary `address` string (e.g. Delhi, Agra, Jaipur). */
+export type ItineraryLocation = {
+  name: string
+  lat: number
+  lng: number
+}
+
 export type ItineraryDetail = {
   id: string
   handle: string
@@ -51,8 +58,10 @@ export type ItineraryDetail = {
   badge?: string
   /** Slug from `ITINERARY_DESTINATIONS` / `DESTINATIONS` in destinations.ts */
   destination: string
-  /** Cities or regions within the destination */
+  /** Cities or regions within the destination — display string joined with ` · ` */
   address: string
+  /** Coordinates for each location in `address` */
+  locations: ItineraryLocation[]
   reviewStart: number
   reviewCount: number
   /** 2–3 category tags — slugs from `ITINERARY_CATEGORIES` / `TOUR_TYPES` */

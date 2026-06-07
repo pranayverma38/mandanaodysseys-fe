@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(6, 5)
 
@@ -11,6 +11,11 @@ export const australiaSydneyMelbourneLuxury: ItineraryDetail = {
   badge: 'Luxury',
   destination: 'australia',
   address: 'Sydney · Melbourne · Great Ocean Road',
+  locations: createItineraryLocations([
+    { name: 'Sydney', lat: -33.8688, lng: 151.2093 },
+    { name: 'Melbourne', lat: -37.8136, lng: 144.9631 },
+    { name: 'Great Ocean Road', lat: -38.6806, lng: 143.1017 },
+  ]),
   reviewStart: 4.7,
   reviewCount: 118,
   categories: [

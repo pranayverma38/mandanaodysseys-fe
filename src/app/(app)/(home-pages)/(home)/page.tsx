@@ -24,12 +24,12 @@ import { Text } from '@/components/text'
 import { getAuthors } from '@/data/authors'
 import { getGroupStayCategories, getStayCategories } from '@/data/categories'
 import { getBlogPosts } from '@/data/data'
-import { getExperienceListings, getStayListings } from '@/data/listings'
+import { getItineraries, getStayListings } from '@/data/listings'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 async function Page() {
   const categories = await getStayCategories()
   const stayListings = await getStayListings()
-  const experienceListings = await getExperienceListings()
+  const itineraries = await getItineraries()
   const authors = await getAuthors()
   const groupCategories = await getGroupStayCategories()
   const posts = await getBlogPosts()
@@ -73,7 +73,7 @@ async function Page() {
           <RevealInView className="container section-space">
             <SectionListingsCarousel
               heading={`Hand Picked <span class="font-style-script text-[1.3em] text-[#FC6200] italic">Tours  </span> For You`}
-              listings={experienceListings.reverse().slice(0, 8)}
+              listings={itineraries}
               cardType="experience"
             />
           </RevealInView>

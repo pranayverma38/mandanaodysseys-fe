@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(5, 4)
 
@@ -10,6 +10,11 @@ export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
   title: 'Swiss Alps & Lake Geneva Escape',
   destination: 'switzerland',
   address: 'Zurich · Interlaken · Geneva, Switzerland',
+  locations: createItineraryLocations([
+    { name: 'Zurich', lat: 47.3769, lng: 8.5417 },
+    { name: 'Interlaken', lat: 46.6863, lng: 7.8632 },
+    { name: 'Geneva', lat: 46.2044, lng: 6.1432 },
+  ]),
   reviewStart: 4.7,
   reviewCount: 94,
   categories: [

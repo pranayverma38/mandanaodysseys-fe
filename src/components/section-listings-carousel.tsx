@@ -1,6 +1,6 @@
 'use client'
 
-import { TCarListing, TExperienceListing, TStayListing } from '@/data/listings'
+import { TCarListing, TExperienceListing, TItineraryListing, TStayListing } from '@/data/listings'
 import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
 import type { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
@@ -18,7 +18,7 @@ interface Props {
   heading?: string
   headingFontClassName?: string
   subHeading?: string
-  listings: TStayListing[] | TExperienceListing[] | TCarListing[]
+  listings: TStayListing[] | TExperienceListing[] | TItineraryListing[] | TCarListing[]
   cardType?: 'stay' | 'experience' | 'car'
 }
 
@@ -71,7 +71,9 @@ const SectionListingsCarousel = ({
               className="embla__slide basis-[86%] ps-4 sm:ps-6 md:basis-[45%] lg:basis-1/3 xl:basis-[29%] 2xl:basis-1/4"
             >
               {cardType === 'stay' && <StayCard2 data={listing as TStayListing} />}
-              {cardType === 'experience' && <ExperiencesCard data={listing as TExperienceListing} />}
+              {cardType === 'experience' && (
+                <ExperiencesCard data={listing as TExperienceListing | TItineraryListing} />
+              )}
               {cardType === 'car' && <CarCard data={listing as TCarListing} />}
             </div>
           ))}

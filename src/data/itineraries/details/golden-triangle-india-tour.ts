@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(10, 9)
 
@@ -11,6 +11,12 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
   badge: 'Popular',
   destination: 'india',
   address: 'Delhi · Agra · Ranthambore · Jaipur',
+  locations: createItineraryLocations([
+    { name: 'Delhi', lat: 28.6139, lng: 77.209 },
+    { name: 'Agra', lat: 27.1767, lng: 78.0081 },
+    { name: 'Ranthambore', lat: 26.0173, lng: 76.5026 },
+    { name: 'Jaipur', lat: 26.9124, lng: 75.7873 },
+  ]),
   reviewStart: 4.8,
   reviewCount: 189,
   categories: [
@@ -19,9 +25,9 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
     { category: 'family-vacations' },
   ],
   duration,
-  featuredImage: 'https://images.pexels.com/photos/3761124/pexels-photo-3761124.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  featuredImage: 'https://images.pexels.com/photos/19867662/pexels-photo-19867662.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
-    'https://images.pexels.com/photos/3761124/pexels-photo-3761124.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    'https://images.pexels.com/photos/19867662/pexels-photo-19867662.jpeg?auto=compress&cs=tinysrgb&w=1600',
     'https://images.pexels.com/photos/1006968/pexels-photo-1006968.jpeg?auto=compress&cs=tinysrgb&w=1600',
     'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=1600',
     'https://images.pexels.com/photos/3581361/pexels-photo-3581361.jpeg?auto=compress&cs=tinysrgb&w=1600',

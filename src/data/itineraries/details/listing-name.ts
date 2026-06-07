@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(7, 6)
 
@@ -11,6 +11,10 @@ export const listingNameItinerary: ItineraryDetail = {
   badge: 'Best Seller',
   destination: 'australia',
   address: 'London, United Kingdom · Paris, France',
+  locations: createItineraryLocations([
+    { name: 'London', lat: 51.5074, lng: -0.1278 },
+    { name: 'Paris', lat: 48.8566, lng: 2.3522 },
+  ]),
   reviewStart: 4.9,
   reviewCount: 312,
   categories: [

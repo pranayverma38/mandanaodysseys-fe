@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(7, 6)
 
@@ -11,6 +11,11 @@ export const baliHoneymoonRetreat: ItineraryDetail = {
   badge: 'Romantic',
   destination: 'bali',
   address: 'Ubud · Seminyak · Uluwatu',
+  locations: createItineraryLocations([
+    { name: 'Ubud', lat: -8.5069, lng: 115.2625 },
+    { name: 'Seminyak', lat: -8.6913, lng: 115.1682 },
+    { name: 'Uluwatu', lat: -8.8291, lng: 115.0849 },
+  ]),
   reviewStart: 4.9,
   reviewCount: 203,
   categories: [

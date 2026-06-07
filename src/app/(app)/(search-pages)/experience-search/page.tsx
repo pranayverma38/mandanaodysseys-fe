@@ -1,4 +1,3 @@
-import { Divider } from '@/components/divider'
 import { getItineraries } from '@/data/itineraries'
 import { buildItinerarySearchFilterOptions } from '@/data/itineraries/search'
 import { createPageMetadata } from '@/lib/seo'
@@ -18,9 +17,11 @@ const Page = async () => {
   const filterOptions = buildItinerarySearchFilterOptions(listings)
 
   return (
-    <Suspense fallback={<div className="container py-20 text-center">Loading packages...</div>}>
-      <ExperienceSearchContent listings={listings} filterOptions={filterOptions} />
-    </Suspense>
+    <div className="container px-4 lg:px-8 xl:max-w-none">
+      <Suspense fallback={<div className="py-20 text-center">Loading packages...</div>}>
+        <ExperienceSearchContent listings={listings} filterOptions={filterOptions} />
+      </Suspense>
+    </div>
   )
 }
 

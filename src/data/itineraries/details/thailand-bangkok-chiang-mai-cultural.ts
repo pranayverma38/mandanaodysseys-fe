@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(8, 7)
 
@@ -11,6 +11,11 @@ export const thailandBangkokChiangMaiCultural: ItineraryDetail = {
   badge: 'Cultural',
   destination: 'thailand',
   address: 'Bangkok · Ayutthaya · Chiang Mai',
+  locations: createItineraryLocations([
+    { name: 'Bangkok', lat: 13.7563, lng: 100.5018 },
+    { name: 'Ayutthaya', lat: 14.3532, lng: 100.5689 },
+    { name: 'Chiang Mai', lat: 18.7883, lng: 98.9853 },
+  ]),
   reviewStart: 4.8,
   reviewCount: 231,
   categories: [

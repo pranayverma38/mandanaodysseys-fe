@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(3, 2)
 
@@ -11,6 +11,11 @@ export const nepalKathmanduPokharaWeekend: ItineraryDetail = {
   badge: 'Quick Trip',
   destination: 'nepal',
   address: 'Kathmandu · Pokhara · Phewa Lake',
+  locations: createItineraryLocations([
+    { name: 'Kathmandu', lat: 27.7172, lng: 85.324 },
+    { name: 'Pokhara', lat: 28.2096, lng: 83.9856 },
+    { name: 'Phewa Lake', lat: 28.2092, lng: 83.957 },
+  ]),
   reviewStart: 4.6,
   reviewCount: 87,
   categories: [

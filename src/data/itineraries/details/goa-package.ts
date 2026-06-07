@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(5, 4)
 
@@ -11,6 +11,10 @@ export const goaPackage: ItineraryDetail = {
   badge: 'Best Seller',
   destination: 'india',
   address: 'North Goa · South Goa',
+  locations: createItineraryLocations([
+    { name: 'North Goa', lat: 15.5449, lng: 73.7739 },
+    { name: 'South Goa', lat: 15.2993, lng: 74.124 },
+  ]),
   reviewStart: 4.9,
   reviewCount: 246,
   categories: [

@@ -2,7 +2,11 @@ import avatarImage1 from '@/images/avatars/Image-1.png'
 import avatarImage2 from '@/images/avatars/Image-2.png'
 import avatarImage3 from '@/images/avatars/Image-3.png'
 import avatarImage4 from '@/images/avatars/Image-4.png'
-import type { ItineraryReview } from '../types'
+import type { ItineraryLocation, ItineraryReview } from '../types'
+
+export function createItineraryLocations(locations: ItineraryLocation[]): ItineraryLocation[] {
+  return locations
+}
 
 export function createDefaultReviews(overrides?: Partial<ItineraryReview>[]): ItineraryReview[] {
   const base: ItineraryReview[] = [

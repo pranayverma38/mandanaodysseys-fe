@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews } from './_shared'
+import { createDefaultReviews, createItineraryLocations } from './_shared'
 
 const duration = createItineraryDuration(10, 9)
 
@@ -11,6 +11,11 @@ export const australiaGreatBarrierReefFamily: ItineraryDetail = {
   badge: 'Popular',
   destination: 'australia',
   address: 'Cairns · Great Barrier Reef · Sydney',
+  locations: createItineraryLocations([
+    { name: 'Cairns', lat: -16.9186, lng: 145.7781 },
+    { name: 'Great Barrier Reef', lat: -18.2871, lng: 147.6992 },
+    { name: 'Sydney', lat: -33.8688, lng: 151.2093 },
+  ]),
   reviewStart: 4.8,
   reviewCount: 174,
   categories: [
