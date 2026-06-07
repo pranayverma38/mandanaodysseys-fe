@@ -9,8 +9,12 @@ import {
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
-import Image from 'next/image'
+import Image, { type StaticImageData } from 'next/image'
 import { ReactNode, useState } from 'react'
+import faqImage2342 from '@/images/faq-images/2342.jpg'
+import faqImage3548 from '@/images/faq-images/3548.jpg'
+import faqImage654 from '@/images/faq-images/654.jpg'
+import faqImage33953 from '@/images/faq-images/33953.jpg'
 import { Button } from './button'
 import { Heading } from './heading'
 import { Text } from './text'
@@ -23,7 +27,18 @@ interface FeatureSection2Props {
     question: string
     answer: string
   }[]
-  imageUrl?: string
+  imageUrl?: string | StaticImageData
+}
+
+const FAQ_IMAGES: StaticImageData[] = [
+  faqImage3548,
+  faqImage654,
+  faqImage2342,
+  faqImage33953,
+]
+
+function getRandomFaqImage() {
+  return FAQ_IMAGES[Math.floor(Math.random() * FAQ_IMAGES.length)]
 }
 
 const faqs_demo = [
@@ -100,19 +115,21 @@ const FeatureSection2 = ({
     </>
   ),
   faqs = faqs_demo,
-  imageUrl = 'https://images.pexels.com/photos/31776028/pexels-photo-31776028.jpeg',
+  imageUrl,
 }: FeatureSection2Props) => {
   const [openIndex, setOpenIndex] = useState(0)
+  const [randomFaqImage] = useState(getRandomFaqImage)
+  const resolvedImage = imageUrl ?? randomFaqImage
 
   return (
     <div className={clsx('flex flex-col justify-between gap-8 lg:flex-row', className)}>
       <div className="relative aspect-3/4 flex-1/2 overflow-hidden rounded-b-xl 2xl:flex-3/7">
         <Image
-          src={imageUrl}
+          src={resolvedImage}
           fill
-          alt=""
+          alt="Travelers exploring a scenic destination"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-          className="z-0 rounded-t-full"
+          className="z-0 rounded-t-full object-cover"
         />
 
         <div className="absolute inset-x-4 bottom-4 flex flex-col items-center gap-2 sm:bottom-8 sm:gap-5">
