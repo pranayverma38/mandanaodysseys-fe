@@ -13,7 +13,7 @@ export const heroSearchFormTabsData: {
   formComponent: React.ComponentType<{ formStyle: 'default' | 'small' }>
 }[] = [
   { name: 'Stays', icon: House04Icon, href: '/stay', formComponent: StaySearchForm },
-  { name: 'Experiences', icon: HotAirBalloonFreeIcons, href: '/experience', formComponent: ExperiencesSearchForm },
+  { name: 'Experiences', icon: HotAirBalloonFreeIcons, href: '/experience-search', formComponent: ExperiencesSearchForm },
   { name: 'Cars', icon: Car05Icon, href: '/car', formComponent: RentalCarSearchForm },
   { name: 'Flights', icon: Airplane02Icon, href: '/flight', formComponent: FlightSearchForm },
 ]

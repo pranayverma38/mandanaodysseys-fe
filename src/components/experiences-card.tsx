@@ -1,16 +1,18 @@
 import { Badge } from '@/components/badge'
 import BtnLikeIcon from '@/components/btn-like-icon'
 import StartRating from '@/components/start-rating'
-import { TExperienceListing } from '@/data/listings'
+import { TExperienceListing, TItineraryListing } from '@/data/listings'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 import AmenitiesChips from './amenities-chips'
 import FormattedPrice from './formatted-price'
 
+type ExperienceCardData = TExperienceListing | TItineraryListing
+
 interface Props {
   className?: string
-  data: TExperienceListing
+  data: ExperienceCardData
   size?: 'default' | 'small'
 }
 
@@ -28,7 +30,10 @@ const ExperiencesCard: FC<Props> = ({ size = 'default', className = '', data }) 
     badge,
   } = data
 
-  const listingHref = `/experience-listings/${listingHandle}`
+  const isItinerary = 'listingType' in data && data.listingType === 'itinerary'
+  const listingHref = isItinerary ? `/itinerary/${listingHandle}` : `/experience-listings/${listingHandle}`
+  const priceSuffix =
+    isItinerary && 'duration' in data ? ` · ${data.duration.label}` : ' / guest'
 
   const renderFeaturedImage = () => {
     return (
@@ -56,14 +61,16 @@ const ExperiencesCard: FC<Props> = ({ size = 'default', className = '', data }) 
     return (
       <div className={size === 'default' ? 'p-4 pt-0' : 'p-2 pt-0'}>
         <h2 className="text-lg font-medium">{title}</h2>
-        <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">{address}</div>
+        <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          {isItinerary && 'destinationName' in data ? `${data.destinationName} · ${address}` : address}
+        </div>
 
         <AmenitiesChips className="mt-3.5 max-w-xs" data={amenities} />
 
         <div className="mt-5 flex items-center justify-between gap-2">
           <div>
             <FormattedPrice value={price} className="text-base font-medium underline" />
-            <span className="text-sm text-gray-500 dark:text-gray-400"> / guest</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">{priceSuffix}</span>
           </div>
           <StartRating reviewCount={reviewCount} point={reviewStart} />
         </div>

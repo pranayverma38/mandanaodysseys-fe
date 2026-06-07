@@ -1,5 +1,6 @@
 'use client'
 
+import { buildExperienceSearchUrl } from '@/data/itineraries/search'
 import clsx from 'clsx'
 import Form from 'next/form'
 import { useRouter } from 'next/navigation'
@@ -20,17 +21,8 @@ export const ExperiencesSearchForm = ({ className, formStyle = 'default' }: Prop
   }, [router])
 
   const handleFormSubmit = (formData: FormData) => {
-    const formDataEntries = Object.fromEntries(formData.entries())
-    console.log('Form submitted', formDataEntries)
-    // You can also redirect or perform other actions based on the form data
-
-    // example: add location to the URL
-    const location = formDataEntries['location'] as string
-    let url = '/experience-search'
-    if (location) {
-      url = url + `?location=${encodeURIComponent(location)}`
-    }
-    router.push(url)
+    const location = formData.get('location')?.toString() ?? ''
+    router.push(buildExperienceSearchUrl({ location }))
   }
 
   return (

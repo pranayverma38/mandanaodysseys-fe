@@ -6,6 +6,7 @@ import { getStayListingFilterOptions } from '@/data/data'
 import { getStayListings } from '@/data/listings'
 import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
+import { Suspense } from 'react'
 
 export async function generateMetadata({ params }: { params: Promise<{ handle?: string[] }> }): Promise<Metadata> {
   return createPageMetadata({
@@ -22,7 +23,9 @@ const Page = async ({ params }: { params: Promise<{ handle?: string[] }> }) => {
 
   return (
     <div className="relative pb-28">
-      <ListingFilterTabs filterOptions={filterOptions} className="container mt-6 flex justify-center lg:mt-3" />
+      <Suspense fallback={null}>
+        <ListingFilterTabs filterOptions={filterOptions} className="container mt-6 flex justify-center lg:mt-3" />
+      </Suspense>
 
       <Divider className="my-6 lg:my-9" />
 

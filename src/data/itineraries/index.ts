@@ -1,8 +1,16 @@
 import type { ItineraryDetail } from './types'
 import { getItineraryDestinationName } from './destinations'
+import { australiaGreatBarrierReefFamily } from './details/australia-great-barrier-reef-family'
+import { australiaSydneyMelbourneLuxury } from './details/australia-sydney-melbourne-luxury'
+import { baliFamilyCultureAdventure } from './details/bali-family-culture-adventure'
+import { baliHoneymoonRetreat } from './details/bali-honeymoon-retreat'
 import { goldenTriangleIndiaTour } from './details/golden-triangle-india-tour'
 import { goaPackage } from './details/goa-package'
 import { mumbaiPackage } from './details/mumbai-package'
+import { nepalEverestBaseCampTrek } from './details/nepal-everest-base-camp-trek'
+import { nepalKathmanduPokharaWeekend } from './details/nepal-kathmandu-pokhara-weekend'
+import { thailandBangkokChiangMaiCultural } from './details/thailand-bangkok-chiang-mai-cultural'
+import { thailandPhuketSoloBeachEscape } from './details/thailand-phuket-solo-beach-escape'
 
 /**
  * Register every itinerary detail file here.
@@ -18,6 +26,14 @@ export const ITINERARY_DETAILS: ItineraryDetail[] = [
   goldenTriangleIndiaTour,
   goaPackage,
   mumbaiPackage,
+  nepalEverestBaseCampTrek,
+  nepalKathmanduPokharaWeekend,
+  baliHoneymoonRetreat,
+  baliFamilyCultureAdventure,
+  australiaGreatBarrierReefFamily,
+  australiaSydneyMelbourneLuxury,
+  thailandBangkokChiangMaiCultural,
+  thailandPhuketSoloBeachEscape,
 ]
 
 export async function getItineraries() {
@@ -52,6 +68,7 @@ export async function getItineraries() {
       amenities,
       categories,
       duration,
+      listingType: 'itinerary' as const,
     })
   )
 }
@@ -105,3 +122,4 @@ export * from './types'
 export * from './categories'
 export * from './destinations'
 export * from './duration'
+export * from './search'

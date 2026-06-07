@@ -1,5 +1,6 @@
 'use client'
 
+import { DESTINATIONS } from '@/data/destinations'
 import { Divider } from '@/components/divider'
 import { useInteractOutside } from '@/hooks/use-interact-outside'
 import * as Headless from '@headlessui/react'
@@ -24,56 +25,16 @@ type Suggest = {
   icon?: IconSvgElement
 }
 
-const demoInitSuggests: Suggest[] = [
-  {
-    id: '1',
-    name: 'Bangkok, Thailand',
-    icon: HutIcon,
-  },
-  {
-    id: '2',
-    name: 'Ueno, Taito, Tokyo',
-    icon: EiffelTowerIcon,
-  },
-  {
-    id: '3',
-    name: 'Ikebukuro, Toshima, Tokyo',
-    icon: TwinTowerIcon,
-  },
-  {
-    id: '4',
-    name: 'San Diego, CA',
-    icon: BeachIcon,
-  },
-  {
-    id: '5',
-    name: 'Humboldt Park, Chicago, IL',
-    icon: LakeIcon,
-  },
-]
+const demoInitSuggests: Suggest[] = DESTINATIONS.map((destination, index) => ({
+  id: String(index + 1),
+  name: destination.name,
+  icon: Location01Icon,
+}))
 
-const demoSearchingSuggests: Suggest[] = [
-  {
-    id: '1',
-    name: 'San Diego, CA',
-  },
-  {
-    id: '2',
-    name: 'Humboldt Park, Chicago, IL',
-  },
-  {
-    id: '3',
-    name: 'Bangor, Northern Ireland',
-  },
-  {
-    id: '4',
-    name: 'New York, NY, United States',
-  },
-  {
-    id: '5',
-    name: 'Los Angeles, CA, United States',
-  },
-]
+const demoSearchingSuggests: Suggest[] = DESTINATIONS.map((destination, index) => ({
+  id: String(index + 1),
+  name: destination.name,
+}))
 
 const styles = {
   button: {

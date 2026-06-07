@@ -1,5 +1,6 @@
 'use client'
 
+import { DESTINATIONS } from '@/data/destinations'
 import { MapPinIcon } from '@heroicons/react/24/outline'
 import { Search01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
@@ -89,7 +90,7 @@ const LocationInput: FC<Props> = ({
           : // if input value is empty, show popular destinations suggestions
             renderSearchValues({
               heading: 'Popular destinations',
-              items: ['Australia', 'Canada', 'Germany', 'United Kingdom', 'United Arab Emirates'],
+              items: DESTINATIONS.map((destination) => destination.name),
             })}
       </div>
     </div>

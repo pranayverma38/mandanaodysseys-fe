@@ -1,5 +1,7 @@
 'use client'
 
+import { DESTINATIONS } from '@/data/destinations'
+import { buildExperienceSearchUrl } from '@/data/itineraries/search'
 import { GuestsObject } from '@/type'
 import converSelectedDateToString from '@/utils/conver-selected-date-to-string'
 import Form from 'next/form'
@@ -30,17 +32,8 @@ const ExperienceSearchFormMobile = () => {
     setEndDate(end)
   }
   const handleFormSubmit = (formData: FormData) => {
-    const formDataEntries = Object.fromEntries(formData.entries())
-    console.log('Form submitted', formDataEntries)
-    // You can also redirect or perform other actions based on the form data
-
-    // example: add location to the URL
-    const location = formDataEntries['location'] as string
-    let url = '/experience-search'
-    if (location) {
-      url = url + `?location=${encodeURIComponent(location)}`
-    }
-    router.push(url)
+    const location = formData.get('location')?.toString() ?? ''
+    router.push(buildExperienceSearchUrl({ location }))
   }
 
   //
