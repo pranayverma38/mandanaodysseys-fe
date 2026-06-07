@@ -5,9 +5,10 @@ import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import type { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { Button } from './button'
 import CarouselCategories from './carousel-categories'
+import { FilterPanelTransition } from './filter-panel-transition'
 import { Heading } from './heading'
 import NextPrevButtons from './next-prev-btns'
 
@@ -56,6 +57,12 @@ const SectionGroupCategoriesCarousel = ({
   const [groupSelected, setGroupSelected] = useState<string>(groupCategories?.[0].handle || '')
   const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = useCarouselArrowButtons(emblaApi)
 
+  useEffect(() => {
+    if (!emblaApi) return
+    emblaApi.reInit()
+    emblaApi.scrollTo(0)
+  }, [emblaApi, groupSelected])
+
   return (
     <div className={className}>
       <Heading className="max-w-2xl">{heading}</Heading>
@@ -84,14 +91,15 @@ const SectionGroupCategoriesCarousel = ({
         />
       </div>
 
-      <CarouselCategories
-        className="mt-8"
-        emblaRef={emblaRef}
-        categories={groupCategories?.find((group) => group.handle === groupSelected)?.categories || []}
-        cardStyle={cardStyle}
-        showCategoryOverlay={showCategoryOverlay}
-        showCategoryCenteredLabel={showCategoryCenteredLabel}
-      />
+      <FilterPanelTransition filterKey={groupSelected} className="mt-8">
+        <CarouselCategories
+          emblaRef={emblaRef}
+          categories={groupCategories?.find((group) => group.handle === groupSelected)?.categories || []}
+          cardStyle={cardStyle}
+          showCategoryOverlay={showCategoryOverlay}
+          showCategoryCenteredLabel={showCategoryCenteredLabel}
+        />
+      </FilterPanelTransition>
     </div>
   )
 }

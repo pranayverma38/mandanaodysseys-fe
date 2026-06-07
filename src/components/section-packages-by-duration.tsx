@@ -10,9 +10,15 @@ import type { PackagesByDurationDestination, PackagesByDurationGroup } from '@/d
 import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
+import {
+  FilterPanelTransition,
+  filterPanelStaggerContainer,
+  filterPanelStaggerItem,
+} from './filter-panel-transition'
 
 interface Props {
   groups: PackagesByDurationGroup[]
@@ -27,19 +33,19 @@ const DURATION_FILTER_ICONS: Record<string, string> = {
 }
 
 const GRID_SLOT_CLASSES = [
-  'md:col-span-2 md:col-start-1 md:row-start-1',
-  'md:col-start-1 md:row-start-2',
-  'md:col-start-2 md:row-start-2',
-  'md:col-start-3 md:row-span-2 md:row-start-1',
-  'md:col-start-4 md:row-start-1',
-  'md:col-start-4 md:row-start-2',
+  'md:col-span-2 md:col-start-1 md:row-start-1 md:h-full',
+  'md:col-start-1 md:row-start-2 md:h-full',
+  'md:col-start-2 md:row-start-2 md:h-full',
+  'md:col-start-3 md:row-span-2 md:row-start-1 md:h-full md:min-h-0',
+  'md:col-start-4 md:row-start-1 md:h-full',
+  'md:col-start-4 md:row-start-2 md:h-full',
 ] as const
 
 const GRID_SLOT_ASPECT = [
   'aspect-4/3 md:aspect-auto md:h-full md:min-h-[220px]',
   'aspect-7/8 md:aspect-auto md:h-full md:min-h-[200px]',
   'aspect-7/8 md:aspect-auto md:h-full md:min-h-[200px]',
-  'aspect-7/8 md:aspect-auto md:h-full md:min-h-[420px]',
+  'aspect-7/8 md:aspect-auto md:h-full',
   'aspect-4/3 md:aspect-auto md:h-full md:min-h-[200px]',
   'aspect-4/3 md:aspect-auto md:h-full md:min-h-[200px]',
 ] as const
@@ -54,8 +60,8 @@ function DurationDestinationCard({
   imageRatio: string
 }) {
   return (
-    <div className={clsx('group/collection relative w-full min-h-[220px]', className)}>
-      <div className={clsx('relative z-0 w-full overflow-hidden rounded-2xl', imageRatio)}>
+    <div className={clsx('group/collection relative w-full min-h-[220px] md:h-full', className)}>
+      <div className={clsx('relative z-0 h-full w-full overflow-hidden rounded-2xl', imageRatio)}>
         <Image
           src={destination.thumbnail}
           alt={destination.name}
@@ -97,7 +103,7 @@ const SectionPackagesByDuration = ({
   ),
 }: Props) => {
   const defaultBucket =
-    groups.find((group) => group.bucket.value === '10+' && group.destinations.length > 0)?.bucket.value ??
+    groups.find((group) => group.bucket.value === '3-5' && group.destinations.length > 0)?.bucket.value ??
     groups.find((group) => group.destinations.length > 0)?.bucket.value ??
     groups[0]?.bucket.value ??
     '3-5'
@@ -154,8 +160,8 @@ const SectionPackagesByDuration = ({
       </div>
 
       {activeDestinations.length > 0 ? (
-        <>
-          <div className="embla mt-8 md:hidden" ref={emblaRef}>
+        <FilterPanelTransition filterKey={selectedBucket} className="mt-8">
+          <div className="embla md:hidden" ref={emblaRef}>
             <div className="-ms-6 embla__container">
               {activeDestinations.map((destination) => (
                 <div key={destination.id} className="embla__slide basis-[86%] ps-6 sm:basis-[45%]">
@@ -165,21 +171,32 @@ const SectionPackagesByDuration = ({
             </div>
           </div>
 
-          <div className="mt-8 hidden grid-cols-4 grid-rows-2 gap-6 md:grid">
+          <motion.div
+            className="hidden grid-cols-4 grid-rows-2 gap-6 md:grid md:items-stretch"
+            variants={filterPanelStaggerContainer}
+            initial="hidden"
+            animate="show"
+          >
             {activeDestinations.slice(0, 6).map((destination, index) => (
-              <DurationDestinationCard
+              <motion.div
                 key={destination.id}
-                destination={destination}
+                variants={filterPanelStaggerItem}
                 className={clsx(GRID_SLOT_CLASSES[index])}
-                imageRatio={GRID_SLOT_ASPECT[index] ?? 'aspect-7/8'}
-              />
+              >
+                <DurationDestinationCard
+                  destination={destination}
+                  imageRatio={GRID_SLOT_ASPECT[index] ?? 'aspect-7/8'}
+                />
+              </motion.div>
             ))}
-          </div>
-        </>
+          </motion.div>
+        </FilterPanelTransition>
       ) : (
-        <p className="mt-8 text-center text-muted-foreground">
-          No packages found for this duration. Try another range.
-        </p>
+        <FilterPanelTransition filterKey={`${selectedBucket}-empty`} className="mt-8">
+          <p className="text-center text-muted-foreground">
+            No packages found for this duration. Try another range.
+          </p>
+        </FilterPanelTransition>
       )}
     </div>
   )
