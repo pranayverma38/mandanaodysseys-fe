@@ -12,6 +12,7 @@ import SectionGridAuthorBox from '@/components/section-grid-author-box'
 import SectionGridCategoryBox from '@/components/section-grid-category-box'
 import SectionGridFeaturedListings from '@/components/section-grid-featured-listings'
 import SectionGroupCategoriesCarousel from '@/components/section-group-categories-carousel'
+import SectionPackagesByDuration from '@/components/section-packages-by-duration'
 import SectionCharmsOfAsia from '@/components/section-charms-of-asia'
 import HeroSection2 from '@/components/section-hero-2'
 import SectionHowItWork2 from '@/components/section-how-it-work-2'
@@ -22,17 +23,15 @@ import SectionTravelQuote from '@/components/section-travel-quote'
 import SectionWhyUs from '@/components/section-why-us'
 import { Text } from '@/components/text'
 import { getAuthors } from '@/data/authors'
-import { getGroupStayCategories, getStayCategories } from '@/data/categories'
+import { getEliteGatewayGroups } from '@/data/elite-gateways'
+import { getPackagesByDurationGroups } from '@/data/packages-by-duration'
 import { getBlogPosts } from '@/data/data'
 import { getItineraries, getStayListings } from '@/data/listings'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 async function Page() {
-  const categories = await getStayCategories()
-  const stayListings = await getStayListings()
   const itineraries = await getItineraries()
-  const authors = await getAuthors()
-  const groupCategories = await getGroupStayCategories()
-  const posts = await getBlogPosts()
+  const eliteGatewayGroups = await getEliteGatewayGroups()
+  const packagesByDurationGroups = await getPackagesByDurationGroups()
 
   return (
     <main className="relative section-space-bottom">
@@ -78,7 +77,10 @@ async function Page() {
             />
           </RevealInView>
           <RevealInView className="container">
-            <SectionGroupCategoriesCarousel groupCategories={groupCategories} />
+            <SectionGroupCategoriesCarousel groupCategories={eliteGatewayGroups} showCategoryOverlay={false} />
+          </RevealInView>
+          <RevealInView className="container section-space pb-0">
+            <SectionPackagesByDuration groups={packagesByDurationGroups} />
           </RevealInView>
         </section>
       </div>

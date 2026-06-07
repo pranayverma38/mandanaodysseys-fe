@@ -1,6 +1,7 @@
 'use client'
 
 import { TCategory } from '@/data/categories'
+import { GroupCategoryCarouselCard } from '@/data/group-categories'
 import clsx from 'clsx'
 import { EmblaViewportRefType } from 'embla-carousel-react'
 import CardCategory1 from './card-category1'
@@ -12,34 +13,43 @@ import CardCategory7 from './card-category7'
 import CardCategory8 from './card-category8'
 
 interface Props {
-  categories: TCategory[]
+  categories: GroupCategoryCarouselCard[]
   className?: string
   emblaRef: EmblaViewportRefType
   cardStyle?: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'
+  showCategoryOverlay?: boolean
 }
 
-const CarouselCategories = ({ className, categories, emblaRef, cardStyle = '8' }: Props) => {
-  const renderCard = (category: TCategory) => {
+const CarouselCategories = ({
+  className,
+  categories,
+  emblaRef,
+  cardStyle = '8',
+  showCategoryOverlay = true,
+}: Props) => {
+  const renderCard = (category: GroupCategoryCarouselCard) => {
+    const legacyCategory = category as TCategory
+
     switch (cardStyle) {
       case '1':
-        return <CardCategory1 category={category} />
+        return <CardCategory1 category={legacyCategory} />
       case '2':
-        return <CardCategory3 category={category} />
+        return <CardCategory3 category={legacyCategory} />
       case '3':
-        return <CardCategory3 category={category} />
+        return <CardCategory3 category={legacyCategory} />
       case '4':
-        return <CardCategory4 category={category} />
+        return <CardCategory4 category={legacyCategory} />
       case '5':
-        return <CardCategory5 category={category} />
+        return <CardCategory5 category={legacyCategory} />
       case '6':
-        return <CardCategory6 category={category} />
+        return <CardCategory6 category={legacyCategory} />
       case '7':
-        return <CardCategory7 category={category} />
+        return <CardCategory7 category={legacyCategory} />
       case '8':
-        return <CardCategory8 category={category} />
+        return <CardCategory8 category={category} showOverlay={showCategoryOverlay} />
 
       default:
-        return <CardCategory8 category={category} />
+        return <CardCategory8 category={category} showOverlay={showCategoryOverlay} />
     }
   }
 

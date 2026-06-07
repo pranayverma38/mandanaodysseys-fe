@@ -24,7 +24,7 @@ export const DESTINATIONS: Destination[] = [
     country: 'India',
     description: 'Heritage cities, Himalayan peaks, and vibrant culture across the subcontinent.',
     thumbnail:
-      'https://images.pexels.com/photos/1006968/pexels-photo-1006968.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/7605127/pexels-photo-7605127.jpeg?auto=compress&cs=tinysrgb&w=800',
     packageCount: 48,
   },
   {
@@ -84,7 +84,7 @@ export const DESTINATIONS: Destination[] = [
     country: 'Australia',
     description: 'Reef dives, outback adventures, and cosmopolitan coastal cities.',
     thumbnail:
-      'https://images.pexels.com/photos/1872116/pexels-photo-1872116.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/7549817/pexels-photo-7549817.jpeg?auto=compress&cs=tinysrgb&w=800',
     packageCount: 36,
   },
   {
@@ -94,7 +94,7 @@ export const DESTINATIONS: Destination[] = [
     country: 'Switzerland',
     description: 'Alpine peaks, scenic train routes, and lakeside cities in the heart of Europe.',
     thumbnail:
-      'https://images.pexels.com/photos/123335/pexels-photo-123335.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/5366524/pexels-photo-5366524.jpeg?auto=compress&cs=tinysrgb&w=800',
     packageCount: 12,
   },
 ]

@@ -1,5 +1,5 @@
 'use client'
-import { getGroupStayCategories } from '@/data/categories'
+import { GroupCategoryCarouselGroup } from '@/data/group-categories'
 import { ICONS_MAP } from '@/data/data'
 import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
 import { HugeiconsIcon } from '@hugeicons/react'
@@ -15,8 +15,9 @@ interface Props {
   emblaOptions?: EmblaOptionsType
   className?: string
   heading?: ReactNode
-  groupCategories: Awaited<ReturnType<typeof getGroupStayCategories>>
+  groupCategories: GroupCategoryCarouselGroup[]
   cardStyle?: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'
+  showCategoryOverlay?: boolean
 }
 
 // example data
@@ -43,6 +44,7 @@ const SectionGroupCategoriesCarousel = ({
   ),
   groupCategories,
   cardStyle = '8',
+  showCategoryOverlay = true,
 }: Props) => {
   // Tạo ref để truy cập các phương thức của carousel
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -85,6 +87,7 @@ const SectionGroupCategoriesCarousel = ({
         emblaRef={emblaRef}
         categories={groupCategories?.find((group) => group.handle === groupSelected)?.categories || []}
         cardStyle={cardStyle}
+        showCategoryOverlay={showCategoryOverlay}
       />
     </div>
   )
