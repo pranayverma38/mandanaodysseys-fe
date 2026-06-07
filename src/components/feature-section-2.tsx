@@ -1,4 +1,5 @@
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
+'use client'
+
 import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import {
   AccelerationIcon,
@@ -9,7 +10,7 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
 import Image from 'next/image'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import { Button } from './button'
 import { Heading } from './heading'
 import { Text } from './text'
@@ -27,24 +28,39 @@ interface FeatureSection2Props {
 
 const faqs_demo = [
   {
-    question: 'Is my place right for Ceepii?',
+    question: 'What destinations does Mandana Odysseys offer?',
     answer:
-      'Many travelers choose accommodations near downtown West Palm Beach, in the historic districts, or around Northwood Village for a local experience.',
+      'Mandana Odysseys curates tours across Asia and Oceania—including India, Sri Lanka, Bali, Australia, and more. Browse destinations by region or tour type to find family holidays, honeymoons, adventure trips, and cruise packages.',
   },
   {
-    question: 'What are Ceepii’s fees?',
+    question: 'How do I book a tour with Mandana Odysseys?',
     answer:
-      'Many travelers choose accommodations near downtown West Palm Beach, in the historic districts, or around Northwood Village for a local experience.',
+      'Select a destination and package, choose your travel dates and group size, then submit an enquiry or complete checkout on our website. Our team confirms availability and shares a detailed itinerary before your trip.',
   },
   {
-    question: 'Baggage delay or loss?',
+    question: 'Can I customize my holiday itinerary?',
     answer:
-      'Many travelers choose accommodations near downtown West Palm Beach, in the historic districts, or around Northwood Village for a local experience.',
+      'Yes. Many Mandana Odysseys packages can be tailored to your dates, budget, and interests—from honeymoon retreats and family adventures to festival tours and customized holidays. Reach out and we will build a plan around you.',
   },
   {
-    question: 'How do I get started?',
+    question: 'What is your cancellation and refund policy?',
     answer:
-      'Many travelers choose accommodations near downtown West Palm Beach, in the historic districts, or around Northwood Village for a local experience.',
+      'Cancellation terms depend on the package and supplier, and are shown before you pay. If your plans change—or you face flight delays, baggage issues, or other travel disruptions—our support team is available 24/7 to help rebook or adjust your trip.',
+  },
+  {
+    question: 'What is included in a Mandana Odysseys tour package?',
+    answer:
+      'Inclusions vary by package but typically cover accommodation, selected meals, guided activities, and local transfers. Flights, visas, travel insurance, and optional add-ons are listed clearly on each itinerary so you know exactly what is covered before booking.',
+  },
+  {
+    question: 'Do you help with visas and travel documents?',
+    answer:
+      'Yes. Mandana Odysseys provides guidance on visa requirements, entry rules, and essential travel documents for your destination. Where possible, we connect you with trusted partners to simplify the application process before you depart.',
+  },
+  {
+    question: 'What payment methods does Mandana Odysseys accept?',
+    answer:
+      'We accept major credit and debit cards, bank transfers, and other secure online payment options shown at checkout. A deposit may be required to confirm your booking, with the remaining balance due before travel according to your package terms.',
   },
 ]
 
@@ -68,7 +84,7 @@ const facts = [
   {
     id: 3,
     title: 'Easy Booking',
-    description: 'Booking a stay has never been easier',
+    description: 'Booking a holiday has never been easier',
     icon: AccelerationIcon,
     iconColorClass: 'text-orange-600',
     iconBgColorClass: 'bg-orange-50',
@@ -86,6 +102,8 @@ const FeatureSection2 = ({
   faqs = faqs_demo,
   imageUrl = 'https://images.pexels.com/photos/31776028/pexels-photo-31776028.jpeg',
 }: FeatureSection2Props) => {
+  const [openIndex, setOpenIndex] = useState(0)
+
   return (
     <div className={clsx('flex flex-col justify-between gap-8 lg:flex-row', className)}>
       <div className="relative aspect-3/4 flex-1/2 overflow-hidden rounded-b-xl 2xl:flex-3/7">
@@ -117,22 +135,44 @@ const FeatureSection2 = ({
           {heading && <Heading className="mb-8 sm:mb-14">{heading}</Heading>}
 
           <dl className="divide-y divide-zinc-900/10">
-            {faqs.map((faq, index) => (
-              <Disclosure defaultOpen={index === 0} key={faq.question} as="div" className="py-6 first:pt-0 last:pb-0">
-                <dt>
-                  <DisclosureButton className="group flex w-full justify-between text-start">
-                    <Text className="font-medium">{faq.question}</Text>
-                    <span className="ms-6 self-center text-zinc-600 dark:text-zinc-400">
-                      <PlusIcon aria-hidden="true" className="size-4 group-data-open:hidden" />
-                      <MinusIcon aria-hidden="true" className="size-4 group-not-data-open:hidden" />
-                    </span>
-                  </DisclosureButton>
-                </dt>
-                <DisclosurePanel as="dd" className="mt-3">
-                  <Text className="max-w-sm text-zinc-600 dark:text-zinc-400">{faq.answer}</Text>
-                </DisclosurePanel>
-              </Disclosure>
-            ))}
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index
+
+              return (
+                <div key={faq.question} className="py-6 first:pt-0 last:pb-0">
+                  <dt>
+                    <button
+                      type="button"
+                      aria-expanded={isOpen}
+                      onClick={() => setOpenIndex(isOpen ? -1 : index)}
+                      className="group flex w-full justify-between text-start"
+                    >
+                      <Text className="font-medium">{faq.question}</Text>
+                      <span className="ms-6 self-center text-zinc-600 dark:text-zinc-400">
+                        <PlusIcon
+                          aria-hidden="true"
+                          className={clsx('size-4 transition-opacity duration-300', isOpen && 'hidden')}
+                        />
+                        <MinusIcon
+                          aria-hidden="true"
+                          className={clsx('size-4 transition-opacity duration-300', !isOpen && 'hidden')}
+                        />
+                      </span>
+                    </button>
+                  </dt>
+                  <dd
+                    className={clsx(
+                      'grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-300 ease-in-out',
+                      isOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'mt-0 grid-rows-[0fr] opacity-0',
+                    )}
+                  >
+                    <div className="min-h-0 overflow-hidden">
+                      <Text className="max-w-sm text-zinc-600 dark:text-zinc-400">{faq.answer}</Text>
+                    </div>
+                  </dd>
+                </div>
+              )
+            })}
             <dt className="mt-8 flex flex-wrap gap-3 sm:mt-12">
               <Button href="/contact">
                 <HugeiconsIcon icon={BubbleChatQuestionIcon} className="size-5" />
