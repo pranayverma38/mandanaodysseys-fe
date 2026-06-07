@@ -18,6 +18,7 @@ interface Props {
   groupCategories: GroupCategoryCarouselGroup[]
   cardStyle?: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'
   showCategoryOverlay?: boolean
+  showCategoryCenteredLabel?: boolean
 }
 
 // example data
@@ -45,6 +46,7 @@ const SectionGroupCategoriesCarousel = ({
   groupCategories,
   cardStyle = '8',
   showCategoryOverlay = true,
+  showCategoryCenteredLabel = false,
 }: Props) => {
   // Tạo ref để truy cập các phương thức của carousel
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -88,6 +90,7 @@ const SectionGroupCategoriesCarousel = ({
         categories={groupCategories?.find((group) => group.handle === groupSelected)?.categories || []}
         cardStyle={cardStyle}
         showCategoryOverlay={showCategoryOverlay}
+        showCategoryCenteredLabel={showCategoryCenteredLabel}
       />
     </div>
   )

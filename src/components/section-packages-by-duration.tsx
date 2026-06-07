@@ -3,13 +3,16 @@
 import { Button } from '@/components/button'
 import FormattedPrice from '@/components/formatted-price'
 import { Heading } from '@/components/heading'
+import NextPrevButtons from '@/components/next-prev-btns'
 import { TextLink } from '@/components/text'
 import { ICONS_MAP } from '@/data/data'
 import type { PackagesByDurationDestination, PackagesByDurationGroup } from '@/data/packages-by-duration'
+import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
+import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
-import { ReactNode, useMemo, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useState } from 'react'
 
 interface Props {
   groups: PackagesByDurationGroup[]
@@ -63,7 +66,9 @@ function DurationDestinationCard({
 
         <span className="absolute inset-0 bg-black/20 opacity-0 transition-opacity group-hover/collection:opacity-100" />
 
-        <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/60 via-black/20 to-transparent p-4 sm:p-5">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 min-h-32 bg-linear-to-t from-black/70 via-black/35 to-transparent sm:min-h-36" />
+
+        <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
           <p className="text-lg font-medium text-white sm:text-xl">{destination.name}</p>
           <p className="mt-1 text-sm text-white/90 sm:text-base">
             Starts from <FormattedPrice value={destination.fromPrice} />
@@ -102,11 +107,23 @@ const SectionPackagesByDuration = ({
     return groups.find((group) => group.bucket.value === selectedBucket)?.destinations ?? []
   }, [groups, selectedBucket])
 
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    slidesToScroll: 'auto',
+    direction: process.env.NEXT_PUBLIC_THEME_DIR,
+  })
+  const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = useCarouselArrowButtons(emblaApi)
+
+  useEffect(() => {
+    if (!emblaApi) return
+    emblaApi.reInit()
+    emblaApi.scrollTo(0)
+  }, [emblaApi, activeDestinations, selectedBucket])
+
   return (
     <div className={clsx(className)}>
       <Heading className="max-w-2xl">{heading}</Heading>
 
-      <div className="mt-8 flex flex-wrap items-center gap-4 sm:mt-12">
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-4 sm:mt-12">
         <div className="flex flex-wrap gap-2">
           {groups.map((group) => {
             const iconKey = DURATION_FILTER_ICONS[group.bucket.value]
@@ -124,19 +141,41 @@ const SectionPackagesByDuration = ({
             )
           })}
         </div>
+
+        {activeDestinations.length > 0 ? (
+          <NextPrevButtons
+            className="ms-auto hidden sm:block md:hidden xl:ms-0"
+            onNextClick={onNextButtonClick}
+            onPrevClick={onPrevButtonClick}
+            nextBtnDisabled={nextBtnDisabled}
+            prevBtnDisabled={prevBtnDisabled}
+          />
+        ) : null}
       </div>
 
       {activeDestinations.length > 0 ? (
-        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-4 md:grid-rows-2 md:gap-6">
-          {activeDestinations.slice(0, 6).map((destination, index) => (
-            <DurationDestinationCard
-              key={destination.id}
-              destination={destination}
-              className={clsx(GRID_SLOT_CLASSES[index])}
-              imageRatio={GRID_SLOT_ASPECT[index] ?? 'aspect-7/8'}
-            />
-          ))}
-        </div>
+        <>
+          <div className="embla mt-8 md:hidden" ref={emblaRef}>
+            <div className="-ms-6 embla__container">
+              {activeDestinations.map((destination) => (
+                <div key={destination.id} className="embla__slide basis-[86%] ps-6 sm:basis-[45%]">
+                  <DurationDestinationCard destination={destination} imageRatio="aspect-7/8" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 hidden grid-cols-4 grid-rows-2 gap-6 md:grid">
+            {activeDestinations.slice(0, 6).map((destination, index) => (
+              <DurationDestinationCard
+                key={destination.id}
+                destination={destination}
+                className={clsx(GRID_SLOT_CLASSES[index])}
+                imageRatio={GRID_SLOT_ASPECT[index] ?? 'aspect-7/8'}
+              />
+            ))}
+          </div>
+        </>
       ) : (
         <p className="mt-8 text-center text-muted-foreground">
           No packages found for this duration. Try another range.

@@ -18,6 +18,7 @@ interface Props {
   emblaRef: EmblaViewportRefType
   cardStyle?: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'
   showCategoryOverlay?: boolean
+  showCategoryCenteredLabel?: boolean
 }
 
 const CarouselCategories = ({
@@ -26,6 +27,7 @@ const CarouselCategories = ({
   emblaRef,
   cardStyle = '8',
   showCategoryOverlay = true,
+  showCategoryCenteredLabel = false,
 }: Props) => {
   const renderCard = (category: GroupCategoryCarouselCard) => {
     const legacyCategory = category as TCategory
@@ -46,10 +48,22 @@ const CarouselCategories = ({
       case '7':
         return <CardCategory7 category={legacyCategory} />
       case '8':
-        return <CardCategory8 category={category} showOverlay={showCategoryOverlay} />
+        return (
+          <CardCategory8
+            category={category}
+            showOverlay={showCategoryOverlay}
+            centeredLabel={showCategoryCenteredLabel}
+          />
+        )
 
       default:
-        return <CardCategory8 category={category} showOverlay={showCategoryOverlay} />
+        return (
+          <CardCategory8
+            category={category}
+            showOverlay={showCategoryOverlay}
+            centeredLabel={showCategoryCenteredLabel}
+          />
+        )
     }
   }
 

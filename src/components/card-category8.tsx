@@ -1,4 +1,5 @@
 import { GroupCategoryCarouselCard } from '@/data/group-categories'
+import { getDestinationDisplayFontClass } from '@/lib/destination-display-fonts'
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -10,6 +11,7 @@ interface CardCategory8Props {
   imageRatio?: string
   showArrow?: boolean
   showOverlay?: boolean
+  centeredLabel?: boolean
 }
 
 export default function CardCategory8({
@@ -18,8 +20,10 @@ export default function CardCategory8({
   imageRatio = 'aspect-7/8',
   showArrow = true,
   showOverlay = true,
+  centeredLabel = false,
 }: CardCategory8Props) {
   const { id, name, handle, thumbnail, href } = category
+  const destinationFontClass = centeredLabel ? getDestinationDisplayFontClass(handle) : undefined
 
   return (
     <div className={clsx('group/collection relative w-full', className)}>
@@ -33,6 +37,22 @@ export default function CardCategory8({
         />
 
         <span className="absolute inset-0 bg-black/20 opacity-0 transition-opacity group-hover/collection:opacity-100"></span>
+
+        {centeredLabel && !showOverlay ? (
+          <>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 min-h-32 bg-linear-to-t from-black/70 via-black/35 to-transparent sm:min-h-36" />
+            <div className="absolute inset-x-0 bottom-0 flex justify-center px-4 py-4 sm:py-5">
+              <Text
+                className={clsx(
+                  'line-clamp-2 text-center text-3xl leading-tight font-medium text-white/85 sm:text-4xl lg:text-[2.75rem]',
+                  destinationFontClass
+                )}
+              >
+                {name}
+              </Text>
+            </div>
+          </>
+        ) : null}
       </div>
 
       {showOverlay ? (

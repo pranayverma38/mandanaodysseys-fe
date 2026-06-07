@@ -19,9 +19,9 @@ export const mumbaiPackage: ItineraryDetail = {
     { category: 'customized-holidays' },
   ],
   duration,
-  featuredImage: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  featuredImage: 'https://images.pexels.com/photos/574324/pexels-photo-574324.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
-    'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    'https://images.pexels.com/photos/574324/pexels-photo-574324.jpeg?auto=compress&cs=tinysrgb&w=1600',
     'https://images.pexels.com/photos/2425019/pexels-photo-2425019.jpeg?auto=compress&cs=tinysrgb&w=1600',
     'https://images.pexels.com/photos/358042/pexels-photo-358042.jpeg?auto=compress&cs=tinysrgb&w=1600',
     'https://images.pexels.com/photos/3581361/pexels-photo-3581361.jpeg?auto=compress&cs=tinysrgb&w=1600',

@@ -77,7 +77,11 @@ async function Page() {
             />
           </RevealInView>
           <RevealInView className="container">
-            <SectionGroupCategoriesCarousel groupCategories={eliteGatewayGroups} showCategoryOverlay={false} />
+            <SectionGroupCategoriesCarousel
+              groupCategories={eliteGatewayGroups}
+              showCategoryOverlay={false}
+              showCategoryCenteredLabel
+            />
           </RevealInView>
           <RevealInView className="container section-space pb-0">
             <SectionPackagesByDuration groups={packagesByDurationGroups} />
