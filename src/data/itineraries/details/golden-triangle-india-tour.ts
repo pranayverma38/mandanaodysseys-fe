@@ -1,19 +1,24 @@
 import type { ItineraryDetail } from '../types'
+import { createItineraryDuration } from '../duration'
 import { createDefaultReviews } from './_shared'
+
+const duration = createItineraryDuration(10, 9)
 
 export const goldenTriangleIndiaTour: ItineraryDetail = {
   id: 'itinerary://golden-triangle-india-tour',
   handle: 'golden-triangle-india-tour',
   title: 'Golden Triangle India Tour',
   badge: 'Popular',
-  address: 'Delhi · Agra · Ranthambore · Jaipur, India',
+  destination: 'india',
+  address: 'Delhi · Agra · Ranthambore · Jaipur',
   reviewStart: 4.8,
   reviewCount: 189,
   categories: [
-    { category: 'india', subCategory: 'group-tours' },
-    { category: 'india', subCategory: 'heritage-tours' },
-    { category: 'india', subCategory: 'family-vacations' },
+    { category: 'group-tours' },
+    { category: 'wildlife-safaris' },
+    { category: 'family-vacations' },
   ],
+  duration,
   featuredImage: 'https://images.pexels.com/photos/3761124/pexels-photo-3761124.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/3761124/pexels-photo-3761124.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -24,7 +29,7 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
     'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: '10 Days / 9 Nights' },
+    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: 'Group tour' },
     { icon: 'ChefHatIcon', text: 'Meals included' },
     { icon: 'BedSingle02Icon', text: '4-Star Hotels' },

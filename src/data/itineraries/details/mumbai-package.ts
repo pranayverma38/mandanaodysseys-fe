@@ -1,18 +1,23 @@
 import type { ItineraryDetail } from '../types'
+import { createItineraryDuration } from '../duration'
 import { createDefaultReviews } from './_shared'
+
+const duration = createItineraryDuration(4, 3)
 
 export const mumbaiPackage: ItineraryDetail = {
   id: 'itinerary://mumbai-package',
   handle: 'mumbai-package',
   title: 'Mumbai City Explorer Package',
   badge: 'Popular',
-  address: 'Mumbai, Maharashtra, India',
+  destination: 'india',
+  address: 'Mumbai, Maharashtra',
   reviewStart: 4.7,
   reviewCount: 178,
   categories: [
-    { category: 'india', subCategory: 'city-breaks' },
-    { category: 'india', subCategory: 'heritage-tours' },
+    { category: 'weekend-getaways' },
+    { category: 'customized-holidays' },
   ],
+  duration,
   featuredImage: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -22,7 +27,7 @@ export const mumbaiPackage: ItineraryDetail = {
     'https://images.pexels.com/photos/1006968/pexels-photo-1006968.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: '4 days' },
+    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: 'Private guide' },
     { icon: 'City03Icon', text: 'City sightseeing' },
   ],

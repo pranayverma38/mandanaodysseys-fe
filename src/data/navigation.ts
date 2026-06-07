@@ -58,7 +58,7 @@ export function getMegaMenuItems() {
       children: [
         { title: 'Stay details', href: '/stay-listings/listing-name' },
         { title: 'Experience details', href: '/experience-listings/listing-name' },
-        { title: 'Itinerary details', href: '/itinerary/listing-name' },
+        { title: 'Itinerary details', href: '/itinerary/golden-triangle-india-tour' },
         { title: 'Goa package', href: '/itinerary/goa-package' },
         { title: 'Mumbai package', href: '/itinerary/mumbai-package' },
         { title: 'Golden Triangle', href: '/itinerary/golden-triangle-india-tour' },

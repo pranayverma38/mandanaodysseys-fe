@@ -1,18 +1,23 @@
 import type { ItineraryDetail } from '../types'
+import { createItineraryDuration } from '../duration'
 import { createDefaultReviews } from './_shared'
+
+const duration = createItineraryDuration(5, 4)
 
 export const goaPackage: ItineraryDetail = {
   id: 'itinerary://goa-package',
   handle: 'goa-package',
   title: 'Goa Beach & Heritage Package',
   badge: 'Best Seller',
-  address: 'North Goa · South Goa, India',
+  destination: 'india',
+  address: 'North Goa · South Goa',
   reviewStart: 4.9,
   reviewCount: 246,
   categories: [
-    { category: 'india', subCategory: 'beach-getaways' },
-    { category: 'india', subCategory: 'family-vacations' },
+    { category: 'beach-holidays' },
+    { category: 'family-vacations' },
   ],
+  duration,
   featuredImage: 'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -22,7 +27,7 @@ export const goaPackage: ItineraryDetail = {
     'https://images.pexels.com/photos/1450363/pexels-photo-1450363.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: '5 days' },
+    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'Beach02Icon', text: 'Beach resort stay' },
     { icon: 'ChefHatIcon', text: 'Breakfast & dinner' },
   ],

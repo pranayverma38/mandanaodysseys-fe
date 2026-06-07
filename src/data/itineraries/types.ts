@@ -1,10 +1,9 @@
 import type { StaticImageData } from 'next/image'
+import type { ItineraryDuration } from './duration'
 
 export type ItineraryCategoryRef = {
-  /** Slug from `ITINERARY_CATEGORIES` in categories.ts */
+  /** Slug from `ITINERARY_CATEGORIES` / `TOUR_TYPES` in categories.ts */
   category: string
-  /** Slug from the parent category's `subCategories` in categories.ts */
-  subCategory?: string
 }
 
 export type ItineraryAmenity = {
@@ -50,11 +49,16 @@ export type ItineraryDetail = {
   handle: string
   title: string
   badge?: string
+  /** Slug from `ITINERARY_DESTINATIONS` / `DESTINATIONS` in destinations.ts */
+  destination: string
+  /** Cities or regions within the destination */
   address: string
   reviewStart: number
   reviewCount: number
-  /** 2–3 category tags — slugs defined in `src/data/itineraries/categories.ts` */
+  /** 2–3 category tags — slugs from `ITINERARY_CATEGORIES` / `TOUR_TYPES` */
   categories: ItineraryCategoryRef[]
+  /** Trip length — required for filtering */
+  duration: ItineraryDuration
   featuredImage: string
   galleryImgs: string[]
   amenities: ItineraryAmenity[]

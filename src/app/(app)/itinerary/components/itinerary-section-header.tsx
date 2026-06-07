@@ -1,7 +1,9 @@
-import { Badge } from '@/components/badge'
+import { Badge, BadgeButton } from '@/components/badge'
 import LikeSaveBtns from '@/components/like-save-btns'
 import { getItineraryCategoryLabels } from '@/data/itineraries/categories'
+import { getItineraryDestinationName } from '@/data/itineraries/destinations'
 import type { ItineraryCategoryRef } from '@/data/itineraries/types'
+import { getDestinationPath } from '@/data/destinations'
 import { Location06Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import ItineraryStarRating from './itinerary-star-rating'
@@ -10,12 +12,21 @@ interface Props {
   title: string
   reviewStart: number
   reviewCount: number
+  destination: string
   address: string
   categories: ItineraryCategoryRef[]
 }
 
-const ItinerarySectionHeader = ({ address, categories, reviewCount, reviewStart, title }: Props) => {
+const ItinerarySectionHeader = ({
+  address,
+  categories,
+  destination,
+  reviewCount,
+  reviewStart,
+  title,
+}: Props) => {
   const categoryLabels = getItineraryCategoryLabels(categories)
+  const destinationName = getItineraryDestinationName(destination)
 
   return (
     <div className="flex flex-col items-start gap-y-4">
@@ -33,13 +44,14 @@ const ItinerarySectionHeader = ({ address, categories, reviewCount, reviewStart,
         <ItineraryStarRating point={reviewStart} reviewCount={reviewCount} />
       </div>
 
-      {categoryLabels.length > 0 ? (
-        <div className="flex flex-wrap items-center gap-2">
-          {categoryLabels.map((label, index) => (
-            <Badge key={`${label}-${index}`}>{label}</Badge>
-          ))}
-        </div>
-      ) : null}
+      <div className="flex flex-wrap items-center gap-2">
+        <BadgeButton href={getDestinationPath(destination)} color="orange">
+          {destinationName}
+        </BadgeButton>
+        {categoryLabels.map((label, index) => (
+          <Badge key={`${label}-${index}`}>{label}</Badge>
+        ))}
+      </div>
     </div>
   )
 }

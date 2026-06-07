@@ -1,17 +1,22 @@
 import type { ItineraryDetail } from '../types'
+import { createItineraryDuration } from '../duration'
 import { createDefaultReviews } from './_shared'
+
+const duration = createItineraryDuration(5, 4)
 
 export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
   id: 'itinerary://swiss-alps-lake-geneva-escape',
   handle: 'swiss-alps-lake-geneva-escape',
   title: 'Swiss Alps & Lake Geneva Escape',
+  destination: 'nepal',
   address: 'Zurich · Interlaken · Geneva, Switzerland',
   reviewStart: 4.7,
   reviewCount: 94,
   categories: [
-    { category: 'international', subCategory: 'luxury-escapes' },
-    { category: 'international', subCategory: 'europe-tours' },
+    { category: 'luxury-escapes' },
+    { category: 'mountain-and-hill-station-tours' },
   ],
+  duration,
   featuredImage: 'https://images.pexels.com/photos/123335/pexels-photo-123335.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/123335/pexels-photo-123335.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -20,7 +25,7 @@ export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
     'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: '5 days' },
+    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: '2 guests max' },
     { icon: 'EquipmentGym03Icon', text: 'Scenic train rides' },
   ],

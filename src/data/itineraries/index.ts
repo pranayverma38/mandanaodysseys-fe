@@ -1,40 +1,57 @@
 import type { ItineraryDetail } from './types'
+import { getItineraryDestinationName } from './destinations'
 import { goldenTriangleIndiaTour } from './details/golden-triangle-india-tour'
 import { goaPackage } from './details/goa-package'
-import { listingNameItinerary } from './details/listing-name'
 import { mumbaiPackage } from './details/mumbai-package'
-import { swissAlpsLakeGenevaEscape } from './details/swiss-alps-lake-geneva-escape'
 
 /**
  * Register every itinerary detail file here.
  * To add a new page:
  * 1. Create `src/data/itineraries/details/your-handle.ts`
  * 2. Import and add it to ITINERARY_DETAILS below
- * 3. Visit `/itinerary/your-handle`
+ * 3. Assign a destination from `ITINERARY_DESTINATIONS` (see `DESTINATIONS` in destinations.ts)
+ * 4. Assign 2–3 categories from `ITINERARY_CATEGORIES` (see `TOUR_TYPES` in destinations.ts)
+ * 5. Set `duration` with `createItineraryDuration(days, nights)` from duration.ts
+ * 6. Visit `/itinerary/your-handle`
  */
 export const ITINERARY_DETAILS: ItineraryDetail[] = [
-  listingNameItinerary,
   goldenTriangleIndiaTour,
-  swissAlpsLakeGenevaEscape,
   goaPackage,
   mumbaiPackage,
 ]
 
 export async function getItineraries() {
   return ITINERARY_DETAILS.map(
-    ({ id, handle, title, badge, featuredImage, address, reviewStart, reviewCount, pricing, amenities, categories }) => ({
+    ({
+      id,
+      handle,
+      title,
+      badge,
+      featuredImage,
+      destination,
+      address,
+      reviewStart,
+      reviewCount,
+      pricing,
+      amenities,
+      categories,
+      duration,
+    }) => ({
       id,
       handle,
       title,
       badge,
       featuredImage,
       like: false,
+      destination,
+      destinationName: getItineraryDestinationName(destination),
       address,
       reviewStart,
       reviewCount,
       price: pricing.price,
       amenities,
       categories,
+      duration,
     })
   )
 }
@@ -42,19 +59,38 @@ export async function getItineraries() {
 export async function getItineraryByHandle(handle: string) {
   const itinerary =
     ITINERARY_DETAILS.find((item) => item.handle === handle) ??
-    ITINERARY_DETAILS.find((item) => item.handle === 'listing-name')
+    ITINERARY_DETAILS.find((item) => item.handle === 'golden-triangle-india-tour')
 
   return itinerary ?? null
+}
+
+export async function getItinerariesByDestination(destinationSlug: string) {
+  return ITINERARY_DETAILS.filter((item) => item.destination === destinationSlug)
 }
 
 export async function getItinerariesByCategory(categorySlug: string) {
   return ITINERARY_DETAILS.filter((item) => item.categories.some((tag) => tag.category === categorySlug))
 }
 
-export async function getItinerariesBySubCategory(categorySlug: string, subCategorySlug: string) {
-  return ITINERARY_DETAILS.filter((item) =>
-    item.categories.some((tag) => tag.category === categorySlug && tag.subCategory === subCategorySlug)
-  )
+export async function getItinerariesByDurationRange(options?: { minDays?: number; maxDays?: number }) {
+  const { minDays, maxDays } = options ?? {}
+
+  return ITINERARY_DETAILS.filter((item) => {
+    if (minDays !== undefined && item.duration.days < minDays) {
+      return false
+    }
+
+    if (maxDays !== undefined && item.duration.days > maxDays) {
+      return false
+    }
+
+    return true
+  })
+}
+
+/** @deprecated Sub-categories were removed — pass the tour-type slug as `categorySlug` instead. */
+export async function getItinerariesBySubCategory(_categorySlug: string, subCategorySlug: string) {
+  return getItinerariesByCategory(subCategorySlug)
 }
 
 export async function getItineraryReviews(handle: string) {
@@ -67,3 +103,5 @@ export type TItinerary = ItineraryDetail
 
 export * from './types'
 export * from './categories'
+export * from './destinations'
+export * from './duration'

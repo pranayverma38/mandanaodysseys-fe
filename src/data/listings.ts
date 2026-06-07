@@ -844,6 +844,8 @@ export {
   getItineraries,
   getItineraryByHandle,
   getItinerariesByCategory,
+  getItinerariesByDestination,
+  getItinerariesByDurationRange,
   getItinerariesBySubCategory,
   type TItinerary,
   type TItineraryListing,

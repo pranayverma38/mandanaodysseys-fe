@@ -1,18 +1,23 @@
 import type { ItineraryDetail } from '../types'
+import { createItineraryDuration } from '../duration'
 import { createDefaultReviews } from './_shared'
+
+const duration = createItineraryDuration(7, 6)
 
 export const listingNameItinerary: ItineraryDetail = {
   id: 'itinerary://listing-name',
   handle: 'listing-name',
   title: '7-Day London & Paris Explorer',
   badge: 'Best Seller',
+  destination: 'australia',
   address: 'London, United Kingdom · Paris, France',
   reviewStart: 4.9,
   reviewCount: 312,
   categories: [
-    { category: 'international', subCategory: 'europe-tours' },
-    { category: 'international', subCategory: 'group-tours' },
+    { category: 'group-tours' },
+    { category: 'customized-holidays' },
   ],
+  duration,
   featuredImage: 'https://images.pexels.com/photos/4348078/pexels-photo-4348078.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/4348078/pexels-photo-4348078.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -23,7 +28,7 @@ export const listingNameItinerary: ItineraryDetail = {
     'https://images.pexels.com/photos/7003624/pexels-photo-7003624.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: '7 days' },
+    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: 'Small group' },
     { icon: 'ChefHatIcon', text: 'Breakfast included' },
   ],

@@ -1,57 +1,32 @@
+import { TOUR_TYPES, getTourTypeBySlug } from '@/data/destinations'
 import type { ItineraryCategoryRef } from './types'
-
-export type ItinerarySubCategory = {
-  slug: string
-  name: string
-}
 
 export type ItineraryCategory = {
   slug: string
   name: string
-  subCategories: ItinerarySubCategory[]
+  description: string
 }
 
-export const ITINERARY_CATEGORIES: ItineraryCategory[] = [
-  {
-    slug: 'india',
-    name: 'India',
-    subCategories: [
-      { slug: 'heritage-tours', name: 'Heritage Tours' },
-      { slug: 'beach-getaways', name: 'Beach Getaways' },
-      { slug: 'city-breaks', name: 'City Breaks' },
-      { slug: 'family-vacations', name: 'Family Vacations' },
-      { slug: 'group-tours', name: 'Group Tours' },
-    ],
-  },
-  {
-    slug: 'international',
-    name: 'International',
-    subCategories: [
-      { slug: 'europe-tours', name: 'Europe Tours' },
-      { slug: 'luxury-escapes', name: 'Luxury Escapes' },
-      { slug: 'beach-holidays', name: 'Beach Holidays' },
-      { slug: 'group-tours', name: 'Group Tours' },
-    ],
-  },
-]
+/** Canonical itinerary categories — synced with `TOUR_TYPES` in destinations.ts */
+export const ITINERARY_CATEGORIES: ItineraryCategory[] = TOUR_TYPES.map(({ slug, name, description }) => ({
+  slug,
+  name,
+  description,
+}))
 
 export function getItineraryCategoryName(categorySlug: string) {
-  return ITINERARY_CATEGORIES.find((category) => category.slug === categorySlug)?.name ?? categorySlug
+  return getTourTypeBySlug(categorySlug)?.name ?? categorySlug
 }
 
-export function getItinerarySubCategoryName(categorySlug: string, subCategorySlug: string) {
-  const category = ITINERARY_CATEGORIES.find((item) => item.slug === categorySlug)
-  return category?.subCategories.find((subCategory) => subCategory.slug === subCategorySlug)?.name ?? subCategorySlug
-}
-
-/** Resolve a category tag slug pair to its display label for badges. */
+/** Resolve a category slug to its display label for badges. */
 export function getItineraryCategoryLabel(ref: ItineraryCategoryRef) {
-  if (ref.subCategory) {
-    return getItinerarySubCategoryName(ref.category, ref.subCategory)
-  }
   return getItineraryCategoryName(ref.category)
 }
 
 export function getItineraryCategoryLabels(refs: ItineraryCategoryRef[]) {
   return refs.map(getItineraryCategoryLabel)
+}
+
+export function isItineraryCategorySlug(slug: string) {
+  return ITINERARY_CATEGORIES.some((category) => category.slug === slug)
 }

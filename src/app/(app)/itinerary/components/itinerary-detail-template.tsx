@@ -21,6 +21,7 @@ interface Props {
 const ItineraryDetailTemplate = ({ itinerary }: Props) => {
   const {
     address,
+    destination,
     galleryImgs,
     categories,
     pricing,
@@ -57,6 +58,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
           <ItinerarySectionHeader
             address={address}
             categories={categories}
+            destination={destination}
             reviewCount={reviewCount}
             reviewStart={reviewStart}
             title={title}
