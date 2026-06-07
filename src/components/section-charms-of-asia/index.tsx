@@ -8,6 +8,7 @@ import { MotionDiv } from '../motion-div'
 interface CharmsOfAsiaImage {
   src: string
   alt: string
+  flexClass: string
   sizeClass: string
   delay: number
 }
@@ -16,25 +17,29 @@ const IMAGES: CharmsOfAsiaImage[] = [
   {
     src: '/images/charms-of-asia/charms-asia-1.webp',
     alt: 'Clownfish in coral reef',
-    sizeClass: 'h-[160px] w-[80px] sm:h-[180px] sm:w-[90px] lg:h-[195px] lg:w-[98px]',
+    flexClass: 'flex-[4]',
+    sizeClass: 'h-[92px] w-full sm:h-[180px] sm:w-[90px] sm:flex-none lg:h-[195px] lg:w-[98px]',
     delay: 0.2,
   },
   {
     src: '/images/charms-of-asia/charms-asia-2.webp',
     alt: 'Snorkeling in tropical waters',
-    sizeClass: 'h-[280px] w-[140px] sm:h-[340px] sm:w-[170px] lg:h-[391px] lg:w-[195px]',
+    flexClass: 'flex-[7]',
+    sizeClass: 'h-[162px] w-full sm:h-[340px] sm:w-[170px] sm:flex-none lg:h-[391px] lg:w-[195px]',
     delay: 0.3,
   },
   {
     src: '/images/charms-of-asia/charms-asia-3.webp',
     alt: 'Woman walking on a beach',
-    sizeClass: 'h-[280px] w-[140px] sm:h-[340px] sm:w-[170px] lg:h-[391px] lg:w-[195px]',
+    flexClass: 'flex-[7]',
+    sizeClass: 'h-[162px] w-full sm:h-[340px] sm:w-[170px] sm:flex-none lg:h-[391px] lg:w-[195px]',
     delay: 0.4,
   },
   {
     src: '/images/charms-of-asia/charms-asia-4.webp',
     alt: 'Beach chairs under a yellow umbrella',
-    sizeClass: 'h-[280px] w-[140px] sm:h-[340px] sm:w-[170px] lg:h-[391px] lg:w-[195px]',
+    flexClass: 'flex-[7]',
+    sizeClass: 'h-[162px] w-full sm:h-[340px] sm:w-[170px] sm:flex-none lg:h-[391px] lg:w-[195px]',
     delay: 0.5,
   },
 ]
@@ -80,15 +85,15 @@ export default function SectionCharmsOfAsia({ className }: Props) {
 
         <div
           className={clsx(
-            'flex w-full min-h-0 shrink grow basis-auto flex-row flex-nowrap',
-            'items-center justify-center overflow-visible py-0',
-            'lg:min-h-[400px] lg:flex-1'
+            'flex w-full max-w-full min-w-0 flex-row flex-nowrap',
+            'items-center justify-center overflow-hidden py-0',
+            'lg:min-h-[400px] lg:flex-1 lg:overflow-visible'
           )}
         >
           {IMAGES.map((image) => (
             <MotionDiv
               key={image.src}
-              className={clsx('relative shrink-0', image.sizeClass)}
+              className={clsx('relative min-w-0', image.flexClass, image.sizeClass)}
               initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '0px 0px -15% 0px' }}

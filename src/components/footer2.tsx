@@ -61,7 +61,7 @@ export default function Footer2({ variant = 'light' }: Footer2Props) {
             <Logo variant={styles.logoVariant} size="lg" />
             <p className={styles.tagline}>{FOOTER_TAGLINE}</p>
           </div>
-          <div className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-3 xl:col-span-2 xl:mt-0">
+          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3 xl:col-span-2 xl:mt-0">
             <div>
               <h3 className={styles.heading}>Mandana Odysseys</h3>
               <ul role="list" className="mt-6 space-y-4">
@@ -74,7 +74,7 @@ export default function Footer2({ variant = 'light' }: Footer2Props) {
                 ))}
               </ul>
             </div>
-            <div className="mt-10 md:mt-0">
+            <div>
               <h3 className={styles.heading}>Legal</h3>
               <ul role="list" className="mt-6 space-y-4">
                 {footerLegal.map((item) => (
@@ -86,7 +86,7 @@ export default function Footer2({ variant = 'light' }: Footer2Props) {
                 ))}
               </ul>
             </div>
-            <div className="mt-10 md:mt-0">
+            <div>
               <h3 className={styles.heading}>Talk to us</h3>
               <ul role="list" className="mt-6 space-y-4">
                 {footerTalkToUs.map((item) => (

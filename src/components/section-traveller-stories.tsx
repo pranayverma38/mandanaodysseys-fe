@@ -1,8 +1,6 @@
 'use client'
 
-import { ButtonCircle } from '@/components/button'
 import GoogleLogoSvg from '@/components/google-logo-svg'
-import NextPrevButtons from '@/components/next-prev-btns'
 import { TRAVELLER_STORIES, type TravellerStory } from '@/data/traveller-stories'
 import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
@@ -380,39 +378,28 @@ const SectionTravellerStories = ({ className }: { className?: string }) => {
           </div>
 
           {scrollNeeded ? (
-            <>
-              <ButtonCircle
-                outline
+            <div className="mt-6 flex items-center justify-center gap-6">
+              <button
+                type="button"
                 onClick={onPrevButtonClick}
                 disabled={prevBtnDisabled}
-                className="absolute start-0 top-[38%] z-10 hidden -translate-x-1/3 border-white/20 bg-white/90 text-black sm:inline-flex"
+                className="text-white/60 transition hover:text-white disabled:pointer-events-none disabled:opacity-30"
+                aria-label="Previous story"
               >
-                <span className="sr-only">Prev</span>
-                <ChevronLeftIcon className="size-4 rtl:rotate-180" />
-              </ButtonCircle>
-              <ButtonCircle
-                outline
+                <ChevronLeftIcon className="size-5 rtl:rotate-180" />
+              </button>
+              <button
+                type="button"
                 onClick={onNextButtonClick}
                 disabled={nextBtnDisabled}
-                className="absolute end-0 top-[38%] z-10 hidden translate-x-1/3 border-white/20 bg-white/90 text-black sm:inline-flex"
+                className="text-white/60 transition hover:text-white disabled:pointer-events-none disabled:opacity-30"
+                aria-label="Next story"
               >
-                <span className="sr-only">Next</span>
-                <ChevronRightIcon className="size-4 rtl:rotate-180" />
-              </ButtonCircle>
-            </>
+                <ChevronRightIcon className="size-5 rtl:rotate-180" />
+              </button>
+            </div>
           ) : null}
         </div>
-
-        {scrollNeeded ? (
-          <div className="mt-6 flex justify-center sm:hidden">
-            <NextPrevButtons
-              onPrevClick={onPrevButtonClick}
-              onNextClick={onNextButtonClick}
-              prevBtnDisabled={prevBtnDisabled}
-              nextBtnDisabled={nextBtnDisabled}
-            />
-          </div>
-        ) : null}
       </div>
 
       {activeStory ? (

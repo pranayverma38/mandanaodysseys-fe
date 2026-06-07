@@ -26,6 +26,9 @@ interface Props {
   heading?: ReactNode
 }
 
+const filterButtonClassName =
+  'gap-x-1.5 px-2.5 py-1 text-xs sm:gap-x-2.5 sm:px-[calc(--spacing(5)-1px)] sm:py-[calc(--spacing(2.5)-1px)] sm:text-base'
+
 const DURATION_FILTER_ICONS: Record<string, string> = {
   '3-5': 'Clock01Icon',
   '6-9': 'Clock01Icon',
@@ -130,18 +133,21 @@ const SectionPackagesByDuration = ({
       <Heading className="max-w-2xl">{heading}</Heading>
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4 sm:mt-12">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {groups.map((group) => {
             const iconKey = DURATION_FILTER_ICONS[group.bucket.value]
 
             return (
               <Button
                 key={group.bucket.value}
+                className={filterButtonClassName}
                 onClick={() => setSelectedBucket(group.bucket.value)}
                 // @ts-ignore
                 outline={selectedBucket !== group.bucket.value}
               >
-                {iconKey && ICONS_MAP[iconKey] && <HugeiconsIcon icon={ICONS_MAP[iconKey]} size={20} />}
+                {iconKey && ICONS_MAP[iconKey] && (
+                  <HugeiconsIcon icon={ICONS_MAP[iconKey]} size={16} className="sm:size-5!" />
+                )}
                 {group.bucket.label}
               </Button>
             )

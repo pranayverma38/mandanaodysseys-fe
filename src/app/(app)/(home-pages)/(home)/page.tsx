@@ -69,14 +69,14 @@ async function Page() {
       
 
       <div className="sticky-grid-scroll-intro bg-zinc-50 dark:bg-zinc-900">
-        <section className="section-space-xl">
-          <RevealInView className="container section-space">
+        <section className="py-6 sm:py-20 lg:py-28 2xl:py-32">
+          <RevealInView className="container pt-4 pb-0 sm:py-16 lg:py-20 2xl:py-24">
             <SectionListingsCarousel
               heading={`Hand Picked <span class="font-style-script text-[1.3em] text-[#FC6200] italic">Tours  </span> For You`}
               listings={itineraries}
             />
           </RevealInView>
-          <RevealInView className="container">
+          <RevealInView className="container -mt-10 sm:mt-0">
             <SectionGroupCategoriesCarousel
               groupCategories={eliteGatewayGroups}
               showCategoryOverlay={false}

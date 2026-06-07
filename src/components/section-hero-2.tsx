@@ -59,7 +59,7 @@ const HeroSection2 = ({
         aria-hidden
       >
         <svg
-          className="relative left-1/2 block h-[71px] w-[calc(100%+2px)] -translate-x-1/2"
+          className="relative left-1/2 block h-[71px] w-[calc(100%+2px)] -translate-x-1/2 translate-y-[2px]"
           viewBox="0 0 1000 100"
           preserveAspectRatio="none"
           xmlns="http://www.w3.org/2000/svg"

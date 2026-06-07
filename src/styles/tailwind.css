@@ -37,11 +37,13 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
   html {
-    @apply font-sans;
+    @apply max-w-full overflow-x-clip font-sans;
+    overscroll-behavior-x: none;
+  }
+  body {
+    @apply max-w-full overflow-x-clip bg-background text-foreground;
+    overscroll-behavior-x: none;
   }
 
   html.smooth-scroll-enabled,
@@ -59,7 +61,7 @@
   }
 
   html.smooth-scroll-enabled #smooth-content {
-    overflow: visible;
+    overflow-x: clip;
     width: 100%;
   }
   .maplibregl-popup-content {

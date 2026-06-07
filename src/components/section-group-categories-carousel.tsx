@@ -23,6 +23,9 @@ interface Props {
 }
 
 // example data
+const filterButtonClassName =
+  'gap-x-1.5 px-2.5 py-1 text-xs sm:gap-x-2.5 sm:px-[calc(--spacing(5)-1px)] sm:py-[calc(--spacing(2.5)-1px)] sm:text-base'
+
 const ex_group_collections = [
   {
     title: 'Most Popular',
@@ -68,15 +71,16 @@ const SectionGroupCategoriesCarousel = ({
       <Heading className="max-w-2xl">{heading}</Heading>
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4 sm:mt-12">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {groupCategories?.map((group) => (
             <Button
               key={group.handle}
+              className={filterButtonClassName}
               onClick={() => setGroupSelected(group.handle)}
               // @ts-ignore
               outline={groupSelected !== group.handle}
             >
-              {ICONS_MAP[group.icon] && <HugeiconsIcon icon={ICONS_MAP[group.icon]} size={20} />}
+              {ICONS_MAP[group.icon] && <HugeiconsIcon icon={ICONS_MAP[group.icon]} size={16} className="sm:size-5!" />}
               {group.title}
             </Button>
           ))}

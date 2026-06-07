@@ -29,7 +29,7 @@ export default function SectionReadyToExplore({
   return (
     <section
       className={clsx(
-        'relative mt-20 flex min-h-[680px] w-full flex-col bg-cover bg-top bg-no-repeat',
+        'relative mt-8 flex min-h-[680px] w-full flex-col bg-cover bg-top bg-no-repeat lg:mt-20',
         className
       )}
       style={{ backgroundImage: `url(${readyToExploreBg.src})` }}
@@ -46,7 +46,7 @@ export default function SectionReadyToExplore({
         className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-black"
       />
 
-      <div className="relative flex w-full flex-col items-center px-[15px] pt-16 text-center md:pt-20">
+      <div className="relative flex w-full flex-col items-center px-[15px] pt-0 text-center lg:pt-20">
         <h2 className="mb-3 max-w-[600px] font-marcellus text-2xl leading-8 font-normal text-black md:text-[46px] md:leading-[45px]">
           {heading}
         </h2>

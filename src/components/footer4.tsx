@@ -17,7 +17,7 @@ export default function Footer4() {
             <Logo variant="full-colored" size="lg" />
             <p className="text-sm/6 text-balance text-gray-600 dark:text-neutral-400">{FOOTER_TAGLINE}</p>
           </div>
-          <div className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-3 xl:col-span-2 xl:mt-0">
+          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3 xl:col-span-2 xl:mt-0">
             <div>
               <h3 className="text-sm/6 font-semibold text-gray-900 dark:text-neutral-300">Mandana Odysseys</h3>
               <ul role="list" className="mt-6 space-y-4">
@@ -30,7 +30,7 @@ export default function Footer4() {
                 ))}
               </ul>
             </div>
-            <div className="mt-10 md:mt-0">
+            <div>
               <h3 className="text-sm/6 font-semibold text-gray-900 dark:text-neutral-300">Legal</h3>
               <ul role="list" className="mt-6 space-y-4">
                 {footerLegal.map((item) => (
@@ -42,7 +42,7 @@ export default function Footer4() {
                 ))}
               </ul>
             </div>
-            <div className="mt-10 md:mt-0">
+            <div>
               <h3 className="text-sm/6 font-semibold text-gray-900 dark:text-neutral-300">Talk to us</h3>
               <ul role="list" className="mt-6 space-y-4">
                 {footerTalkToUs.map((item) => (
