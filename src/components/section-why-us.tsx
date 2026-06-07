@@ -3,7 +3,8 @@
 import avatar1 from '@/images/avatars/Image-1.png'
 import avatar2 from '@/images/avatars/Image-2.png'
 import avatar3 from '@/images/avatars/Image-3.png'
-import { DollarSquareIcon, House01FreeIcons, StarSquareIcon, UserAdd02Icon } from '@hugeicons/core-free-icons'
+import iconColoredLogo from '@/images/logos/icon-colored.png'
+import { EarthIcon, StarSquareIcon, UserAdd02Icon, UserMultipleIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Image from 'next/image'
 import { FC, ReactNode } from 'react'
@@ -17,6 +18,7 @@ import { Text } from './text'
 interface SectionWhyUsProps {
   heading?: ReactNode
   description?: string
+  logoVariant?: 'default' | 'icon'
 }
 
 const users = [
@@ -39,21 +41,21 @@ const users = [
 
 const facts = [
   {
-    icon: DollarSquareIcon,
-    title: '$1.5B+ earned',
-    description: 'Earned by hosts, all-time',
+    icon: EarthIcon,
+    title: '50+ destinations',
+    description: 'Curated tours across the globe',
     mlClass: 'ml-0',
   },
   {
-    icon: House01FreeIcons,
-    title: 'Guest arrivals',
-    description: 'Over 10M+ guest arrivals',
+    icon: UserMultipleIcon,
+    title: '10,000+ travelers',
+    description: 'Memorable journeys planned with us',
     mlClass: 'sm:ml-5',
   },
   {
     icon: StarSquareIcon,
     title: '4.9 average rating',
-    description: 'Over 94,370 verified reviews ',
+    description: 'From verified traveler reviews',
     mlClass: 'sm:ml-10',
   },
 ]
@@ -65,11 +67,23 @@ const SectionWhyUs: FC<SectionWhyUsProps> = ({
     </>
   ),
   description = 'We help you find the perfect stay for your needs. Whether you’re looking for a cozy cabin, a luxurious villa, we have something for everyone.',
+  logoVariant = 'default',
 }) => {
   return (
     <div className="relative flex flex-col gap-8 overflow-hidden sm:gap-20 lg:flex-row">
       <div className="flex flex-1 flex-col items-start gap-4 self-center sm:gap-7 lg:pe-14">
-        <Logo />
+        {logoVariant === 'icon' ? (
+          <Image
+            src={iconColoredLogo}
+            alt="Mandana Odysseys"
+            width={iconColoredLogo.width}
+            height={iconColoredLogo.height}
+            className="h-12 w-auto sm:h-14"
+            priority
+          />
+        ) : (
+          <Logo />
+        )}
         <Heading fontSize="text-4xl lg:text-5xl xl:text-6xl" className="max-w-lg">
           {heading}
         </Heading>

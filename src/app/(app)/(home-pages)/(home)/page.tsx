@@ -96,6 +96,10 @@ async function Page() {
 
       <SectionStickyGridScroll />
 
+      <RevealInView className="container section-space-xl">
+        <FeatureSection2 variant="up" />
+      </RevealInView>
+
       <RevealInView className="container section-space-xl md:hidden">
         <SectionTravelQuote />
       </RevealInView>
@@ -144,10 +148,6 @@ async function Page() {
           <SectionWhyUs />
         </RevealInView>
       </section> */}
-
-      {/* <RevealInView className="container section-space-xl">
-        <FeatureSection2 variant="up" />
-      </RevealInView> */}
 
       {/* <RevealInView className="container py-5">
         <Divider />

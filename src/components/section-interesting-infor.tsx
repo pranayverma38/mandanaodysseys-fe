@@ -16,40 +16,41 @@ interface SectionInterestingInforProps {
 
 const STATS = [
   {
-    value: '9M+',
-    label: 'Active listings worldwide',
+    value: '50+',
+    label: 'Curated tour destinations worldwide',
   },
   {
-    value: '150K+',
-    label: 'Cities and towns with active listings',
+    value: '10,000+',
+    label: 'Memorable journeys planned for travelers',
   },
   {
-    value: '220+',
-    label: 'Countries and regions with listings',
+    value: '30+',
+    label: 'Countries and regions we operate in',
   },
   {
-    value: '2B+',
-    label: 'Ceepii guest arrivals all-time',
+    value: '4.9',
+    label: 'Average rating from verified traveler reviews',
   },
 ]
 
 const testimonials = [
   {
-    name: 'Jane Cooper',
-    job: 'Tuple founder',
+    name: 'Sarah Mitchell',
+    job: 'Bali & Java Guided Tour',
     quote:
-      'Stacks is the cleanest design system I’ve used. It helps a lot of projects done without thinking.<br /> Nice Work!',
+      'Mandana Odysseys made planning our honeymoon effortless. Every detail was handled professionally, and the local guides exceeded our expectations.',
   },
   {
-    name: 'Alex Smith',
-    job: 'Travel blogger',
-    quote: 'With the clinic’s support, our home has gently transformed into a sanctuary of calm.',
+    name: 'James Chen',
+    job: 'European Highlights Package',
+    quote:
+      'From the first inquiry to the final day of our trip, the team was responsive and genuinely cared about our experience. Highly recommend for group travel.',
   },
   {
-    name: 'Jake Patel',
-    job: 'Family therapist',
+    name: 'Priya Sharma',
+    job: 'Southeast Asia Adventure',
     quote:
-      'Through the center’s guidance, our family has slowly grown into a refuge of peace. We speak with warmth and honesty now.',
+      'Affordable pricing without cutting corners on quality. Our family of four had an unforgettable vacation, and we are already planning our next trip with them.',
   },
 ]
 
@@ -57,13 +58,16 @@ export default function SectionInterestingInfor({
   className,
   heading = (
     <>
-      Some interesting information <span data-slot="italic">about the Ceepii!</span>
+      Some interesting information about{' '}
+      <span data-slot="italic" className="text-[#FC6200]">
+        Mandana Odysseys
+      </span>
     </>
   ),
   description = (
     <>
-      We believe that everyone deserves to experience the joy of discovery, and we are committed to making it easier
-      than ever to plan your next adventure.
+      We believe every journey should spark discovery. From guided international tours to tailored vacation packages,
+      we make planning your next getaway simple, affordable, and unforgettable.
     </>
   ),
 }: SectionInterestingInforProps) {

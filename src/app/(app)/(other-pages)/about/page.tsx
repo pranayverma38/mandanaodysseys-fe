@@ -75,7 +75,15 @@ const SectionFounder = () => {
 const PageAbout = () => {
   return (
     <div className="container flex flex-col gap-y-16 py-16 lg:gap-y-32 lg:pb-28">
-      <SectionWhyUs />
+      <SectionWhyUs
+        logoVariant="icon"
+        heading={
+          <>
+            Why customers <span data-slot="italic" className="text-[#FC6200]">rely on us</span> for travel
+          </>
+        }
+        description="We craft curated tour and travel packages designed around how you love to explore. Whether you are planning a family holiday, a romantic getaway, or an international adventure, we help you discover unforgettable journeys with ease."
+      />
 
       <SectionInterestingInfor />
       <InspirationFutureGetawaysSection className="text-center" />
@@ -84,7 +92,7 @@ const PageAbout = () => {
       <FeatureSection2 variant="up" />
 
       <Divider />
-      <SectionClientSay />
+      {/* <SectionClientSay /> */}
 
       <NewsletterSection />
     </div>

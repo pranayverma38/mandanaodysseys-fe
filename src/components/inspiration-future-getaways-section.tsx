@@ -75,7 +75,7 @@ export default function InspirationFutureGetawaysSection({
   className,
   heading = (
     <>
-      Inspiration for <span data-slot="italic">future</span> getaways
+      Inspiration for <span data-slot="italic" className="text-[#FC6200]">future</span> getaways
     </>
   ),
 }: Props) {
