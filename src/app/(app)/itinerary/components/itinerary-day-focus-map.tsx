@@ -4,7 +4,7 @@ import { Map, MapMarker, MapRoute, MarkerContent, MarkerTooltip } from '@/compon
 import type { ItineraryThingToDo } from '@/data/itineraries/types'
 import clsx from 'clsx'
 import MapLibreGL from 'maplibre-gl'
-import { useEffect, useMemo, useRef, type RefObject } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 interface Props {
   thingsToDo: ItineraryThingToDo[]
@@ -12,28 +12,15 @@ interface Props {
   isOpen: boolean
 }
 
-const FLY_DURATION_MS = 1600
-
-function attachMapWhenReady(mapRef: RefObject<MapLibreGL.Map | null>, callback: (map: MapLibreGL.Map) => void) {
-  const map = mapRef.current
-  if (!map) {
-    return false
-  }
-
-  const run = () => callback(map)
-
-  if (map.isStyleLoaded()) {
-    requestAnimationFrame(run)
-    return true
-  }
-
-  map.once('load', run)
-  return true
-}
+const TARGET_ZOOM = 12
+const ZOOM_OUT_OFFSET = 1.5
+const ZOOM_OUT_DURATION_MS = 450
+const ZOOM_IN_DURATION_MS = 900
 
 const ItineraryDayFocusMap = ({ thingsToDo, activeIndex, isOpen }: Props) => {
   const mapRef = useRef<MapLibreGL.Map>(null)
-  const previousIndexRef = useRef<number | null>(null)
+  const settledIndexRef = useRef<number | null>(null)
+  const animationGenerationRef = useRef(0)
   const initialCenter = useMemo(() => thingsToDo[0] ?? { lat: 0, lng: 0 }, [thingsToDo])
   const activeItem = thingsToDo[activeIndex]
   const routeCoordinates = useMemo(
@@ -45,65 +32,106 @@ const ItineraryDayFocusMap = ({ thingsToDo, activeIndex, isOpen }: Props) => {
     [thingsToDo, activeIndex]
   )
 
-  useEffect(() => {
-    if (!isOpen) {
-      previousIndexRef.current = null
-    }
-  }, [isOpen])
-
-  useEffect(() => {
-    if (!isOpen || !activeItem) {
-      return
-    }
-
-    let cancelled = false
-    let intervalId: number | undefined
-    const indexChanged = previousIndexRef.current !== null && previousIndexRef.current !== activeIndex
-    previousIndexRef.current = activeIndex
-
-    const moveToActiveStop = (map: MapLibreGL.Map) => {
-      if (cancelled) {
+  const flyToDay = useCallback(
+    (index: number, animate: boolean) => {
+      const map = mapRef.current
+      const item = thingsToDo[index]
+      if (!map || !item) {
         return
       }
 
+      const generation = ++animationGenerationRef.current
+      const isCurrent = () => animationGenerationRef.current === generation
+      const targetCenter: [number, number] = [item.lng, item.lat]
+      const shouldAnimate =
+        animate && settledIndexRef.current !== null && settledIndexRef.current !== index
+
       map.resize()
 
-      const camera = {
-        center: [activeItem.lng, activeItem.lat] as [number, number],
-        zoom: 12,
-        duration: indexChanged ? FLY_DURATION_MS : 0,
-        essential: true,
+      if (!shouldAnimate) {
+        map.jumpTo({ center: targetCenter, zoom: TARGET_ZOOM })
+        settledIndexRef.current = index
+        return
       }
 
-      if (indexChanged) {
-        map.flyTo(camera)
-      } else {
-        map.jumpTo(camera)
+      const zoomOut = Math.max(map.getZoom() - ZOOM_OUT_OFFSET, 7.5)
+
+      map.flyTo({
+        center: map.getCenter(),
+        zoom: zoomOut,
+        duration: ZOOM_OUT_DURATION_MS,
+        essential: true,
+        easing: (t) => t,
+      })
+
+      map.once('moveend', function handleZoomOutEnd() {
+        if (!isCurrent()) {
+          return
+        }
+
+        map.flyTo({
+          center: targetCenter,
+          zoom: TARGET_ZOOM,
+          duration: ZOOM_IN_DURATION_MS,
+          essential: true,
+          easing: (t) => t * (2 - t),
+        })
+
+        map.once('moveend', function handleZoomInEnd() {
+          if (!isCurrent()) {
+            return
+          }
+          settledIndexRef.current = index
+        })
+      })
+    },
+    [thingsToDo]
+  )
+
+  useEffect(() => {
+    if (!isOpen) {
+      settledIndexRef.current = null
+      animationGenerationRef.current += 1
+      return
+    }
+
+    let intervalId: number | undefined
+
+    const run = () => {
+      if (settledIndexRef.current === null) {
+        flyToDay(activeIndex, false)
+        return
+      }
+
+      if (settledIndexRef.current !== activeIndex) {
+        flyToDay(activeIndex, true)
       }
     }
 
-    const tryAttach = () => {
-      if (attachMapWhenReady(mapRef, moveToActiveStop)) {
-        if (intervalId) {
+    const tryRun = () => {
+      if (!mapRef.current?.isStyleLoaded()) {
+        return false
+      }
+
+      run()
+      return true
+    }
+
+    if (!tryRun()) {
+      intervalId = window.setInterval(() => {
+        if (tryRun() && intervalId) {
           window.clearInterval(intervalId)
         }
-        return true
-      }
-
-      return false
-    }
-
-    if (!tryAttach()) {
-      intervalId = window.setInterval(() => tryAttach(), 50)
+      }, 50)
     }
 
     return () => {
-      cancelled = true
+      animationGenerationRef.current += 1
       if (intervalId) {
         window.clearInterval(intervalId)
       }
     }
-  }, [activeIndex, activeItem, isOpen])
+  }, [activeIndex, flyToDay, isOpen])
 
   useEffect(() => {
     const map = mapRef.current
@@ -113,11 +141,6 @@ const ItineraryDayFocusMap = ({ thingsToDo, activeIndex, isOpen }: Props) => {
 
     const handleResize = () => {
       map.resize()
-
-      const item = thingsToDo[activeIndex]
-      if (item) {
-        map.jumpTo({ center: [item.lng, item.lat], zoom: map.getZoom() })
-      }
     }
 
     window.addEventListener('resize', handleResize)
@@ -130,7 +153,7 @@ const ItineraryDayFocusMap = ({ thingsToDo, activeIndex, isOpen }: Props) => {
       window.removeEventListener('resize', handleResize)
       resizeObserver.disconnect()
     }
-  }, [activeIndex, isOpen, thingsToDo])
+  }, [isOpen])
 
   if (!activeItem) {
     return null
