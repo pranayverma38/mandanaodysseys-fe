@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/testimonials',
     '/terms-and-conditions',
     '/privacy',
+    '/code-of-conduct',
     '/cancellations',
     '/destinations',
     '/inspirations',

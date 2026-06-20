@@ -21,6 +21,7 @@ export const footerMandanaOdysseys: FooterLink[] = [
 export const footerLegal: FooterLink[] = [
   { name: 'Terms & Conditions', href: '/terms-and-conditions' },
   { name: 'Privacy', href: '/privacy' },
+  { name: 'Code of Conduct', href: '/code-of-conduct' },
   { name: 'Cancellations', href: '/cancellations' },
   { name: 'Sitemap', href: '/sitemap.xml' },
   { name: 'Contact Us', href: '/contact' },
