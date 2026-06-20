@@ -50,15 +50,15 @@ async function Page() {
         </div>
       </section>
 
-      <div className="container py-8 sm:py-10 lg:py-14">
-        {/* Effect when appear screen one time */}
-        {/* <RevealInView>
+      {/* <div className="container py-8 sm:py-10 lg:py-14">
+        Effect when appear screen one time
+        <RevealInView>
           <SectionDreamDestination />
-        </RevealInView> */}
+        </RevealInView>
         <RevealInView className="pb-0">
           <InspirationFutureGetawaysSection heading="" className="text-center" />
         </RevealInView>
-      </div>
+      </div> */}
 
       {/* <section className="bg-zinc-50 section-space-xl dark:bg-zinc-900">
         <RevealInView className="container">
