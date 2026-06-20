@@ -19,6 +19,7 @@ export const mumbaiPackage: ItineraryDetail = {
     { category: 'customized-holidays' },
   ],
   duration,
+  mobility: 'Light Activity',
   featuredImage: 'https://images.pexels.com/photos/574324/pexels-photo-574324.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/574324/pexels-photo-574324.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -28,7 +29,6 @@ export const mumbaiPackage: ItineraryDetail = {
     'https://images.pexels.com/photos/1006968/pexels-photo-1006968.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: 'Private guide' },
     { icon: 'City03Icon', text: 'City sightseeing' },
   ],

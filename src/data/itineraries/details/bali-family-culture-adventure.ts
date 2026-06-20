@@ -24,6 +24,7 @@ export const baliFamilyCultureAdventure: ItineraryDetail = {
     { category: 'group-tours' },
   ],
   duration,
+  mobility: 'Light Activity',
   featuredImage: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -32,7 +33,6 @@ export const baliFamilyCultureAdventure: ItineraryDetail = {
     'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: 'Family friendly' },
     { icon: 'ChefHatIcon', text: 'Kids meals included' },
     { icon: 'Beach02Icon', text: 'Beach day pass' },

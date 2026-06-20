@@ -25,6 +25,7 @@ export const australiaSydneyMelbourneLuxury: ItineraryDetail = {
     { category: 'cruise-holidays' },
   ],
   duration,
+  mobility: 'Easy',
   featuredImage: 'https://images.pexels.com/photos/1006968/pexels-photo-1006968.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/1006968/pexels-photo-1006968.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -33,7 +34,6 @@ export const australiaSydneyMelbourneLuxury: ItineraryDetail = {
     'https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'BedSingle02Icon', text: '5-star hotels' },
     { icon: 'ChefHatIcon', text: 'Fine dining' },
     { icon: 'CarParking01Icon', text: 'Private transfers' },

@@ -1,5 +1,6 @@
 import type { StaticImageData } from 'next/image'
 import type { ItineraryDuration } from './duration'
+import type { ItineraryMobility } from './mobility'
 
 export type ItineraryCategoryRef = {
   /** Slug from `ITINERARY_CATEGORIES` / `TOUR_TYPES` in categories.ts */
@@ -68,8 +69,11 @@ export type ItineraryDetail = {
   categories: ItineraryCategoryRef[]
   /** Trip length — required for filtering */
   duration: ItineraryDuration
+  /** Physical activity level — shown in amenities after duration */
+  mobility: ItineraryMobility
   featuredImage: string
   galleryImgs: string[]
+  /** Additional amenities — duration (and mobility on detail page) are prepended when displayed */
   amenities: ItineraryAmenity[]
   pricing: ItineraryPricing
   description: string

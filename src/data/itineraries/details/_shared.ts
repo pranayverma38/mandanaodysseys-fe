@@ -2,7 +2,24 @@ import avatarImage1 from '@/images/avatars/Image-1.png'
 import avatarImage2 from '@/images/avatars/Image-2.png'
 import avatarImage3 from '@/images/avatars/Image-3.png'
 import avatarImage4 from '@/images/avatars/Image-4.png'
-import type { ItineraryLocation, ItineraryReview } from '../types'
+import type { ItineraryDuration } from '../duration'
+import { createMobilityAmenity, type ItineraryMobility } from '../mobility'
+import type { ItineraryAmenity, ItineraryLocation, ItineraryReview } from '../types'
+
+export function buildItineraryListingAmenities(
+  duration: ItineraryDuration,
+  amenities: ItineraryAmenity[]
+): ItineraryAmenity[] {
+  return [{ icon: 'Clock01Icon', text: duration.label }, ...amenities]
+}
+
+export function buildItineraryDetailAmenities(
+  duration: ItineraryDuration,
+  mobility: ItineraryMobility,
+  amenities: ItineraryAmenity[]
+): ItineraryAmenity[] {
+  return [{ icon: 'Clock01Icon', text: duration.label }, createMobilityAmenity(mobility), ...amenities]
+}
 
 export function createItineraryLocations(locations: ItineraryLocation[]): ItineraryLocation[] {
   return locations

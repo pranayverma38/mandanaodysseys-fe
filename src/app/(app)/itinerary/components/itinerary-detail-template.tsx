@@ -5,6 +5,7 @@ import ItineraryPricingSidebar from './itinerary-pricing-sidebar'
 import { redirect } from 'next/navigation'
 import HeaderGallery from '../../(listings)/components/header-gallery'
 import { SectionFeaturedAmenities } from '../../(listings)/components/section-featured-amenities'
+import { buildItineraryDetailAmenities } from '@/data/itineraries/details/_shared'
 import { SectionHeading } from '../../(listings)/components/section-heading'
 import SectionMap from '../../(listings)/components/section-map'
 import ItinerarySectionHeader from './itinerary-section-header'
@@ -31,6 +32,8 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
     title,
     amenities,
     description,
+    duration,
+    mobility,
     thingsToDo,
     includes,
     excludes,
@@ -66,7 +69,9 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
 
           <Divider className="my-8 xl:my-12" />
 
-          <SectionFeaturedAmenities featuredAmenities={amenities} />
+          <SectionFeaturedAmenities
+            featuredAmenities={buildItineraryDetailAmenities(duration, mobility, amenities)}
+          />
 
           <Divider className="my-8 xl:my-12" />
 

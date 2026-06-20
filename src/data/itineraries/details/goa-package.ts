@@ -22,6 +22,7 @@ export const goaPackage: ItineraryDetail = {
     { category: 'family-vacations' },
   ],
   duration,
+  mobility: 'Easy',
   featuredImage: 'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -31,7 +32,6 @@ export const goaPackage: ItineraryDetail = {
     'https://images.pexels.com/photos/1450363/pexels-photo-1450363.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'Beach02Icon', text: 'Beach resort stay' },
     { icon: 'ChefHatIcon', text: 'Breakfast & dinner' },
   ],

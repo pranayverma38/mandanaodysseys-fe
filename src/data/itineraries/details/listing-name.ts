@@ -22,6 +22,7 @@ export const listingNameItinerary: ItineraryDetail = {
     { category: 'customized-holidays' },
   ],
   duration,
+  mobility: 'Light Activity',
   featuredImage: 'https://images.pexels.com/photos/4348078/pexels-photo-4348078.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/4348078/pexels-photo-4348078.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -32,7 +33,6 @@ export const listingNameItinerary: ItineraryDetail = {
     'https://images.pexels.com/photos/7003624/pexels-photo-7003624.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: 'Small group' },
     { icon: 'ChefHatIcon', text: 'Breakfast included' },
   ],

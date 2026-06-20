@@ -25,6 +25,7 @@ export const baliHoneymoonRetreat: ItineraryDetail = {
     { category: 'customized-holidays' },
   ],
   duration,
+  mobility: 'Easy',
   featuredImage: 'https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -33,7 +34,6 @@ export const baliHoneymoonRetreat: ItineraryDetail = {
     'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'BedSingle02Icon', text: 'Private pool villas' },
     { icon: 'ChefHatIcon', text: 'Couples spa & dining' },
     { icon: 'Beach02Icon', text: 'Beach club access' },

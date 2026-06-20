@@ -25,6 +25,7 @@ export const nepalKathmanduPokharaWeekend: ItineraryDetail = {
     { category: 'luxury-escapes' },
   ],
   duration,
+  mobility: 'Moderate',
   featuredImage: 'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -33,7 +34,6 @@ export const nepalKathmanduPokharaWeekend: ItineraryDetail = {
     'https://images.pexels.com/photos/1365425/pexels-photo-1365425.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'MountainIcon', text: 'Annapurna views' },
     { icon: 'BedSingle02Icon', text: 'Boutique stays' },
     { icon: 'ChefHatIcon', text: 'Breakfast included' },

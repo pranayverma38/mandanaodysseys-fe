@@ -21,6 +21,7 @@ import {
   ChefHatIcon,
   City03Icon,
   ColorsIcon,
+  DashboardSpeed01Icon,
   DishWasherIcon,
   Dumbbell02Icon,
   EarthIcon,
@@ -1084,6 +1085,7 @@ export const ICONS_MAP: Record<string, IconSvgElement> = {
   EarthIcon: EarthIcon,
   ColorsIcon: ColorsIcon,
   City03Icon: City03Icon,
+  DashboardSpeed01Icon: DashboardSpeed01Icon,
   AccelerationIcon: AccelerationIcon,
   StarCircleIcon: StarCircleIcon,
 }

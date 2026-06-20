@@ -1,5 +1,6 @@
 import type { ItineraryDetail } from './types'
 import { getItineraryDestinationName } from './destinations'
+import { buildItineraryListingAmenities } from './details/_shared'
 import { filterItineraryListings } from './search'
 import { australiaGreatBarrierReefFamily } from './details/australia-great-barrier-reef-family'
 import { australiaSydneyMelbourneLuxury } from './details/australia-sydney-melbourne-luxury'
@@ -22,7 +23,8 @@ import { swissAlpsLakeGenevaEscape } from './details/swiss-alps-lake-geneva-esca
  * 3. Assign a destination from `ITINERARY_DESTINATIONS` (see `DESTINATIONS` in destinations.ts)
  * 4. Assign 2–3 categories from `ITINERARY_CATEGORIES` (see `TOUR_TYPES` in destinations.ts)
  * 5. Set `duration` with `createItineraryDuration(days, nights)` from duration.ts
- * 6. Visit `/itinerary/your-handle`
+ * 6. Set `mobility` to one of: Easy, Light Activity, Moderate, Active
+ * 7. Visit `/itinerary/your-handle`
  */
 export const ITINERARY_DETAILS: ItineraryDetail[] = [
   goldenTriangleIndiaTour,
@@ -72,7 +74,7 @@ export async function getItineraries() {
       reviewStart,
       reviewCount,
       price: pricing.price,
-      amenities,
+      amenities: buildItineraryListingAmenities(duration, amenities),
       categories,
       duration,
       listingType: 'itinerary' as const,
@@ -142,4 +144,5 @@ export * from './types'
 export * from './categories'
 export * from './destinations'
 export * from './duration'
+export * from './mobility'
 export * from './search'

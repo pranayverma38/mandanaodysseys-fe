@@ -25,6 +25,7 @@ export const australiaGreatBarrierReefFamily: ItineraryDetail = {
     { category: 'group-tours' },
   ],
   duration,
+  mobility: 'Light Activity',
   featuredImage: 'https://images.pexels.com/photos/1872116/pexels-photo-1872116.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/1872116/pexels-photo-1872116.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -33,7 +34,6 @@ export const australiaGreatBarrierReefFamily: ItineraryDetail = {
     'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: 'Family friendly' },
     { icon: 'Beach02Icon', text: 'Reef snorkelling' },
     { icon: 'ChefHatIcon', text: 'Most meals included' },

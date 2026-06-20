@@ -22,6 +22,7 @@ export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
     { category: 'mountain-and-hill-station-tours' },
   ],
   duration,
+  mobility: 'Moderate',
   featuredImage: 'https://images.pexels.com/photos/123335/pexels-photo-123335.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/123335/pexels-photo-123335.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -30,7 +31,6 @@ export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
     'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: '2 guests max' },
     { icon: 'EquipmentGym03Icon', text: 'Scenic train rides' },
   ],

@@ -25,6 +25,7 @@ export const thailandBangkokChiangMaiCultural: ItineraryDetail = {
     { category: 'family-vacations' },
   ],
   duration,
+  mobility: 'Light Activity',
   featuredImage: 'https://images.pexels.com/photos/14573822/pexels-photo-14573822.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/14573822/pexels-photo-14573822.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -33,7 +34,6 @@ export const thailandBangkokChiangMaiCultural: ItineraryDetail = {
     'https://images.pexels.com/photos/372945/pexels-photo-372945.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: 'Group tour' },
     { icon: 'ChefHatIcon', text: 'Thai cooking class' },
     { icon: 'City03Icon', text: 'Temple tours' },

@@ -26,6 +26,7 @@ export const nepalEverestBaseCampTrek: ItineraryDetail = {
     { category: 'customized-holidays' },
   ],
   duration,
+  mobility: 'Active',
   featuredImage: 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -34,7 +35,6 @@ export const nepalEverestBaseCampTrek: ItineraryDetail = {
     'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'MountainIcon', text: 'Guided trekking' },
     { icon: 'UserMultipleIcon', text: 'Small group' },
     { icon: 'ChefHatIcon', text: 'Teahouse meals' },

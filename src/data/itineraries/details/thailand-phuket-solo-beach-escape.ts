@@ -24,6 +24,7 @@ export const thailandPhuketSoloBeachEscape: ItineraryDetail = {
     { category: 'weekend-getaways' },
   ],
   duration,
+  mobility: 'Easy',
   featuredImage: 'https://images.pexels.com/photos/372945/pexels-photo-372945.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/372945/pexels-photo-372945.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -32,7 +33,6 @@ export const thailandPhuketSoloBeachEscape: ItineraryDetail = {
     'https://images.pexels.com/photos/14573822/pexels-photo-14573822.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'Beach02Icon', text: 'Island hopping' },
     { icon: 'UserMultipleIcon', text: 'Solo friendly' },
     { icon: 'ChefHatIcon', text: 'Beachside dining' },

@@ -8,9 +8,9 @@ interface Props {
 
 export const SectionFeaturedAmenities = ({ featuredAmenities }: Props) => {
   return (
-    <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3 sm:gap-8 md:grid-cols-4">
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm sm:gap-x-8">
       {featuredAmenities.map((item, index) => (
-        <div className="flex items-center gap-3 sm:gap-4" key={index}>
+        <div className="flex shrink-0 items-center gap-3 sm:gap-4" key={index}>
           <HugeiconsIcon icon={ICONS_MAP[item.icon] || CheckmarkCircle02Icon} size={24} />
           {item.text}
         </div>

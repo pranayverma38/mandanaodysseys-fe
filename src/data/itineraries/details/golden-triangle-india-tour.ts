@@ -25,6 +25,7 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
     { category: 'family-vacations' },
   ],
   duration,
+  mobility: 'Light Activity',
   featuredImage: 'https://images.pexels.com/photos/19867662/pexels-photo-19867662.jpeg?auto=compress&cs=tinysrgb&w=1600',
   galleryImgs: [
     'https://images.pexels.com/photos/19867662/pexels-photo-19867662.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -35,7 +36,6 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
     'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ],
   amenities: [
-    { icon: 'Clock01Icon', text: duration.label },
     { icon: 'UserMultipleIcon', text: 'Group tour' },
     { icon: 'ChefHatIcon', text: 'Meals included' },
     { icon: 'BedSingle02Icon', text: '4-Star Hotels' },
