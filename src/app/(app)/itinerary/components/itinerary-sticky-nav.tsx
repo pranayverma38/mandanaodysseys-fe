@@ -21,6 +21,7 @@ const TABS: {
   targetId: string
   icon: typeof MapsIcon
 }[] = [
+  { id: 'map', label: 'Map', targetId: 'itinerary-map', icon: PinLocation03Icon },
   { id: 'your-trip', label: 'Your Trip', targetId: 'itinerary-your-trip', icon: MapsIcon },
   { id: 'inclusions', label: 'Inclusions', targetId: 'itinerary-inclusions', icon: LeftToRightListDashIcon },
   {
@@ -30,11 +31,10 @@ const TABS: {
     icon: BedSingle02Icon,
   },
   { id: 'reviews', label: 'Reviews', targetId: 'itinerary-reviews', icon: StarCircleIcon },
-  { id: 'map', label: 'Map', targetId: 'itinerary-map', icon: PinLocation03Icon },
 ]
 
 const ItineraryStickyNav = () => {
-  const [activeTab, setActiveTab] = useState<TabId>('your-trip')
+  const [activeTab, setActiveTab] = useState<TabId>('map')
 
   useEffect(() => {
     const sections = TABS.map((tab) => document.getElementById(tab.targetId)).filter(

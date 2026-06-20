@@ -7,7 +7,7 @@ import HeaderGallery from '../../(listings)/components/header-gallery'
 import { SectionFeaturedAmenities } from '../../(listings)/components/section-featured-amenities'
 import { buildItineraryDetailAmenities } from '@/data/itineraries/details/_shared'
 import { SectionHeading } from '../../(listings)/components/section-heading'
-import SectionMap from '../../(listings)/components/section-map'
+import { ListingMapMarker } from '../../(listings)/components/listing-map-maker'
 import ItinerarySectionHeader from './itinerary-section-header'
 import ItineraryStarRating from './itinerary-star-rating'
 import ItineraryStickyNav from './itinerary-sticky-nav'
@@ -59,7 +59,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
         </div>
 
       <main className="mt-10 flex min-w-0 flex-col gap-8 lg:flex-row xl:gap-[8%]">
-        <div className="flex w-full flex-col lg:w-3/5 xl:w-[59%]">
+        <div className="flex w-full min-w-0 flex-col lg:w-3/5 xl:w-[59%]">
           <ItinerarySectionHeader
             address={address}
             categories={categories}
@@ -84,7 +84,19 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
                 </p>
               ))}
             </div>
+          </div>
 
+          <Divider className="my-8 xl:my-12" />
+
+          <div id="itinerary-map" className="min-w-0 scroll-mt-20">
+            <div className="h-96 w-full overflow-hidden rounded-xl sm:h-120">
+              <ListingMapMarker location={{ ...map, id: 1, name: title }} />
+            </div>
+          </div>
+
+          <Divider className="my-8 xl:my-12" />
+
+          <div className="listingSection__wrap">
             <ItineraryThingsToDoSection thingsToDo={thingsToDo} />
           </div>
 
@@ -114,12 +126,6 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
           reviewStart={reviewStart}
           reviews={reviews}
         />
-      </div>
-
-      <Divider className="my-10 xl:my-16" />
-
-      <div id="itinerary-map" className="mt-10 mb-10 scroll-mt-20 xl:mt-16 xl:mb-16">
-        <SectionMap location={{ ...map, id: 1, name: title }} />
       </div>
       </div>
     </>
