@@ -18,6 +18,7 @@ import clsx from 'clsx'
 import _ from 'lodash'
 import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { ClearDataButton } from './clear-data-button'
+import { minimalSegmentClass, minimalTriggerClass, MinimalSegment } from './minimal-segment-styles'
 
 type Suggest = {
   id: string
@@ -42,16 +43,23 @@ const styles = {
     focused: 'rounded-full bg-transparent focus-visible:outline-hidden dark:bg-white/5 custom-shadow-1',
     default: 'px-7 py-4 xl:px-8 xl:py-5',
     small: 'py-3 px-7 xl:px-8',
+    minimal: 'gap-2.5 px-4 py-2',
   },
   input: {
     base: 'block w-full truncate border-none bg-transparent p-0 font-[550] placeholder-neutral-800 focus:placeholder-neutral-300 focus:ring-0 focus:outline-hidden dark:placeholder-neutral-200',
     default: 'text-base xl:text-lg',
     small: 'text-base',
+    minimal: 'text-sm font-normal text-white placeholder:text-white/60',
   },
   panel: {
     base: 'absolute start-0 top-full z-40 mt-3 hidden-scrollbar max-h-96  overflow-y-auto rounded-3xl bg-white py-3 shadow-xl transition duration-150 data-closed:translate-y-1 data-closed:opacity-0  dark:bg-neutral-800 text-left',
     default: 'w-lg sm:py-6',
     small: 'w-md sm:py-5',
+    minimal: 'w-lg sm:py-6',
+  },
+  icon: {
+    default: 'size-5 text-neutral-300 lg:size-7 dark:text-neutral-400',
+    minimal: 'size-4 shrink-0 text-white/70',
   },
 }
 
@@ -62,7 +70,8 @@ interface Props {
   inputName?: string
   initSuggests?: Suggest[]
   searchingSuggests?: Suggest[]
-  fieldStyle: 'default' | 'small'
+  fieldStyle: 'default' | 'small' | 'minimal'
+  minimalSegment?: MinimalSegment
 }
 
 export const LocationInputField: FC<Props> = ({
@@ -73,6 +82,7 @@ export const LocationInputField: FC<Props> = ({
   initSuggests = demoInitSuggests,
   searchingSuggests = demoSearchingSuggests,
   fieldStyle = 'default',
+  minimalSegment,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -121,13 +131,19 @@ export const LocationInputField: FC<Props> = ({
   const suggestsToShow = isShowInitSuggests ? initSuggests : searchingSuggests
   return (
     <div
-      className={`group relative z-10 flex ${className}`}
+      className={clsx(
+        'group relative z-10 flex',
+        className,
+        fieldStyle === 'minimal' && minimalSegmentClass(minimalSegment)
+      )}
       ref={containerRef}
       {...(showPopover && {
         'data-open': 'true',
       })}
     >
       <Headless.Combobox
+        as="div"
+        className={fieldStyle === 'minimal' ? 'flex h-full w-full min-h-0 flex-1' : undefined}
         value={selected}
         onChange={(value) => {
           setSelected(value || { id: '', name: '' })
@@ -143,13 +159,18 @@ export const LocationInputField: FC<Props> = ({
         <div
           onMouseDown={() => setShowPopover(true)}
           onTouchStart={() => setShowPopover(true)}
-          className={clsx(styles.button.base, styles.button[fieldStyle], showPopover && styles.button.focused)}
+          className={clsx(
+            styles.button.base,
+            fieldStyle !== 'minimal' && styles.button[fieldStyle],
+            fieldStyle === 'minimal' && minimalTriggerClass(showPopover),
+            fieldStyle !== 'minimal' && showPopover && styles.button.focused
+          )}
         >
-          {fieldStyle === 'default' && (
-            <MapPinIcon className="size-5 text-neutral-300 lg:size-7 dark:text-neutral-400" />
+          {(fieldStyle === 'default' || fieldStyle === 'minimal') && (
+            <MapPinIcon className={clsx(fieldStyle === 'minimal' ? styles.icon.minimal : styles.icon.default)} />
           )}
 
-          <div className="grow">
+          <div className="min-w-0 grow">
             <Headless.ComboboxInput
               ref={inputRef}
               aria-label="Search for a location"
@@ -160,18 +181,22 @@ export const LocationInputField: FC<Props> = ({
               displayValue={(item?: Suggest) => item?.name || ''}
               onChange={handleInputChange}
             />
-            <div className="mt-0.5 text-start text-sm font-[350] text-neutral-400">
-              <span className="line-clamp-1">{description}</span>
-            </div>
+            {fieldStyle !== 'minimal' && (
+              <div className="mt-0.5 text-start text-sm font-[350] text-neutral-400">
+                <span className="line-clamp-1">{description}</span>
+              </div>
+            )}
 
-            <ClearDataButton
-              className={clsx(!selected?.id && 'sr-only')}
-              onClick={() => {
-                setSelected({ id: '', name: '' })
-                setShowPopover(false)
-                inputRef.current?.focus()
-              }}
-            />
+            {fieldStyle !== 'minimal' && (
+              <ClearDataButton
+                className={clsx(!selected?.id && 'sr-only')}
+                onClick={() => {
+                  setSelected({ id: '', name: '' })
+                  setShowPopover(false)
+                  inputRef.current?.focus()
+                }}
+              />
+            )}
           </div>
         </div>
 

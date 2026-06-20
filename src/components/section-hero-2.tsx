@@ -2,6 +2,7 @@ import { ListingType } from '@/type'
 import clsx from 'clsx'
 import { ReactNode } from 'react'
 import HeroSection2Content from './section-hero-2-content'
+import './hero-search-glare.css'
 
 interface Props {
   className?: string
@@ -25,7 +26,7 @@ const HeroSection2 = ({
   return (
     <div
       className={clsx(
-        'section-hero-2 relative z-[26] flex w-full h-[85dvh] min-h-[85dvh] max-h-[85dvh] lg:h-[90dvh] lg:min-h-[90dvh] lg:max-h-[90dvh] lg:justify-center',
+        'section-hero-2 relative z-[26] flex w-full h-[85dvh] min-h-[85dvh] max-h-[85dvh] lg:h-[90dvh] lg:min-h-[90dvh] lg:max-h-[90dvh]',
         className
       )}
     >

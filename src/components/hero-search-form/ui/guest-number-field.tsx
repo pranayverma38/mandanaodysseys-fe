@@ -3,10 +3,11 @@
 import NcInputNumber from '@/components/nc-input-number'
 import { GuestsObject } from '@/type'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
-import { UserPlusIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon, UserPlusIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import { FC, useState } from 'react'
 import { ClearDataButton } from './clear-data-button'
+import { minimalSegmentClass, minimalTriggerClass, MinimalSegment } from './minimal-segment-styles'
 
 const styles = {
   button: {
@@ -14,20 +15,28 @@ const styles = {
     focused: 'rounded-full bg-transparent focus-visible:outline-hidden dark:bg-white/5 custom-shadow-1 ',
     default: 'px-7 py-4 xl:px-8 xl:py-5',
     small: 'py-3 px-7 xl:px-8',
+    minimal: 'gap-2.5 px-4 py-2',
   },
   mainText: {
     default: 'text-base xl:text-lg',
     small: 'text-base',
+    minimal: 'text-sm font-normal text-white',
   },
   panel: {
     base: 'absolute end-0 top-full z-50 mt-3 flex w-sm flex-col gap-y-6 rounded-3xl bg-white px-8 py-7 text-left shadow-xl transition duration-150 data-closed:translate-y-1 data-closed:opacity-0 dark:bg-neutral-800',
     default: '',
     small: '',
+    minimal: '',
+  },
+  icon: {
+    default: 'size-5 text-neutral-300 lg:size-7 dark:text-neutral-400',
+    minimal: 'size-4 shrink-0 text-white/70',
   },
 }
 
 interface Props {
-  fieldStyle: 'default' | 'small'
+  fieldStyle: 'default' | 'small' | 'minimal'
+  minimalSegment?: MinimalSegment
   className?: string
   clearDataButtonClassName?: string
 }
@@ -36,6 +45,7 @@ export const GuestNumberField: FC<Props> = ({
   fieldStyle = 'default',
   className = 'flex-1',
   clearDataButtonClassName,
+  minimalSegment,
 }) => {
   const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(2)
   const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(1)
@@ -63,32 +73,56 @@ export const GuestNumberField: FC<Props> = ({
 
   const totalGuests = guestChildrenInputValue + guestAdultsInputValue + guestInfantsInputValue
   return (
-    <Popover className={`group relative z-10 flex ${className}`}>
+    <Popover
+      className={clsx(
+        'group relative z-10 flex',
+        className,
+        fieldStyle === 'minimal' && minimalSegmentClass(minimalSegment),
+        fieldStyle === 'minimal' && 'min-h-0 w-full flex-1'
+      )}
+    >
       {({ open: showPopover }) => (
         <>
           <PopoverButton
-            className={clsx(styles.button.base, styles.button[fieldStyle], showPopover && styles.button.focused)}
+            className={clsx(
+              styles.button.base,
+              fieldStyle !== 'minimal' && styles.button[fieldStyle],
+              fieldStyle === 'minimal' && minimalTriggerClass(showPopover),
+              fieldStyle !== 'minimal' && showPopover && styles.button.focused
+            )}
           >
-            {fieldStyle === 'default' && (
-              <UserPlusIcon className="size-5 text-neutral-300 lg:size-7 dark:text-neutral-400" />
+            {(fieldStyle === 'default' || fieldStyle === 'minimal') && (
+              <UserPlusIcon
+                className={clsx(fieldStyle === 'minimal' ? styles.icon.minimal : styles.icon.default)}
+              />
             )}
 
-            <div className="grow">
-              <span className={clsx('block font-[550]', styles.mainText[fieldStyle])}>{totalGuests || ''} Guests</span>
-              <span className="mt-1 block text-sm leading-none font-[350] text-neutral-400">
-                {totalGuests ? 'Guests' : 'Add guests'}
+            <div className="min-w-0 grow">
+              <span className={clsx('block truncate font-[550]', styles.mainText[fieldStyle])}>
+                {totalGuests || ''} Guests
               </span>
+              {fieldStyle !== 'minimal' && (
+                <span className="mt-1 block text-sm leading-none font-[350] text-neutral-400">
+                  {totalGuests ? 'Guests' : 'Add guests'}
+                </span>
+              )}
             </div>
+
+            {fieldStyle === 'minimal' && (
+              <ChevronDownIcon aria-hidden className="size-3.5 shrink-0 text-white/70" />
+            )}
           </PopoverButton>
 
-          <ClearDataButton
-            className={clsx(!totalGuests && 'sr-only', clearDataButtonClassName)}
-            onClick={() => {
-              setGuestAdultsInputValue(0)
-              setGuestChildrenInputValue(0)
-              setGuestInfantsInputValue(0)
-            }}
-          />
+          {fieldStyle !== 'minimal' && (
+            <ClearDataButton
+              className={clsx(!totalGuests && 'sr-only', clearDataButtonClassName)}
+              onClick={() => {
+                setGuestAdultsInputValue(0)
+                setGuestChildrenInputValue(0)
+                setGuestInfantsInputValue(0)
+              }}
+            />
+          )}
 
           <PopoverPanel unmount={false} transition className={clsx(styles.panel.base, styles.panel[fieldStyle])}>
             <NcInputNumber

@@ -17,9 +17,11 @@ import ExperienceSearchFormMobile from './experience-search-form/experience-sear
 const HeroSearchFormMobile = ({
   className,
   compact,
+  variant = 'default',
 }: {
   className?: string
   compact?: boolean
+  variant?: 'default' | 'hero'
 }) => {
   const [showModal, setShowModal] = useState(false)
   const [showDialog, setShowDialog] = useState(false)
@@ -45,21 +47,33 @@ const HeroSearchFormMobile = ({
     setShowModal(true)
   }
 
+  const isHero = variant === 'hero'
+
   const renderButtonOpenModal = () => {
     return (
       <button
         onClick={openModal}
         className={clsx(
-          'relative flex items-center rounded-full shadow-md-for-card bg-card focus:outline-none',
-          compact ? 'w-fit justify-center px-5 py-3.5' : 'w-full px-4 py-2 sm:pe-11'
+          'relative flex items-center rounded-full focus:outline-none',
+          isHero
+            ? 'border border-white/30 bg-black/35 text-white shadow-none backdrop-blur-md'
+            : 'shadow-md-for-card bg-card',
+          compact ? 'w-fit justify-center px-5 py-2.5' : 'w-full px-4 py-2 sm:pe-11'
         )}
       >
-        <HugeiconsIcon icon={Search01Icon} size={20} />
+        <HugeiconsIcon icon={Search01Icon} size={20} className={isHero ? 'text-white/80' : undefined} />
 
         <div className={clsx('overflow-hidden', compact ? 'ms-2.5' : 'ms-4 flex-1 text-start')}>
-          <span className="block text-sm/5 font-medium">{locationText}</span>
+          <span className={clsx('block text-sm/5', isHero ? 'font-normal text-white/90' : 'font-medium')}>
+            {locationText}
+          </span>
           {!compact && (
-            <span className="mt-px flex gap-2 text-sm/5 font-[350] text-muted-foreground">
+            <span
+              className={clsx(
+                'mt-px flex gap-2 text-sm/5 font-[350]',
+                isHero ? 'text-white/60' : 'text-muted-foreground'
+              )}
+            >
               {weekText} <span>•</span> <span>{guestsText}</span>
             </span>
           )}
