@@ -56,6 +56,8 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
       description:
         'Fly to Delhi. Free time depending on arrival. Group welcome dinner.',
       imageUrl: 'https://images.pexels.com/photos/1006968/pexels-photo-1006968.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 28.6139,
+      lng: 77.209,
     },
     {
       name: 'Delhi',
@@ -63,6 +65,8 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
       description:
         'Explore Old and New Delhi. Rickshaw ride, Khari Baoli Spice Market, Jama Masjid, India Gate, and Qutab Minar.',
       imageUrl: 'https://images.pexels.com/photos/3761124/pexels-photo-3761124.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 28.6139,
+      lng: 77.209,
     },
     {
       name: 'Delhi → Agra',
@@ -70,6 +74,8 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
       description:
         'Drive to Agra. Visit Agra Fort and enjoy the Mohabbat the Taj cultural show.',
       imageUrl: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 27.1767,
+      lng: 78.0081,
     },
     {
       name: 'Agra → Ranthambore',
@@ -77,6 +83,8 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
       description:
         'Visit the Taj Mahal. Continue to Ranthambore National Park.',
       imageUrl: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 26.0173,
+      lng: 76.5026,
     },
     {
       name: 'Ranthambore',
@@ -84,6 +92,8 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
       description:
         'Morning and afternoon safaris searching for Bengal tigers and other wildlife.',
       imageUrl: 'https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 26.0173,
+      lng: 76.5026,
     },
     {
       name: 'Ranthambore → Jaipur',
@@ -91,6 +101,8 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
       description:
         'Travel to Jaipur. Turban-tying experience and leisure time.',
       imageUrl: 'https://images.pexels.com/photos/358042/pexels-photo-358042.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 26.9124,
+      lng: 75.7873,
     },
     {
       name: 'Jaipur',
@@ -98,6 +110,8 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
       description:
         'Visit Hawa Mahal, Amber Fort, City Palace, Jantar Mantar, block printing and carpet weaving workshops.',
       imageUrl: 'https://images.pexels.com/photos/3581361/pexels-photo-3581361.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 26.9124,
+      lng: 75.7873,
     },
     {
       name: 'Jaipur → Delhi',
@@ -105,18 +119,24 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
       description:
         'Return to Delhi. Free time. Farewell dinner with group.',
       imageUrl: 'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 28.6139,
+      lng: 77.209,
     },
     {
       name: 'Delhi',
       time: 'Day 9 · 8:00 AM - 12:00 PM',
       description: 'Fly from Delhi to Australia.',
       imageUrl: 'https://images.pexels.com/photos/1006968/pexels-photo-1006968.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 28.6139,
+      lng: 77.209,
     },
     {
       name: 'Arrival',
       time: 'Day 10 · All day',
       description: 'Arrive home (same day or following day depending on flights).',
       imageUrl: 'https://images.pexels.com/photos/3761124/pexels-photo-3761124.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 28.5562,
+      lng: 77.1,
     },
   ],
   includes: [

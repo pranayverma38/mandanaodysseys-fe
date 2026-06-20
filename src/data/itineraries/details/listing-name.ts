@@ -50,6 +50,8 @@ export const listingNameItinerary: ItineraryDetail = {
       time: 'Day 1 · 7:30 AM - 8:00 AM',
       description: 'Your friendly local London guide will meet you at The Ritz.',
       imageUrl: 'https://images.pexels.com/photos/7245327/pexels-photo-7245327.jpeg',
+      lat: 51.507,
+      lng: -0.1416,
     },
     {
       name: 'Buckingham Palace',
@@ -57,12 +59,16 @@ export const listingNameItinerary: ItineraryDetail = {
       description:
         'Stroll through Green Park to Buckingham Palace and watch the iconic Changing of the Guard.',
       imageUrl: 'https://images.pexels.com/photos/31258524/pexels-photo-31258524.jpeg',
+      lat: 51.5014,
+      lng: -0.1419,
     },
     {
       name: 'Eiffel Tower & Seine Cruise',
       time: 'Day 4 · 2:00 PM - 6:00 PM',
       description: 'Skip-the-line Eiffel Tower access followed by an evening cruise on the Seine.',
       imageUrl: 'https://images.pexels.com/photos/914682/pexels-photo-914682.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 48.8584,
+      lng: 2.2945,
     },
   ],
   includes: [

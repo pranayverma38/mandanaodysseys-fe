@@ -47,6 +47,8 @@ export const mumbaiPackage: ItineraryDetail = {
       description:
         'Start at the iconic Gateway of India, explore Colaba Causeway markets, and visit the Taj Mahal Palace hotel precinct.',
       imageUrl: 'https://images.pexels.com/photos/2425019/pexels-photo-2425019.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 18.922,
+      lng: 72.8347,
     },
     {
       name: 'Elephanta Caves Excursion',
@@ -54,6 +56,8 @@ export const mumbaiPackage: ItineraryDetail = {
       description:
         'Take a ferry to Elephanta Island and explore ancient rock-cut cave temples dedicated to Lord Shiva.',
       imageUrl: 'https://images.pexels.com/photos/358042/pexels-photo-358042.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 18.9633,
+      lng: 72.9315,
     },
     {
       name: 'Dharavi & Street Food Walk',
@@ -61,6 +65,8 @@ export const mumbaiPackage: ItineraryDetail = {
       description:
         'Guided walk through Dharavi’s entrepreneurial heart, followed by vada pav, bhel puri, and kulfi on a street food trail.',
       imageUrl: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 19.0422,
+      lng: 72.854,
     },
     {
       name: 'Marine Drive & Bollywood Studio Tour',
@@ -68,6 +74,8 @@ export const mumbaiPackage: ItineraryDetail = {
       description:
         'Tour a working Bollywood film studio, then end the trip with sunset views along Marine Drive and Chowpatty Beach.',
       imageUrl: 'https://images.pexels.com/photos/3581361/pexels-photo-3581361.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 18.9432,
+      lng: 72.8236,
     },
   ],
   includes: [

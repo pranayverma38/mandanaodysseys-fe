@@ -48,12 +48,16 @@ export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
       time: 'Day 1 · 10:00 AM - 2:00 PM',
       description: 'Explore Lindenhof, Fraumünster, and the lakeside promenade with your private guide.',
       imageUrl: 'https://images.pexels.com/photos/1365425/pexels-photo-1365425.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 47.3769,
+      lng: 8.5417,
     },
     {
       name: 'Jungfraujoch Excursion',
       time: 'Day 3 · 8:00 AM - 5:00 PM',
       description: 'Ride the cogwheel train to the Top of Europe for glacier views and alpine photography.',
       imageUrl: 'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 46.5476,
+      lng: 7.9851,
     },
   ],
   includes: [

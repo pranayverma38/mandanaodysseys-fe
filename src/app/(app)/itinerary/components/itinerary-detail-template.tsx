@@ -7,7 +7,7 @@ import HeaderGallery from '../../(listings)/components/header-gallery'
 import { SectionFeaturedAmenities } from '../../(listings)/components/section-featured-amenities'
 import { buildItineraryDetailAmenities } from '@/data/itineraries/details/_shared'
 import { SectionHeading } from '../../(listings)/components/section-heading'
-import { ListingMapMarker } from '../../(listings)/components/listing-map-maker'
+import ItineraryMapExplorer from './itinerary-map-explorer'
 import ItinerarySectionHeader from './itinerary-section-header'
 import ItineraryStarRating from './itinerary-star-rating'
 import ItineraryStickyNav from './itinerary-sticky-nav'
@@ -39,7 +39,6 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
     excludes,
     accommodations,
     reviews,
-    map,
   } = itinerary
 
   const handleSubmitForm = async (formData: FormData) => {
@@ -90,7 +89,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
 
           <div id="itinerary-map" className="min-w-0 scroll-mt-20">
             <div className="h-96 w-full overflow-hidden rounded-xl sm:h-120">
-              <ListingMapMarker location={{ ...map, id: 1, name: title }} />
+              <ItineraryMapExplorer thingsToDo={thingsToDo} />
             </div>
           </div>
 

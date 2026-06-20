@@ -17,6 +17,8 @@ export type ItineraryThingToDo = {
   time: string
   description: string
   imageUrl: string
+  lat: number
+  lng: number
 }
 
 export type ItineraryReview = {

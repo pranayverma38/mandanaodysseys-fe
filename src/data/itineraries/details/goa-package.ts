@@ -50,6 +50,8 @@ export const goaPackage: ItineraryDetail = {
       description:
         'Relax on North Goa beaches, try water sports, and enjoy fresh seafood at a beach shack with live music.',
       imageUrl: 'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 15.5439,
+      lng: 73.7553,
     },
     {
       name: 'Old Goa Heritage Tour',
@@ -57,6 +59,8 @@ export const goaPackage: ItineraryDetail = {
       description:
         'Visit Basilica of Bom Jesus, Sé Cathedral, and Fontainhas—the Latin Quarter known for colourful Portuguese houses.',
       imageUrl: 'https://images.pexels.com/photos/3601433/pexels-photo-3601433.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 15.5016,
+      lng: 73.9117,
     },
     {
       name: 'Sunset River Cruise',
@@ -64,6 +68,8 @@ export const goaPackage: ItineraryDetail = {
       description:
         'Cruise the Mandovi River at sunset with Goan folk performances and views of Panjim lit up at dusk.',
       imageUrl: 'https://images.pexels.com/photos/457878/pexels-photo-457878.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 15.4909,
+      lng: 73.8278,
     },
     {
       name: 'Palolem & Agonda South Goa',
@@ -71,6 +77,8 @@ export const goaPackage: ItineraryDetail = {
       description:
         'Discover quieter southern beaches, kayak in calm waters, and enjoy a beachside barbecue dinner.',
       imageUrl: 'https://images.pexels.com/photos/1450363/pexels-photo-1450363.jpeg?auto=compress&cs=tinysrgb&w=800',
+      lat: 15.0099,
+      lng: 74.0232,
     },
   ],
   includes: [

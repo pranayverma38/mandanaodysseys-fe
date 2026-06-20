@@ -24,7 +24,8 @@ import { swissAlpsLakeGenevaEscape } from './details/swiss-alps-lake-geneva-esca
  * 4. Assign 2–3 categories from `ITINERARY_CATEGORIES` (see `TOUR_TYPES` in destinations.ts)
  * 5. Set `duration` with `createItineraryDuration(days, nights)` from duration.ts
  * 6. Set `mobility` to one of: Easy, Light Activity, Moderate, Active
- * 7. Visit `/itinerary/your-handle`
+ * 7. Add `lat` and `lng` to each `thingsToDo` entry for the route map
+ * 8. Visit `/itinerary/your-handle`
  */
 export const ITINERARY_DETAILS: ItineraryDetail[] = [
   goldenTriangleIndiaTour,
