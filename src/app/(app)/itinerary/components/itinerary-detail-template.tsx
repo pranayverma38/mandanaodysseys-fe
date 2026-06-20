@@ -8,6 +8,7 @@ import { SectionFeaturedAmenities } from '../../(listings)/components/section-fe
 import { SectionHeading } from '../../(listings)/components/section-heading'
 import SectionMap from '../../(listings)/components/section-map'
 import ItinerarySectionHeader from './itinerary-section-header'
+import ItineraryStarRating from './itinerary-star-rating'
 import ItineraryStickyNav from './itinerary-sticky-nav'
 import ItineraryAccommodationSection from './itinerary-accommodation-section'
 import ItineraryBenefitsSection from './itinerary-benefits-section'
@@ -49,7 +50,8 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
     <>
       <ItineraryStickyNav />
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mt-5 lg:mt-8">
+        <div className="mt-5 flex flex-col gap-3 lg:mt-8">
+          <ItineraryStarRating point={reviewStart} reviewCount={reviewCount} />
           <HeaderGallery images={galleryImgs} gridType="grid4" />
         </div>
 
@@ -59,8 +61,6 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
             address={address}
             categories={categories}
             destination={destination}
-            reviewCount={reviewCount}
-            reviewStart={reviewStart}
             title={title}
           />
 

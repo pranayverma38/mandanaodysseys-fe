@@ -6,12 +6,8 @@ import type { ItineraryCategoryRef } from '@/data/itineraries/types'
 import { getDestinationPath } from '@/data/destinations'
 import { Location06Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import ItineraryStarRating from './itinerary-star-rating'
-
 interface Props {
   title: string
-  reviewStart: number
-  reviewCount: number
   destination: string
   address: string
   categories: ItineraryCategoryRef[]
@@ -21,8 +17,6 @@ const ItinerarySectionHeader = ({
   address,
   categories,
   destination,
-  reviewCount,
-  reviewStart,
   title,
 }: Props) => {
   const categoryLabels = getItineraryCategoryLabels(categories)
@@ -40,8 +34,6 @@ const ItinerarySectionHeader = ({
           <HugeiconsIcon icon={Location06Icon} size={20} className="mb-0.5" />
           <span className="ms-1.5">{address}</span>
         </div>
-        <span>·</span>
-        <ItineraryStarRating point={reviewStart} reviewCount={reviewCount} />
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
