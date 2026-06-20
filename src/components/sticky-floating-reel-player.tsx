@@ -3,8 +3,12 @@
 import { DESTINATIONS } from '@/data/destinations'
 import { SpeakerWaveIcon, SpeakerXMarkIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
+import { motion } from 'motion/react'
 import Image from 'next/image'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { useCallback, useEffect, useRef, useState } from 'react'
+
+const CHARMS_SECTION_ID = 'section-charms-of-asia'
 
 type Story = {
   src: string
@@ -34,7 +38,9 @@ const StickyFloatingReelPlayer = () => {
   const playerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isVisible, setIsVisible] = useState(true)
+  const [isScrollHidden, setIsScrollHidden] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
+  const isDesktop = useMediaQuery('(min-width: 640px)')
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMuted, setIsMuted] = useState(true)
   const [progress, setProgress] = useState(0)
@@ -79,6 +85,35 @@ const StickyFloatingReelPlayer = () => {
     document.addEventListener('pointerdown', handlePointerDown)
     return () => document.removeEventListener('pointerdown', handlePointerDown)
   }, [isExpanded])
+
+  useEffect(() => {
+    if (!isDesktop) {
+      setIsScrollHidden(false)
+      return
+    }
+
+    const section = document.getElementById(CHARMS_SECTION_ID)
+    if (!section) return
+
+    const updateScrollVisibility = () => {
+      const { bottom } = section.getBoundingClientRect()
+      setIsScrollHidden(bottom <= 0)
+    }
+
+    updateScrollVisibility()
+    window.addEventListener('scroll', updateScrollVisibility, { passive: true })
+    window.addEventListener('resize', updateScrollVisibility)
+
+    return () => {
+      window.removeEventListener('scroll', updateScrollVisibility)
+      window.removeEventListener('resize', updateScrollVisibility)
+    }
+  }, [isDesktop])
+
+  useEffect(() => {
+    if (!isDesktop || !isScrollHidden || !isExpanded) return
+    setIsExpanded(false)
+  }, [isDesktop, isScrollHidden, isExpanded])
 
   useEffect(() => {
     if (!isExpanded) return
@@ -144,11 +179,17 @@ const StickyFloatingReelPlayer = () => {
 
   if (!isVisible) return null
 
+  const shouldSlideAway = isDesktop && isScrollHidden
+
   return (
-    <div
+    <motion.div
       ref={playerRef}
+      initial={false}
+      animate={{ x: shouldSlideAway ? '120%' : 0 }}
+      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
       className={clsx(
-        'fixed z-50 cursor-pointer overflow-hidden transition-all duration-300 ease-in-out',
+        'fixed z-50 cursor-pointer',
+        shouldSlideAway && 'pointer-events-none',
         isExpanded && 'max-sm:z-[60]',
         isExpanded
           ? 'inset-0 h-dvh w-screen rounded-none sm:inset-auto sm:bottom-8 sm:end-4 sm:h-auto sm:w-auto'
@@ -253,7 +294,7 @@ const StickyFloatingReelPlayer = () => {
           <XMarkIcon className="size-4" />
         </button>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

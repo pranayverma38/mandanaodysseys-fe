@@ -50,7 +50,10 @@ interface Props {
 
 export default function SectionCharmsOfAsia({ className }: Props) {
   return (
-    <section className={clsx('section-charms-of-asia w-full lg:pt-[100px]', className)}>
+    <section
+      id="section-charms-of-asia"
+      className={clsx('section-charms-of-asia w-full lg:pt-[100px]', className)}
+    >
       <div
         className={clsx(
           'mx-auto flex w-full max-w-[1140px] flex-col flex-nowrap items-center justify-start gap-[46px]',
