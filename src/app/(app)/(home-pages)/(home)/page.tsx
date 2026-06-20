@@ -1,7 +1,6 @@
 import SectionGridPosts3 from '@/components/blog/section-grid-post-3'
 import { Button } from '@/components/button'
 import { Divider } from '@/components/divider'
-import FeatureSection2 from '@/components/feature-section-2'
 
 import { Heading } from '@/components/heading'
 import InspirationFutureGetawaysSection from '@/components/inspiration-future-getaways-section'
@@ -92,10 +91,6 @@ async function Page() {
       <SectionTravellerStories />
 
       <SectionStickyGridScroll />
-
-      <RevealInView className="container section-space-xl">
-        <FeatureSection2 variant="up" />
-      </RevealInView>
 
       <RevealInView className="container section-space-xl md:hidden">
         <SectionTravelQuote />
