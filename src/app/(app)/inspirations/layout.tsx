@@ -9,7 +9,7 @@ import React from 'react'
 export default function InspirationsLayout({ children }: { children: React.ReactNode }) {
   return (
     <Aside.Provider>
-      <div className="relative z-20">
+      <div className="relative z-40">
         <Header hasBorderBottom />
       </div>
       {children}

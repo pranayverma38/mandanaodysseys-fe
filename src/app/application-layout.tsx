@@ -19,7 +19,7 @@ const ApplicationLayout: React.FC<Props> = ({ children, header, isStickyHeader, 
   return (
     <Aside.Provider>
       {/* Header */}
-      <div className={clsx('z-20', isStickyHeader ? 'sticky top-0' : 'relative', headerClassName)}>
+      <div className={clsx('z-40', isStickyHeader ? 'sticky top-0' : 'relative', headerClassName)}>
         {header ? header : <Header hasBorderBottom={false} />}
       </div>
       {/* HeroSearchFormMobile - will display on mobile devices instead of Header-desktop */}
