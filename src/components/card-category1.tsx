@@ -1,4 +1,4 @@
-import { TCategory } from '@/data/categories'
+import { TCategory } from '@/data/group-categories'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'

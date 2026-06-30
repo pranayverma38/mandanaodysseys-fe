@@ -1,4 +1,4 @@
-import { TCategory } from '@/data/categories'
+import { TCategory } from '@/data/group-categories'
 import ButtonSecondary from '@/components/button-secondary'
 import { Link } from '@/components/link'
 import Image from 'next/image'

@@ -3,7 +3,7 @@
 import { Badge } from '@/components/badge'
 import FormattedPriceText from '@/components/formatted-price-text'
 import { Link } from '@/components/link'
-import { TCategory } from '@/data/categories'
+import { TCategory } from '@/data/group-categories'
 import convertNumbThousand from '@/utils/convert-numb-thousand'
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
@@ -39,7 +39,7 @@ const CardCategoryBox1: FC<CardCategoryBox1Props> = ({ className, category }) =>
           <span className="line-clamp-1">{name}</span>
         </h2>
         <span className={`mt-0.5 block text-sm text-neutral-500 dark:text-neutral-400`}>
-          <FormattedPriceText text={subtitle} />
+          <FormattedPriceText text={subtitle ?? ''} />
         </span>
         <Badge className="mt-2.5" color="zinc">
           +{convertNumbThousand(count)} available

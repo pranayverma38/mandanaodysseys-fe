@@ -1,7 +1,6 @@
 'use client'
 
-import { TCategory } from '@/data/categories'
-import { GroupCategoryCarouselCard } from '@/data/group-categories'
+import { GroupCategoryCarouselCard, TCategory } from '@/data/group-categories'
 import clsx from 'clsx'
 import { EmblaViewportRefType } from 'embla-carousel-react'
 import CardCategory1 from './card-category1'

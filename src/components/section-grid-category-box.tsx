@@ -1,5 +1,5 @@
 import CardCategoryBox1 from '@/components/card-category-box1'
-import { TCategory } from '@/data/categories'
+import { TCategory } from '@/data/group-categories'
 import React from 'react'
 import CardCategory1 from './card-category1'
 import CardCategory3 from './card-category3'
