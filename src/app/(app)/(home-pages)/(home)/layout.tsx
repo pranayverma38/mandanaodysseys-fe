@@ -2,6 +2,7 @@ import Aside from '@/components/aside'
 import AsideSidebarNavigation from '@/components/aside-sidebar-navigation'
 import FooterQuickNavigation from '@/components/footer-quick-navigation'
 import Footer2 from '@/components/footer2'
+import HomeSplashScreen from '@/components/home-splash-screen'
 import SectionReadyToExplore from '@/components/section-ready-to-explore'
 import Header3 from '@/components/header/header3'
 // import HeroSearchFormMobile from '@/components/hero-search-form-mobile/hero-search-form-mobile'
@@ -13,6 +14,7 @@ import React from 'react'
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Aside.Provider>
+      <HomeSplashScreen />
       <TravelAgencyJsonLd />
       {/* Header */}
       <MotionDiv

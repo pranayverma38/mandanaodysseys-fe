@@ -47,7 +47,7 @@ export const india: DestinationDetail = {
       description:
         'Diwali, Holi, classical dance, yoga, and centuries of art and craft traditions shape everyday life across the subcontinent.',
       image:
-        'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/31008414/pexels-photo-31008414.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
       title: 'Himalayas',
