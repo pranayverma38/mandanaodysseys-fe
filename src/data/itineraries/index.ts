@@ -20,8 +20,8 @@ import { swissAlpsLakeGenevaEscape } from './details/swiss-alps-lake-geneva-esca
  * To add a new page:
  * 1. Create `src/data/itineraries/details/your-handle.ts`
  * 2. Import and add it to ITINERARY_DETAILS below
- * 3. Assign a destination from `ITINERARY_DESTINATIONS` (see `DESTINATIONS` in destinations.ts)
- * 4. Assign 2–3 categories from `ITINERARY_CATEGORIES` (see `TOUR_TYPES` in destinations.ts)
+ * 3. Assign a destination from `ITINERARY_DESTINATIONS` (see `src/data/destinations/`)
+ * 4. Assign 2–3 categories from `ITINERARY_CATEGORIES` (see `TOUR_TYPES` in tour-types.ts)
  * 5. Set `duration` with `createItineraryDuration(days, nights)` from duration.ts
  * 6. Set `mobility` to one of: Easy, Light Activity, Moderate, Active
  * 7. Add `lat` and `lng` to each `thingsToDo` entry for the route map

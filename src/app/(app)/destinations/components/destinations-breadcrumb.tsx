@@ -12,15 +12,26 @@ import Link from 'next/link'
 interface DestinationsBreadcrumbProps {
   destinationSlug?: string
   tourTypeSlug?: string
+  className?: string
+  overlay?: boolean
 }
 
-export function DestinationsBreadcrumb({ destinationSlug, tourTypeSlug }: DestinationsBreadcrumbProps) {
+export function DestinationsBreadcrumb({
+  destinationSlug,
+  tourTypeSlug,
+  className,
+  overlay = false,
+}: DestinationsBreadcrumbProps) {
   const destination = destinationSlug ? getDestinationBySlug(destinationSlug) : undefined
   const tourType = tourTypeSlug ? getTourTypeBySlug(tourTypeSlug) : undefined
 
+  const listClassName = overlay
+    ? 'text-white/70 [&_[data-slot=breadcrumb-page]]:text-white [&_[data-slot=breadcrumb-link]]:text-white/80 [&_[data-slot=breadcrumb-link]:hover]:text-white'
+    : undefined
+
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
+    <Breadcrumb className={className}>
+      <BreadcrumbList className={listClassName}>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link href="/">Home</Link>
