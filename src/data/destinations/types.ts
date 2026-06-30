@@ -1,6 +1,6 @@
 export type DestinationContinent = 'Asia' | 'Europe' | 'Oceania'
 
-export type DestinationHighlightCategory = 'History' | 'Culture' | 'Wonder' | 'Cuisine' | 'Landmark'
+export type DestinationHighlightCategory = 'Cuisine' | 'Culture' | 'History' | 'Landmark'
 
 export type DestinationHighlight = {
   title: string

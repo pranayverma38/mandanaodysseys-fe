@@ -34,28 +34,28 @@ export const australia: DestinationDetail = {
   highlightsTitle: 'Down under, distilled',
   highlights: [
     {
-      title: 'Aboriginal heritage',
-      category: 'History',
+      title: 'Cuisine',
+      category: 'Cuisine',
       description:
-        'Indigenous Australians have cared for this land for over 65,000 years. Rock art, Dreamtime stories, and cultural centres share their enduring legacy.',
+        'From pavlova and meat pies to fresh seafood and multicultural café culture, Australian food reflects its coastal, global identity.',
       image:
-        'https://images.pexels.com/photos/3601380/pexels-photo-3601380.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/29625647/pexels-photo-29625647.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Multicultural cities',
+      title: 'Culture',
       category: 'Culture',
       description:
-        'Sydney\'s harbour, Melbourne\'s laneway coffee culture, and festivals from Vivid to the Melbourne Cup reflect a diverse, outdoor-loving nation.',
+        'Indigenous heritage, harbour-side cities, outdoor festivals, and a diverse, laid-back lifestyle define modern Australian culture.',
       image:
-        'https://images.pexels.com/photos/7549817/pexels-photo-7549817.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/31597128/pexels-photo-31597128.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
       title: 'Great Barrier Reef',
-      category: 'Wonder',
+      category: 'History',
       description:
-        'The world\'s largest coral reef system stretches over 2,300 km — home to turtles, reef sharks, and kaleidoscopic marine life.',
+        'Aboriginal and Torres Strait Islander peoples have cared for this sea country for over 65,000 years. European charts mapped the reef from the 18th century, and it became a protected marine park in 1975.',
       image:
-        'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
       title: 'Sydney Opera House',
@@ -63,7 +63,7 @@ export const australia: DestinationDetail = {
       description:
         'Jørn Utzon\'s sail-shaped masterpiece on Bennelong Point is a UNESCO site and global symbol of Australia.',
       image:
-        'https://images.pexels.com/photos/3114479/pexels-photo-3114479.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/37930273/pexels-photo-37930273.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
   ],
   bestTimeToVisit: [

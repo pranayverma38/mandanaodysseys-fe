@@ -34,34 +34,34 @@ export const india: DestinationDetail = {
   highlightsTitle: 'Four strokes of incredible India',
   highlights: [
     {
-      title: 'Mughal & Rajput legacy',
-      category: 'History',
+      title: 'Cuisine',
+      category: 'Cuisine',
       description:
-        'Empires from the Mughals to the Rajputs left behind forts, palaces, and UNESCO sites such as the Taj Mahal and Amber Fort.',
+        'From fragrant curries and tandoori breads to regional thalis and street snacks, Indian food is as diverse as the country itself.',
       image:
-        'https://images.pexels.com/photos/3581361/pexels-photo-3581361.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Festivals & living traditions',
+      title: 'Culture',
       category: 'Culture',
       description:
-        'Diwali, Holi, and regional celebrations fill streets with colour, music, and ritual — alongside classical dance, yoga, and artisan crafts.',
+        'Diwali, Holi, classical dance, yoga, and centuries of art and craft traditions shape everyday life across the subcontinent.',
       image:
         'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Himalayas & golden beaches',
-      category: 'Wonder',
+      title: 'Himalayas',
+      category: 'History',
       description:
-        'Snow-capped peaks in Ladakh and Himachal contrast with palm-fringed coasts in Goa and Kerala — all within one vast country.',
+        'For centuries the Himalayas were a crossroads of empires and faith — ancient trade routes linked India to Central Asia, while Buddhist monasteries in Ladakh and Himachal preserved art and scripture from the 7th century onward.',
       image:
         'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Taj Mahal, Agra',
+      title: 'Taj Mahal',
       category: 'Landmark',
       description:
-        'The ivory-white marble mausoleum built by Shah Jahan remains one of the most visited monuments on Earth.',
+        'Shah Jahan\'s ivory-white marble mausoleum in Agra remains one of the most visited and admired monuments on Earth.',
       image:
         'https://images.pexels.com/photos/262780/pexels-photo-262780.jpeg?auto=compress&cs=tinysrgb&w=800',
     },

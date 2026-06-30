@@ -7,11 +7,10 @@ import { DestinationHeroVideo } from './destination-hero-video'
 import Image from 'next/image'
 
 const CATEGORY_LABELS: Record<DestinationHighlight['category'], string> = {
-  History: 'History',
-  Culture: 'Culture',
-  Wonder: 'Natural wonder',
   Cuisine: 'Cuisine',
-  Landmark: 'Landmark',
+  Culture: 'Culture',
+  History: 'History',
+  Landmark: 'Best tourist place',
 }
 
 interface DestinationIntroSectionProps {

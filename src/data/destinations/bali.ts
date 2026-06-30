@@ -34,26 +34,26 @@ export const bali: DestinationDetail = {
   highlightsTitle: 'Bali beckons beautifully',
   highlights: [
     {
-      title: 'Hindu temples & rituals',
-      category: 'History',
+      title: 'Cuisine',
+      category: 'Cuisine',
       description:
-        'Ancient pura (temples) like Besakih and Tanah Lot anchor Balinese Hinduism — a faith unique to this Indonesian island.',
+        'Ayam betutu, babi guling, and satay lilit showcase Bali\'s distinctive Hindu-Balinese flavours, often served on banana leaf with sambal.',
       image:
-        'https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/37106528/pexels-photo-37106528.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Dance, offerings & crafts',
+      title: 'Culture',
       category: 'Culture',
       description:
-        'Daily canang sari offerings, kecak fire dance, batik, and wood carving reflect a living culture woven into village life.',
+        'Daily canang sari offerings, kecak dance, batik, and wood carving reflect a living culture woven into village life across the island.',
       image:
-        'https://images.pexels.com/photos/3601389/pexels-photo-3601389.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/32877828/pexels-photo-32877828.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Rice terraces & volcanoes',
-      category: 'Wonder',
+      title: 'Tegalalang Rice Terraces',
+      category: 'History',
       description:
-        'Tegallalang and Jatiluwih rice terraces cascade down hillsides, while Mount Batur and Mount Agung dominate the skyline.',
+        'Bali\'s subak irrigation system dates to the 9th century — a cooperative water-management tradition rooted in Hindu philosophy that UNESCO recognises as living cultural heritage.',
       image:
         'https://images.pexels.com/photos/303394/pexels-photo-303394.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
@@ -61,9 +61,9 @@ export const bali: DestinationDetail = {
       title: 'Uluwatu Temple',
       category: 'Landmark',
       description:
-        'Perched on a clifftop above the Indian Ocean, Pura Luhur Uluwatu is famed for sunset views and kecak performances.',
+        'Pura Luhur Uluwatu clings to a clifftop above the Indian Ocean, famed for sunset views and nightly kecak fire dance performances.',
       image:
-        'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/2403049/pexels-photo-2403049.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
   ],
   bestTimeToVisit: [

@@ -34,36 +34,36 @@ export const vietnam: DestinationDetail = {
   highlightsTitle: 'Vietnam\'s greatest hits',
   highlights: [
     {
-      title: 'Imperial Hue & war history',
-      category: 'History',
+      title: 'Cuisine',
+      category: 'Cuisine',
       description:
-        'The Nguyen Dynasty citadel in Hue and sites like Cu Chi Tunnels and the War Remnants Museum trace Vietnam\'s layered past.',
+        'Pho, banh mi, fresh spring rolls, and ca phe sua da — Vietnamese food balances herbs, broth, and bold regional flavours.',
       image:
-        'https://images.pexels.com/photos/3601380/pexels-photo-3601380.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/884600/pexels-photo-884600.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Water puppetry & craft traditions',
+      title: 'Culture',
       category: 'Culture',
       description:
-        'Ethnic minority markets in Sapa, ao dai silk tailoring, and water puppet shows reflect centuries of Vietnamese artistry.',
+        'The ao dai, water puppetry, ethnic minority markets, and centuries of craft traditions reflect Vietnam\'s layered heritage.',
       image:
-        'https://images.pexels.com/photos/3601389/pexels-photo-3601389.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/32221272/pexels-photo-32221272.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
       title: 'Ha Long Bay',
-      category: 'Wonder',
+      category: 'History',
       description:
-        'Thousands of limestone islands rise from emerald waters — a UNESCO World Heritage site best explored by overnight cruise.',
+        'Legend tells of dragons descending to defend Vietnam\'s coast, shaping the bay\'s islands. Archaeological sites reveal human settlement for thousands of years, and the area later became a strategic maritime frontier.',
       image:
         'https://images.pexels.com/photos/372945/pexels-photo-372945.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Hoi An Ancient Town',
+      title: 'Hoi An',
       category: 'Landmark',
       description:
         'A beautifully preserved trading port where yellow-walled shop houses and lantern festivals create an unforgettable atmosphere.',
       image:
-        'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/36886920/pexels-photo-36886920.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
   ],
   bestTimeToVisit: [

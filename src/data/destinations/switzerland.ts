@@ -34,36 +34,36 @@ export const switzerland: DestinationDetail = {
   highlightsTitle: 'Swiss perfection, unpacked',
   highlights: [
     {
-      title: 'Medieval old towns',
-      category: 'History',
+      title: 'Cuisine',
+      category: 'Cuisine',
       description:
-        'Bern\'s UNESCO-listed old town, Château de Chillon on Lake Geneva, and alpine villages preserve centuries of Swiss heritage.',
+        'Fondue, raclette, rösti, and artisan chocolate — Swiss cuisine pairs alpine ingredients with precision and regional pride.',
       image:
-        'https://images.pexels.com/photos/5366524/pexels-photo-5366524.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Four languages, one nation',
+      title: 'Culture',
       category: 'Culture',
       description:
-        'German, French, Italian, and Romansh regions each bring distinct traditions — from Fasnacht carnivals to alpine cheese-making.',
+        'Four official languages, Fasnacht carnivals, alpine cheese-making, and medieval old towns reflect Switzerland\'s diverse heritage.',
       image:
-        'https://images.pexels.com/photos/3601389/pexels-photo-3601389.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/29386884/pexels-photo-29386884.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Matterhorn & Jungfrau',
-      category: 'Wonder',
+      title: 'Swiss Alps',
+      category: 'History',
       description:
-        'Iconic peaks rise above Zermatt and the Bernese Oberland. Glacier Express and GoldenPass routes rank among the world\'s greatest train journeys.',
+        'Alpine passes forged Switzerland\'s identity — the 1291 Federal Charter united cantons, and medieval trade routes over the Alps linked northern Europe to the Mediterranean for centuries.',
       image:
         'https://images.pexels.com/photos/1366919/pexels-photo-1366919.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Lake Geneva',
+      title: 'Matterhorn',
       category: 'Landmark',
       description:
-        'Europe\'s largest alpine lake frames Mont Blanc views, vineyard terraces, and the cosmopolitan city of Geneva.',
+        'The pyramid-shaped peak above Zermatt is Switzerland\'s most recognisable mountain — a symbol of alpine beauty and adventure.',
       image:
-        'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/20367490/pexels-photo-20367490.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
   ],
   bestTimeToVisit: [

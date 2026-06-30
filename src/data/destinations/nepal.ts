@@ -34,36 +34,36 @@ export const nepal: DestinationDetail = {
   highlightsTitle: 'Peaks, prayers & pure adventure',
   highlights: [
     {
-      title: 'Kathmandu Valley kingdoms',
-      category: 'History',
+      title: 'Cuisine',
+      category: 'Cuisine',
       description:
-        'Durbar Squares in Kathmandu, Bhaktapur, and Patan preserve Newari architecture and royal palaces from the Malla period.',
+        'Dal bhat, momos, and Newari feasts served in brass thalis — Nepali food is hearty, flavourful, and shaped by Himalayan geography.',
       image:
-        'https://images.pexels.com/photos/3601389/pexels-photo-3601389.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/30205313/pexels-photo-30205313.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Hindu & Buddhist heritage',
+      title: 'Culture',
       category: 'Culture',
       description:
-        'Pashupatinath, Swayambhunath, and Boudhanath stupa draw pilgrims. Festivals like Dashain and Tihar colour the calendar.',
+        'Hindu and Buddhist heritage, prayer flags at Boudhanath, and festivals like Dashain and Tihar colour life in the Kathmandu Valley.',
       image:
-        'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=800',
-    },
-    {
-      title: 'Himalayan peaks',
-      category: 'Wonder',
-      description:
-        'Everest Base Camp, Annapurna Circuit, and Langtang offer world-class trekking amid the planet\'s highest mountains.',
-      image:
-        'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/34457744/pexels-photo-34457744.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
       title: 'Mount Everest',
-      category: 'Landmark',
+      category: 'History',
       description:
-        'At 8,849 metres, Everest is Earth\'s highest peak. Base camp treks and scenic flights offer unforgettable Himalayan views.',
+        'Everest entered world history when Edmund Hillary and Tenzing Norgay reached the summit in 1953. Sherpa communities had guided expeditions for decades before, drawing on generations of Himalayan mountaineering knowledge.',
       image:
         'https://images.pexels.com/photos/936719/pexels-photo-936719.jpeg?auto=compress&cs=tinysrgb&w=800',
+    },
+    {
+      title: 'Kathmandu',
+      category: 'Landmark',
+      description:
+        'The capital\'s Durbar Squares, Swayambhunath stupa, and bustling bazaars form the cultural heart of Nepal.',
+      image:
+        'https://images.pexels.com/photos/35158719/pexels-photo-35158719.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
   ],
   bestTimeToVisit: [

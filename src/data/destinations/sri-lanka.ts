@@ -34,36 +34,36 @@ export const sriLanka: DestinationDetail = {
   highlightsTitle: 'Island magic, up close',
   highlights: [
     {
-      title: 'Ancient kingdoms',
-      category: 'History',
+      title: 'Cuisine',
+      category: 'Cuisine',
       description:
-        'Anuradhapura and Polonnaruwa preserve Buddhist stupas and royal ruins dating back over two millennia.',
+        'Rice and curry feasts, hoppers, kottu roti, and fresh seafood reflect Sri Lanka\'s blend of Sinhalese, Tamil, and colonial influences.',
       image:
-        'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/34070063/pexels-photo-34070063.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Tea culture & temples',
+      title: 'Culture',
       category: 'Culture',
       description:
-        "Colonial tea estates in Nuwara Eliya, Kandy's Temple of the Tooth, and vibrant Sinhalese and Tamil traditions shape daily life.",
+        'Buddhist stupas, Kandy\'s Temple of the Tooth, tea estates, and vibrant festivals define the island\'s rich cultural identity.',
       image:
-        'https://images.pexels.com/photos/3601389/pexels-photo-3601389.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/11696781/pexels-photo-11696781.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Wildlife & coastlines',
-      category: 'Wonder',
+      title: 'Sigiriya',
+      category: 'History',
       description:
-        'Yala and Udawalawe host leopards and elephants, while Mirissa and Unawatuna offer whale watching and surf.',
+        'Built in the 5th century by King Kashyapa, Sigiriya served as a royal citadel and capital. Frescoes, mirror walls, and water gardens reveal the sophistication of Sri Lanka\'s ancient Sinhalese civilisation.',
       image:
-        'https://images.pexels.com/photos/2387866/pexels-photo-2387866.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/6045035/pexels-photo-6045035.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Sigiriya Rock Fortress',
+      title: 'Sri Lanka',
       category: 'Landmark',
       description:
-        'The 5th-century palace atop a 200-metre granite monolith is a UNESCO World Heritage site and icon of Sri Lankan history.',
+        'From ancient kingdoms and hill-country tea trails to palm-fringed coasts, the island packs extraordinary diversity into a compact destination.',
       image:
-        'https://images.pexels.com/photos/3601380/pexels-photo-3601380.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/27907343/pexels-photo-27907343.png?auto=compress&cs=tinysrgb&w=800',
     },
   ],
   bestTimeToVisit: [

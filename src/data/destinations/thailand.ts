@@ -34,26 +34,26 @@ export const thailand: DestinationDetail = {
   highlightsTitle: 'Thailand hits different',
   highlights: [
     {
-      title: 'Ayutthaya & Sukhothai',
-      category: 'History',
+      title: 'Cuisine',
+      category: 'Cuisine',
       description:
-        'Former capitals preserve ruined temples and Buddha statues that trace Thailand\'s rise from ancient kingdom to modern nation.',
+        'Pad Thai, green curry, tom yum, and mango sticky rice — Thailand\'s bold, balanced flavours are celebrated the world over.',
       image:
-        'https://images.pexels.com/photos/3601380/pexels-photo-3601380.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Temples & festivals',
+      title: 'Culture',
       category: 'Culture',
       description:
         'Buddhist wats, Loy Krathong lantern festivals, and Muay Thai boxing reflect a culture deeply rooted in spirituality and community.',
       image:
-        'https://images.pexels.com/photos/3601389/pexels-photo-3601389.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/20680206/pexels-photo-20680206.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
     {
-      title: 'Islands & limestone karsts',
-      category: 'Wonder',
+      title: 'Phi Phi Islands',
+      category: 'History',
       description:
-        'Phang Nga Bay, Phi Phi, and the Similan Islands offer turquoise water, coral reefs, and dramatic coastal scenery.',
+        'Long before tourism arrived, the Andaman coast was shaped by Malay maritime trade and the rise of Sukhothai and Ayutthaya. Phi Phi\'s bays served fishermen and traders navigating routes between the Gulf and the Indian Ocean.',
       image:
         'https://images.pexels.com/photos/14573822/pexels-photo-14573822.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
@@ -61,9 +61,9 @@ export const thailand: DestinationDetail = {
       title: 'Grand Palace, Bangkok',
       category: 'Landmark',
       description:
-        'The opulent royal complex and Wat Phra Kaew (Temple of the Emerald Buddha) anchor Bangkok\'s historic Rattanakosin district.',
+        'The opulent royal complex and Wat Phra Kaew anchor Bangkok\'s historic Rattanakosin district with dazzling Thai architecture.',
       image:
-        'https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/20889583/pexels-photo-20889583.jpeg?auto=compress&cs=tinysrgb&w=800',
     },
   ],
   bestTimeToVisit: [
