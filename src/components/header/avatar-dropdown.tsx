@@ -1,10 +1,8 @@
 'use client'
 
-import Avatar from '@/components/avatar'
 import { Divider } from '@/components/divider'
 import { Link } from '@/components/link'
 import { useHoverPopover } from '@/hooks/use-hover-popover'
-import avatarImage from '@/images/avatars/Image-1.png'
 import { Popover, PopoverPanel } from '@headlessui/react'
 import {
   FavouriteIcon,
@@ -37,12 +35,12 @@ const menuItems = [
     label: 'Notifications',
   },
   {
-    href: '/account',
+    href: '/account?tab=bookings',
     icon: Task01Icon,
-    label: 'My listings',
+    label: 'My bookings',
   },
   {
-    href: '/account-savelists',
+    href: '/account?tab=wishlist',
     icon: FavouriteIcon,
     label: 'Wishlist',
   },
@@ -77,7 +75,9 @@ export default function AvatarDropdown({ className, triggerButton, popoverId }: 
             >
               <div className="relative grid grid-cols-1 gap-6 px-6 py-7">
                 <div className="flex items-center space-x-3">
-                  <Avatar src={avatarImage.src} className="size-12" />
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-accent text-muted-foreground">
+                    <HugeiconsIcon icon={UserIcon} size={22} />
+                  </div>
 
                   <div className="grow">
                     <h4 className="font-semibold">Eden Smith</h4>

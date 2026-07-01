@@ -1,97 +1,74 @@
-import Avatar from '@/components/avatar'
-import ButtonPrimary from '@/components/button-primary'
-import { Divider } from '@/components/divider'
-import { Field, Label } from '@/components/fieldset'
-import { Heading } from '@/components/heading'
-import Input from '@/components/input'
-import Select from '@/components/select'
-import Textarea from '@/components/textarea'
-import avatar from '@/images/avatars/Image-1.png'
-import { ImageAdd02Icon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
+import { getAccountData } from '@/data/account'
+import type { AccountTab } from '@/data/account/types'
+import { getItineraries } from '@/data/itineraries'
 import { createPageMetadata } from '@/lib/seo'
 import { Metadata } from 'next'
-import Form from 'next/form'
+import { Suspense } from 'react'
+import { AccountBookingsSection } from './components/account-bookings-section'
+import { AccountItinerariesSection } from './components/account-itineraries-section'
+import { AccountPasswordSection } from './components/account-password-section'
+import { AccountProfileSection } from './components/account-profile-section'
+import { AccountShell } from './components/account-shell'
+import { AccountWishlistSection } from './components/account-wishlist-section'
 
 export const metadata: Metadata = createPageMetadata({
   title: 'My Account',
-  description: 'Manage your Mandana Odysseys account, travel bookings, and profile settings.',
+  description:
+    'Manage your Mandana Odysseys profile, custom itineraries, bookings, wishlist, and account security.',
   path: '/account',
   noIndex: true,
 })
 
-const Page = () => {
-  const handleSubmitForm = async (formData: FormData) => {
-    'use server'
-    // Handle form submission logic here
-    console.log('Form submitted:', Object.fromEntries(formData.entries()))
+const VALID_TABS: AccountTab[] = ['account', 'itineraries', 'password', 'bookings', 'wishlist']
+
+function resolveTab(tab: string | undefined): AccountTab {
+  if (tab && VALID_TABS.includes(tab as AccountTab)) {
+    return tab as AccountTab
+  }
+  return 'account'
+}
+
+interface Props {
+  searchParams: Promise<{ tab?: string }>
+}
+
+const Page = async ({ searchParams }: Props) => {
+  const { tab } = await searchParams
+  const activeTab = resolveTab(tab)
+
+  const [accountData, allPackages] = await Promise.all([getAccountData(), getItineraries()])
+
+  const wishlistPackages = allPackages.filter((pkg) => accountData.wishlistPackageIds.includes(pkg.handle))
+
+  const counts = {
+    itineraries: accountData.customItineraries.length,
+    bookings: accountData.bookings.filter((b) => b.status !== 'cancelled' && b.status !== 'completed').length,
+    wishlist: wishlistPackages.length,
   }
 
   return (
-    <div>
-      {/* HEADING */}
-      <Heading level={1}>
-        Account <span data-slot="italic">information</span>
-      </Heading>
+    <Suspense fallback={<AccountDashboardSkeleton />}>
+      <AccountShell activeTab={activeTab} profile={accountData.profile} counts={counts}>
+        {activeTab === 'account' && <AccountProfileSection profile={accountData.profile} />}
+        {activeTab === 'itineraries' && (
+          <AccountItinerariesSection itineraries={accountData.customItineraries} />
+        )}
+        {activeTab === 'password' && <AccountPasswordSection />}
+        {activeTab === 'bookings' && <AccountBookingsSection bookings={accountData.bookings} />}
+        {activeTab === 'wishlist' && <AccountWishlistSection packages={wishlistPackages} />}
+      </AccountShell>
+    </Suspense>
+  )
+}
 
-      <Divider className="my-8 w-14!" />
-
-      <Form action={handleSubmitForm} className="flex flex-col md:flex-row">
-        <div className="flex shrink-0 items-start">
-          <div className="relative flex overflow-hidden rounded-full">
-            <Avatar src={avatar.src} className="h-32 w-32" />
-            <div className="absolute inset-0 flex cursor-pointer flex-col items-center justify-center bg-black/60 text-neutral-50">
-              <HugeiconsIcon icon={ImageAdd02Icon} className="h-6 w-6" />
-              <span className="mt-1 text-xs">Change Image</span>
-            </div>
-            <input type="file" className="absolute inset-0 cursor-pointer opacity-0" />
-          </div>
-        </div>
-        <div className="mt-10 max-w-3xl grow space-y-6 md:mt-0 md:ps-16">
-          <Field>
-            <Label>Name</Label>
-            <Input className="mt-1.5" defaultValue="First name" />
-          </Field>
-          {/* ---- */}
-          <Field>
-            <Label>Gender</Label>
-            <Select className="mt-1.5">
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </Select>
-          </Field>
-
-          {/* ---- */}
-          <Field>
-            <Label>Email</Label>
-            <Input className="mt-1.5" defaultValue="example@email.com" />
-          </Field>
-          {/* ---- */}
-          <Field className="max-w-lg">
-            <Label>Date of birth</Label>
-            <Input className="mt-1.5" type="date" defaultValue="1990-07-22" />
-          </Field>
-          {/* ---- */}
-          <Field>
-            <Label>Addess</Label>
-            <Input className="mt-1.5" defaultValue="New york, USA" />
-          </Field>
-          {/* ---- */}
-          <Field>
-            <Label>Phone number</Label>
-            <Input className="mt-1.5" defaultValue="003 888 232" />
-          </Field>
-          {/* ---- */}
-          <Field>
-            <Label>About you</Label>
-            <Textarea className="mt-1.5" defaultValue="..." />
-          </Field>
-          <div className="pt-4">
-            <ButtonPrimary type="submit">Update information</ButtonPrimary>
-          </div>
-        </div>
-      </Form>
+function AccountDashboardSkeleton() {
+  return (
+    <div className="animate-pulse space-y-8">
+      <div className="h-48 rounded-3xl bg-neutral-200 dark:bg-neutral-800" />
+      <div className="grid gap-8 lg:grid-cols-[300px_1fr]">
+        <div className="hidden h-96 rounded-3xl bg-neutral-200 lg:block dark:bg-neutral-800" />
+        <div className="h-96 rounded-3xl bg-neutral-200 dark:bg-neutral-800" />
+      </div>
     </div>
   )
 }

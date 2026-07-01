@@ -16,7 +16,7 @@ const FOOTER_QUICK_NAV = [
   },
   {
     name: 'Wishlists',
-    link: '/account-savelists',
+    link: '/account?tab=wishlist',
     icon: HeartIcon,
   },
   {
