@@ -1,3 +1,4 @@
+import { AuthModalRoot } from '@/components/auth/auth-modal-root'
 import { ScrollSmootherProvider } from '@/components/scroll-smoother-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { DirectionProvider } from '@/components/ui/direction'
@@ -57,11 +58,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <DirectionProvider direction={process.env.NEXT_PUBLIC_THEME_DIR} dir={process.env.NEXT_PUBLIC_THEME_DIR}>
             <LocaleProvider>
-              <ScrollSmootherProvider>
-                {children}
+              <AuthModalRoot>
+                <ScrollSmootherProvider>
+                  {children}
 
-                {/* CustomizeControl demo removed */}
-              </ScrollSmootherProvider>
+                  {/* CustomizeControl demo removed */}
+                </ScrollSmootherProvider>
+              </AuthModalRoot>
             </LocaleProvider>
           </DirectionProvider>
         </ThemeProvider>

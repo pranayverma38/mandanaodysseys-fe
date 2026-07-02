@@ -1,6 +1,5 @@
 'use client'
 
-import { Badge } from '@/components/badge'
 import { Button } from '@/components/button'
 import FormattedPrice from '@/components/formatted-price'
 import type { CustomItinerary, CustomItineraryStatus } from '@/data/account/types'
@@ -10,14 +9,23 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const STATUS_STYLES: Record<
-  CustomItineraryStatus,
-  { label: string; color: 'orange' | 'green' | 'zinc' | 'red' }
-> = {
-  draft: { label: 'Draft', color: 'zinc' },
-  sent: { label: 'Quotation sent', color: 'orange' },
-  accepted: { label: 'Accepted', color: 'green' },
-  expired: { label: 'Expired', color: 'red' },
+const STATUS_STYLES: Record<CustomItineraryStatus, { label: string; className: string }> = {
+  draft: {
+    label: 'Draft',
+    className: 'bg-neutral-100 text-neutral-700 ring-1 ring-neutral-200 dark:bg-neutral-800 dark:text-neutral-200 dark:ring-neutral-700',
+  },
+  sent: {
+    label: 'Quotation sent',
+    className: 'bg-orange-100 text-orange-800 ring-1 ring-orange-200 dark:bg-orange-500/20 dark:text-orange-300 dark:ring-orange-500/30',
+  },
+  accepted: {
+    label: 'Accepted',
+    className: 'bg-green-100 text-green-800 ring-1 ring-green-200 dark:bg-green-500/20 dark:text-green-300 dark:ring-green-500/30',
+  },
+  expired: {
+    label: 'Expired',
+    className: 'bg-red-100 text-red-800 ring-1 ring-red-200 dark:bg-red-500/20 dark:text-red-300 dark:ring-red-500/30',
+  },
 }
 
 interface Props {
@@ -51,9 +59,7 @@ export function AccountItinerariesSection({ itineraries }: Props) {
               key={itinerary.id}
               className={clsx(
                 'group overflow-hidden rounded-3xl border bg-white transition-shadow hover:shadow-lg hover:shadow-neutral-200/50 dark:bg-neutral-900 dark:hover:shadow-none',
-                isExpired
-                  ? 'border-neutral-200 opacity-75 dark:border-neutral-800'
-                  : 'border-neutral-200/80 dark:border-neutral-800'
+                isExpired ? 'border-neutral-200 dark:border-neutral-800' : 'border-neutral-200/80 dark:border-neutral-800'
               )}
             >
               <div className="flex flex-col lg:flex-row">
@@ -62,19 +68,23 @@ export function AccountItinerariesSection({ itineraries }: Props) {
                     src={itinerary.thumbnail}
                     alt={itinerary.title}
                     fill
-                    className="object-cover"
+                    className={clsx('object-cover', isExpired && 'grayscale')}
                     sizes="(max-width: 1024px) 100vw, 288px"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent lg:bg-linear-to-r" />
-                  <Badge color={status.color} className="absolute top-4 left-4">
-                    {status.label}
-                  </Badge>
                 </div>
 
                 <div className="flex flex-1 flex-col p-6 sm:p-7">
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div>
-                      <p className="text-xs font-medium tracking-wider text-[#fc6200] uppercase">
+                      <span
+                        className={clsx(
+                          'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold',
+                          status.className
+                        )}
+                      >
+                        {status.label}
+                      </span>
+                      <p className="mt-2 text-xs font-medium tracking-wider text-[#fc6200] uppercase">
                         {itinerary.destination}
                       </p>
                       <h3 className="mt-1 text-xl font-semibold text-neutral-900 dark:text-white">

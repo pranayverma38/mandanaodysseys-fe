@@ -3,16 +3,11 @@
 import { Divider } from '@/components/divider'
 import { Link } from '@/components/link'
 import { useHoverPopover } from '@/hooks/use-hover-popover'
-import { Popover, PopoverPanel } from '@headlessui/react'
-import {
-  FavouriteIcon,
-  Logout01Icon,
-  Notification01Icon,
-  Task01Icon,
-  UserCircle02Icon,
-  UserIcon,
-} from '@hugeicons/core-free-icons'
+import { useAuthModal } from '@/providers/auth-modal-provider'
+import { getAccountTabHref, HEADER_MENU_TABS, NAV_ITEMS } from '@/data/account/navigation'
+import { Logout01Icon, UserCircle02Icon, UserIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { Popover, PopoverPanel } from '@headlessui/react'
 import { ReactNode } from 'react'
 import ButtonCircle from '../button-circle'
 import { HeaderPopoverTrigger } from './header-popover-trigger'
@@ -23,31 +18,34 @@ interface Props {
   popoverId?: string
 }
 
-const menuItems = [
-  {
-    href: '/account',
-    icon: UserIcon,
-    label: 'Profile',
-  },
-  {
-    href: '#',
-    icon: Notification01Icon,
-    label: 'Notifications',
-  },
-  {
-    href: '/account?tab=bookings',
-    icon: Task01Icon,
-    label: 'My bookings',
-  },
-  {
-    href: '/account?tab=wishlist',
-    icon: FavouriteIcon,
-    label: 'Wishlist',
-  },
-]
+const menuItems = HEADER_MENU_TABS.map((tab) => {
+  const item = NAV_ITEMS.find((navItem) => navItem.id === tab)!
+  return {
+    href: getAccountTabHref(tab),
+    icon: item.icon,
+    label: item.label,
+  }
+})
 
 export default function AvatarDropdown({ className, triggerButton, popoverId }: Props) {
+  const { isAuthenticated, openAuth, setAuthenticated } = useAuthModal()
   const { getTriggerHandlers, getPanelHandlers } = useHoverPopover(popoverId)
+
+  if (!isAuthenticated) {
+    return (
+      <div className={className}>
+        {triggerButton ? (
+          <button type="button" onClick={() => openAuth('login')} aria-label="Sign in">
+            {triggerButton}
+          </button>
+        ) : (
+          <ButtonCircle color="accent" onClick={() => openAuth('login')} aria-label="Sign in">
+            <HugeiconsIcon icon={UserCircle02Icon} size={24} />
+          </ButtonCircle>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div className={className}>
@@ -81,7 +79,6 @@ export default function AvatarDropdown({ className, triggerButton, popoverId }: 
 
                   <div className="grow">
                     <h4 className="font-semibold">Eden Smith</h4>
-                    <p className="mt-0.5 text-xs">Los Angeles, CA</p>
                   </div>
                 </div>
 
@@ -102,15 +99,16 @@ export default function AvatarDropdown({ className, triggerButton, popoverId }: 
 
                 <Divider />
 
-                <Link
-                  href={'#'}
-                  className="-m-3 flex items-center rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none"
+                <button
+                  type="button"
+                  onClick={() => setAuthenticated(false)}
+                  className="-m-3 flex w-full items-center rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none"
                 >
                   <div className="flex shrink-0 items-center justify-center text-muted-foreground">
                     <HugeiconsIcon icon={Logout01Icon} size={20} />
                   </div>
-                  <p className="ms-4 text-sm font-medium">{'Log out'}</p>
-                </Link>
+                  <p className="ms-4 text-sm font-medium">Log out</p>
+                </button>
               </div>
             </PopoverPanel>
           </>

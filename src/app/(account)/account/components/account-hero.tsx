@@ -1,15 +1,13 @@
 'use client'
 
-import { Badge } from '@/components/badge'
 import type { UserProfile } from '@/data/account/types'
-import { Calendar03Icon, FavouriteIcon, MapsIcon } from '@hugeicons/core-free-icons'
+import { FavouriteIcon, MapsIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 
 interface Props {
   profile: UserProfile
   counts: {
     itineraries: number
-    bookings: number
     wishlist: number
   }
 }
@@ -17,7 +15,6 @@ interface Props {
 export function AccountHero({ profile, counts }: Props) {
   const stats = [
     { label: 'Custom Itineraries', value: counts.itineraries, icon: MapsIcon },
-    { label: 'Active Bookings', value: counts.bookings, icon: Calendar03Icon },
     { label: 'Wishlisted', value: counts.wishlist, icon: FavouriteIcon },
   ]
 
@@ -28,22 +25,19 @@ export function AccountHero({ profile, counts }: Props) {
       <div className="absolute -top-20 right-0 size-72 rounded-full bg-[#fc6200]/20 blur-3xl" />
 
       <div className="relative px-6 py-10 sm:px-10 sm:py-12">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <Badge color="orange" className="mb-3">
-              Traveler Dashboard
-            </Badge>
             <h1 className="text-3xl font-medium tracking-tight sm:text-4xl">
               Welcome back,{' '}
               <span className="font-serif italic text-[#ff9a3d]">{profile.firstName}</span>
             </h1>
             <p className="mt-2 max-w-xl text-sm text-neutral-300 sm:text-base">
-              Manage your profile, download custom itineraries, track bookings, and revisit your dream packages — all in
+              Manage your profile, download custom itineraries, track bookings, and revisit your dream packages all in
               one place.
             </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {stats.map((stat) => (
               <div
                 key={stat.label}

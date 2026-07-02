@@ -2,7 +2,6 @@ import ButtonPrimary from '@/components/button-primary'
 import { Field, Label } from '@/components/fieldset'
 import Input from '@/components/input'
 import Select from '@/components/select'
-import Textarea from '@/components/textarea'
 import type { UserProfile } from '@/data/account/types'
 import Form from 'next/form'
 import { updateProfile } from '../actions'
@@ -33,9 +32,6 @@ export function AccountProfileSection({ profile }: Props) {
               {profile.firstName} {profile.lastName}
             </h3>
             <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">{profile.email}</p>
-            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
-              {profile.city}, {profile.country}
-            </p>
           </div>
         </div>
 
@@ -76,14 +72,6 @@ export function AccountProfileSection({ profile }: Props) {
           <Field className="sm:col-span-2">
             <Label>Address</Label>
             <Input className="mt-1.5" name="address" defaultValue={profile.address} />
-          </Field>
-          <Field>
-            <Label>City</Label>
-            <Input className="mt-1.5" name="city" defaultValue={profile.city} />
-          </Field>
-          <Field className="sm:col-span-2">
-            <Label>About you</Label>
-            <Textarea className="mt-1.5 min-h-28" name="about" defaultValue={profile.about} />
           </Field>
         </div>
 

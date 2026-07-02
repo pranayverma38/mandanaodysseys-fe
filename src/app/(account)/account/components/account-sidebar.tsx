@@ -1,54 +1,10 @@
 'use client'
 
+import { NAV_ITEMS } from '@/data/account/navigation'
 import type { AccountTab, UserProfile } from '@/data/account/types'
-import {
-  Calendar03Icon,
-  FavouriteIcon,
-  Invoice01Icon,
-  MapsIcon,
-  SecurityLockIcon,
-  UserIcon,
-} from '@hugeicons/core-free-icons'
+import { Invoice01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
-
-const NAV_ITEMS: {
-  id: AccountTab
-  label: string
-  description: string
-  icon: typeof UserIcon
-}[] = [
-  {
-    id: 'account',
-    label: 'Account',
-    description: 'Profile & personal details',
-    icon: UserIcon,
-  },
-  {
-    id: 'itineraries',
-    label: 'Your Itineraries',
-    description: 'Custom quotes & downloads',
-    icon: MapsIcon,
-  },
-  {
-    id: 'password',
-    label: 'Reset Password',
-    description: 'Security settings',
-    icon: SecurityLockIcon,
-  },
-  {
-    id: 'bookings',
-    label: 'Bookings',
-    description: 'Orders & payments',
-    icon: Calendar03Icon,
-  },
-  {
-    id: 'wishlist',
-    label: 'Wishlist',
-    description: 'Saved packages',
-    icon: FavouriteIcon,
-  },
-]
 
 const BRAND_ORANGE = '#fc6200'
 
