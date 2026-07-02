@@ -29,7 +29,7 @@ export function AccountHero({ profile, counts }: Props) {
           <div>
             <h1 className="text-3xl font-medium tracking-tight sm:text-4xl">
               Welcome back,{' '}
-              <span className="font-serif italic text-[#ff9a3d]">{profile.firstName}</span>
+              <span className="font-serif italic text-[#ff9a3d]">{profile.fullName}</span>
             </h1>
             <p className="mt-2 max-w-xl text-sm text-neutral-300 sm:text-base">
               Manage your profile, download custom itineraries, track bookings, and revisit your dream packages all in

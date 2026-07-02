@@ -28,21 +28,15 @@ export function AccountProfileSection({ profile }: Props) {
       >
         <div className="border-b border-neutral-100 bg-neutral-50/80 px-6 py-8 dark:border-neutral-800 dark:bg-neutral-800/30 sm:px-8">
           <div>
-            <h3 className="text-lg font-semibold">
-              {profile.firstName} {profile.lastName}
-            </h3>
+            <h3 className="text-lg font-semibold">{profile.fullName}</h3>
             <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">{profile.email}</p>
           </div>
         </div>
 
         <div className="grid gap-6 p-6 sm:grid-cols-2 sm:p-8">
-          <Field>
-            <Label>First name</Label>
-            <Input className="mt-1.5" name="firstName" defaultValue={profile.firstName} />
-          </Field>
-          <Field>
-            <Label>Last name</Label>
-            <Input className="mt-1.5" name="lastName" defaultValue={profile.lastName} />
+          <Field className="sm:col-span-2">
+            <Label>Full name</Label>
+            <Input className="mt-1.5" name="fullName" defaultValue={profile.fullName} />
           </Field>
           <Field>
             <Label>Gender</Label>

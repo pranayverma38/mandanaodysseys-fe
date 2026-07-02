@@ -13,6 +13,7 @@ import { Button } from './button'
 import { Heading } from './heading'
 import Logo from './logo'
 import { Text } from './text'
+import { useAuthModal } from '@/providers/auth-modal-provider'
 
 //
 interface SectionWhyUsProps {
@@ -69,6 +70,8 @@ const SectionWhyUs: FC<SectionWhyUsProps> = ({
   description = 'We help you find the perfect stay for your needs. Whether you’re looking for a cozy cabin, a luxurious villa, we have something for everyone.',
   logoVariant = 'default',
 }) => {
+  const { openAuth } = useAuthModal()
+
   return (
     <div className="relative flex flex-col gap-8 overflow-hidden sm:gap-20 lg:flex-row">
       <div className="flex flex-1 flex-col items-start gap-4 self-center sm:gap-7 lg:pe-14">
@@ -88,7 +91,7 @@ const SectionWhyUs: FC<SectionWhyUsProps> = ({
           {heading}
         </Heading>
         <Text className="max-w-md text-neutral-600 dark:text-neutral-400">{description}</Text>
-        <Button className="mt-5" href="/signup">
+        <Button className="mt-5" onClick={() => openAuth('signup')}>
           <HugeiconsIcon icon={UserAdd02Icon} size={20} color="currentColor" strokeWidth={1.5} />
           Become a host
         </Button>

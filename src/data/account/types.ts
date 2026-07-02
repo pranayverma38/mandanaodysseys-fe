@@ -1,8 +1,7 @@
 export type AccountTab = 'account' | 'itineraries' | 'password' | 'bookings' | 'wishlist'
 
 export type UserProfile = {
-  firstName: string
-  lastName: string
+  fullName: string
   email: string
   phone: string
   gender: string

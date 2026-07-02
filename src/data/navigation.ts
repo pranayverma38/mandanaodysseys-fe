@@ -21,12 +21,8 @@ export function getMegaMenuItems() {
       children: [{ title: 'Experience search', href: '/experience-search' }],
     },
     {
-      title: 'Auth pages',
-      children: [
-        { title: 'Sign in', href: '/signin' },
-        { title: 'Sign up', href: '/signup' },
-        { title: 'Account settings', href: '/account' },
-      ],
+      title: 'Account',
+      children: [{ title: 'Account settings', href: '/account' }],
     },
     {
       title: 'Other pages',

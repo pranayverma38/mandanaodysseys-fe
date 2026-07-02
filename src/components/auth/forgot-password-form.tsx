@@ -3,19 +3,26 @@
 import ButtonPrimary from '@/components/button-primary'
 import { Field, Label } from '@/components/fieldset'
 import Input from '@/components/input'
-import Link from 'next/link'
 import type { AuthView } from '@/providers/auth-modal-provider'
+import { useAuthModal } from '@/providers/auth-modal-provider'
 
 interface Props {
-  variant?: 'page' | 'modal'
   onSwitchView?: (view: AuthView) => void
 }
 
-export function ForgotPasswordForm({ variant = 'page', onSwitchView }: Props) {
-  const isModal = variant === 'modal'
+export function ForgotPasswordForm({ onSwitchView }: Props) {
+  const { openAuth } = useAuthModal()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+  }
+
+  const goToView = (view: AuthView) => {
+    if (onSwitchView) {
+      onSwitchView(view)
+      return
+    }
+    openAuth(view)
   }
 
   return (
@@ -30,25 +37,13 @@ export function ForgotPasswordForm({ variant = 'page', onSwitchView }: Props) {
 
       <div className="block text-center text-sm text-neutral-700 dark:text-neutral-300">
         New user?{' '}
-        {isModal && onSwitchView ? (
-          <button type="button" onClick={() => onSwitchView('signup')} className="font-medium underline">
-            Create an account
-          </button>
-        ) : (
-          <Link href="/signup" className="font-medium underline">
-            Create an account
-          </Link>
-        )}
+        <button type="button" onClick={() => goToView('signup')} className="font-medium underline">
+          Create an account
+        </button>
         {'  or  '}
-        {isModal && onSwitchView ? (
-          <button type="button" onClick={() => onSwitchView('login')} className="font-medium underline">
-            Sign in
-          </button>
-        ) : (
-          <Link href="/login" className="font-medium underline">
-            Sign in
-          </Link>
-        )}
+        <button type="button" onClick={() => goToView('login')} className="font-medium underline">
+          Sign in
+        </button>
       </div>
     </div>
   )

@@ -14,7 +14,7 @@ interface Props {
   showLogo?: boolean
 }
 
-export function AuthPanel({ view, variant = 'page', onSwitchView, onSuccess, showLogo = true }: Props) {
+export function AuthPanel({ view, variant = 'modal', onSwitchView, onSuccess, showLogo = true }: Props) {
   return (
     <div className={variant === 'page' ? 'container' : undefined}>
       {showLogo && (
@@ -24,15 +24,9 @@ export function AuthPanel({ view, variant = 'page', onSwitchView, onSuccess, sho
       )}
 
       <div className="mx-auto max-w-md">
-        {view === 'login' && (
-          <LoginForm variant={variant} onSwitchView={onSwitchView} onSuccess={onSuccess} />
-        )}
-        {view === 'signup' && (
-          <SignupForm variant={variant} onSwitchView={onSwitchView} onSuccess={onSuccess} />
-        )}
-        {view === 'forgot-password' && (
-          <ForgotPasswordForm variant={variant} onSwitchView={onSwitchView} />
-        )}
+        {view === 'login' && <LoginForm onSwitchView={onSwitchView} onSuccess={onSuccess} />}
+        {view === 'signup' && <SignupForm onSwitchView={onSwitchView} onSuccess={onSuccess} />}
+        {view === 'forgot-password' && <ForgotPasswordForm onSwitchView={onSwitchView} />}
       </div>
     </div>
   )

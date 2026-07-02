@@ -33,9 +33,7 @@ export function AccountSidebar({ activeTab, onTabChange, profile, counts }: Prop
           <div className="absolute -top-8 -right-8 size-32 rounded-full bg-white/10 blur-2xl" />
           <div className="absolute -bottom-10 -left-6 size-28 rounded-full bg-black/10 blur-xl" />
           <div className="relative min-w-0">
-            <p className="truncate text-lg font-semibold">
-              {profile.firstName} {profile.lastName}
-            </p>
+            <p className="truncate text-lg font-semibold">{profile.fullName}</p>
             <p className="truncate text-sm text-white/85">{profile.email}</p>
           </div>
         </div>

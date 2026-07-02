@@ -6,8 +6,7 @@ import type { AccountData } from './types'
 export async function getAccountData(): Promise<AccountData> {
   return {
     profile: {
-      firstName: 'Eden',
-      lastName: 'Smith',
+      fullName: 'Eden Smith',
       email: 'eden.smith@example.com',
       phone: '+91 98765 43210',
       gender: 'Female',
