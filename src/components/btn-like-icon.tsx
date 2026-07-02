@@ -1,13 +1,15 @@
 'use client'
 
 import clsx from 'clsx'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { useWishlist } from '@/providers/wishlist-provider'
 
 interface BtnLikeIconProps {
   className?: string
   colorClass?: string
   sizeClass?: string
   isLiked?: boolean
+  packageHandle?: string
 }
 
 const BtnLikeIcon: FC<BtnLikeIconProps> = ({
@@ -15,8 +17,31 @@ const BtnLikeIcon: FC<BtnLikeIconProps> = ({
   colorClass = 'text-white bg-black/30 hover:bg-black/50',
   sizeClass = 'size-8',
   isLiked = false,
+  packageHandle,
 }) => {
+  const { isWishlisted, toggleWishlist } = useWishlist()
   const [likedState, setLikedState] = useState(isLiked)
+
+  useEffect(() => {
+    if (packageHandle) {
+      setLikedState(isWishlisted(packageHandle))
+      return
+    }
+
+    setLikedState(isLiked)
+  }, [isLiked, isWishlisted, packageHandle])
+
+  const handleClick = (event: React.MouseEvent) => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    if (packageHandle) {
+      void toggleWishlist(packageHandle)
+      return
+    }
+
+    setLikedState(!likedState)
+  }
 
   return (
     <div
@@ -26,7 +51,10 @@ const BtnLikeIcon: FC<BtnLikeIconProps> = ({
         colorClass,
         sizeClass
       )}
-      onClick={() => setLikedState(!likedState)}
+      onClick={handleClick}
+      role="button"
+      aria-label={likedState ? 'Remove from wishlist' : 'Add to wishlist'}
+      aria-pressed={likedState}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -1,16 +1,23 @@
+'use client'
+
 import ButtonPrimary from '@/components/button-primary'
 import { Field, Label } from '@/components/fieldset'
 import Input from '@/components/input'
-import Select from '@/components/select'
 import type { UserProfile } from '@/data/account/types'
-import Form from 'next/form'
+import type { ActionState } from '../actions'
 import { updateProfile } from '../actions'
+import Form from 'next/form'
+import { useActionState } from 'react'
 
 interface Props {
   profile: UserProfile
 }
 
+const initialState: ActionState = {}
+
 export function AccountProfileSection({ profile }: Props) {
+  const [state, formAction, isPending] = useActionState(updateProfile, initialState)
+
   return (
     <section aria-labelledby="account-profile-heading">
       <div className="mb-8">
@@ -23,7 +30,7 @@ export function AccountProfileSection({ profile }: Props) {
       </div>
 
       <Form
-        action={updateProfile}
+        action={formAction}
         className="overflow-hidden rounded-3xl border border-neutral-200/80 bg-white dark:border-neutral-800 dark:bg-neutral-900"
       >
         <div className="border-b border-neutral-100 bg-neutral-50/80 px-6 py-8 dark:border-neutral-800 dark:bg-neutral-800/30 sm:px-8">
@@ -40,12 +47,17 @@ export function AccountProfileSection({ profile }: Props) {
           </Field>
           <Field>
             <Label>Gender</Label>
-            <Select className="mt-1.5" name="gender" defaultValue={profile.gender}>
+            <select
+              className="mt-1.5 block w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-900"
+              name="gender"
+              defaultValue={profile.gender}
+            >
+              <option value="">Select gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Other">Other</option>
               <option value="Prefer not to say">Prefer not to say</option>
-            </Select>
+            </select>
           </Field>
           <Field>
             <Label>Date of birth</Label>
@@ -53,7 +65,7 @@ export function AccountProfileSection({ profile }: Props) {
           </Field>
           <Field className="sm:col-span-2">
             <Label>Email address</Label>
-            <Input className="mt-1.5" name="email" type="email" defaultValue={profile.email} />
+            <Input className="mt-1.5" name="email" type="email" defaultValue={profile.email} readOnly />
           </Field>
           <Field>
             <Label>Phone number</Label>
@@ -70,10 +82,16 @@ export function AccountProfileSection({ profile }: Props) {
         </div>
 
         <div className="flex flex-col gap-3 border-t border-neutral-100 px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 dark:border-neutral-800">
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
-            Your information is securely stored and used only for booking purposes.
-          </p>
-          <ButtonPrimary type="submit">Save changes</ButtonPrimary>
+          <div className="space-y-1">
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              Your information is securely stored and used only for booking purposes.
+            </p>
+            {state.error && <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>}
+            {state.success && <p className="text-sm text-emerald-600 dark:text-emerald-400">{state.success}</p>}
+          </div>
+          <ButtonPrimary type="submit" disabled={isPending}>
+            {isPending ? 'Saving…' : 'Save changes'}
+          </ButtonPrimary>
         </div>
       </Form>
     </section>

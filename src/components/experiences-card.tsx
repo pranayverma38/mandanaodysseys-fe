@@ -43,7 +43,7 @@ const ExperiencesCard: FC<Props> = ({ size = 'default', className = '', data }) 
             className="object-cover"
           />
         </div>
-        <BtnLikeIcon isLiked={like} className="absolute top-3 right-3 z-1" />
+        <BtnLikeIcon isLiked={like} packageHandle={listingHandle} className="absolute top-3 right-3 z-1" />
         {badge && (
           <Badge color="white" className="absolute start-3 top-3">
             {badge}

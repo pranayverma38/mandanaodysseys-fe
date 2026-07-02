@@ -11,6 +11,7 @@ interface Props {
   destination: string
   address: string
   categories: ItineraryCategoryRef[]
+  packageHandle: string
 }
 
 const ItinerarySectionHeader = ({
@@ -18,6 +19,7 @@ const ItinerarySectionHeader = ({
   categories,
   destination,
   title,
+  packageHandle,
 }: Props) => {
   const categoryLabels = getItineraryCategoryLabels(categories)
   const destinationName = getItineraryDestinationName(destination)
@@ -26,7 +28,7 @@ const ItinerarySectionHeader = ({
     <div className="flex flex-col items-start gap-y-4">
       <div className="flex w-full flex-col-reverse items-baseline justify-between gap-4 sm:flex-row">
         <h1 className="text-2xl font-[550] 2xl:text-3xl">{title}</h1>
-        <LikeSaveBtns />
+        <LikeSaveBtns packageHandle={packageHandle} />
       </div>
 
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">

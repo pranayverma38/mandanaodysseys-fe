@@ -3,8 +3,10 @@
 import ButtonPrimary from '@/components/button-primary'
 import { Field, Label } from '@/components/fieldset'
 import Input from '@/components/input'
+import { signupAction, type AuthActionState } from '@/lib/auth/actions'
 import type { AuthView } from '@/providers/auth-modal-provider'
 import { useAuthModal } from '@/providers/auth-modal-provider'
+import { useActionState, useEffect } from 'react'
 import { AuthDivider } from './auth-divider'
 import { AuthSocialButtons } from './auth-social-buttons'
 
@@ -13,13 +15,18 @@ interface Props {
   onSuccess?: () => void
 }
 
-export function SignupForm({ onSwitchView, onSuccess }: Props) {
-  const { openAuth } = useAuthModal()
+const initialState: AuthActionState = {}
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    onSuccess?.()
-  }
+export function SignupForm({ onSwitchView, onSuccess }: Props) {
+  const { openAuth, setAuthenticated } = useAuthModal()
+  const [state, formAction, isPending] = useActionState(signupAction, initialState)
+
+  useEffect(() => {
+    if (state.success) {
+      setAuthenticated(true)
+      onSuccess?.()
+    }
+  }, [state.success, setAuthenticated, onSuccess])
 
   const goToView = (view: AuthView) => {
     if (onSwitchView) {
@@ -34,20 +41,32 @@ export function SignupForm({ onSwitchView, onSuccess }: Props) {
       <AuthSocialButtons />
       <AuthDivider />
 
-      <form className="grid grid-cols-1 gap-6" onSubmit={handleSubmit}>
+      <form className="grid grid-cols-1 gap-6" action={formAction}>
         <Field className="block">
-          <Label className="text-neutral-800 dark:text-neutral-200">First name</Label>
-          <Input type="text" name="firstName" placeholder="Your first name" className="mt-1" required autoComplete="given-name" />
+          <Label className="text-neutral-800 dark:text-neutral-200">Full name</Label>
+          <Input
+            type="text"
+            name="fullName"
+            placeholder="Your full name"
+            className="mt-1"
+            required
+            autoComplete="name"
+          />
         </Field>
         <Field className="block">
           <Label className="text-neutral-800 dark:text-neutral-200">Email address</Label>
-          <Input type="email" placeholder="example@example.com" className="mt-1" required />
+          <Input type="email" name="email" placeholder="example@example.com" className="mt-1" required />
         </Field>
         <Field className="block">
           <Label className="flex items-center justify-between text-neutral-800 dark:text-neutral-200">Password</Label>
-          <Input type="password" className="mt-1" required />
+          <Input type="password" name="password" className="mt-1" minLength={8} required />
         </Field>
-        <ButtonPrimary type="submit">Continue</ButtonPrimary>
+
+        {state.error && <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>}
+
+        <ButtonPrimary type="submit" disabled={isPending}>
+          {isPending ? 'Creating account…' : 'Continue'}
+        </ButtonPrimary>
       </form>
 
       <div className="block text-center text-sm text-neutral-700 dark:text-neutral-300">

@@ -1,113 +1,38 @@
+import { mapCustomerToProfile } from '@/lib/account/map-customer'
+import { getAuthenticatedCustomer } from '@/lib/auth/session'
+import { parseWishlistHandles } from '@/lib/wishlist/metadata'
 import type { AccountData } from './types'
 
-/**
- * Placeholder account data — replace with API calls when backend is ready.
- */
+const EMPTY_ACCOUNT_DATA: AccountData = {
+  profile: {
+    fullName: '',
+    email: '',
+    phone: '',
+    gender: '',
+    dateOfBirth: '',
+    address: '',
+    city: '',
+    country: '',
+    about: '',
+    memberSince: '',
+  },
+  customItineraries: [],
+  bookings: [],
+  wishlistPackageIds: [],
+}
+
 export async function getAccountData(): Promise<AccountData> {
+  const customer = await getAuthenticatedCustomer()
+
+  if (!customer) {
+    return EMPTY_ACCOUNT_DATA
+  }
+
   return {
-    profile: {
-      fullName: 'Eden Smith',
-      email: 'eden.smith@example.com',
-      phone: '+91 98765 43210',
-      gender: 'Female',
-      dateOfBirth: '1992-03-18',
-      address: '12 Marine Drive',
-      city: 'Mumbai',
-      country: 'India',
-      about:
-        'Passionate traveler exploring curated journeys across Asia and beyond. Love cultural immersions and beach escapes.',
-      memberSince: '2024-06-12',
-    },
-    customItineraries: [
-      {
-        id: 'cit-001',
-        title: 'Golden Triangle — Private Luxury',
-        destination: 'India',
-        duration: '7 Days / 6 Nights',
-        travelers: 2,
-        createdAt: '2026-05-28',
-        validUntil: '2026-06-28',
-        totalPrice: 184500,
-        status: 'sent',
-        documentUrl: '/documents/sample-itinerary.pdf',
-        thumbnail: 'https://images.pexels.com/photos/1591361/pexels-photo-1591361.jpeg',
-        notes: 'Includes private transfers, heritage hotels, and guided city tours.',
-      },
-      {
-        id: 'cit-002',
-        title: 'Bali Honeymoon Retreat — Custom',
-        destination: 'Bali, Indonesia',
-        duration: '5 Days / 4 Nights',
-        travelers: 2,
-        createdAt: '2026-04-15',
-        validUntil: '2026-05-15',
-        totalPrice: 142800,
-        status: 'accepted',
-        documentUrl: '/documents/bali-honeymoon-quote.pdf',
-        thumbnail: 'https://images.pexels.com/photos/33612179/pexels-photo-33612179.jpeg',
-      },
-      {
-        id: 'cit-003',
-        title: 'Swiss Alps & Lake Geneva Escape',
-        destination: 'Switzerland',
-        duration: '6 Days / 5 Nights',
-        travelers: 4,
-        createdAt: '2026-03-02',
-        validUntil: '2026-04-02',
-        totalPrice: 428000,
-        status: 'expired',
-        documentUrl: '/documents/swiss-alps-quote.pdf',
-        thumbnail: 'https://images.pexels.com/photos/9890901/pexels-photo-9890901.jpeg',
-      },
-    ],
-    bookings: [
-      {
-        id: 'bk-001',
-        orderNumber: 'MO-2026-1042',
-        packageTitle: 'Bali Honeymoon Retreat',
-        packageHandle: 'bali-honeymoon-retreat',
-        packageImage: 'https://images.pexels.com/photos/33612179/pexels-photo-33612179.jpeg',
-        destination: 'Bali, Indonesia',
-        travelDate: '2026-08-14',
-        bookedAt: '2026-05-20',
-        guests: 2,
-        totalAmount: 142800,
-        paidAmount: 50000,
-        paymentStatus: 'partial',
-        status: 'confirmed',
-      },
-      {
-        id: 'bk-002',
-        orderNumber: 'MO-2026-0987',
-        packageTitle: 'Golden Triangle India Tour',
-        packageHandle: 'golden-triangle-india-tour',
-        packageImage: 'https://images.pexels.com/photos/1591361/pexels-photo-1591361.jpeg',
-        destination: 'India',
-        travelDate: '2026-11-05',
-        bookedAt: '2026-04-08',
-        guests: 3,
-        totalAmount: 215600,
-        paidAmount: 215600,
-        paymentStatus: 'paid',
-        status: 'confirmed',
-      },
-      {
-        id: 'bk-003',
-        orderNumber: 'MO-2025-0812',
-        packageTitle: 'Nepal Kathmandu & Pokhara Weekend',
-        packageHandle: 'nepal-kathmandu-pokhara-weekend',
-        packageImage: 'https://images.pexels.com/photos/6130047/pexels-photo-6130047.jpeg',
-        destination: 'Nepal',
-        travelDate: '2025-12-20',
-        bookedAt: '2025-10-15',
-        guests: 2,
-        totalAmount: 89600,
-        paidAmount: 89600,
-        paymentStatus: 'paid',
-        status: 'completed',
-      },
-    ],
-    wishlistPackageIds: ['bali-honeymoon-retreat', 'golden-triangle-india-tour', 'thailand-phuket-solo-beach-escape'],
+    profile: mapCustomerToProfile(customer),
+    customItineraries: [],
+    bookings: [],
+    wishlistPackageIds: parseWishlistHandles(customer.metadata),
   }
 }
 

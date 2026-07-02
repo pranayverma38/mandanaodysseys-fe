@@ -6,6 +6,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { useAuthModal } from '@/providers/auth-modal-provider'
 import * as Headless from '@headlessui/react'
 import clsx from 'clsx'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 function AuthDesktopDialog({
@@ -45,6 +46,8 @@ export function AuthModal() {
   const { isOpen, view, closeAuth, setView, setAuthenticated } = useAuthModal()
   const [mounted, setMounted] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 1024px)', { defaultValue: true })
+  const searchParams = useSearchParams()
+  const router = useRouter()
 
   useEffect(() => {
     setMounted(true)
@@ -53,6 +56,11 @@ export function AuthModal() {
   const handleSuccess = () => {
     setAuthenticated(true)
     closeAuth()
+
+    const redirectPath = searchParams.get('redirect')
+    if (redirectPath) {
+      router.replace(redirectPath)
+    }
   }
 
   if (!mounted || !isOpen) {
@@ -60,13 +68,7 @@ export function AuthModal() {
   }
 
   const panel = (
-    <AuthPanel
-      view={view}
-      variant="modal"
-      onSwitchView={setView}
-      onSuccess={handleSuccess}
-      showLogo
-    />
+    <AuthPanel view={view} variant="modal" onSwitchView={setView} onSuccess={handleSuccess} showLogo />
   )
 
   if (isDesktop) {

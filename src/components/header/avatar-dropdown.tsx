@@ -28,8 +28,18 @@ const menuItems = HEADER_MENU_TABS.map((tab) => {
 })
 
 export default function AvatarDropdown({ className, triggerButton, popoverId }: Props) {
-  const { isAuthenticated, openAuth, setAuthenticated } = useAuthModal()
+  const { isAuthenticated, isLoading, customer, openAuth, logout } = useAuthModal()
   const { getTriggerHandlers, getPanelHandlers } = useHoverPopover(popoverId)
+
+  if (isLoading) {
+    return (
+      <div className={className}>
+        <ButtonCircle color="accent" aria-hidden>
+          <HugeiconsIcon icon={UserCircle02Icon} size={24} />
+        </ButtonCircle>
+      </div>
+    )
+  }
 
   if (!isAuthenticated) {
     return (
@@ -78,7 +88,10 @@ export default function AvatarDropdown({ className, triggerButton, popoverId }: 
                   </div>
 
                   <div className="grow">
-                    <h4 className="font-semibold">Eden Smith</h4>
+                    <h4 className="font-semibold">{customer?.fullName || customer?.email}</h4>
+                    {customer?.fullName && (
+                      <p className="text-sm text-muted-foreground">{customer.email}</p>
+                    )}
                   </div>
                 </div>
 
@@ -101,7 +114,10 @@ export default function AvatarDropdown({ className, triggerButton, popoverId }: 
 
                 <button
                   type="button"
-                  onClick={() => setAuthenticated(false)}
+                  onClick={() => {
+                    void logout()
+                    close()
+                  }}
                   className="-m-3 flex w-full items-center rounded-lg p-2 transition-colors hover:bg-accent focus:outline-none"
                 >
                   <div className="flex shrink-0 items-center justify-center text-muted-foreground">

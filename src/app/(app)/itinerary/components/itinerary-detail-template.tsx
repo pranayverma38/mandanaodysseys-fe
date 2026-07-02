@@ -30,6 +30,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
     reviewCount,
     reviewStart,
     title,
+    handle,
     amenities,
     description,
     duration,
@@ -64,6 +65,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
             categories={categories}
             destination={destination}
             title={title}
+            packageHandle={handle}
           />
 
           <Divider className="my-8 xl:my-12" />

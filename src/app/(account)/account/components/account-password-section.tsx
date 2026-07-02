@@ -1,12 +1,20 @@
+'use client'
+
 import ButtonPrimary from '@/components/button-primary'
 import { Field, Label } from '@/components/fieldset'
 import Input from '@/components/input'
 import { SecurityLockIcon, Shield01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Form from 'next/form'
+import { useActionState } from 'react'
+import type { ActionState } from '../actions'
 import { updatePassword } from '../actions'
 
+const initialState: ActionState = {}
+
 export function AccountPasswordSection() {
+  const [state, formAction, isPending] = useActionState(updatePassword, initialState)
+
   return (
     <section aria-labelledby="account-password-heading">
       <div className="mb-8">
@@ -41,7 +49,7 @@ export function AccountPasswordSection() {
         </div>
 
         <Form
-          action={updatePassword}
+          action={formAction}
           className="rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-8 lg:col-span-3 dark:border-neutral-800 dark:bg-neutral-900"
         >
           <div className="mb-6 flex items-center gap-3 border-b border-neutral-100 pb-6 dark:border-neutral-800">
@@ -52,23 +60,43 @@ export function AccountPasswordSection() {
           <div className="space-y-6">
             <Field>
               <Label>Current password</Label>
-              <Input type="password" name="currentPassword" className="mt-1.5" autoComplete="current-password" />
+              <Input type="password" name="currentPassword" className="mt-1.5" autoComplete="current-password" required />
             </Field>
             <Field>
               <Label>New password</Label>
-              <Input type="password" name="newPassword" className="mt-1.5" autoComplete="new-password" />
+              <Input
+                type="password"
+                name="newPassword"
+                className="mt-1.5"
+                autoComplete="new-password"
+                minLength={8}
+                required
+              />
             </Field>
             <Field>
               <Label>Confirm new password</Label>
-              <Input type="password" name="confirmPassword" className="mt-1.5" autoComplete="new-password" />
+              <Input
+                type="password"
+                name="confirmPassword"
+                className="mt-1.5"
+                autoComplete="new-password"
+                minLength={8}
+                required
+              />
             </Field>
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs text-neutral-500 dark:text-neutral-400">
-              You will be signed out of other devices after updating.
-            </p>
-            <ButtonPrimary type="submit">Update password</ButtonPrimary>
+            <div className="space-y-1">
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                If email confirmation is required, you will receive a reset link to complete the change.
+              </p>
+              {state.error && <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>}
+              {state.success && <p className="text-sm text-emerald-600 dark:text-emerald-400">{state.success}</p>}
+            </div>
+            <ButtonPrimary type="submit" disabled={isPending}>
+              {isPending ? 'Updating…' : 'Update password'}
+            </ButtonPrimary>
           </div>
         </Form>
       </div>
