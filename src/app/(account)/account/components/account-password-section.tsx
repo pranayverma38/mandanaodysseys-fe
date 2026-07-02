@@ -89,7 +89,7 @@ export function AccountPasswordSection() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-1">
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                If email confirmation is required, you will receive a reset link to complete the change.
+                Your new password takes effect immediately after you save.
               </p>
               {state.error && <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>}
               {state.success && <p className="text-sm text-emerald-600 dark:text-emerald-400">{state.success}</p>}

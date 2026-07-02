@@ -7,5 +7,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_MEDUSA_BACKEND_URL?: string
     NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY?: string
     MEDUSA_SECRET_KEY?: string
+    MEDUSA_JWT_SECRET?: string
   }
 }

@@ -1,5 +1,6 @@
 'use server'
 
+import { updateCustomerPassword } from '@/lib/auth/change-password'
 import { createMedusaClient, medusaFetch } from '@/lib/medusa/server-client'
 import {
   clearAuthToken,
@@ -194,18 +195,14 @@ export async function changePasswordAction(
       return { error: 'Current password is incorrect.' }
     }
 
-    const sdk = createMedusaClient()
-    await sdk.auth.resetPassword('customer', 'emailpass', { identifier: customer.email })
+    await updateCustomerPassword(customer.email, newPassword)
 
-    try {
-      await sdk.auth.updateProvider('customer', 'emailpass', { password: newPassword }, loginToken)
-      await setAuthToken(loginToken)
-      return { success: 'Password updated successfully.' }
-    } catch {
-      return {
-        success: `We sent a password reset link to ${customer.email}. Open the link in your email and set your new password to complete the change.`,
-      }
+    const refreshedToken = await verifyCustomerCredentials(customer.email, newPassword)
+    if (refreshedToken) {
+      await setAuthToken(refreshedToken)
     }
+
+    return { success: 'Password updated successfully.' }
   } catch (error) {
     return { error: error instanceof Error ? error.message : 'Unable to change password.' }
   }
