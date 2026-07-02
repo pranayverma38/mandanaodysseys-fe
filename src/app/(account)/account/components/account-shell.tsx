@@ -15,10 +15,11 @@ interface Props {
     bookings: number
     wishlist: number
   }
+  basePath?: string
   children: React.ReactNode
 }
 
-export function AccountShell({ activeTab, profile, counts, children }: Props) {
+export function AccountShell({ activeTab, profile, counts, basePath = '/account', children }: Props) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -31,9 +32,9 @@ export function AccountShell({ activeTab, profile, counts, children }: Props) {
         params.set('tab', tab)
       }
       const query = params.toString()
-      router.push(query ? `/account?${query}` : '/account')
+      router.push(query ? `${basePath}?${query}` : basePath)
     },
-    [router, searchParams]
+    [basePath, router, searchParams]
   )
 
   return (

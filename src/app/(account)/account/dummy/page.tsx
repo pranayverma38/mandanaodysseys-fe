@@ -55,7 +55,7 @@ const Page = async ({ searchParams }: Props) => {
         .
       </div>
 
-      <AccountShell activeTab={activeTab} profile={accountData.profile} counts={counts}>
+      <AccountShell activeTab={activeTab} profile={accountData.profile} counts={counts} basePath="/account/dummy">
         {activeTab === 'account' && <AccountProfileSection profile={accountData.profile} />}
         {activeTab === 'itineraries' && (
           <AccountItinerariesSection itineraries={accountData.customItineraries} />
