@@ -9,7 +9,7 @@ import {
   updateItinerary,
   updateItineraryStatus,
   type CreateItineraryInput,
-} from '@/lib/db/custom-itineraries'
+} from '@/lib/itineraries/store'
 import type { CustomItineraryStatus } from '@/data/account/types'
 import { revalidatePath } from 'next/cache'
 

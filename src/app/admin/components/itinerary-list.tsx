@@ -12,7 +12,7 @@ import {
   updateItineraryAction,
   type AdminActionState,
 } from '../actions'
-import type { AdminCustomItinerary } from '@/lib/db/custom-itineraries'
+import type { AdminCustomItinerary } from '@/lib/itineraries/store'
 
 const STATUS_LABELS: Record<CustomItineraryStatus, string> = {
   draft: 'Draft',
