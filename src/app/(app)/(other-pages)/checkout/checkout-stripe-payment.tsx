@@ -11,7 +11,7 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js'
 import { LockClosedIcon } from '@heroicons/react/24/solid'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { PaymentMode } from './payment-options'
 import { useDebouncedValue } from './use-debounced-value'
 
@@ -92,12 +92,15 @@ const stripeAppearance = {
 
 const paymentElementOptions = {
   layout: {
-    type: 'tabs' as const,
+    type: 'accordion' as const,
     defaultCollapsed: false,
+    spacedAccordionItems: true,
   },
   wallets: {
     applePay: 'never' as const,
     googlePay: 'never' as const,
+    // Link is controlled dynamically — shown in card form when Express Checkout has no Link
+    link: 'auto' as const,
   },
   fields: {
     billingDetails: {
@@ -110,6 +113,32 @@ const paymentElementOptions = {
   terms: {
     card: 'never' as const,
   },
+}
+
+const expressCheckoutOptions = {
+  buttonHeight: 48,
+  buttonTheme: {
+    applePay: 'black' as const,
+    googlePay: 'black' as const,
+  },
+  buttonType: {
+    applePay: 'buy' as const,
+    googlePay: 'buy' as const,
+  },
+  layout: {
+    maxColumns: 1,
+    maxRows: 3,
+    overflow: 'never' as const,
+  },
+  paymentMethods: {
+    applePay: 'always' as const,
+    googlePay: 'always' as const,
+    link: 'auto' as const,
+    paypal: 'never' as const,
+    amazonPay: 'never' as const,
+    klarna: 'never' as const,
+  },
+  paymentMethodOrder: ['apple_pay', 'google_pay', 'link'],
 }
 
 interface Props {
@@ -138,7 +167,20 @@ function PaymentForm({
   const elements = useElements()
   const [message, setMessage] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
-  const [expressAvailable, setExpressAvailable] = useState(false)
+  const [expressMethods, setExpressMethods] = useState<string[]>([])
+  const expressHasLink = expressMethods.includes('link')
+
+  const cardPaymentOptions = useMemo(
+    () => ({
+      ...paymentElementOptions,
+      wallets: {
+        ...paymentElementOptions.wallets,
+        // Avoid duplicate Link when Express Checkout already shows it (e.g. on production)
+        link: expressHasLink ? ('never' as const) : ('auto' as const),
+      },
+    }),
+    [expressHasLink]
+  )
 
   useEffect(() => {
     if (intentVersion <= 1 || !elements) {
@@ -206,25 +248,22 @@ function PaymentForm({
         <div className="p-4">
           <ExpressCheckoutElement
             onReady={({ availablePaymentMethods }) => {
-              setExpressAvailable(
-                Boolean(availablePaymentMethods && Object.values(availablePaymentMethods).some(Boolean))
-              )
+              if (!availablePaymentMethods) {
+                setExpressMethods([])
+                return
+              }
+
+              const methods = Object.entries(availablePaymentMethods)
+                .filter(([, enabled]) => enabled)
+                .map(([method]) => method)
+
+              setExpressMethods(methods)
             }}
             onConfirm={handleExpressConfirm}
-            options={{
-              buttonHeight: 44,
-              buttonTheme: {
-                applePay: 'black',
-                googlePay: 'black',
-              },
-              layout: {
-                maxColumns: 3,
-                maxRows: 1,
-              },
-            }}
+            options={expressCheckoutOptions}
           />
 
-          {expressAvailable && (
+          {expressMethods.length > 0 && (
             <div className="my-4 flex items-center gap-3">
               <div className="h-px flex-1 bg-orange-200/80 dark:bg-orange-500/25" />
               <span className="text-[11px] font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
@@ -234,7 +273,7 @@ function PaymentForm({
             </div>
           )}
 
-          <PaymentElement options={paymentElementOptions} />
+          <PaymentElement key={expressHasLink ? 'card-no-link' : 'card-with-link'} options={cardPaymentOptions} />
         </div>
       </div>
 
