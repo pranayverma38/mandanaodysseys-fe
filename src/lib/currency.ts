@@ -87,3 +87,43 @@ export function formatUsdPriceInText(
 ): string {
   return text.replace(USD_PRICE_PATTERN, (match) => formatUsdPrice(match, currency, rates))
 }
+
+function parseAmount(value: string | number): number | null {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null
+  }
+
+  const cleaned = value.replace(/,/g, '')
+  const amount = parseFloat(cleaned)
+  return Number.isFinite(amount) ? amount : null
+}
+
+/** Format a price stored in AUD into the user's selected display currency. */
+export function formatAudPrice(
+  value: string | number,
+  currency: CurrencyCode,
+  rates: ExchangeRates
+): string {
+  const amount = parseAmount(value)
+
+  if (amount === null) {
+    return typeof value === 'string' ? value : String(value)
+  }
+
+  let displayAmount = amount
+
+  if (currency === 'USD') {
+    const audRate = rates.AUD
+    displayAmount = audRate ? amount / audRate : amount
+  } else if (currency === 'INR') {
+    const audRate = rates.AUD
+    const inrRate = rates.INR
+    displayAmount = audRate && inrRate ? (amount / audRate) * inrRate : amount
+  }
+
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 0,
+  }).format(displayAmount)
+}

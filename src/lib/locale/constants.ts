@@ -2,7 +2,7 @@ export type LanguageCode = 'en' | 'fr' | 'de' | 'it'
 export type CurrencyCode = 'USD' | 'AUD' | 'INR'
 
 export const DEFAULT_LANGUAGE: LanguageCode = 'en'
-export const DEFAULT_CURRENCY: CurrencyCode = 'USD'
+export const DEFAULT_CURRENCY: CurrencyCode = 'AUD'
 
 export const LANGUAGE_STORAGE_KEY = 'locale-language'
 export const CURRENCY_STORAGE_KEY = 'locale-currency'

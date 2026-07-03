@@ -2,7 +2,7 @@ const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  serverExternalPackages: ['better-sqlite3'],
   async headers() {
     return [
       {

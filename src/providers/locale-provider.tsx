@@ -1,6 +1,6 @@
 'use client'
 
-import { ExchangeRates, fetchExchangeRates, formatUsdPrice } from '@/lib/currency'
+import { ExchangeRates, fetchExchangeRates, formatAudPrice, formatUsdPrice } from '@/lib/currency'
 import {
   applyGoogleTranslateCookie,
   initGoogleTranslate,
@@ -32,6 +32,7 @@ interface LocaleContextValue {
   setLanguage: (language: LanguageCode) => void
   setCurrency: (currency: CurrencyCode) => void
   formatPrice: (value: string | number) => string
+  formatAudPrice: (value: string | number) => string
 }
 
 const LocaleContext = createContext<LocaleContextValue | null>(null)
@@ -145,6 +146,11 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     [currency, rates]
   )
 
+  const formatAudPriceValue = useCallback(
+    (value: string | number) => formatAudPrice(value, currency, rates),
+    [currency, rates]
+  )
+
   const value = useMemo(
     () => ({
       language,
@@ -154,8 +160,9 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       setLanguage,
       setCurrency,
       formatPrice,
+      formatAudPrice: formatAudPriceValue,
     }),
-    [currency, formatPrice, language, rates, ratesLoading, setCurrency, setLanguage]
+    [currency, formatAudPriceValue, formatPrice, language, rates, ratesLoading, setCurrency, setLanguage]
   )
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>

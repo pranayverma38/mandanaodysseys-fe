@@ -7,7 +7,8 @@ import { Download01Icon, EyeIcon, Invoice01Icon } from '@hugeicons/core-free-ico
 import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
 import Image from 'next/image'
-import Link from 'next/link'
+import { useState } from 'react'
+import { RequestChangesDialog } from './request-changes-dialog'
 
 const STATUS_STYLES: Record<CustomItineraryStatus, { label: string; className: string }> = {
   draft: {
@@ -33,6 +34,8 @@ interface Props {
 }
 
 export function AccountItinerariesSection({ itineraries }: Props) {
+  const [requestChangesOpen, setRequestChangesOpen] = useState(false)
+
   if (!itineraries.length) {
     return (
       <section aria-labelledby="account-itineraries-heading">
@@ -48,6 +51,8 @@ export function AccountItinerariesSection({ itineraries }: Props) {
   return (
     <section aria-labelledby="account-itineraries-heading">
       <SectionHeader />
+
+      <RequestChangesDialog open={requestChangesOpen} onClose={() => setRequestChangesOpen(false)} />
 
       <div className="space-y-5">
         {itineraries.map((itinerary) => {
@@ -101,7 +106,7 @@ export function AccountItinerariesSection({ itineraries }: Props) {
                         Quoted price
                       </p>
                       <p className="mt-0.5 text-2xl font-bold text-neutral-900 dark:text-white">
-                        <FormattedPrice value={itinerary.totalPrice} />
+                        <FormattedPrice value={itinerary.totalPrice} baseCurrency="AUD" />
                       </p>
                       <p className="mt-0.5 text-xs text-neutral-500">incl. taxes & fees</p>
                     </div>
@@ -152,12 +157,13 @@ export function AccountItinerariesSection({ itineraries }: Props) {
                       Download PDF
                     </Button>
                     {!isExpired && (
-                      <Link
-                        href="/contact"
+                      <button
+                        type="button"
+                        onClick={() => setRequestChangesOpen(true)}
                         className="inline-flex items-center self-center text-sm font-medium text-[#fc6200] underline-offset-4 hover:underline"
                       >
                         Request changes
-                      </Link>
+                      </button>
                     )}
                   </div>
                 </div>

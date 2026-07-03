@@ -44,6 +44,9 @@ lerna-debug.log*
 # Turbo (monorepos)
 .turbo
 
+# Local SQLite data
+/data/
+
 # OS
 .DS_Store
 Thumbs.db
