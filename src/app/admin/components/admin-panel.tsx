@@ -1,4 +1,5 @@
 import { getAdminDashboardData } from '../actions'
+import { isDatabaseConfigured } from '@/lib/db'
 import { AdminLogin } from './admin-login'
 import { ItineraryForm } from './itinerary-form'
 import { ItineraryList } from './itinerary-list'
@@ -18,9 +19,16 @@ export async function AdminPanel({ filter }: Props) {
   }
 
   const { itineraries, stats } = data
+  const dbConfigured = isDatabaseConfigured()
 
   return (
     <div className="space-y-8">
+      {!dbConfigured && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-100">
+          Production database is not configured. Add <code className="font-mono">TURSO_DATABASE_URL</code> and{' '}
+          <code className="font-mono">TURSO_AUTH_TOKEN</code> to your hosting environment.
+        </div>
+      )}
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">

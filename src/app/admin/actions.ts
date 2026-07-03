@@ -50,8 +50,8 @@ export async function getAdminDashboardData(filter: 'all' | 'active' | 'expired'
   if (!authed) return null
 
   return {
-    itineraries: getAllItineraries(filter),
-    stats: getItineraryStats(),
+    itineraries: await getAllItineraries(filter),
+    stats: await getItineraryStats(),
   }
 }
 
@@ -84,7 +84,7 @@ export async function createItineraryAction(
       return { error: 'PDF link is required.' }
     }
 
-    createItinerary(input)
+    await createItinerary(input)
     revalidatePath('/admin')
     revalidatePath('/account')
     return { success: 'Itinerary created.' }
@@ -101,7 +101,7 @@ export async function updateItineraryAction(
   try {
     await requireAdmin()
 
-    const updated = updateItinerary(id, {
+    const updated = await updateItinerary(id, {
       userEmail: String(formData.get('userEmail') ?? ''),
       title: String(formData.get('title') ?? ''),
       destination: String(formData.get('destination') ?? ''),
@@ -133,7 +133,7 @@ export async function setItineraryStatusAction(
   try {
     await requireAdmin()
 
-    const updated = updateItineraryStatus(id, status)
+    const updated = await updateItineraryStatus(id, status)
     if (!updated) {
       return { error: 'Itinerary not found.' }
     }
@@ -150,7 +150,7 @@ export async function deleteItineraryAction(id: string): Promise<AdminActionStat
   try {
     await requireAdmin()
 
-    const deleted = deleteItinerary(id)
+    const deleted = await deleteItinerary(id)
     if (!deleted) {
       return { error: 'Itinerary not found.' }
     }

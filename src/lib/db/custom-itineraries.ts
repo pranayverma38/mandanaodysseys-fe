@@ -1,6 +1,7 @@
 import 'server-only'
 
 import type { CustomItinerary, CustomItineraryStatus } from '@/data/account/types'
+import type { Row } from '@libsql/client'
 import { getDb } from './index'
 
 export type AdminCustomItinerary = CustomItinerary & {
@@ -46,6 +47,25 @@ export type UpdateItineraryInput = Partial<
   status?: CustomItineraryStatus
 }
 
+function parseRow(row: Row): DbRow {
+  return {
+    id: String(row.id),
+    user_email: String(row.user_email),
+    title: String(row.title),
+    destination: String(row.destination),
+    duration: String(row.duration),
+    travelers: Number(row.travelers),
+    created_at: String(row.created_at),
+    valid_until: String(row.valid_until),
+    total_price: Number(row.total_price),
+    status: row.status as CustomItineraryStatus,
+    document_url: String(row.document_url),
+    thumbnail: String(row.thumbnail),
+    notes: row.notes == null ? null : String(row.notes),
+    updated_at: String(row.updated_at),
+  }
+}
+
 function isPastDate(dateStr: string): boolean {
   const date = new Date(dateStr)
   const today = new Date()
@@ -54,18 +74,22 @@ function isPastDate(dateStr: string): boolean {
   return date < today
 }
 
-function resolveEffectiveStatus(row: DbRow): CustomItineraryStatus {
+async function resolveEffectiveStatus(row: DbRow): Promise<CustomItineraryStatus> {
   if (row.status === 'sent' && isPastDate(row.valid_until)) {
-    getDb()
-      .prepare(`UPDATE custom_itineraries SET status = 'expired', updated_at = ? WHERE id = ?`)
-      .run(new Date().toISOString(), row.id)
+    const db = await getDb()
+    if (db) {
+      await db.execute({
+        sql: `UPDATE custom_itineraries SET status = 'expired', updated_at = ? WHERE id = ?`,
+        args: [new Date().toISOString(), row.id],
+      })
+    }
     return 'expired'
   }
   return row.status
 }
 
-function rowToItinerary(row: DbRow): AdminCustomItinerary {
-  const status = resolveEffectiveStatus(row)
+async function rowToItinerary(row: DbRow): Promise<AdminCustomItinerary> {
+  const status = await resolveEffectiveStatus(row)
   return {
     id: row.id,
     userEmail: row.user_email,
@@ -84,8 +108,8 @@ function rowToItinerary(row: DbRow): AdminCustomItinerary {
   }
 }
 
-function rowToCustomerItinerary(row: DbRow): CustomItinerary {
-  const admin = rowToItinerary(row)
+async function rowToCustomerItinerary(row: DbRow): Promise<CustomItinerary> {
+  const admin = await rowToItinerary(row)
   return {
     id: admin.id,
     title: admin.title,
@@ -102,53 +126,71 @@ function rowToCustomerItinerary(row: DbRow): CustomItinerary {
   }
 }
 
-export function getItinerariesForUser(email: string): CustomItinerary[] {
-  const rows = getDb()
-    .prepare(
-      `SELECT * FROM custom_itineraries
-       WHERE user_email = ? AND status IN ('sent', 'accepted', 'expired')
-       ORDER BY created_at DESC`
-    )
-    .all(email.trim().toLowerCase()) as DbRow[]
+export async function getItinerariesForUser(email: string): Promise<CustomItinerary[]> {
+  const db = await getDb()
+  if (!db) return []
 
-  return rows.map(rowToCustomerItinerary)
+  const result = await db.execute({
+    sql: `SELECT * FROM custom_itineraries
+          WHERE user_email = ? AND status IN ('sent', 'accepted', 'expired')
+          ORDER BY created_at DESC`,
+    args: [email.trim().toLowerCase()],
+  })
+
+  const rows = await Promise.all(result.rows.map((row) => rowToCustomerItinerary(parseRow(row))))
+  return rows
 }
 
-export function getAllItineraries(filter?: 'all' | 'active' | 'expired'): AdminCustomItinerary[] {
-  let query = 'SELECT * FROM custom_itineraries'
-  const params: string[] = []
+export async function getAllItineraries(
+  filter?: 'all' | 'active' | 'expired'
+): Promise<AdminCustomItinerary[]> {
+  const db = await getDb()
+  if (!db) return []
+
+  let sql = 'SELECT * FROM custom_itineraries'
 
   if (filter === 'active') {
-    query += ` WHERE status IN ('draft', 'sent', 'accepted')`
+    sql += ` WHERE status IN ('draft', 'sent', 'accepted')`
   } else if (filter === 'expired') {
-    query += ` WHERE status = 'expired'`
+    sql += ` WHERE status = 'expired'`
   }
 
-  query += ' ORDER BY updated_at DESC'
+  sql += ' ORDER BY updated_at DESC'
 
-  const rows = getDb().prepare(query).all(...params) as DbRow[]
-  return rows.map(rowToItinerary)
+  const result = await db.execute(sql)
+  return Promise.all(result.rows.map((row) => rowToItinerary(parseRow(row))))
 }
 
-export function getItineraryById(id: string): AdminCustomItinerary | null {
-  const row = getDb().prepare('SELECT * FROM custom_itineraries WHERE id = ?').get(id) as DbRow | undefined
-  return row ? rowToItinerary(row) : null
+export async function getItineraryById(id: string): Promise<AdminCustomItinerary | null> {
+  const db = await getDb()
+  if (!db) return null
+
+  const result = await db.execute({
+    sql: 'SELECT * FROM custom_itineraries WHERE id = ?',
+    args: [id],
+  })
+
+  const row = result.rows[0]
+  return row ? rowToItinerary(parseRow(row)) : null
 }
 
-export function createItinerary(input: CreateItineraryInput): AdminCustomItinerary {
+export async function createItinerary(input: CreateItineraryInput): Promise<AdminCustomItinerary> {
+  const db = await getDb()
+  if (!db) {
+    throw new Error('Database is not available. Configure TURSO_DATABASE_URL for production.')
+  }
+
   const id = crypto.randomUUID()
   const now = new Date().toISOString()
   const createdAt = now.slice(0, 10)
   const status = input.status ?? 'draft'
 
-  getDb()
-    .prepare(
-      `INSERT INTO custom_itineraries (
-        id, user_email, title, destination, duration, travelers,
-        created_at, valid_until, total_price, status, document_url, thumbnail, notes, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    )
-    .run(
+  await db.execute({
+    sql: `INSERT INTO custom_itineraries (
+      id, user_email, title, destination, duration, travelers,
+      created_at, valid_until, total_price, status, document_url, thumbnail, notes, updated_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    args: [
       id,
       input.userEmail.trim().toLowerCase(),
       input.title.trim(),
@@ -162,36 +204,47 @@ export function createItinerary(input: CreateItineraryInput): AdminCustomItinera
       input.documentUrl.trim(),
       input.thumbnail.trim(),
       input.notes?.trim() || null,
-      now
-    )
+      now,
+    ],
+  })
 
-  return getItineraryById(id)!
+  const created = await getItineraryById(id)
+  if (!created) {
+    throw new Error('Failed to create itinerary.')
+  }
+  return created
 }
 
-export function updateItinerary(id: string, input: UpdateItineraryInput): AdminCustomItinerary | null {
-  const existing = getItineraryById(id)
+export async function updateItinerary(
+  id: string,
+  input: UpdateItineraryInput
+): Promise<AdminCustomItinerary | null> {
+  const db = await getDb()
+  if (!db) {
+    throw new Error('Database is not available. Configure TURSO_DATABASE_URL for production.')
+  }
+
+  const existing = await getItineraryById(id)
   if (!existing) return null
 
   const now = new Date().toISOString()
 
-  getDb()
-    .prepare(
-      `UPDATE custom_itineraries SET
-        user_email = ?,
-        title = ?,
-        destination = ?,
-        duration = ?,
-        travelers = ?,
-        valid_until = ?,
-        total_price = ?,
-        status = ?,
-        document_url = ?,
-        thumbnail = ?,
-        notes = ?,
-        updated_at = ?
-      WHERE id = ?`
-    )
-    .run(
+  await db.execute({
+    sql: `UPDATE custom_itineraries SET
+      user_email = ?,
+      title = ?,
+      destination = ?,
+      duration = ?,
+      travelers = ?,
+      valid_until = ?,
+      total_price = ?,
+      status = ?,
+      document_url = ?,
+      thumbnail = ?,
+      notes = ?,
+      updated_at = ?
+    WHERE id = ?`,
+    args: [
       (input.userEmail ?? existing.userEmail).trim().toLowerCase(),
       (input.title ?? existing.title).trim(),
       (input.destination ?? existing.destination).trim(),
@@ -204,35 +257,50 @@ export function updateItinerary(id: string, input: UpdateItineraryInput): AdminC
       (input.thumbnail ?? existing.thumbnail).trim(),
       input.notes !== undefined ? input.notes.trim() || null : existing.notes ?? null,
       now,
-      id
-    )
+      id,
+    ],
+  })
 
   return getItineraryById(id)
 }
 
-export function updateItineraryStatus(
+export async function updateItineraryStatus(
   id: string,
   status: CustomItineraryStatus
-): AdminCustomItinerary | null {
+): Promise<AdminCustomItinerary | null> {
   return updateItinerary(id, { status })
 }
 
-export function deleteItinerary(id: string): boolean {
-  const result = getDb().prepare('DELETE FROM custom_itineraries WHERE id = ?').run(id)
-  return result.changes > 0
+export async function deleteItinerary(id: string): Promise<boolean> {
+  const db = await getDb()
+  if (!db) {
+    throw new Error('Database is not available. Configure TURSO_DATABASE_URL for production.')
+  }
+
+  const result = await db.execute({
+    sql: 'DELETE FROM custom_itineraries WHERE id = ?',
+    args: [id],
+  })
+
+  return result.rowsAffected > 0
 }
 
-export function getItineraryStats() {
-  const rows = getDb()
-    .prepare(
-      `SELECT status, COUNT(*) as count FROM custom_itineraries GROUP BY status`
-    )
-    .all() as { status: CustomItineraryStatus; count: number }[]
-
+export async function getItineraryStats() {
+  const db = await getDb()
   const counts = { draft: 0, sent: 0, accepted: 0, expired: 0, total: 0 }
-  for (const row of rows) {
-    counts[row.status] = row.count
-    counts.total += row.count
+
+  if (!db) return counts
+
+  const result = await db.execute(
+    `SELECT status, COUNT(*) as count FROM custom_itineraries GROUP BY status`
+  )
+
+  for (const row of result.rows) {
+    const status = row.status as CustomItineraryStatus
+    const count = Number(row.count)
+    counts[status] = count
+    counts.total += count
   }
+
   return counts
 }

@@ -33,7 +33,7 @@ export async function getAccountData(): Promise<AccountData> {
 
   return {
     profile: mapCustomerToProfile(customer),
-    customItineraries: email ? getItinerariesForUser(email) : [],
+    customItineraries: email ? await getItinerariesForUser(email) : [],
     bookings: [],
     wishlistPackageIds: parseWishlistHandles(customer.metadata),
   }
