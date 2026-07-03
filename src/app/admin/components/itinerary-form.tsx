@@ -19,7 +19,8 @@ export function ItineraryForm() {
     <section className="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900">
       <h2 className="text-lg font-semibold">Add custom itinerary</h2>
       <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-        Assign an itinerary to a customer by their account email. Use &quot;Send&quot; later to publish drafts.
+        Assign an itinerary to a customer by their account email. The customer must already have a Mandana
+        account. Use &quot;Send&quot; later to publish drafts.
       </p>
 
       <form action={formAction} className="mt-6 grid gap-4 sm:grid-cols-2">

@@ -1,6 +1,6 @@
 import { mapCustomerToProfile } from '@/lib/account/map-customer'
 import { getAuthenticatedCustomer } from '@/lib/auth/session'
-import { getItinerariesForUser } from '@/lib/db/custom-itineraries'
+import { getVisibleItinerariesFromMetadata } from '@/lib/itineraries/store'
 import { parseWishlistHandles } from '@/lib/wishlist/metadata'
 import type { AccountData } from './types'
 
@@ -29,11 +29,9 @@ export async function getAccountData(): Promise<AccountData> {
     return EMPTY_ACCOUNT_DATA
   }
 
-  const email = customer.email?.trim().toLowerCase() ?? ''
-
   return {
     profile: mapCustomerToProfile(customer),
-    customItineraries: email ? await getItinerariesForUser(email) : [],
+    customItineraries: getVisibleItinerariesFromMetadata(customer.metadata),
     bookings: [],
     wishlistPackageIds: parseWishlistHandles(customer.metadata),
   }
