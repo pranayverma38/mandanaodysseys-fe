@@ -185,7 +185,6 @@ export async function updateItinerary(
   itineraries[index] = updated
 
   if (email !== current.userEmail.trim().toLowerCase()) {
-<<<<<<< HEAD
     const previousCustomer = await findCustomerByEmail(current.userEmail)
     if (previousCustomer) {
       const previousItineraries = parseCustomItineraries(previousCustomer.metadata).filter(
@@ -193,13 +192,6 @@ export async function updateItinerary(
       )
       await saveCustomerItineraries(current.userEmail, previousItineraries)
     }
-=======
-    const previousItineraries = parseCustomItineraries(
-      (await findCustomerByEmail(current.userEmail))?.metadata
-    ).filter((item) => item.id !== id)
-
-    await saveCustomerItineraries(current.userEmail, previousItineraries)
->>>>>>> stage
   }
 
   await saveCustomerItineraries(email, itineraries)
@@ -222,17 +214,10 @@ export async function deleteItinerary(id: string): Promise<boolean> {
   const current = await getItineraryById(id)
   if (!current) return false
 
-<<<<<<< HEAD
   const customer = await findCustomerByEmail(current.userEmail)
   if (!customer) return false
 
   const next = parseCustomItineraries(customer.metadata).filter((item) => item.id !== id)
-=======
-  const next = parseCustomItineraries((await findCustomerByEmail(current.userEmail))?.metadata).filter(
-    (item) => item.id !== id
-  )
-
->>>>>>> stage
   await saveCustomerItineraries(current.userEmail, next)
   return true
 }
