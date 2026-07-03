@@ -3,7 +3,7 @@
 import { Button } from '@/components/button'
 import type { CheckoutBooking } from '@/lib/checkout/build-booking'
 import { getStripeClient } from '@/lib/stripe/client'
-import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import { Elements, ExpressCheckoutElement, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { LockClosedIcon } from '@heroicons/react/24/solid'
 import { useEffect, useRef, useState } from 'react'
 import type { PaymentMode } from './payment-options'
@@ -86,14 +86,30 @@ const stripeAppearance = {
 
 const paymentElementOptions = {
   layout: {
-    type: 'tabs' as const,
+    type: 'accordion' as const,
     defaultCollapsed: false,
+    spacedAccordionItems: true,
   },
+  // Wallets are handled by Express Checkout above — card form only here
   wallets: {
-    applePay: 'auto' as const,
-    googlePay: 'auto' as const,
-    link: 'auto' as const,
+    applePay: 'never' as const,
+    googlePay: 'never' as const,
+    link: 'never' as const,
   },
+}
+
+const expressCheckoutOptions = {
+  buttonHeight: 48,
+  buttonTheme: {
+    applePay: 'black' as const,
+    googlePay: 'black' as const,
+  },
+  layout: {
+    maxColumns: 1,
+    maxRows: 4,
+    overflow: 'never' as const,
+  },
+  paymentMethodOrder: ['link', 'apple_pay', 'google_pay'],
 }
 
 interface Props {
@@ -122,6 +138,7 @@ function PaymentForm({
   const elements = useElements()
   const [message, setMessage] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
+  const [expressReady, setExpressReady] = useState(false)
 
   useEffect(() => {
     if (intentVersion <= 1 || !elements) {
@@ -134,9 +151,7 @@ function PaymentForm({
   const returnUrl =
     typeof window !== 'undefined' ? new URL('/pay-done', window.location.origin).toString() : '/pay-done'
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
+  const confirmPayment = async () => {
     if (!stripe || !elements || disabled) {
       return
     }
@@ -157,6 +172,11 @@ function PaymentForm({
     }
   }
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    await confirmPayment()
+  }
+
   return (
     <form id={CHECKOUT_FORM_ID} onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="overflow-hidden rounded-2xl border border-orange-200/90 bg-[#faf6f1] shadow-sm dark:border-orange-500/30 dark:bg-orange-950/25">
@@ -167,6 +187,24 @@ function PaymentForm({
         </div>
 
         <div className="p-4">
+          <ExpressCheckoutElement
+            onReady={({ availablePaymentMethods }) => {
+              setExpressReady(
+                Boolean(availablePaymentMethods && Object.values(availablePaymentMethods).some(Boolean))
+              )
+            }}
+            onConfirm={confirmPayment}
+            options={expressCheckoutOptions}
+          />
+
+          <div className="my-4 flex items-center gap-3">
+            <div className="h-px flex-1 bg-orange-200/80 dark:bg-orange-500/25" />
+            <span className="text-[11px] font-medium uppercase tracking-wide text-stone-500 dark:text-stone-400">
+              {expressReady ? 'or pay with card' : 'pay with card'}
+            </span>
+            <div className="h-px flex-1 bg-orange-200/80 dark:bg-orange-500/25" />
+          </div>
+
           <PaymentElement options={paymentElementOptions} />
         </div>
       </div>
