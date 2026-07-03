@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(6, 5)
 
@@ -38,13 +38,7 @@ export const australiaSydneyMelbourneLuxury: ItineraryDetail = {
     { icon: 'ChefHatIcon', text: 'Fine dining' },
     { icon: 'CarParking01Icon', text: 'Private transfers' },
   ],
-  pricing: {
-    price: '$2,750',
-    originalPrice: '$3,199',
-    feeAndTaxes: '$185',
-    total: '$2,935',
-    priceLabel: ' / person',
-  },
+  pricing: createItineraryPricing(2750, 3199),
   description:
     'Experience Australia\'s two greatest cities in style—Sydney Harbour yacht cruise, fine dining in The Rocks, Melbourne laneway culture, and a private Great Ocean Road day trip to the Twelve Apostles.',
   thingsToDo: [

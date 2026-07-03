@@ -8,15 +8,21 @@ import { FC, useState } from 'react'
 
 interface Props {
   className?: string
+  defaultValue?: GuestsObject
+  onChange?: (data: GuestsObject) => void
 }
 
-const GuestsInputPopover: FC<Props> = ({ className = 'flex-1' }) => {
-  const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(2)
-  const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(1)
-  const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(1)
+const GuestsInputPopover: FC<Props> = ({
+  className = 'flex-1',
+  defaultValue,
+  onChange,
+}) => {
+  const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(defaultValue?.guestAdults ?? 2)
+  const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(defaultValue?.guestChildren ?? 1)
+  const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(defaultValue?.guestInfants ?? 1)
 
   const handleChangeData = (value: number, type: keyof GuestsObject) => {
-    let newValue = {
+    const newValue = {
       guestAdults: guestAdultsInputValue,
       guestChildren: guestChildrenInputValue,
       guestInfants: guestInfantsInputValue,
@@ -33,6 +39,7 @@ const GuestsInputPopover: FC<Props> = ({ className = 'flex-1' }) => {
       setGuestInfantsInputValue(value)
       newValue.guestInfants = value
     }
+    onChange?.(newValue)
   }
 
   const totalGuests = guestChildrenInputValue + guestAdultsInputValue + guestInfantsInputValue

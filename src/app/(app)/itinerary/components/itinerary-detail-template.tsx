@@ -45,8 +45,22 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
   const handleSubmitForm = async (formData: FormData) => {
     'use server'
 
-    console.log('Form submitted with data:', Object.fromEntries(formData.entries()))
-    redirect('/checkout')
+    const entries = Object.fromEntries(formData.entries())
+    const searchParams = new URLSearchParams()
+
+    if (entries.handle) {
+      searchParams.set('handle', String(entries.handle))
+    }
+
+    if (entries.startDate) {
+      searchParams.set('startDate', String(entries.startDate))
+    }
+
+    searchParams.set('guestAdults', String(entries.guestAdults ?? 1))
+    searchParams.set('guestChildren', String(entries.guestChildren ?? 0))
+    searchParams.set('guestInfants', String(entries.guestInfants ?? 0))
+
+    redirect(`/checkout?${searchParams.toString()}`)
   }
 
   return (
@@ -112,7 +126,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
 
         <div className="w-full min-w-0 lg:flex-1 lg:basis-0">
           <div className="sticky top-17 min-w-0 max-w-full">
-            <ItineraryPricingSidebar pricing={pricing} onSubmit={handleSubmitForm} />
+            <ItineraryPricingSidebar handle={handle} pricing={pricing} onSubmit={handleSubmitForm} />
 
             <ItineraryBenefitsSection />
           </div>

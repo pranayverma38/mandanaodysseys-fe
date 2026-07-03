@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(12, 11)
 
@@ -39,13 +39,7 @@ export const nepalEverestBaseCampTrek: ItineraryDetail = {
     { icon: 'UserMultipleIcon', text: 'Small group' },
     { icon: 'ChefHatIcon', text: 'Teahouse meals' },
   ],
-  pricing: {
-    price: '$2,199',
-    originalPrice: '$2,599',
-    feeAndTaxes: '$145',
-    total: '$2,344',
-    priceLabel: ' / person',
-  },
+  pricing: createItineraryPricing(2199, 2599),
   description:
     'Trek through Sherpa villages, suspension bridges, and rhododendron forests to the foot of the world\'s highest peak. This 12-day adventure includes acclimatisation days, experienced guides, and porter support throughout the Khumbu Valley.',
   thingsToDo: [

@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(8, 7)
 
@@ -38,13 +38,7 @@ export const thailandBangkokChiangMaiCultural: ItineraryDetail = {
     { icon: 'ChefHatIcon', text: 'Thai cooking class' },
     { icon: 'City03Icon', text: 'Temple tours' },
   ],
-  pricing: {
-    price: '$1,699',
-    originalPrice: '$1,999',
-    feeAndTaxes: '$115',
-    total: '$1,814',
-    priceLabel: ' / person',
-  },
+  pricing: createItineraryPricing(1699, 1999),
   description:
     'Immerse yourself in Thailand\'s rich heritage—from Bangkok\'s Grand Palace and floating markets to the ancient ruins of Ayutthaya and Chiang Mai\'s lantern festivals, night bazaars, and elephant sanctuary visit.',
   thingsToDo: [

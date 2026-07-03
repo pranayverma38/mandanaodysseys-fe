@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(4, 3)
 
@@ -32,12 +32,7 @@ export const mumbaiPackage: ItineraryDetail = {
     { icon: 'UserMultipleIcon', text: 'Private guide' },
     { icon: 'City03Icon', text: 'City sightseeing' },
   ],
-  pricing: {
-    price: '$749',
-    originalPrice: '$899',
-    feeAndTaxes: '$55',
-    total: '$804',
-  },
+  pricing: createItineraryPricing(749, 899),
   description:
     'Experience the energy of Mumbai in four days—from the Gateway of India and Elephanta Caves to Bollywood studios, street food trails, and Marine Drive at sunset.',
   thingsToDo: [

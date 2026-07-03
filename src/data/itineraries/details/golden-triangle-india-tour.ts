@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(10, 9)
 
@@ -40,13 +40,7 @@ export const goldenTriangleIndiaTour: ItineraryDetail = {
     { icon: 'ChefHatIcon', text: 'Meals included' },
     { icon: 'BedSingle02Icon', text: '4-Star Hotels' },
   ],
-  pricing: {
-    price: '$3,159',
-    originalPrice: '$3,799',
-    feeAndTaxes: '$215',
-    total: '$3,374',
-    priceLabel: ' / person',
-  },
+  pricing: createItineraryPricing(3159, 3799),
   description:
     'The Golden Triangle tour is designed for first-time visitors to India and covers the country\'s most iconic destinations. Travelers explore:\n\nOld and New Delhi\nAgra and the Taj Mahal\nRanthambore National Park\nJaipur, the Pink City\n\nHighlights include rickshaw rides through Old Delhi, visits to UNESCO World Heritage sites, tiger safaris in Ranthambore, Amber Fort, Hawa Mahal, traditional handicraft workshops, and authentic Indian cultural experiences.',
   thingsToDo: [

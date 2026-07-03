@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(5, 4)
 
@@ -37,13 +37,7 @@ export const thailandPhuketSoloBeachEscape: ItineraryDetail = {
     { icon: 'UserMultipleIcon', text: 'Solo friendly' },
     { icon: 'ChefHatIcon', text: 'Beachside dining' },
   ],
-  pricing: {
-    price: '$1,099',
-    originalPrice: '$1,299',
-    feeAndTaxes: '$75',
-    total: '$1,174',
-    priceLabel: ' / person',
-  },
+  pricing: createItineraryPricing(1099, 1299),
   description:
     'A five-day solo-friendly beach escape in southern Thailand—relax on Phuket\'s shores, island-hop to Phi Phi, kayak through Phang Nga Bay, and join optional group activities designed for independent travellers.',
   thingsToDo: [

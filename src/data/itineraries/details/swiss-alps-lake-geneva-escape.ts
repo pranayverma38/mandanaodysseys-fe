@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(5, 4)
 
@@ -34,12 +34,7 @@ export const swissAlpsLakeGenevaEscape: ItineraryDetail = {
     { icon: 'UserMultipleIcon', text: '2 guests max' },
     { icon: 'EquipmentGym03Icon', text: 'Scenic train rides' },
   ],
-  pricing: {
-    price: '$2,450',
-    originalPrice: '$2,850',
-    feeAndTaxes: '$175',
-    total: '$2,625',
-  },
+  pricing: createItineraryPricing(2450, 2850),
   description:
     'A five-day luxury escape through Switzerland featuring alpine vistas, chocolate tastings, and a scenic cruise on Lake Geneva.',
   thingsToDo: [

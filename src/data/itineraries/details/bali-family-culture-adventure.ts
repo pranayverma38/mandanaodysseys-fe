@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(4, 3)
 
@@ -37,13 +37,7 @@ export const baliFamilyCultureAdventure: ItineraryDetail = {
     { icon: 'ChefHatIcon', text: 'Kids meals included' },
     { icon: 'Beach02Icon', text: 'Beach day pass' },
   ],
-  pricing: {
-    price: '$1,149',
-    originalPrice: '$1,399',
-    feeAndTaxes: '$82',
-    total: '$1,231',
-    priceLabel: ' / person',
-  },
+  pricing: createItineraryPricing(1149, 1399),
   description:
     'A four-day family adventure blending Balinese culture, temple visits, monkey forest fun, and beach time in Nusa Dua. Includes kid-friendly activities and flexible pacing for all ages.',
   thingsToDo: [

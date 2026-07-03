@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(5, 4)
 
@@ -35,12 +35,7 @@ export const goaPackage: ItineraryDetail = {
     { icon: 'Beach02Icon', text: 'Beach resort stay' },
     { icon: 'ChefHatIcon', text: 'Breakfast & dinner' },
   ],
-  pricing: {
-    price: '$899',
-    originalPrice: '$1,099',
-    feeAndTaxes: '$65',
-    total: '$964',
-  },
+  pricing: createItineraryPricing(899, 1099),
   description:
     'Unwind on golden Goan beaches, explore Portuguese-era churches, and enjoy sunset cruises along the Arabian Sea. This 5-day package blends relaxation with culture and coastal adventure.',
   thingsToDo: [

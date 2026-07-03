@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(3, 2)
 
@@ -38,13 +38,7 @@ export const nepalKathmanduPokharaWeekend: ItineraryDetail = {
     { icon: 'BedSingle02Icon', text: 'Boutique stays' },
     { icon: 'ChefHatIcon', text: 'Breakfast included' },
   ],
-  pricing: {
-    price: '$649',
-    originalPrice: '$799',
-    feeAndTaxes: '$48',
-    total: '$697',
-    priceLabel: ' / person',
-  },
+  pricing: createItineraryPricing(649, 799),
   description:
     'A short Himalayan getaway pairing Kathmandu\'s UNESCO heritage sites with Pokhara\'s lakeside serenity and Annapurna panoramas. Perfect for couples or travellers short on time.',
   thingsToDo: [

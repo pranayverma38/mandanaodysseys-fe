@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(7, 6)
 
@@ -36,12 +36,7 @@ export const listingNameItinerary: ItineraryDetail = {
     { icon: 'UserMultipleIcon', text: 'Small group' },
     { icon: 'ChefHatIcon', text: 'Breakfast included' },
   ],
-  pricing: {
-    price: '$1,899',
-    originalPrice: '$2,199',
-    feeAndTaxes: '$120',
-    total: '$2,019',
-  },
+  pricing: createItineraryPricing(1899, 2199),
   description:
     "See over 30 London and Paris sights across seven days. Your fun local guides will make sure you don't miss the history, culture, and legends of Europe's best-loved cities.",
   thingsToDo: [

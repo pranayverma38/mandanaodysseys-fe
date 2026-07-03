@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(7, 6)
 
@@ -38,13 +38,7 @@ export const baliHoneymoonRetreat: ItineraryDetail = {
     { icon: 'ChefHatIcon', text: 'Couples spa & dining' },
     { icon: 'Beach02Icon', text: 'Beach club access' },
   ],
-  pricing: {
-    price: '$2,899',
-    originalPrice: '$3,399',
-    feeAndTaxes: '$195',
-    total: '$3,094',
-    priceLabel: ' / couple',
-  },
+  pricing: createItineraryPricing(2899, 3399),
   description:
     'Celebrate your honeymoon across Bali\'s most romantic settings—from Ubud\'s jungle villas and couples spa rituals to Seminyak sunsets and a private cliffside dinner at Uluwatu.',
   thingsToDo: [

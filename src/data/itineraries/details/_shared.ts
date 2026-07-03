@@ -4,7 +4,7 @@ import avatarImage3 from '@/images/avatars/Image-3.png'
 import avatarImage4 from '@/images/avatars/Image-4.png'
 import type { ItineraryDuration } from '../duration'
 import { createMobilityAmenity, type ItineraryMobility } from '../mobility'
-import type { ItineraryAmenity, ItineraryLocation, ItineraryReview } from '../types'
+import type { ItineraryAmenity, ItineraryLocation, ItineraryPricing, ItineraryReview } from '../types'
 
 export function buildItineraryListingAmenities(
   duration: ItineraryDuration,
@@ -84,4 +84,26 @@ export function createDefaultReviews(overrides?: Partial<ItineraryReview>[]): It
   }
 
   return base.map((review, index) => ({ ...review, ...overrides[index] }))
+}
+
+function formatItineraryPrice(amount: number): string {
+  return `$${amount.toLocaleString('en-US')}`
+}
+
+/** Fee & taxes are 10% of the booking total (fee = price / 9, total = price + fee). */
+export function createItineraryPricing(
+  price: number,
+  originalPrice: number,
+  options?: Pick<ItineraryPricing, 'priceLabel'>
+): ItineraryPricing {
+  const feeAndTaxes = Math.round(price / 9)
+  const total = price + feeAndTaxes
+
+  return {
+    price: formatItineraryPrice(price),
+    originalPrice: formatItineraryPrice(originalPrice),
+    feeAndTaxes: formatItineraryPrice(feeAndTaxes),
+    total: formatItineraryPrice(total),
+    ...options,
+  }
 }

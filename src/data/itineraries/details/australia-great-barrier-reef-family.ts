@@ -1,6 +1,6 @@
 import type { ItineraryDetail } from '../types'
 import { createItineraryDuration } from '../duration'
-import { createDefaultReviews, createItineraryLocations } from './_shared'
+import { createDefaultReviews, createItineraryLocations, createItineraryPricing } from './_shared'
 
 const duration = createItineraryDuration(10, 9)
 
@@ -38,13 +38,7 @@ export const australiaGreatBarrierReefFamily: ItineraryDetail = {
     { icon: 'Beach02Icon', text: 'Reef snorkelling' },
     { icon: 'ChefHatIcon', text: 'Most meals included' },
   ],
-  pricing: {
-    price: '$3,499',
-    originalPrice: '$4,099',
-    feeAndTaxes: '$235',
-    total: '$3,734',
-    priceLabel: ' / person',
-  },
+  pricing: createItineraryPricing(3499, 4099),
   description:
     'Discover Australia\'s natural wonders on a 10-day family journey—snorkel the Great Barrier Reef, meet koalas and kangaroos, explore the Daintree Rainforest, and finish with Sydney\'s iconic harbour sights.',
   thingsToDo: [
