@@ -1,14 +1,13 @@
 'use client'
 
-import ButtonPrimary from '@/components/button-primary'
+import { Button } from '@/components/button'
 import FormattedPrice from '@/components/formatted-price'
 import { Divider } from '@/components/divider'
 import { Heading } from '@/components/heading'
 import type { ItineraryDetail } from '@/data/itineraries/types'
 import type { CheckoutBooking } from '@/lib/checkout/build-booking'
-import Form from 'next/form'
-import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
+import CheckoutStripePayment, { CHECKOUT_FORM_ID } from './checkout-stripe-payment'
 import CheckoutSummary from './checkout-summary'
 import PaymentOptions, { type PaymentMode } from './payment-options'
 import YourTrip from './your-trip'
@@ -19,13 +18,13 @@ interface Props {
 }
 
 const CheckoutPage = ({ itinerary, booking }: Props) => {
-  const router = useRouter()
   const [paymentState, setPaymentState] = useState({
     mode: 'full' as PaymentMode,
     chargeAmount: booking.total,
     depositAmount: booking.total,
     isValid: true,
   })
+  const [isProcessing, setIsProcessing] = useState(false)
 
   const handlePaymentChange = useCallback(
     (state: {
@@ -46,23 +45,14 @@ const CheckoutPage = ({ itinerary, booking }: Props) => {
     })
   }, [])
 
-  const handleSubmitForm = async (formData: FormData) => {
-    if (!paymentState.isValid) {
-      return
-    }
-
-    const formObject = Object.fromEntries(formData.entries())
-    console.log('Form submitted:', formObject)
-    router.push('/pay-done')
-  }
-
   const isPartial = paymentState.mode === 'partial'
   const remainingBalance = Math.max(booking.total - paymentState.chargeAmount, 0)
   const submitLabel = isPartial ? 'Pay deposit' : 'Confirm and pay'
+  const canSubmit = paymentState.isValid && !isProcessing
 
   return (
     <main className="container mb-28 max-w-7xl px-4 sm:mb-24 sm:px-6 sm:mt-10 lg:mb-32 lg:mt-14">
-      <Form action={handleSubmitForm} className="flex flex-col">
+      <div className="flex flex-col">
         <div className="mt-6 lg:hidden">
           <CheckoutSummary
             itinerary={itinerary}
@@ -98,6 +88,17 @@ const CheckoutPage = ({ itinerary, booking }: Props) => {
 
               <PaymentOptions total={booking.total} onChange={handlePaymentChange} />
 
+              <CheckoutStripePayment
+                booking={booking}
+                itineraryTitle={itinerary.title}
+                chargeAmount={paymentState.chargeAmount}
+                paymentMode={paymentState.mode}
+                depositAmount={paymentState.depositAmount}
+                disabled={!paymentState.isValid}
+                submitLabel={submitLabel}
+                onProcessingChange={setIsProcessing}
+              />
+
               <div className="space-y-2 rounded-xl border border-border bg-muted/30 p-3 lg:hidden">
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-muted-foreground">Fee & Taxes</span>
@@ -125,16 +126,6 @@ const CheckoutPage = ({ itinerary, booking }: Props) => {
                     </span>
                   </div>
                 )}
-              </div>
-
-              <div className="hidden lg:block">
-                <ButtonPrimary
-                  type="submit"
-                  className="text-base/6!"
-                  disabled={!paymentState.isValid}
-                >
-                  {submitLabel}
-                </ButtonPrimary>
               </div>
             </div>
           </div>
@@ -166,16 +157,18 @@ const CheckoutPage = ({ itinerary, booking }: Props) => {
                 </p>
               )}
             </div>
-            <ButtonPrimary
+            <Button
+              color="orange"
               type="submit"
-              className="shrink-0 px-5 text-base/6! sm:px-6"
-              disabled={!paymentState.isValid}
+              form={CHECKOUT_FORM_ID}
+              className="shrink-0 rounded-xl! px-5 py-3! text-base! sm:px-6"
+              disabled={!canSubmit}
             >
-              {submitLabel}
-            </ButtonPrimary>
+              {isProcessing ? 'Processing…' : submitLabel}
+            </Button>
           </div>
         </div>
-      </Form>
+      </div>
     </main>
   )
 }
