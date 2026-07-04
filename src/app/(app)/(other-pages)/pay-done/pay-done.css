@@ -1,0 +1,139 @@
+.pay-done-page {
+  --pay-done-orange: #fc6200;
+  --pay-done-gold: #ff9a3d;
+}
+
+.pay-done-hero {
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.pay-done-card {
+  background: linear-gradient(165deg, rgba(23, 23, 23, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+}
+
+.pay-done-card--success {
+  border-color: rgba(252, 98, 0, 0.25);
+}
+
+.pay-done-card--processing {
+  border-color: rgba(96, 165, 250, 0.25);
+}
+
+.pay-done-card--error,
+.pay-done-card--missing {
+  border-color: rgba(248, 113, 113, 0.22);
+}
+
+.pay-done-status-icon {
+  position: relative;
+  display: inline-flex;
+  border-radius: 9999px;
+}
+
+.pay-done-status-icon--success {
+  color: #fff;
+  background: linear-gradient(135deg, var(--pay-done-orange), var(--pay-done-gold));
+  box-shadow: 0 12px 40px rgba(252, 98, 0, 0.35);
+}
+
+.pay-done-status-icon--processing {
+  color: #93c5fd;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+}
+
+.pay-done-status-icon--error,
+.pay-done-status-icon--missing {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+.pay-done-pulse-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  border: 2px solid rgba(255, 154, 61, 0.45);
+  animation: pay-done-pulse 2.4s ease-out infinite;
+}
+
+.pay-done-pulse-ring--delayed {
+  animation-delay: 1.2s;
+}
+
+@keyframes pay-done-pulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+.pay-done-spin {
+  animation: pay-done-spin 1.1s linear infinite;
+}
+
+@keyframes pay-done-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pay-done-confetti__piece {
+  position: absolute;
+  top: -12%;
+  left: calc(5% + (var(--i) * 5.2%));
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  opacity: 0;
+  animation: pay-done-confetti-fall 4.8s ease-in infinite;
+  animation-delay: calc(var(--i) * 0.18s);
+  background: hsl(calc(var(--i) * 22deg) 85% 62%);
+}
+
+.pay-done-confetti__piece:nth-child(3n) {
+  width: 6px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.pay-done-confetti__piece:nth-child(5n) {
+  background: var(--pay-done-orange);
+}
+
+.pay-done-confetti__piece:nth-child(7n) {
+  background: var(--pay-done-gold);
+}
+
+@keyframes pay-done-confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(0.6);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(115vh) rotate(540deg) scale(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pay-done-pulse-ring,
+  .pay-done-spin,
+  .pay-done-confetti__piece {
+    animation: none;
+  }
+
+  .pay-done-confetti {
+    display: none;
+  }
+}

@@ -7,6 +7,7 @@ export const runtime = 'nodejs'
 async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent) {
   console.info('[stripe/webhook] payment_intent.succeeded', {
     paymentIntentId: paymentIntent.id,
+    customerEmail: paymentIntent.metadata.customerEmail ?? paymentIntent.receipt_email,
     handle: paymentIntent.metadata.handle,
     chargeAmount: paymentIntent.metadata.chargeAmount,
     paymentMode: paymentIntent.metadata.paymentMode,

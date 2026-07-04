@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/button'
 import type { CheckoutBooking } from '@/lib/checkout/build-booking'
+import { useAuthModal } from '@/providers/auth-modal-provider'
 import { getStripeClient } from '@/lib/stripe/client'
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { LockClosedIcon } from '@heroicons/react/24/solid'
@@ -177,6 +178,7 @@ const CheckoutStripePayment = ({
   onProcessingChange,
 }: Props) => {
   const debouncedChargeAmount = useDebouncedValue(chargeAmount, 450)
+  const { customer } = useAuthModal()
   const paymentIntentIdRef = useRef<string | null>(null)
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [intentVersion, setIntentVersion] = useState(0)
@@ -266,6 +268,7 @@ const CheckoutStripePayment = ({
     depositAmount,
     itineraryTitle,
     paymentMode,
+    customer?.email,
   ])
 
   if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {

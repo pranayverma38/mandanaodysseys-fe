@@ -1,3 +1,4 @@
+import { getAuthenticatedCustomer } from '@/lib/auth/session'
 import { getStripeServer, STRIPE_CHECKOUT_CURRENCY, toStripeAmount } from '@/lib/stripe/server'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -15,6 +16,18 @@ type PaymentIntentRequest = {
   }
 }
 
+function buildCustomerFields(customer: Awaited<ReturnType<typeof getAuthenticatedCustomer>>) {
+  if (!customer?.email) {
+    return {}
+  }
+
+  return {
+    receipt_email: customer.email,
+    customerEmail: customer.email,
+    customerId: customer.id,
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as PaymentIntentRequest
@@ -26,21 +39,30 @@ export async function POST(request: NextRequest) {
 
     const stripe = getStripeServer()
     const amountInCents = toStripeAmount(amount)
+    const customer = await getAuthenticatedCustomer()
+    const customerFields = buildCustomerFields(customer)
 
     if (amountInCents < 50) {
       return NextResponse.json({ error: 'Payment amount is too low' }, { status: 400 })
     }
 
     const stripeMetadata = Object.fromEntries(
-      Object.entries(metadata)
+      Object.entries({
+        ...metadata,
+        ...(customerFields.customerEmail ? { customerEmail: customerFields.customerEmail } : {}),
+        ...(customerFields.customerId ? { customerId: customerFields.customerId } : {}),
+      })
         .filter(([, value]) => value !== undefined && value !== '')
         .map(([key, value]) => [key, String(value)])
     )
+
+    const receiptEmail = customerFields.receipt_email
 
     if (paymentIntentId) {
       const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
         amount: amountInCents,
         metadata: stripeMetadata,
+        ...(receiptEmail ? { receipt_email: receiptEmail } : {}),
       })
 
       if (!paymentIntent.client_secret) {
@@ -58,6 +80,7 @@ export async function POST(request: NextRequest) {
       currency: STRIPE_CHECKOUT_CURRENCY,
       automatic_payment_methods: { enabled: true },
       metadata: stripeMetadata,
+      ...(receiptEmail ? { receipt_email: receiptEmail } : {}),
     })
 
     if (!paymentIntent.client_secret) {
