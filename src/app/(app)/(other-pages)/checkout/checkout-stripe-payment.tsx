@@ -72,6 +72,8 @@ const paymentElementOptions = {
 interface Props {
   booking: CheckoutBooking
   itineraryTitle: string
+  destinationName: string
+  packageImage: string
   chargeAmount: number
   paymentMode: PaymentMode
   depositAmount: number
@@ -170,6 +172,8 @@ function PaymentForm({
 const CheckoutStripePayment = ({
   booking,
   itineraryTitle,
+  destinationName,
+  packageImage,
   chargeAmount,
   paymentMode,
   depositAmount,
@@ -221,6 +225,11 @@ const CheckoutStripePayment = ({
               chargeAmount: String(debouncedChargeAmount),
               dateRange: booking.dateRangeLabel,
               guests: booking.guestsLabel,
+              guestCount: String(booking.totalGuests),
+              startDate: booking.startDate.toISOString().slice(0, 10),
+              endDate: booking.endDate.toISOString().slice(0, 10),
+              destination: destinationName,
+              packageImage,
             },
           }),
         })
@@ -264,9 +273,14 @@ const CheckoutStripePayment = ({
     booking.dateRangeLabel,
     booking.guestsLabel,
     booking.handle,
+    booking.endDate,
+    booking.startDate,
     booking.total,
+    booking.totalGuests,
     depositAmount,
+    destinationName,
     itineraryTitle,
+    packageImage,
     paymentMode,
     customer?.email,
   ])

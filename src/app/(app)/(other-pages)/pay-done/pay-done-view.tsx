@@ -142,7 +142,7 @@ function BookingRow({ label, value, highlight }: { label: string; value: React.R
       <span
         className={
           highlight
-            ? 'text-base font-semibold text-[#ff9a3d] notranslate'
+            ? 'text-base font-semibold text-green-400 notranslate'
             : 'text-right text-sm font-medium text-white capitalize'
         }
       >

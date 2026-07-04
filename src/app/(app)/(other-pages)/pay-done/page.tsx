@@ -2,9 +2,11 @@ import {
   isPaymentComplete,
   normalizePaymentIntent,
 } from '@/lib/stripe/payment-intent-status'
+import { upsertBookingOrderFromPayment } from '@/lib/medusa/orders'
 import { getStripeServer } from '@/lib/stripe/server'
 import PayDoneScrollReset from './pay-done-scroll-reset'
 import PayDoneView, { type PayDoneStatus } from './pay-done-view'
+import type Stripe from 'stripe'
 
 type PageProps = {
   searchParams: Promise<{ payment_intent?: string }>
@@ -22,10 +24,10 @@ const Page = async ({ searchParams }: PageProps) => {
     )
   }
 
-  let paymentIntent
+  let paymentIntent: Stripe.PaymentIntent
 
   try {
-    paymentIntent = normalizePaymentIntent(await getStripeServer().paymentIntents.retrieve(paymentIntentId))
+    paymentIntent = await getStripeServer().paymentIntents.retrieve(paymentIntentId)
   } catch {
     return (
       <PayDoneScrollReset>
@@ -36,6 +38,15 @@ const Page = async ({ searchParams }: PageProps) => {
 
   const isComplete = isPaymentComplete(paymentIntent.status)
   const isProcessing = paymentIntent.status === 'processing'
+  const verifiedPaymentIntent = normalizePaymentIntent(paymentIntent)
+
+  if (isComplete) {
+    try {
+      await upsertBookingOrderFromPayment(paymentIntent)
+    } catch (error) {
+      console.error('[pay-done] Failed to sync Medusa booking order', error)
+    }
+  }
 
   let status: PayDoneStatus = 'failed'
   if (isProcessing) {
@@ -44,11 +55,12 @@ const Page = async ({ searchParams }: PageProps) => {
     status = 'succeeded'
   }
 
-  const title = paymentIntent.metadata.itineraryTitle ?? 'Your trip'
-  const dateRange = paymentIntent.metadata.dateRange ?? 'Dates to be confirmed'
-  const guests = paymentIntent.metadata.guests ?? 'Guests'
-  const chargeAmount = Number.parseFloat(paymentIntent.metadata.chargeAmount ?? '') || paymentIntent.amount
-  const paymentMode = paymentIntent.metadata.paymentMode === 'partial' ? 'Deposit' : 'Full payment'
+  const title = verifiedPaymentIntent.metadata.itineraryTitle ?? 'Your trip'
+  const dateRange = verifiedPaymentIntent.metadata.dateRange ?? 'Dates to be confirmed'
+  const guests = verifiedPaymentIntent.metadata.guests ?? 'Guests'
+  const chargeAmount =
+    Number.parseFloat(verifiedPaymentIntent.metadata.chargeAmount ?? '') || verifiedPaymentIntent.amount
+  const paymentMode = verifiedPaymentIntent.metadata.paymentMode === 'partial' ? 'Deposit' : 'Full payment'
 
   return (
     <PayDoneScrollReset>
@@ -59,9 +71,9 @@ const Page = async ({ searchParams }: PageProps) => {
         guests={guests}
         chargeAmount={chargeAmount}
         paymentMode={paymentMode}
-        paymentId={paymentIntent.id}
-        handle={paymentIntent.metadata.handle}
-        stripeStatus={paymentIntent.status}
+        paymentId={verifiedPaymentIntent.id}
+        handle={verifiedPaymentIntent.metadata.handle}
+        stripeStatus={verifiedPaymentIntent.status}
       />
     </PayDoneScrollReset>
   )

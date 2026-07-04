@@ -1,3 +1,4 @@
+import { upsertBookingOrderFromPayment } from '@/lib/medusa/orders'
 import { getStripeServer } from '@/lib/stripe/server'
 import { NextRequest, NextResponse } from 'next/server'
 import type Stripe from 'stripe'
@@ -12,6 +13,8 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     chargeAmount: paymentIntent.metadata.chargeAmount,
     paymentMode: paymentIntent.metadata.paymentMode,
   })
+
+  await upsertBookingOrderFromPayment(paymentIntent)
 }
 
 async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {

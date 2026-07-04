@@ -7,24 +7,51 @@ type PaymentIntentRequest = {
   paymentIntentId?: string
   metadata?: {
     handle?: string
+    itineraryTitle?: string
     paymentMode?: string
     tripTotal?: string
     depositAmount?: string
     chargeAmount?: string
     dateRange?: string
     guests?: string
+    guestCount?: string
+    startDate?: string
+    endDate?: string
+    destination?: string
+    packageImage?: string
   }
 }
 
-function buildCustomerFields(customer: Awaited<ReturnType<typeof getAuthenticatedCustomer>>) {
+function buildCustomerName(customer: NonNullable<Awaited<ReturnType<typeof getAuthenticatedCustomer>>>) {
+  const metadataName =
+    typeof customer.metadata?.full_name === 'string' ? customer.metadata.full_name.trim() : ''
+
+  if (metadataName) {
+    return metadataName
+  }
+
+  return [customer.first_name, customer.last_name].filter(Boolean).join(' ').trim()
+}
+
+type CustomerStripeFields = {
+  receipt_email?: string
+  customerEmail?: string
+  customerId?: string
+  customerName?: string
+}
+
+function buildCustomerFields(customer: Awaited<ReturnType<typeof getAuthenticatedCustomer>>): CustomerStripeFields {
   if (!customer?.email) {
     return {}
   }
+
+  const customerName = buildCustomerName(customer)
 
   return {
     receipt_email: customer.email,
     customerEmail: customer.email,
     customerId: customer.id,
+    ...(customerName ? { customerName } : {}),
   }
 }
 
@@ -51,6 +78,7 @@ export async function POST(request: NextRequest) {
         ...metadata,
         ...(customerFields.customerEmail ? { customerEmail: customerFields.customerEmail } : {}),
         ...(customerFields.customerId ? { customerId: customerFields.customerId } : {}),
+        ...(customerFields.customerName ? { customerName: customerFields.customerName } : {}),
       })
         .filter(([, value]) => value !== undefined && value !== '')
         .map(([key, value]) => [key, String(value)])

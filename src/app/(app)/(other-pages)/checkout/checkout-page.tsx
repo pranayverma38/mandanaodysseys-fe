@@ -4,6 +4,7 @@ import { Button } from '@/components/button'
 import FormattedPrice from '@/components/formatted-price'
 import { Divider } from '@/components/divider'
 import { Heading } from '@/components/heading'
+import { getItineraryDestinationName } from '@/data/itineraries/destinations'
 import type { ItineraryDetail } from '@/data/itineraries/types'
 import type { CheckoutBooking } from '@/lib/checkout/build-booking'
 import React, { useCallback, useState } from 'react'
@@ -91,6 +92,10 @@ const CheckoutPage = ({ itinerary, booking }: Props) => {
               <CheckoutStripePayment
                 booking={booking}
                 itineraryTitle={itinerary.title}
+                destinationName={getItineraryDestinationName(itinerary.destination)}
+                packageImage={
+                  typeof itinerary.featuredImage === 'string' ? itinerary.featuredImage : ''
+                }
                 chargeAmount={paymentState.chargeAmount}
                 paymentMode={paymentState.mode}
                 depositAmount={paymentState.depositAmount}

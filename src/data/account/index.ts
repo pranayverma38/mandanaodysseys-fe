@@ -1,4 +1,5 @@
 import { mapCustomerToProfile } from '@/lib/account/map-customer'
+import { getBookingsForCustomer } from '@/lib/bookings/store'
 import { getAuthenticatedCustomer } from '@/lib/auth/session'
 import { getVisibleItinerariesFromMetadata } from '@/lib/itineraries/store'
 import { parseWishlistHandles } from '@/lib/wishlist/metadata'
@@ -32,7 +33,7 @@ export async function getAccountData(): Promise<AccountData> {
   return {
     profile: mapCustomerToProfile(customer),
     customItineraries: getVisibleItinerariesFromMetadata(customer.metadata),
-    bookings: [],
+    bookings: await getBookingsForCustomer(customer),
     wishlistPackageIds: parseWishlistHandles(customer.metadata),
   }
 }
