@@ -16,6 +16,7 @@ export type AuthView = 'login' | 'signup' | 'forgot-password'
 export type SessionCustomer = {
   id: string
   email: string
+  phone: string
   fullName: string
   wishlistHandles: string[]
 }

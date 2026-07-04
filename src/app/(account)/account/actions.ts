@@ -26,6 +26,11 @@ export async function updateProfile(_prevState: ActionState, formData: FormData)
     )
 
     const payload = buildCustomerUpdatePayload(formData)
+
+    if ('error' in payload) {
+      return { error: payload.error }
+    }
+
     const wishlistMetadata = parseWishlistHandles(customer.metadata)
     const nextMetadata = {
       ...(customer.metadata ?? {}),

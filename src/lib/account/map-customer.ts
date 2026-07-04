@@ -1,5 +1,6 @@
 import type { UserProfile } from '@/data/account/types'
 import type { MedusaCustomer } from '@/lib/medusa/server-client'
+import { parsePhoneFromFormData } from '@/lib/phone'
 
 function metadataString(metadata: Record<string, unknown> | null | undefined, key: string): string {
   const value = metadata?.[key]
@@ -51,11 +52,16 @@ export function mapCustomerToProfile(customer: MedusaCustomer): UserProfile {
 export function buildCustomerUpdatePayload(formData: FormData) {
   const fullName = String(formData.get('fullName') ?? '').trim()
   const { firstName, lastName } = splitFullName(fullName)
+  const { phone, error: phoneError } = parsePhoneFromFormData(formData)
+
+  if (phoneError) {
+    return { error: phoneError } as const
+  }
 
   return {
     first_name: firstName,
     last_name: lastName,
-    phone: String(formData.get('phone') ?? '').trim() || undefined,
+    phone,
     metadata: {
       full_name: fullName,
       gender: String(formData.get('gender') ?? '').trim(),

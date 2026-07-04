@@ -3,6 +3,7 @@
 import ButtonPrimary from '@/components/button-primary'
 import { Field, Label } from '@/components/fieldset'
 import Input from '@/components/input'
+import { PhoneField } from '@/components/phone-field'
 import type { UserProfile } from '@/data/account/types'
 import type { ActionState } from '../actions'
 import { updateProfile } from '../actions'
@@ -67,10 +68,7 @@ export function AccountProfileSection({ profile }: Props) {
             <Label>Email address</Label>
             <Input className="mt-1.5" name="email" type="email" defaultValue={profile.email} readOnly />
           </Field>
-          <Field>
-            <Label>Phone number</Label>
-            <Input className="mt-1.5" name="phone" type="tel" defaultValue={profile.phone} />
-          </Field>
+          <PhoneField defaultPhone={profile.phone} className="sm:col-span-2" />
           <Field>
             <Label>Country</Label>
             <Input className="mt-1.5" name="country" defaultValue={profile.country} />

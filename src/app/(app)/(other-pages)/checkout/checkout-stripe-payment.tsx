@@ -283,6 +283,7 @@ const CheckoutStripePayment = ({
     packageImage,
     paymentMode,
     customer?.email,
+    customer?.phone,
   ])
 
   if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {

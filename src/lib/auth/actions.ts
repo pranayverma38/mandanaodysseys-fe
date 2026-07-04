@@ -12,6 +12,7 @@ import {
 import { mapCustomerToProfile } from '@/lib/account/map-customer'
 import { parseWishlistHandles } from '@/lib/wishlist/metadata'
 import { splitFullName } from '@/lib/account/map-customer'
+import { parsePhoneFromFormData } from '@/lib/phone'
 
 export type AuthActionState = {
   error?: string
@@ -28,6 +29,7 @@ export async function getSessionCustomer() {
   return {
     id: customer.id,
     email: customer.email,
+    phone: customer.phone ?? '',
     fullName: mapCustomerToProfile(customer).fullName,
     wishlistHandles: parseWishlistHandles(customer.metadata),
   }
@@ -59,9 +61,14 @@ export async function signupAction(_prevState: AuthActionState, formData: FormDa
   const fullName = String(formData.get('fullName') ?? '').trim()
   const email = String(formData.get('email') ?? '').trim().toLowerCase()
   const password = String(formData.get('password') ?? '')
+  const { phone, error: phoneError } = parsePhoneFromFormData(formData, { required: true })
 
   if (!fullName || !email || !password) {
     return { error: 'Full name, email, and password are required.' }
+  }
+
+  if (phoneError) {
+    return { error: phoneError }
   }
 
   const { firstName, lastName } = splitFullName(fullName)
@@ -79,6 +86,7 @@ export async function signupAction(_prevState: AuthActionState, formData: FormDa
         email,
         first_name: firstName,
         last_name: lastName,
+        phone,
         metadata: {
           full_name: fullName,
         },

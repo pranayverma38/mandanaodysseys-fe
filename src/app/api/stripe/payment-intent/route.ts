@@ -36,6 +36,7 @@ function buildCustomerName(customer: NonNullable<Awaited<ReturnType<typeof getAu
 type CustomerStripeFields = {
   receipt_email?: string
   customerEmail?: string
+  cus_phone?: string
   customerId?: string
   customerName?: string
 }
@@ -46,11 +47,13 @@ function buildCustomerFields(customer: Awaited<ReturnType<typeof getAuthenticate
   }
 
   const customerName = buildCustomerName(customer)
+  const phone = customer.phone?.trim()
 
   return {
     receipt_email: customer.email,
     customerEmail: customer.email,
     customerId: customer.id,
+    ...(phone ? { cus_phone: phone } : {}),
     ...(customerName ? { customerName } : {}),
   }
 }
@@ -77,6 +80,7 @@ export async function POST(request: NextRequest) {
       Object.entries({
         ...metadata,
         ...(customerFields.customerEmail ? { customerEmail: customerFields.customerEmail } : {}),
+        ...(customerFields.cus_phone ? { cus_phone: customerFields.cus_phone } : {}),
         ...(customerFields.customerId ? { customerId: customerFields.customerId } : {}),
         ...(customerFields.customerName ? { customerName: customerFields.customerName } : {}),
       })

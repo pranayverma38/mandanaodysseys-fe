@@ -338,6 +338,7 @@ type ParsedPaymentMetadata = {
   customerEmail: string
   customerId: string
   customerName: string
+  customerPhone: string
 }
 
 async function parsePaymentMetadata(paymentIntent: Stripe.PaymentIntent): Promise<ParsedPaymentMetadata | null> {
@@ -386,6 +387,10 @@ async function parsePaymentMetadata(paymentIntent: Stripe.PaymentIntent): Promis
     (typeof itinerary?.featuredImage === 'string' ? itinerary.featuredImage : '')
 
   const guestCount = Number.parseInt(metadata.guestCount ?? metadata.guest_count ?? '0', 10)
+  const customerPhone =
+    metadata.cus_phone?.trim() ||
+    resolvedCustomer.phone?.trim() ||
+    ''
 
   return {
     handle,
@@ -406,6 +411,7 @@ async function parsePaymentMetadata(paymentIntent: Stripe.PaymentIntent): Promis
       metadata.customerName?.trim() ||
       buildCustomerName(resolvedCustomer) ||
       customerEmail,
+    customerPhone,
   }
 }
 
@@ -429,6 +435,7 @@ function buildBookingMetadata(input: {
     customer_id: input.parsed.customerId,
     customer_email: input.parsed.customerEmail,
     customer_name: input.parsed.customerName,
+    customer_phone: input.parsed.customerPhone,
     guests_label: input.parsed.guestsLabel,
     guest_count: String(input.parsed.guestCount),
     start_date: input.parsed.startDate,

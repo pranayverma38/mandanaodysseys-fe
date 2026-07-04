@@ -10,6 +10,7 @@ export type BookingOrderMetadata = {
   customer_id: string
   customer_email: string
   customer_name: string
+  customer_phone: string
   guests_label: string
   guest_count: string
   start_date: string

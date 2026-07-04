@@ -3,6 +3,7 @@
 import ButtonPrimary from '@/components/button-primary'
 import { Field, Label } from '@/components/fieldset'
 import Input from '@/components/input'
+import { PhoneField } from '@/components/phone-field'
 import { signupAction, type AuthActionState } from '@/lib/auth/actions'
 import type { AuthView } from '@/providers/auth-modal-provider'
 import { useAuthModal } from '@/providers/auth-modal-provider'
@@ -57,6 +58,7 @@ export function SignupForm({ onSwitchView, onSuccess }: Props) {
           <Label className="text-neutral-800 dark:text-neutral-200">Email address</Label>
           <Input type="email" name="email" placeholder="example@example.com" className="mt-1" required />
         </Field>
+        <PhoneField required />
         <Field className="block">
           <Label className="flex items-center justify-between text-neutral-800 dark:text-neutral-200">Password</Label>
           <Input type="password" name="password" className="mt-1" minLength={8} required />
