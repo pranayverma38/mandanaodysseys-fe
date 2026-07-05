@@ -1,20 +1,5 @@
 import type { DestinationDetail } from './types'
-
-/** Monthly averages for Denpasar, Bali — BMKG Indonesia climatological data. */
-const DENPASAR_TEMPERATURES = [
-  { month: 'Jan', avgHighC: 31, avgLowC: 24 },
-  { month: 'Feb', avgHighC: 31, avgLowC: 24 },
-  { month: 'Mar', avgHighC: 31, avgLowC: 24 },
-  { month: 'Apr', avgHighC: 32, avgLowC: 24 },
-  { month: 'May', avgHighC: 31, avgLowC: 23 },
-  { month: 'Jun', avgHighC: 30, avgLowC: 23 },
-  { month: 'Jul', avgHighC: 29, avgLowC: 22 },
-  { month: 'Aug', avgHighC: 29, avgLowC: 22 },
-  { month: 'Sep', avgHighC: 31, avgLowC: 23 },
-  { month: 'Oct', avgHighC: 32, avgLowC: 23 },
-  { month: 'Nov', avgHighC: 32, avgLowC: 24 },
-  { month: 'Dec', avgHighC: 31, avgLowC: 24 },
-]
+import { BALI_TEMPERATURE_CITIES } from './temperature-cities'
 
 export const bali: DestinationDetail = {
   name: 'Bali',
@@ -88,8 +73,7 @@ export const bali: DestinationDetail = {
   ],
   bestTimeSummary:
     'April to October is the dry season and best for most activities. The wet season still works for cultural trips and surf, with brief afternoon rains.',
-  temperatures: DENPASAR_TEMPERATURES,
-  temperatureLocation: 'Denpasar',
+  temperatureCities: BALI_TEMPERATURE_CITIES,
   facts: {
     capital: 'Denpasar',
     population: '~4.4 million (Bali province)',

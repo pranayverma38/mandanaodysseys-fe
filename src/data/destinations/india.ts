@@ -1,20 +1,5 @@
 import type { DestinationDetail } from './types'
-
-/** Monthly averages for New Delhi (Safdarjung), 1991–2020 — India Meteorological Department. */
-const NEW_DELHI_TEMPERATURES = [
-  { month: 'Jan', avgHighC: 20, avgLowC: 8 },
-  { month: 'Feb', avgHighC: 24, avgLowC: 11 },
-  { month: 'Mar', avgHighC: 30, avgLowC: 16 },
-  { month: 'Apr', avgHighC: 37, avgLowC: 21 },
-  { month: 'May', avgHighC: 40, avgLowC: 26 },
-  { month: 'Jun', avgHighC: 39, avgLowC: 28 },
-  { month: 'Jul', avgHighC: 36, avgLowC: 28 },
-  { month: 'Aug', avgHighC: 34, avgLowC: 27 },
-  { month: 'Sep', avgHighC: 34, avgLowC: 25 },
-  { month: 'Oct', avgHighC: 33, avgLowC: 20 },
-  { month: 'Nov', avgHighC: 28, avgLowC: 13 },
-  { month: 'Dec', avgHighC: 23, avgLowC: 8 },
-]
+import { INDIA_TEMPERATURE_CITIES } from './temperature-cities'
 
 export const india: DestinationDetail = {
   name: 'India',
@@ -88,8 +73,7 @@ export const india: DestinationDetail = {
   ],
   bestTimeSummary:
     'Most travellers visit India between October and March when temperatures are mild and rainfall is low. Hill stations and the Himalayas are best in summer, while the monsoon suits lush southern landscapes.',
-  temperatures: NEW_DELHI_TEMPERATURES,
-  temperatureLocation: 'New Delhi',
+  temperatureCities: INDIA_TEMPERATURE_CITIES,
   facts: {
     capital: 'New Delhi',
     population: '~1.4 billion',

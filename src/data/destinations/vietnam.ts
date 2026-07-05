@@ -1,20 +1,5 @@
 import type { DestinationDetail } from './types'
-
-/** Monthly averages for Hanoi — Vietnam Institute of Meteorology and Hydrology normals. */
-const HANOI_TEMPERATURES = [
-  { month: 'Jan', avgHighC: 20, avgLowC: 14 },
-  { month: 'Feb', avgHighC: 21, avgLowC: 15 },
-  { month: 'Mar', avgHighC: 23, avgLowC: 17 },
-  { month: 'Apr', avgHighC: 27, avgLowC: 21 },
-  { month: 'May', avgHighC: 32, avgLowC: 24 },
-  { month: 'Jun', avgHighC: 33, avgLowC: 26 },
-  { month: 'Jul', avgHighC: 33, avgLowC: 26 },
-  { month: 'Aug', avgHighC: 32, avgLowC: 26 },
-  { month: 'Sep', avgHighC: 31, avgLowC: 25 },
-  { month: 'Oct', avgHighC: 29, avgLowC: 23 },
-  { month: 'Nov', avgHighC: 26, avgLowC: 19 },
-  { month: 'Dec', avgHighC: 22, avgLowC: 15 },
-]
+import { VIETNAM_TEMPERATURE_CITIES } from './temperature-cities'
 
 export const vietnam: DestinationDetail = {
   name: 'Vietnam',
@@ -88,8 +73,7 @@ export const vietnam: DestinationDetail = {
   ],
   bestTimeSummary:
     'Vietnam\'s climate varies by latitude — there is no single best month. Match your route: north in spring, south in winter, central coast in autumn.',
-  temperatures: HANOI_TEMPERATURES,
-  temperatureLocation: 'Hanoi',
+  temperatureCities: VIETNAM_TEMPERATURE_CITIES,
   facts: {
     capital: 'Hanoi',
     population: '~100 million',

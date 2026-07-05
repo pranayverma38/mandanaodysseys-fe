@@ -1,20 +1,5 @@
 import type { DestinationDetail } from './types'
-
-/** Monthly averages for Colombo — Sri Lanka Department of Meteorology climatological normals. */
-const COLOMBO_TEMPERATURES = [
-  { month: 'Jan', avgHighC: 31, avgLowC: 22 },
-  { month: 'Feb', avgHighC: 31, avgLowC: 23 },
-  { month: 'Mar', avgHighC: 32, avgLowC: 24 },
-  { month: 'Apr', avgHighC: 32, avgLowC: 25 },
-  { month: 'May', avgHighC: 31, avgLowC: 26 },
-  { month: 'Jun', avgHighC: 30, avgLowC: 26 },
-  { month: 'Jul', avgHighC: 30, avgLowC: 26 },
-  { month: 'Aug', avgHighC: 30, avgLowC: 26 },
-  { month: 'Sep', avgHighC: 30, avgLowC: 25 },
-  { month: 'Oct', avgHighC: 30, avgLowC: 25 },
-  { month: 'Nov', avgHighC: 30, avgLowC: 24 },
-  { month: 'Dec', avgHighC: 30, avgLowC: 23 },
-]
+import { SRI_LANKA_TEMPERATURE_CITIES } from './temperature-cities'
 
 export const sriLanka: DestinationDetail = {
   name: 'Sri Lanka',
@@ -88,8 +73,7 @@ export const sriLanka: DestinationDetail = {
   ],
   bestTimeSummary:
     'Sri Lanka has two monsoon seasons — plan west/south visits for December–March and east coast trips for May–September. The Cultural Triangle and hill country work well year-round.',
-  temperatures: COLOMBO_TEMPERATURES,
-  temperatureLocation: 'Colombo',
+  temperatureCities: SRI_LANKA_TEMPERATURE_CITIES,
   facts: {
     capital: 'Sri Jayawardenepura Kotte (administrative); Colombo (commercial)',
     population: '~22 million',

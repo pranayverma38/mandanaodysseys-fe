@@ -1,20 +1,5 @@
 import type { DestinationDetail } from './types'
-
-/** Monthly averages for Bangkok — WMO/ICAO climatological normals (1961–1990). */
-const BANGKOK_TEMPERATURES = [
-  { month: 'Jan', avgHighC: 32, avgLowC: 21 },
-  { month: 'Feb', avgHighC: 33, avgLowC: 23 },
-  { month: 'Mar', avgHighC: 34, avgLowC: 25 },
-  { month: 'Apr', avgHighC: 35, avgLowC: 26 },
-  { month: 'May', avgHighC: 34, avgLowC: 26 },
-  { month: 'Jun', avgHighC: 33, avgLowC: 25 },
-  { month: 'Jul', avgHighC: 33, avgLowC: 25 },
-  { month: 'Aug', avgHighC: 33, avgLowC: 25 },
-  { month: 'Sep', avgHighC: 32, avgLowC: 25 },
-  { month: 'Oct', avgHighC: 32, avgLowC: 24 },
-  { month: 'Nov', avgHighC: 32, avgLowC: 23 },
-  { month: 'Dec', avgHighC: 31, avgLowC: 21 },
-]
+import { THAILAND_TEMPERATURE_CITIES } from './temperature-cities'
 
 export const thailand: DestinationDetail = {
   name: 'Thailand',
@@ -88,8 +73,7 @@ export const thailand: DestinationDetail = {
   ],
   bestTimeSummary:
     'November to February offers the best overall weather for sightseeing and beaches. The rainy season still works for island trips, especially on the Gulf of Thailand side.',
-  temperatures: BANGKOK_TEMPERATURES,
-  temperatureLocation: 'Bangkok',
+  temperatureCities: THAILAND_TEMPERATURE_CITIES,
   facts: {
     capital: 'Bangkok',
     population: '~71 million',

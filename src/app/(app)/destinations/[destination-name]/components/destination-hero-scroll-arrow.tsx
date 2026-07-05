@@ -4,7 +4,7 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
 export function DestinationHeroScrollArrow() {
   const handleScroll = () => {
-    document.getElementById('destination-content')?.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById('destination-overview')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (

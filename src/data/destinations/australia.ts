@@ -1,20 +1,5 @@
 import type { DestinationDetail } from './types'
-
-/** Monthly averages for Sydney — Bureau of Meteorology 1991–2020 normals. */
-const SYDNEY_TEMPERATURES = [
-  { month: 'Jan', avgHighC: 27, avgLowC: 19 },
-  { month: 'Feb', avgHighC: 27, avgLowC: 19 },
-  { month: 'Mar', avgHighC: 25, avgLowC: 17 },
-  { month: 'Apr', avgHighC: 23, avgLowC: 14 },
-  { month: 'May', avgHighC: 20, avgLowC: 11 },
-  { month: 'Jun', avgHighC: 18, avgLowC: 9 },
-  { month: 'Jul', avgHighC: 17, avgLowC: 8 },
-  { month: 'Aug', avgHighC: 19, avgLowC: 9 },
-  { month: 'Sep', avgHighC: 21, avgLowC: 11 },
-  { month: 'Oct', avgHighC: 23, avgLowC: 14 },
-  { month: 'Nov', avgHighC: 25, avgLowC: 16 },
-  { month: 'Dec', avgHighC: 26, avgLowC: 18 },
-]
+import { AUSTRALIA_TEMPERATURE_CITIES } from './temperature-cities'
 
 export const australia: DestinationDetail = {
   name: 'Australia',
@@ -88,8 +73,7 @@ export const australia: DestinationDetail = {
   ],
   bestTimeSummary:
     'Australia\'s seasons are reversed from the Northern Hemisphere. Spring and autumn offer comfortable weather nationwide; match your region to avoid tropical wet seasons.',
-  temperatures: SYDNEY_TEMPERATURES,
-  temperatureLocation: 'Sydney',
+  temperatureCities: AUSTRALIA_TEMPERATURE_CITIES,
   facts: {
     capital: 'Canberra',
     population: '~27 million',

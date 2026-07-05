@@ -19,6 +19,12 @@ export type DestinationMonthlyTemperature = {
   month: string
   avgHighC: number
   avgLowC: number
+  rainfallMm: number
+}
+
+export type DestinationCityTemperature = {
+  city: string
+  temperatures: DestinationMonthlyTemperature[]
 }
 
 export type DestinationFacts = {
@@ -53,8 +59,7 @@ export type DestinationDetail = Destination & {
   highlights: DestinationHighlight[]
   bestTimeToVisit: DestinationBestTimePeriod[]
   bestTimeSummary: string
-  temperatures: DestinationMonthlyTemperature[]
-  temperatureLocation: string
+  temperatureCities: DestinationCityTemperature[]
   facts: DestinationFacts
   faqs: DestinationFaq[]
 }

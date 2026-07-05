@@ -1,20 +1,5 @@
 import type { DestinationDetail } from './types'
-
-/** Monthly averages for Kathmandu — Department of Hydrology and Meteorology, Nepal. */
-const KATHMANDU_TEMPERATURES = [
-  { month: 'Jan', avgHighC: 19, avgLowC: 2 },
-  { month: 'Feb', avgHighC: 21, avgLowC: 4 },
-  { month: 'Mar', avgHighC: 25, avgLowC: 8 },
-  { month: 'Apr', avgHighC: 28, avgLowC: 12 },
-  { month: 'May', avgHighC: 29, avgLowC: 16 },
-  { month: 'Jun', avgHighC: 29, avgLowC: 19 },
-  { month: 'Jul', avgHighC: 28, avgLowC: 20 },
-  { month: 'Aug', avgHighC: 28, avgLowC: 20 },
-  { month: 'Sep', avgHighC: 28, avgLowC: 19 },
-  { month: 'Oct', avgHighC: 27, avgLowC: 13 },
-  { month: 'Nov', avgHighC: 24, avgLowC: 7 },
-  { month: 'Dec', avgHighC: 20, avgLowC: 3 },
-]
+import { NEPAL_TEMPERATURE_CITIES } from './temperature-cities'
 
 export const nepal: DestinationDetail = {
   name: 'Nepal',
@@ -88,8 +73,7 @@ export const nepal: DestinationDetail = {
   ],
   bestTimeSummary:
     'Autumn (October–November) and spring (March–May) are best for trekking and mountain views. Avoid monsoon months (June–September) for high-altitude routes.',
-  temperatures: KATHMANDU_TEMPERATURES,
-  temperatureLocation: 'Kathmandu',
+  temperatureCities: NEPAL_TEMPERATURE_CITIES,
   facts: {
     capital: 'Kathmandu',
     population: '~30 million',

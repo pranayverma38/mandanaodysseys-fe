@@ -1,20 +1,5 @@
 import type { DestinationDetail } from './types'
-
-/** Monthly averages for Zurich — MeteoSwiss 1991–2020 normals. */
-const ZURICH_TEMPERATURES = [
-  { month: 'Jan', avgHighC: 4, avgLowC: -2 },
-  { month: 'Feb', avgHighC: 6, avgLowC: -1 },
-  { month: 'Mar', avgHighC: 11, avgLowC: 2 },
-  { month: 'Apr', avgHighC: 15, avgLowC: 5 },
-  { month: 'May', avgHighC: 20, avgLowC: 9 },
-  { month: 'Jun', avgHighC: 23, avgLowC: 13 },
-  { month: 'Jul', avgHighC: 25, avgLowC: 15 },
-  { month: 'Aug', avgHighC: 24, avgLowC: 14 },
-  { month: 'Sep', avgHighC: 20, avgLowC: 11 },
-  { month: 'Oct', avgHighC: 14, avgLowC: 7 },
-  { month: 'Nov', avgHighC: 8, avgLowC: 2 },
-  { month: 'Dec', avgHighC: 4, avgLowC: -1 },
-]
+import { SWITZERLAND_TEMPERATURE_CITIES } from './temperature-cities'
 
 export const switzerland: DestinationDetail = {
   name: 'Switzerland',
@@ -88,8 +73,7 @@ export const switzerland: DestinationDetail = {
   ],
   bestTimeSummary:
     'Visit in summer for hiking and lakes, winter for skiing, or shoulder seasons for city culture without peak prices. Switzerland rewards every season.',
-  temperatures: ZURICH_TEMPERATURES,
-  temperatureLocation: 'Zurich',
+  temperatureCities: SWITZERLAND_TEMPERATURE_CITIES,
   facts: {
     capital: 'Bern',
     population: '~8.8 million',
