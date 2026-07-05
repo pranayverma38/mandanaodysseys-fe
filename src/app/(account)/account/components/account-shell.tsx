@@ -1,8 +1,6 @@
 'use client'
 
 import type { AccountTab, UserProfile } from '@/data/account/types'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback } from 'react'
 import { AccountHero } from './account-hero'
 import { AccountMobileNav } from './account-mobile-nav'
 import { AccountSidebar } from './account-sidebar'
@@ -15,39 +13,22 @@ interface Props {
     bookings: number
     wishlist: number
   }
-  basePath?: string
+  onTabChange: (tab: AccountTab) => void
   children: React.ReactNode
 }
 
-export function AccountShell({ activeTab, profile, counts, basePath = '/account', children }: Props) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-
-  const handleTabChange = useCallback(
-    (tab: AccountTab) => {
-      const params = new URLSearchParams(searchParams.toString())
-      if (tab === 'account') {
-        params.delete('tab')
-      } else {
-        params.set('tab', tab)
-      }
-      const query = params.toString()
-      router.push(query ? `${basePath}?${query}` : basePath)
-    },
-    [basePath, router, searchParams]
-  )
-
+export function AccountShell({ activeTab, profile, counts, onTabChange, children }: Props) {
   return (
     <div>
       <AccountHero profile={profile} counts={counts} />
 
-      <AccountMobileNav activeTab={activeTab} onTabChange={handleTabChange} />
+      <AccountMobileNav activeTab={activeTab} onTabChange={onTabChange} />
 
       <div className="mt-6 grid gap-8 lg:mt-10 lg:grid-cols-[300px_1fr] lg:gap-10 xl:grid-cols-[320px_1fr]">
         <div className="hidden lg:block">
           <AccountSidebar
             activeTab={activeTab}
-            onTabChange={handleTabChange}
+            onTabChange={onTabChange}
             profile={profile}
             counts={counts}
           />

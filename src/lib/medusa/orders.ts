@@ -2,7 +2,8 @@ import 'server-only'
 
 import { getItineraryByHandle } from '@/data/itineraries'
 import { getItineraryDestinationName } from '@/data/itineraries/destinations'
-import { STRIPE_CHECKOUT_CURRENCY } from '@/lib/stripe/server'
+import { isPaymentComplete } from '@/lib/stripe/payment-intent-status'
+import { getStripeServer, STRIPE_CHECKOUT_CURRENCY } from '@/lib/stripe/server'
 import { findCustomerByEmail, isMedusaAdminConfigured, medusaAdminFetch } from '@/lib/itineraries/medusa-admin'
 import type { MedusaCustomer } from '@/lib/medusa/server-client'
 import type Stripe from 'stripe'
@@ -564,10 +565,36 @@ export async function upsertBookingOrderFromPayment(paymentIntent: Stripe.Paymen
     return null
   }
 
+  if (!isPaymentComplete(paymentIntent.status)) {
+    return null
+  }
+
   const medusaOrderId = paymentIntent.metadata.medusaOrderId?.trim()
 
   if (medusaOrderId && paymentIntent.metadata.paymentMode === 'remaining') {
     return upsertRemainingPaymentOnOrder(paymentIntent, medusaOrderId)
+  }
+
+  if (medusaOrderId) {
+    try {
+      const linkedOrder = await getOrderById(medusaOrderId)
+
+      if (isBookingOrder(linkedOrder)) {
+        const linkedMetadata = asBookingMetadata(linkedOrder.metadata)
+
+        if (linkedMetadata) {
+          const chargeAmount = parseMetadataNumber(
+            paymentIntent.metadata.chargeAmount,
+            paymentIntent.amount / 100
+          )
+          await recordOrderPayment(linkedOrder.id, paymentIntent.id, chargeAmount, linkedMetadata)
+        }
+
+        return linkedOrder
+      }
+    } catch {
+      // Fall through to normal upsert if the linked order is missing or invalid.
+    }
   }
 
   const parsed = await parsePaymentMetadata(paymentIntent)
@@ -644,27 +671,53 @@ export async function upsertBookingOrderFromPayment(paymentIntent: Stripe.Paymen
       amountDue,
     })
   } else {
-    const { regionId, salesChannelId } = await getMedusaRuntimeConfig()
-    order = await createDraftBookingOrder({
-      regionId,
-      salesChannelId,
-      customerId: parsed.customerId,
-      email: parsed.customerEmail,
-      title: parsed.itineraryTitle,
-      tripTotal: parsed.tripTotal,
-      metadata,
-    })
+    const racedBooking = await findOrderByBookingKey(bookingKey, parsed.customerEmail)
 
-    console.info('[medusa/orders] Created booking order', {
-      orderId: order.id,
-      displayId: order.display_id,
-      paymentIntentId: paymentIntent.id,
-      paidAmount,
-      amountDue,
-    })
+    if (racedBooking) {
+      order = await updateBookingOrder(racedBooking.id, metadata)
+      console.info('[medusa/orders] Attached payment to existing booking order', {
+        orderId: order.id,
+        paymentIntentId: paymentIntent.id,
+        paidAmount,
+        amountDue,
+      })
+    } else {
+      const { regionId, salesChannelId } = await getMedusaRuntimeConfig()
+      order = await createDraftBookingOrder({
+        regionId,
+        salesChannelId,
+        customerId: parsed.customerId,
+        email: parsed.customerEmail,
+        title: parsed.itineraryTitle,
+        tripTotal: parsed.tripTotal,
+        metadata,
+      })
+
+      console.info('[medusa/orders] Created booking order', {
+        orderId: order.id,
+        displayId: order.display_id,
+        paymentIntentId: paymentIntent.id,
+        paidAmount,
+        amountDue,
+      })
+    }
   }
 
   await recordOrderPayment(order.id, paymentIntent.id, parsed.chargeAmount, metadata)
+
+  try {
+    await getStripeServer().paymentIntents.update(paymentIntent.id, {
+      metadata: {
+        medusaOrderId: order.id,
+      },
+    })
+  } catch (error) {
+    console.warn('[medusa/orders] Failed to link payment intent to order', {
+      paymentIntentId: paymentIntent.id,
+      orderId: order.id,
+      error,
+    })
+  }
 
   return getOrderById(order.id)
 }

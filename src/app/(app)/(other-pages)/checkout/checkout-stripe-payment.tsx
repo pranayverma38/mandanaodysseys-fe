@@ -185,9 +185,12 @@ const CheckoutStripePayment = ({
 }: Props) => {
   const isRemainingPayment = paymentMode === 'remaining'
   const debouncedChargeAmount = useDebouncedValue(chargeAmount, 450)
+  const debouncedPaymentMode = useDebouncedValue(paymentMode, 450)
   const effectiveChargeAmount = isRemainingPayment ? chargeAmount : debouncedChargeAmount
+  const effectivePaymentMode = isRemainingPayment ? paymentMode : debouncedPaymentMode
   const { customer } = useAuthModal()
   const paymentIntentIdRef = useRef<string | null>(null)
+  const syncGenerationRef = useRef(0)
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [intentVersion, setIntentVersion] = useState(0)
   const [error, setError] = useState<string | null>(null)
@@ -197,17 +200,23 @@ const CheckoutStripePayment = ({
     paymentIntentIdRef.current = null
     setClientSecret(null)
     setIntentVersion(0)
+    syncGenerationRef.current += 1
   }, [booking.handle, medusaOrderId])
 
+  const isPaymentStable =
+    isRemainingPayment ||
+    (debouncedChargeAmount === chargeAmount && debouncedPaymentMode === paymentMode)
   const isAmountSynced = isRemainingPayment || debouncedChargeAmount === chargeAmount
-  const canPay = !disabled && isAmountSynced && Boolean(clientSecret)
+  const canPay = !disabled && isPaymentStable && isAmountSynced && Boolean(clientSecret)
 
   useEffect(() => {
-    if (disabled || effectiveChargeAmount <= 0) {
+    if (disabled || effectiveChargeAmount <= 0 || !isPaymentStable) {
       return
     }
 
-    let cancelled = false
+    const generation = ++syncGenerationRef.current
+    const controller = new AbortController()
+    const previousIntentId = paymentIntentIdRef.current
 
     async function syncPaymentIntent() {
       setIsLoadingIntent(true)
@@ -217,13 +226,15 @@ const CheckoutStripePayment = ({
         const response = await fetch('/api/stripe/payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
           body: JSON.stringify({
             amount: effectiveChargeAmount,
-            paymentIntentId: paymentIntentIdRef.current ?? undefined,
+            paymentIntentId: previousIntentId ?? undefined,
+            cancelPaymentIntentId: previousIntentId ?? undefined,
             metadata: {
               handle: booking.handle,
               itineraryTitle,
-              paymentMode,
+              paymentMode: effectivePaymentMode,
               tripTotal: String(booking.total),
               depositAmount: String(depositAmount),
               chargeAmount: String(effectiveChargeAmount),
@@ -245,7 +256,7 @@ const CheckoutStripePayment = ({
           error?: string
         }
 
-        if (cancelled) {
+        if (generation !== syncGenerationRef.current) {
           return
         }
 
@@ -253,15 +264,17 @@ const CheckoutStripePayment = ({
           throw new Error(data.error ?? 'Failed to initialize payment')
         }
 
-        setClientSecret((current) => current ?? data.clientSecret!)
-        paymentIntentIdRef.current = data.paymentIntentId!
+        paymentIntentIdRef.current = data.paymentIntentId
+        setClientSecret(data.clientSecret)
         setIntentVersion((version) => version + 1)
       } catch (syncError) {
-        if (!cancelled) {
-          setError(syncError instanceof Error ? syncError.message : 'Failed to initialize payment')
+        if (controller.signal.aborted || generation !== syncGenerationRef.current) {
+          return
         }
+
+        setError(syncError instanceof Error ? syncError.message : 'Failed to initialize payment')
       } finally {
-        if (!cancelled) {
+        if (generation === syncGenerationRef.current) {
           setIsLoadingIntent(false)
         }
       }
@@ -270,11 +283,12 @@ const CheckoutStripePayment = ({
     void syncPaymentIntent()
 
     return () => {
-      cancelled = true
+      controller.abort()
     }
   }, [
     effectiveChargeAmount,
-    debouncedChargeAmount,
+    effectivePaymentMode,
+    isPaymentStable,
     disabled,
     booking.dateRangeLabel,
     booking.guestsLabel,
@@ -287,7 +301,6 @@ const CheckoutStripePayment = ({
     destinationName,
     itineraryTitle,
     packageImage,
-    paymentMode,
     isRemainingPayment,
     medusaOrderId,
     customer?.email,
@@ -324,6 +337,7 @@ const CheckoutStripePayment = ({
         </div>
       ) : clientSecret ? (
         <Elements
+          key={clientSecret}
           stripe={getStripeClient()}
           options={{
             clientSecret,
@@ -339,7 +353,7 @@ const CheckoutStripePayment = ({
         </Elements>
       ) : null}
 
-      {!isAmountSynced && (
+      {!isPaymentStable && (
         <p className="text-xs text-muted-foreground">Updating payment amount…</p>
       )}
     </section>

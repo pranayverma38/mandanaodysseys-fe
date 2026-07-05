@@ -4,6 +4,7 @@ import {
 } from '@/lib/stripe/payment-intent-status'
 import { upsertBookingOrderFromPayment } from '@/lib/medusa/orders'
 import { getStripeServer } from '@/lib/stripe/server'
+import { after } from 'next/server'
 import PayDoneScrollReset from './pay-done-scroll-reset'
 import PayDoneView, { type PayDoneStatus } from './pay-done-view'
 import type Stripe from 'stripe'
@@ -41,10 +42,16 @@ const Page = async ({ searchParams }: PageProps) => {
   const verifiedPaymentIntent = normalizePaymentIntent(paymentIntent)
 
   if (isComplete) {
-    try {
-      await upsertBookingOrderFromPayment(paymentIntent)
-    } catch (error) {
-      console.error('[pay-done] Failed to sync Medusa booking order', error)
+    const webhookConfigured = Boolean(process.env.STRIPE_WEBHOOK_SECRET?.trim())
+
+    if (!webhookConfigured) {
+      after(async () => {
+        try {
+          await upsertBookingOrderFromPayment(paymentIntent)
+        } catch (error) {
+          console.error('[pay-done] Failed to sync Medusa booking order', error)
+        }
+      })
     }
   }
 

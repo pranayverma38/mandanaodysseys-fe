@@ -7,6 +7,8 @@ import type Stripe from 'stripe'
 type PaymentIntentRequest = {
   amount: number
   paymentIntentId?: string
+  /** Cancel a superseded incomplete intent when creating a replacement. */
+  cancelPaymentIntentId?: string
   metadata?: {
     handle?: string
     itineraryTitle?: string
@@ -44,6 +46,21 @@ type CustomerStripeFields = {
   customerName?: string
 }
 
+async function cancelIncompletePaymentIntent(
+  stripe: ReturnType<typeof getStripeServer>,
+  paymentIntentId: string
+) {
+  try {
+    const existing = await stripe.paymentIntents.retrieve(paymentIntentId)
+
+    if (existing.status === 'requires_payment_method' || existing.status === 'requires_confirmation') {
+      await stripe.paymentIntents.cancel(paymentIntentId)
+    }
+  } catch {
+    // Intent may already be canceled, succeeded, or missing.
+  }
+}
+
 function buildCustomerFields(customer: Awaited<ReturnType<typeof getAuthenticatedCustomer>>): CustomerStripeFields {
   if (!customer?.email) {
     return {}
@@ -64,7 +81,7 @@ function buildCustomerFields(customer: Awaited<ReturnType<typeof getAuthenticate
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as PaymentIntentRequest
-    const { amount, paymentIntentId, metadata = {} } = body
+    const { amount, paymentIntentId, cancelPaymentIntentId, metadata = {} } = body
 
     if (!Number.isFinite(amount) || amount <= 0) {
       return NextResponse.json({ error: 'Invalid payment amount' }, { status: 400 })
@@ -121,16 +138,26 @@ export async function POST(request: NextRequest) {
         updatePayload.amount = amountInCents
       }
 
-      const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, updatePayload)
+      try {
+        const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, updatePayload)
 
-      if (!paymentIntent.client_secret) {
-        return NextResponse.json({ error: 'Missing client secret' }, { status: 500 })
+        if (!paymentIntent.client_secret) {
+          return NextResponse.json({ error: 'Missing client secret' }, { status: 500 })
+        }
+
+        return NextResponse.json({
+          clientSecret: paymentIntent.client_secret,
+          paymentIntentId: paymentIntent.id,
+        })
+      } catch (updateError) {
+        console.warn('[stripe/payment-intent] Update failed, replacing intent', {
+          paymentIntentId,
+          error: updateError,
+        })
+        await cancelIncompletePaymentIntent(stripe, paymentIntentId)
       }
-
-      return NextResponse.json({
-        clientSecret: paymentIntent.client_secret,
-        paymentIntentId: paymentIntent.id,
-      })
+    } else if (cancelPaymentIntentId) {
+      await cancelIncompletePaymentIntent(stripe, cancelPaymentIntentId)
     }
 
     const paymentIntent = await stripe.paymentIntents.create({
