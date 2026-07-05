@@ -75,7 +75,9 @@ function isBookingOrder(order: MedusaOrder) {
   return order.metadata?.source === BOOKING_ORDER_SOURCE
 }
 
-function asBookingMetadata(metadata: Record<string, unknown> | null | undefined): BookingOrderMetadata | null {
+export function asBookingMetadata(
+  metadata: Record<string, unknown> | null | undefined
+): BookingOrderMetadata | null {
   if (!metadata || metadata.source !== BOOKING_ORDER_SOURCE) {
     return null
   }
@@ -452,10 +454,120 @@ function buildBookingMetadata(input: {
   }
 }
 
+export async function getBookingOrderForCustomer(orderId: string, customer: MedusaCustomer) {
+  if (!isMedusaAdminConfigured()) {
+    return null
+  }
+
+  try {
+    const order = await getOrderById(orderId)
+
+    if (!isBookingOrder(order) || !orderBelongsToCustomer(order, customer)) {
+      return null
+    }
+
+    return order
+  } catch {
+    return null
+  }
+}
+
+async function upsertRemainingPaymentOnOrder(
+  paymentIntent: Stripe.PaymentIntent,
+  orderId: string
+) {
+  const order = await getOrderById(orderId)
+  const existingMetadata = asBookingMetadata(order.metadata)
+
+  if (!existingMetadata) {
+    console.warn('[medusa/orders] Invalid booking metadata for remaining payment', orderId)
+    return null
+  }
+
+  const chargeAmount = parseMetadataNumber(
+    paymentIntent.metadata.chargeAmount,
+    paymentIntent.amount / 100
+  )
+
+  if (parsePaymentIntentIds(order.metadata).includes(paymentIntent.id)) {
+    await recordOrderPayment(orderId, paymentIntent.id, chargeAmount, existingMetadata)
+    return getOrderById(orderId)
+  }
+
+  const existingByPayment = await findOrderByPaymentIntentId(
+    paymentIntent.id,
+    existingMetadata.customer_email
+  )
+
+  if (existingByPayment && existingByPayment.id !== orderId) {
+    console.warn('[medusa/orders] Payment intent linked to a different order', paymentIntent.id)
+    return null
+  }
+
+  const tripTotal = parseMetadataNumber(existingMetadata.trip_total, order.total)
+  const previousPaid = parseMetadataNumber(existingMetadata.paid_amount)
+  const expectedDue = parseMetadataNumber(
+    existingMetadata.amount_due,
+    Math.max(tripTotal - previousPaid, 0)
+  )
+
+  if (chargeAmount <= 0 || Math.abs(chargeAmount - expectedDue) > 0.01) {
+    throw new Error('Remaining payment amount does not match the outstanding balance.')
+  }
+
+  const paidAmount = Math.min(tripTotal, previousPaid + chargeAmount)
+  const amountDue = Math.max(tripTotal - paidAmount, 0)
+  const paymentStatus: 'partial' | 'paid' = amountDue <= 0 ? 'paid' : 'partial'
+  const paymentIntentIds = [...parsePaymentIntentIds(order.metadata), paymentIntent.id]
+  const uniquePaymentIntentIds = [...new Set(paymentIntentIds)]
+
+  const parsed = await parsePaymentMetadata(paymentIntent)
+
+  if (!parsed) {
+    return null
+  }
+
+  const metadata = buildBookingMetadata({
+    parsed: {
+      ...parsed,
+      paymentMode: 'remaining',
+      tripTotal,
+      chargeAmount,
+    },
+    bookingKey: existingMetadata.booking_key,
+    paidAmount,
+    amountDue,
+    paymentStatus,
+    paymentIntentId: paymentIntent.id,
+    paymentIntentIds: uniquePaymentIntentIds,
+    bookedAt: existingMetadata.booked_at,
+  })
+
+  metadata.recorded_payments = existingMetadata.recorded_payments
+
+  const updatedOrder = await updateBookingOrder(orderId, metadata)
+  await recordOrderPayment(orderId, paymentIntent.id, chargeAmount, metadata)
+
+  console.info('[medusa/orders] Applied remaining payment to booking order', {
+    orderId,
+    paymentIntentId: paymentIntent.id,
+    paidAmount,
+    amountDue,
+  })
+
+  return getOrderById(updatedOrder.id)
+}
+
 export async function upsertBookingOrderFromPayment(paymentIntent: Stripe.PaymentIntent) {
   if (!isMedusaAdminConfigured()) {
     console.warn('[medusa/orders] MEDUSA_SECRET_KEY is not configured; skipping order creation.')
     return null
+  }
+
+  const medusaOrderId = paymentIntent.metadata.medusaOrderId?.trim()
+
+  if (medusaOrderId && paymentIntent.metadata.paymentMode === 'remaining') {
+    return upsertRemainingPaymentOnOrder(paymentIntent, medusaOrderId)
   }
 
   const parsed = await parsePaymentMetadata(paymentIntent)

@@ -55,7 +55,7 @@ export function AccountBookingsSection({ bookings }: Props) {
 
 function BookingCard({ booking }: { booking: Booking }) {
   const status = STATUS_STYLES[booking.status]
-  const remaining = booking.totalAmount - booking.paidAmount
+  const remaining = booking.amountDue
   const isFullyPaid = booking.paymentStatus === 'paid'
   const paidPercent = Math.round((booking.paidAmount / booking.totalAmount) * 100)
 
@@ -166,7 +166,7 @@ function BookingCard({ booking }: { booking: Booking }) {
                 View package
               </Button>
               {!isFullyPaid && (
-                <Button href="/checkout" color="orange">
+                <Button href={`/checkout/pay-remaining?orderId=${booking.id}`} color="orange">
                   Pay remaining
                 </Button>
               )}

@@ -34,6 +34,7 @@ export function mapMedusaOrderToBooking(order: MedusaOrder): Booking | null {
 
   const tripTotal = parseMetadataNumber(metadata.trip_total, order.total)
   const paidAmount = parseMetadataNumber(metadata.paid_amount)
+  const amountDue = parseMetadataNumber(metadata.amount_due, Math.max(tripTotal - paidAmount, 0))
   const paymentStatus: BookingPaymentStatus = metadata.payment_status === 'paid' ? 'paid' : 'partial'
   const startDate = metadata.start_date || order.created_at.slice(0, 10)
   const bookedAt = metadata.booked_at || order.created_at
@@ -52,6 +53,7 @@ export function mapMedusaOrderToBooking(order: MedusaOrder): Booking | null {
     guests: Number.parseInt(metadata.guest_count ?? '1', 10) || 1,
     totalAmount: tripTotal,
     paidAmount,
+    amountDue,
     paymentStatus,
     status: deriveBookingStatus(startDate),
   }

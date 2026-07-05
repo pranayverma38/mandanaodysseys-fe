@@ -1,6 +1,8 @@
 import { getAuthenticatedCustomer } from '@/lib/auth/session'
+import { validateRemainingPaymentAmount } from '@/lib/bookings/validate-remaining-payment'
 import { getStripeServer, STRIPE_CHECKOUT_CURRENCY, toStripeAmount } from '@/lib/stripe/server'
 import { NextRequest, NextResponse } from 'next/server'
+import type Stripe from 'stripe'
 
 type PaymentIntentRequest = {
   amount: number
@@ -19,6 +21,7 @@ type PaymentIntentRequest = {
     endDate?: string
     destination?: string
     packageImage?: string
+    medusaOrderId?: string
   }
 }
 
@@ -72,6 +75,24 @@ export async function POST(request: NextRequest) {
     const customer = await getAuthenticatedCustomer()
     const customerFields = buildCustomerFields(customer)
 
+    if (!customer) {
+      return NextResponse.json({ error: 'You must be signed in to complete payment.' }, { status: 401 })
+    }
+
+    if (metadata.paymentMode === 'remaining') {
+      const medusaOrderId = metadata.medusaOrderId?.trim()
+
+      if (!medusaOrderId) {
+        return NextResponse.json({ error: 'Missing booking reference for remaining payment.' }, { status: 400 })
+      }
+
+      const validation = await validateRemainingPaymentAmount(customer, medusaOrderId, amount)
+
+      if (!validation.ok) {
+        return NextResponse.json({ error: validation.error }, { status: 400 })
+      }
+    }
+
     if (amountInCents < 50) {
       return NextResponse.json({ error: 'Payment amount is too low' }, { status: 400 })
     }
@@ -91,11 +112,16 @@ export async function POST(request: NextRequest) {
     const receiptEmail = customerFields.receipt_email
 
     if (paymentIntentId) {
-      const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
-        amount: amountInCents,
+      const updatePayload: Stripe.PaymentIntentUpdateParams = {
         metadata: stripeMetadata,
         ...(receiptEmail ? { receipt_email: receiptEmail } : {}),
-      })
+      }
+
+      if (metadata.paymentMode !== 'remaining') {
+        updatePayload.amount = amountInCents
+      }
+
+      const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, updatePayload)
 
       if (!paymentIntent.client_secret) {
         return NextResponse.json({ error: 'Missing client secret' }, { status: 500 })

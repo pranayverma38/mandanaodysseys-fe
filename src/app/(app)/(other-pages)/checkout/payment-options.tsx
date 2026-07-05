@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import clsx from 'clsx'
 import { useEffect, useId, useMemo, useState } from 'react'
 
-export type PaymentMode = 'full' | 'partial'
+export type PaymentMode = 'full' | 'partial' | 'remaining'
 
 const DEPOSIT_MIN_PERCENT = 0.3
 

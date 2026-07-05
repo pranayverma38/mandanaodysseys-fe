@@ -77,6 +77,7 @@ interface Props {
   chargeAmount: number
   paymentMode: PaymentMode
   depositAmount: number
+  medusaOrderId?: string
   disabled: boolean
   submitLabel: string
   onProcessingChange?: (isProcessing: boolean) => void
@@ -177,11 +178,14 @@ const CheckoutStripePayment = ({
   chargeAmount,
   paymentMode,
   depositAmount,
+  medusaOrderId,
   disabled,
   submitLabel,
   onProcessingChange,
 }: Props) => {
+  const isRemainingPayment = paymentMode === 'remaining'
   const debouncedChargeAmount = useDebouncedValue(chargeAmount, 450)
+  const effectiveChargeAmount = isRemainingPayment ? chargeAmount : debouncedChargeAmount
   const { customer } = useAuthModal()
   const paymentIntentIdRef = useRef<string | null>(null)
   const [clientSecret, setClientSecret] = useState<string | null>(null)
@@ -193,13 +197,13 @@ const CheckoutStripePayment = ({
     paymentIntentIdRef.current = null
     setClientSecret(null)
     setIntentVersion(0)
-  }, [booking.handle])
+  }, [booking.handle, medusaOrderId])
 
-  const isAmountSynced = debouncedChargeAmount === chargeAmount
+  const isAmountSynced = isRemainingPayment || debouncedChargeAmount === chargeAmount
   const canPay = !disabled && isAmountSynced && Boolean(clientSecret)
 
   useEffect(() => {
-    if (disabled || debouncedChargeAmount <= 0) {
+    if (disabled || effectiveChargeAmount <= 0) {
       return
     }
 
@@ -214,7 +218,7 @@ const CheckoutStripePayment = ({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            amount: debouncedChargeAmount,
+            amount: effectiveChargeAmount,
             paymentIntentId: paymentIntentIdRef.current ?? undefined,
             metadata: {
               handle: booking.handle,
@@ -222,7 +226,7 @@ const CheckoutStripePayment = ({
               paymentMode,
               tripTotal: String(booking.total),
               depositAmount: String(depositAmount),
-              chargeAmount: String(debouncedChargeAmount),
+              chargeAmount: String(effectiveChargeAmount),
               dateRange: booking.dateRangeLabel,
               guests: booking.guestsLabel,
               guestCount: String(booking.totalGuests),
@@ -230,6 +234,7 @@ const CheckoutStripePayment = ({
               endDate: booking.endDate.toISOString().slice(0, 10),
               destination: destinationName,
               packageImage,
+              ...(medusaOrderId ? { medusaOrderId } : {}),
             },
           }),
         })
@@ -268,6 +273,7 @@ const CheckoutStripePayment = ({
       cancelled = true
     }
   }, [
+    effectiveChargeAmount,
     debouncedChargeAmount,
     disabled,
     booking.dateRangeLabel,
@@ -282,6 +288,8 @@ const CheckoutStripePayment = ({
     itineraryTitle,
     packageImage,
     paymentMode,
+    isRemainingPayment,
+    medusaOrderId,
     customer?.email,
     customer?.phone,
   ])

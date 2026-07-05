@@ -46,6 +46,7 @@ export type Booking = {
   guests: number
   totalAmount: number
   paidAmount: number
+  amountDue: number
   paymentStatus: BookingPaymentStatus
   status: BookingStatus
 }

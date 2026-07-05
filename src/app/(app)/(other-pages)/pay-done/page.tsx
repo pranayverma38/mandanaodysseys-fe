@@ -60,7 +60,12 @@ const Page = async ({ searchParams }: PageProps) => {
   const guests = verifiedPaymentIntent.metadata.guests ?? 'Guests'
   const chargeAmount =
     Number.parseFloat(verifiedPaymentIntent.metadata.chargeAmount ?? '') || verifiedPaymentIntent.amount
-  const paymentMode = verifiedPaymentIntent.metadata.paymentMode === 'partial' ? 'Deposit' : 'Full payment'
+  const paymentModeLabel =
+    paymentIntent.metadata.paymentMode === 'remaining'
+      ? 'Remaining balance'
+      : verifiedPaymentIntent.metadata.paymentMode === 'partial'
+        ? 'Deposit'
+        : 'Full payment'
 
   return (
     <PayDoneScrollReset>
@@ -70,7 +75,7 @@ const Page = async ({ searchParams }: PageProps) => {
         dateRange={dateRange}
         guests={guests}
         chargeAmount={chargeAmount}
-        paymentMode={paymentMode}
+        paymentMode={paymentModeLabel}
         paymentId={verifiedPaymentIntent.id}
         handle={verifiedPaymentIntent.metadata.handle}
         stripeStatus={verifiedPaymentIntent.status}
