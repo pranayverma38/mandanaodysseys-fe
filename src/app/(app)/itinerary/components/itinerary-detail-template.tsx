@@ -7,14 +7,13 @@ import HeaderGallery from '../../(listings)/components/header-gallery'
 import { SectionFeaturedAmenities } from '../../(listings)/components/section-featured-amenities'
 import { buildItineraryDetailAmenities } from '@/data/itineraries/details/_shared'
 import { SectionHeading } from '../../(listings)/components/section-heading'
-import ItineraryMapExplorer from './itinerary-map-explorer'
+import ItineraryTripMapSection from './itinerary-trip-map-section'
 import ItinerarySectionHeader from './itinerary-section-header'
 import ItineraryStarRating from './itinerary-star-rating'
 import ItineraryStickyNav from './itinerary-sticky-nav'
 import ItineraryAccommodationSection from './itinerary-accommodation-section'
 import ItineraryBenefitsSection from './itinerary-benefits-section'
 import ItineraryReviewsSection from './itinerary-reviews-section'
-import ItineraryThingsToDoSection from './itinerary-things-to-do-section'
 
 interface Props {
   itinerary: ItineraryDetail
@@ -72,8 +71,8 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
           <HeaderGallery images={galleryImgs} gridType="grid4" />
         </div>
 
-      <main className="mt-10 flex min-w-0 flex-col gap-8 lg:flex-row xl:gap-[8%]">
-        <div className="flex w-full min-w-0 flex-col lg:w-3/5 xl:w-[59%]">
+      <main className="mt-10 grid min-w-0 grid-cols-1 lg:grid-cols-[59%_minmax(0,1fr)] lg:gap-x-8 xl:gap-x-[8%]">
+        <div className="order-1 flex min-w-0 flex-col lg:order-none">
           <ItinerarySectionHeader
             address={address}
             categories={categories}
@@ -100,36 +99,30 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
               ))}
             </div>
           </div>
-
-          <Divider className="my-8 xl:my-12" />
-
-          <div id="itinerary-map" className="min-w-0 scroll-mt-20">
-            <div className="h-96 w-full overflow-hidden rounded-xl sm:h-120">
-              <ItineraryMapExplorer thingsToDo={thingsToDo} />
-            </div>
-          </div>
-
-          <Divider className="my-8 xl:my-12" />
-
-          <div className="listingSection__wrap">
-            <ItineraryThingsToDoSection thingsToDo={thingsToDo} />
-          </div>
-
-          <Divider className="my-8 xl:my-12" />
-
-          <ItineraryInclusionsSection includes={includes} excludes={excludes} />
-
-          <Divider className="my-8 xl:my-12" />
-
-          <ItineraryAccommodationSection accommodations={accommodations} />
         </div>
 
-        <div className="w-full min-w-0 lg:flex-1 lg:basis-0">
+        <div className="order-4 mt-8 w-full min-w-0 lg:order-none lg:mt-0 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
           <div className="sticky top-17 min-w-0 max-w-full">
             <ItineraryPricingSidebar handle={handle} pricing={pricing} onSubmit={handleSubmitForm} />
 
             <ItineraryBenefitsSection />
           </div>
+        </div>
+
+        <div className="order-2 col-span-full lg:order-none">
+          <Divider className="my-8 xl:my-12" />
+
+          <ItineraryTripMapSection thingsToDo={thingsToDo} />
+
+          <Divider className="my-8 xl:my-12" />
+        </div>
+
+        <div className="order-3 flex min-w-0 flex-col lg:order-none">
+          <ItineraryInclusionsSection includes={includes} excludes={excludes} />
+
+          <Divider className="my-8 xl:my-12" />
+
+          <ItineraryAccommodationSection accommodations={accommodations} />
         </div>
       </main>
 

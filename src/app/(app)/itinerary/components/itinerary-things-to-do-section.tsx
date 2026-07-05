@@ -113,9 +113,7 @@ interface Props {
 const ItineraryThingsToDoSection = ({ thingsToDo }: Props) => {
   return (
     <>
-      <SectionHeading id="itinerary-your-trip" className="scroll-mt-20">
-        What you&apos;ll do
-      </SectionHeading>
+      <SectionHeading className="mb-6">What you&apos;ll do</SectionHeading>
       <div className="flex flex-col gap-8">
         {thingsToDo.map((item, index) => (
           <ThingToDoItem key={`${item.name}-${index}`} item={item} />
