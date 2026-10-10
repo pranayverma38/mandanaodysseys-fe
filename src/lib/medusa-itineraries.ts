@@ -5,6 +5,13 @@ const BACKEND_URL =
   process.env.MEDUSA_BACKEND_URL ||
   'https://api.mandanaodysseys.com'
 
+const PUBLISHABLE_KEY =
+  process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ''
+
+const STORE_HEADERS: Record<string, string> = PUBLISHABLE_KEY
+  ? { 'x-publishable-api-key': PUBLISHABLE_KEY }
+  : {}
+
 type ApiItinerary = {
   id: string
   handle: string
@@ -83,6 +90,7 @@ function normalizeItinerary(api: ApiItinerary): ItineraryDetail {
 export async function fetchItinerariesFromMedusa(): Promise<ItineraryDetail[] | null> {
   try {
     const res = await fetch(`${BACKEND_URL}/store/itineraries?limit=200`, {
+      headers: STORE_HEADERS,
       next: { revalidate: 60 },
     })
     if (!res.ok) return null
@@ -97,6 +105,7 @@ export async function fetchItinerariesFromMedusa(): Promise<ItineraryDetail[] | 
 export async function fetchItineraryByHandleFromMedusa(handle: string): Promise<ItineraryDetail | null> {
   try {
     const res = await fetch(`${BACKEND_URL}/store/itineraries/${handle}`, {
+      headers: STORE_HEADERS,
       next: { revalidate: 60 },
     })
     if (!res.ok) return null
