@@ -27,7 +27,8 @@ export type ItineraryReview = {
   rating: number
   content: string
   author: string
-  authorAvatar: StaticImageData
+  /** Static image import or a plain { src } object from the API */
+  authorAvatar: StaticImageData | { src: string }
   date: string
   datetime: string
 }

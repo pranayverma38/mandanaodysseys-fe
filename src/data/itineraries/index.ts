@@ -2,6 +2,7 @@ import type { ItineraryDetail } from './types'
 import { getItineraryDestinationName } from './destinations'
 import { buildItineraryListingAmenities } from './details/_shared'
 import { filterItineraryListings } from './search'
+import { fetchItinerariesFromMedusa, fetchItineraryByHandleFromMedusa } from '@/lib/medusa-itineraries'
 import { australiaGreatBarrierReefFamily } from './details/australia-great-barrier-reef-family'
 import { australiaSydneyMelbourneLuxury } from './details/australia-sydney-melbourne-luxury'
 import { baliFamilyCultureAdventure } from './details/bali-family-culture-adventure'
@@ -21,18 +22,7 @@ import { thailandBangkokChiangMaiCultural } from './details/thailand-bangkok-chi
 import { thailandPhuketSoloBeachEscape } from './details/thailand-phuket-solo-beach-escape'
 import { swissAlpsLakeGenevaEscape } from './details/swiss-alps-lake-geneva-escape'
 
-/**
- * Register every itinerary detail file here.
- * To add a new page:
- * 1. Create `src/data/itineraries/details/your-handle.ts`
- * 2. Import and add it to ITINERARY_DETAILS below
- * 3. Assign a destination from `ITINERARY_DESTINATIONS` (see `src/data/destinations/`)
- * 4. Assign 2–3 categories from `ITINERARY_CATEGORIES` (see `TOUR_TYPES` in tour-types.ts)
- * 5. Set `duration` with `createItineraryDuration(days, nights)` from duration.ts
- * 6. Set `mobility` to one of: Easy, Light Activity, Moderate, Active
- * 7. Add `lat` and `lng` to each `thingsToDo` entry for the route map
- * 8. Visit `/itinerary/your-handle`
- */
+/** Static fallback — used when Medusa API is unreachable */
 export const ITINERARY_DETAILS: ItineraryDetail[] = [
   goldenTriangleIndiaTour,
   coloursPalacesAndTheTaj,
@@ -54,8 +44,15 @@ export const ITINERARY_DETAILS: ItineraryDetail[] = [
   swissAlpsLakeGenevaEscape,
 ]
 
+/** Fetch itineraries from Medusa; fall back to static data if API is unavailable */
+async function resolveItineraries(): Promise<ItineraryDetail[]> {
+  const apiItineraries = await fetchItinerariesFromMedusa()
+  return apiItineraries ?? ITINERARY_DETAILS
+}
+
 export async function getItineraries() {
-  return ITINERARY_DETAILS.map(
+  const itineraries = await resolveItineraries()
+  return itineraries.map(
     ({
       id,
       handle,
@@ -96,11 +93,16 @@ export async function getItineraries() {
 }
 
 export async function getItineraryByHandle(handle: string) {
-  const itinerary =
-    ITINERARY_DETAILS.find((item) => item.handle === handle) ??
-    ITINERARY_DETAILS.find((item) => item.handle === 'golden-triangle-india-tour')
+  // Try Medusa API first
+  const apiItinerary = await fetchItineraryByHandleFromMedusa(handle)
+  if (apiItinerary) return apiItinerary
 
-  return itinerary ?? null
+  // Fall back to static data
+  return (
+    ITINERARY_DETAILS.find((item) => item.handle === handle) ??
+    ITINERARY_DETAILS.find((item) => item.handle === 'golden-triangle-india-tour') ??
+    null
+  )
 }
 
 export async function getItineraryListingsByFilters(options?: {
