@@ -91,7 +91,7 @@ export async function fetchItinerariesFromMedusa(): Promise<ItineraryDetail[] | 
   try {
     const res = await fetch(`${BACKEND_URL}/store/itineraries?limit=200`, {
       headers: STORE_HEADERS,
-      next: { revalidate: 60 },
+      cache: 'no-store',
     })
     if (!res.ok) return null
     const data = await res.json()
@@ -106,7 +106,7 @@ export async function fetchItineraryByHandleFromMedusa(handle: string): Promise<
   try {
     const res = await fetch(`${BACKEND_URL}/store/itineraries/${handle}`, {
       headers: STORE_HEADERS,
-      next: { revalidate: 60 },
+      cache: 'no-store',
     })
     if (!res.ok) return null
     const data = await res.json()
