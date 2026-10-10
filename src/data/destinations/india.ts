@@ -12,7 +12,7 @@ export const india: DestinationDetail = {
   heroImage:
     'https://images.pexels.com/photos/17423832/pexels-photo-17423832.jpeg?auto=compress&cs=tinysrgb&w=1920',
   heroVideo: 'https://videos.pexels.com/video-files/27911058/12260747_3840_2160_30fps.mp4',
-  packageCount: 48,
+  packageCount: 54,
   introTitle: 'Land of timeless wonders',
   introDescription:
     'India spans deserts, rainforests, and the world\'s highest mountains, woven together by millennia of art, faith, and cuisine. From Mughal monuments to Kerala backwaters, every region tells a different story.',

@@ -1,4 +1,5 @@
 import { DESTINATIONS, TOUR_TYPES } from '@/data/destinations'
+import { ITINERARY_DETAILS } from '@/data/itineraries'
 import { getSiteUrl } from '@/lib/seo'
 import type { MetadataRoute } from 'next'
 
@@ -28,8 +29,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ])
 
   const inspirationRoutes = TOUR_TYPES.map((tourType) => `/inspirations/${tourType.slug}`)
+  const itineraryRoutes = ITINERARY_DETAILS.map((itinerary) => `/itinerary/${itinerary.handle}`)
 
-  const allRoutes = [...staticRoutes, ...destinationRoutes, ...inspirationRoutes]
+  const allRoutes = [...staticRoutes, ...destinationRoutes, ...inspirationRoutes, ...itineraryRoutes]
 
   return allRoutes.map((path) => ({
     url: `${siteUrl}${path}`,

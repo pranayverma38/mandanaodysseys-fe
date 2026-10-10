@@ -6,8 +6,14 @@ import { australiaGreatBarrierReefFamily } from './details/australia-great-barri
 import { australiaSydneyMelbourneLuxury } from './details/australia-sydney-melbourne-luxury'
 import { baliFamilyCultureAdventure } from './details/bali-family-culture-adventure'
 import { baliHoneymoonRetreat } from './details/bali-honeymoon-retreat'
+import { coloursPalacesAndTheTaj } from './details/colours-palaces-and-the-taj'
+import { desertDunesToRoyalPalaces } from './details/desert-dunes-to-royal-palaces'
 import { goldenTriangleIndiaTour } from './details/golden-triangle-india-tour'
+import { goldenTriangleAndShekhawati } from './details/golden-triangle-and-shekhawati'
 import { goaPackage } from './details/goa-package'
+import { heritageAndTheGanges } from './details/heritage-and-the-ganges'
+import { holiInThePinkCity } from './details/holi-in-the-pink-city'
+import { majesticRajasthan } from './details/majestic-rajasthan'
 import { mumbaiPackage } from './details/mumbai-package'
 import { nepalEverestBaseCampTrek } from './details/nepal-everest-base-camp-trek'
 import { nepalKathmanduPokharaWeekend } from './details/nepal-kathmandu-pokhara-weekend'
@@ -29,7 +35,13 @@ import { swissAlpsLakeGenevaEscape } from './details/swiss-alps-lake-geneva-esca
  */
 export const ITINERARY_DETAILS: ItineraryDetail[] = [
   goldenTriangleIndiaTour,
+  coloursPalacesAndTheTaj,
+  desertDunesToRoyalPalaces,
+  goldenTriangleAndShekhawati,
   goaPackage,
+  heritageAndTheGanges,
+  holiInThePinkCity,
+  majesticRajasthan,
   mumbaiPackage,
   nepalEverestBaseCampTrek,
   nepalKathmanduPokharaWeekend,
