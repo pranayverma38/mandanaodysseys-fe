@@ -34,9 +34,9 @@ export function HeaderActionDropdowns({
           popoverId="curr-lang"
           triggerButton={
             useHeroTriggers ? (
-              <button type="button" className={heroIconButtonClassName}>
+              <span className={heroIconButtonClassName}>
                 <HugeiconsIcon icon={Globe02Icon} size={24} />
-              </button>
+              </span>
             ) : undefined
           }
         />
@@ -46,9 +46,9 @@ export function HeaderActionDropdowns({
           popoverId="avatar"
           triggerButton={
             useHeroTriggers ? (
-              <button type="button" className={heroIconButtonClassName}>
+              <span className={heroIconButtonClassName}>
                 <HugeiconsIcon icon={UserCircle02Icon} size={24} />
-              </button>
+              </span>
             ) : undefined
           }
         />

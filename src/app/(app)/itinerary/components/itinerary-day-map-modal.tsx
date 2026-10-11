@@ -3,6 +3,7 @@
 import { Button } from '@/components/button'
 import { getItineraryDayLabel } from '@/data/itineraries/day-label'
 import type { ItineraryThingToDo } from '@/data/itineraries/types'
+import { isProxiedItineraryImageUrl, resolveItineraryImageUrl } from '@/lib/itinerary-image-url'
 import { Dialog, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { ChevronLeftIcon, ChevronRightIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
@@ -21,6 +22,7 @@ const ItineraryDayMapModal = ({ thingsToDo, isOpen, onClose, initialDayIndex = 0
   const [activeIndex, setActiveIndex] = useState(initialDayIndex)
   const totalDays = thingsToDo.length
   const activeItem = thingsToDo[activeIndex]
+  const activeItemImageUrl = activeItem ? resolveItineraryImageUrl(activeItem.imageUrl) : ''
   const { label: dayLabel } = activeItem
     ? getItineraryDayLabel(activeItem.time, activeIndex)
     : { label: `Day ${activeIndex + 1}` }
@@ -104,10 +106,11 @@ const ItineraryDayMapModal = ({ thingsToDo, isOpen, onClose, initialDayIndex = 0
                       <div className="relative size-14 shrink-0 overflow-hidden rounded-lg sm:size-16 lg:aspect-square lg:h-auto lg:w-40">
                         <Image
                           fill
-                          src={activeItem.imageUrl}
+                          src={activeItemImageUrl}
                           alt={activeItem.name}
                           className="object-cover"
                           sizes="64px"
+                          unoptimized={isProxiedItineraryImageUrl(activeItemImageUrl)}
                         />
                       </div>
 

@@ -4,6 +4,7 @@ import { StarIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 import Image from 'next/image'
 import type { ItineraryAccommodation } from '@/data/itineraries/types'
+import { isProxiedItineraryImageUrl, resolveItineraryImageUrl } from '@/lib/itinerary-image-url'
 import { SectionHeading } from '../../(listings)/components/section-heading'
 
 interface Props {
@@ -33,10 +34,19 @@ function HotelRating({ rating }: { rating: number }) {
 }
 
 function HotelCard({ className, hotel }: { hotel: ItineraryAccommodation; className?: string }) {
+  const imageUrl = resolveItineraryImageUrl(hotel.imageUrl)
+
   return (
     <div className={clsx('overflow-hidden rounded-2xl border border-border bg-card shadow-lg-for-card', className)}>
       <div className="relative aspect-4/3 w-full">
-        <Image src={hotel.imageUrl} alt={hotel.name} fill className="object-cover" sizes="(max-width: 768px) 40vw, 33vw" />
+        <Image
+          src={imageUrl}
+          alt={hotel.name}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 40vw, 33vw"
+          unoptimized={isProxiedItineraryImageUrl(imageUrl)}
+        />
       </div>
       <div className="flex flex-col gap-1.5 p-3 sm:gap-2 sm:p-4">
         <h3 className="text-sm font-medium sm:text-base">{hotel.name}</h3>

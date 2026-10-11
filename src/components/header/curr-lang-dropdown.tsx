@@ -107,19 +107,20 @@ const CurrLangDropdown: FC<Props> = ({
   const { getTriggerHandlers, getPanelHandlers } = useHoverPopover(popoverId)
   const currencies = getCurrencies()
   const languages = getLanguages()
+  const resolvedTriggerButton = triggerButton ?? (
+    <ButtonCircle color="accent">
+      <HugeiconsIcon icon={Globe02Icon} size={22} />
+    </ButtonCircle>
+  )
 
   return (
     <Popover className={clsx('group/popover relative', className)}>
       {({ open, close }) => (
         <>
           <HeaderPopoverTrigger
-            triggerButton={triggerButton}
+            triggerButton={resolvedTriggerButton}
             triggerHandlers={getTriggerHandlers(open, close)}
-            fallback={
-              <ButtonCircle color="accent">
-                <HugeiconsIcon icon={Globe02Icon} size={22} />
-              </ButtonCircle>
-            }
+            fallback={resolvedTriggerButton}
           />
 
           <PopoverPanel

@@ -6,6 +6,7 @@ import { CloseButton, Dialog, DialogBackdrop, DialogPanel } from '@headlessui/re
 import { Album02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { PlayIcon } from '@heroicons/react/24/solid'
+import { isProxiedItineraryImageUrl, resolveItineraryImageUrl } from '@/lib/itinerary-image-url'
 import clsx from 'clsx'
 import { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
@@ -28,6 +29,14 @@ function getGoogleDriveFileId(url: URL): string | null {
   if (pathMatch?.[1]) return pathMatch[1]
 
   return url.searchParams.get('id')
+}
+
+function isGoogleDriveUrl(url: string): boolean {
+  try {
+    return new URL(url).hostname.toLowerCase().includes('drive.google.com')
+  } catch {
+    return false
+  }
 }
 
 function getPinterestPinId(url: URL): string | null {
@@ -70,8 +79,8 @@ function resolveGalleryMedia(url: string): GalleryMedia {
     const googleDriveFileId = getGoogleDriveFileId(parsedUrl)
     if (googleDriveFileId && hostname.includes('drive.google.com')) {
       return {
-        playbackUrl: `/api/media/google-drive/${googleDriveFileId}`,
-        kind: 'video',
+        playbackUrl: resolveItineraryImageUrl(trimmedUrl),
+        kind: 'image',
         providerLabel: 'Google Drive',
         posterUrl: `https://drive.google.com/thumbnail?id=${googleDriveFileId}&sz=w1600`,
       }
@@ -110,15 +119,22 @@ function resolveGalleryMedia(url: string): GalleryMedia {
   }
 
   return {
-    playbackUrl: trimmedUrl,
+    playbackUrl: resolveItineraryImageUrl(trimmedUrl),
     kind: 'image',
   }
 }
 
 function prioritizeGalleryMedia(mediaItems: GalleryMedia[]): GalleryMedia[] {
   const firstVideoIndex = mediaItems.findIndex((item) => item.kind === 'video')
+  const firstDriveMediaIndex = mediaItems.findIndex(
+    (item) => item.providerLabel === 'Google Drive' && Boolean(item.posterUrl)
+  )
   const featuredIndex =
-    firstVideoIndex >= 0 ? firstVideoIndex : mediaItems.findIndex((item) => item.kind === 'embed')
+    firstVideoIndex >= 0
+      ? firstVideoIndex
+      : firstDriveMediaIndex >= 0
+        ? firstDriveMediaIndex
+        : mediaItems.findIndex((item) => item.kind === 'embed')
 
   if (featuredIndex <= 0) return mediaItems
 
@@ -234,6 +250,7 @@ const GalleryMediaSurface = ({
       className={clsx('rounded-xl object-cover', className)}
       sizes={sizes}
       priority={priority}
+      unoptimized={isProxiedItineraryImageUrl(media.playbackUrl)}
     />
   )
 }
@@ -347,7 +364,56 @@ interface Props {
 const HeaderGallery = ({ images, gridType = 'grid1' }: Props) => {
   let [isOpen, setIsOpen] = useState(false)
   let [startIndex, setStartIndex] = useState(0)
-  const mediaItems = prioritizeGalleryMedia(images.map(resolveGalleryMedia))
+  const [mediaItems, setMediaItems] = useState<GalleryMedia[]>(() =>
+    prioritizeGalleryMedia(images.map(resolveGalleryMedia))
+  )
+
+  useEffect(() => {
+    let isCancelled = false
+
+    const initialMediaItems = prioritizeGalleryMedia(images.map(resolveGalleryMedia))
+    setMediaItems(initialMediaItems)
+
+    if (!images.some(isGoogleDriveUrl)) {
+      return () => {
+        isCancelled = true
+      }
+    }
+
+    const resolveDriveMedia = async () => {
+      const resolvedItems = await Promise.all(
+        images.map(async (url) => {
+          if (!isGoogleDriveUrl(url)) {
+            return resolveGalleryMedia(url)
+          }
+
+          try {
+            const response = await fetch(`/api/media/inspect?src=${encodeURIComponent(url)}`, {
+              cache: 'no-store',
+            })
+
+            if (!response.ok) {
+              return resolveGalleryMedia(url)
+            }
+
+            return (await response.json()) as GalleryMedia
+          } catch {
+            return resolveGalleryMedia(url)
+          }
+        })
+      )
+
+      if (!isCancelled) {
+        setMediaItems(prioritizeGalleryMedia(resolvedItems))
+      }
+    }
+
+    void resolveDriveMedia()
+
+    return () => {
+      isCancelled = true
+    }
+  }, [images])
 
   const handleOpenDialog = (index = 0) => {
     setStartIndex(index)

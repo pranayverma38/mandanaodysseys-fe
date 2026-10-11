@@ -1,6 +1,7 @@
 'use client'
 
 import type { ItineraryThingToDo } from '@/data/itineraries/types'
+import { isProxiedItineraryImageUrl, resolveItineraryImageUrl } from '@/lib/itinerary-image-url'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -58,7 +59,20 @@ function ThingToDoItem({ item }: { item: ItineraryThingToDo }) {
   const cardContent = (
     <>
       <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-xl">
-        <Image fill src={item.imageUrl} alt={item.name} className="object-cover shadow-inner" sizes="96px" />
+        {(() => {
+          const imageUrl = resolveItineraryImageUrl(item.imageUrl)
+
+          return (
+        <Image
+          fill
+          src={imageUrl}
+          alt={item.name}
+          className="object-cover shadow-inner"
+          sizes="96px"
+          unoptimized={isProxiedItineraryImageUrl(imageUrl)}
+        />
+          )
+        })()}
       </div>
 
       <div className="min-w-0 flex-1 text-sm/5 text-muted-foreground">

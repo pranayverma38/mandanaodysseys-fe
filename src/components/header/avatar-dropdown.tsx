@@ -30,6 +30,11 @@ const menuItems = HEADER_MENU_TABS.map((tab) => {
 export default function AvatarDropdown({ className, triggerButton, popoverId }: Props) {
   const { isAuthenticated, isLoading, customer, openAuth, logout } = useAuthModal()
   const { getTriggerHandlers, getPanelHandlers } = useHoverPopover(popoverId)
+  const resolvedTriggerButton = triggerButton ?? (
+    <ButtonCircle color="accent">
+      <HugeiconsIcon icon={UserCircle02Icon} size={24} />
+    </ButtonCircle>
+  )
 
   if (isLoading) {
     return (
@@ -63,13 +68,9 @@ export default function AvatarDropdown({ className, triggerButton, popoverId }: 
         {({ open, close }) => (
           <>
             <HeaderPopoverTrigger
-              triggerButton={triggerButton}
+              triggerButton={resolvedTriggerButton}
               triggerHandlers={getTriggerHandlers(open, close)}
-              fallback={
-                <ButtonCircle color="accent">
-                  <HugeiconsIcon icon={UserCircle02Icon} size={24} />
-                </ButtonCircle>
-              }
+              fallback={resolvedTriggerButton}
             />
 
             <PopoverPanel
