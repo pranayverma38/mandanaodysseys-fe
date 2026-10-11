@@ -1,6 +1,6 @@
 'use client'
 
-import { HTMLMotionProps, motion } from 'framer-motion'
+import { HTMLMotionProps, motion } from 'motion/react'
 import { ReactNode } from 'react'
 
 // Định nghĩa 3 mốc thời điểm trigger

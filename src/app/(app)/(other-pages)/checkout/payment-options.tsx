@@ -4,7 +4,7 @@ import FormattedPrice from '@/components/formatted-price'
 import Input from '@/components/input'
 import { useLocale } from '@/providers/locale-provider'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 import clsx from 'clsx'
 import { useEffect, useId, useMemo, useState } from 'react'
 

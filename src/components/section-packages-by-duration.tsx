@@ -10,7 +10,7 @@ import type { PackagesByDurationDestination, PackagesByDurationGroup } from '@/d
 import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
 import { ReactNode, useEffect, useMemo, useState } from 'react'
