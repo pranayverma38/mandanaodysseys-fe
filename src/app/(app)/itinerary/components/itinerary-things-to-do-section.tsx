@@ -5,60 +5,46 @@ import { isProxiedItineraryImageUrl, resolveItineraryImageUrl } from '@/lib/itin
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import Image from 'next/image'
-import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { SectionHeading } from '../../(listings)/components/section-heading'
 
 function ThingToDoItem({ item }: { item: ItineraryThingToDo }) {
   const [expanded, setExpanded] = useState(false)
-  const [canExpand, setCanExpand] = useState(false)
-  const [collapsedHeight, setCollapsedHeight] = useState<number | null>(null)
-  const [fullHeight, setFullHeight] = useState<number | null>(null)
-  const contentRef = useRef<HTMLParagraphElement>(null)
+  const [contentHeight, setContentHeight] = useState(0)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const hasDescription = item.description.trim().length > 0
 
-  const measureHeights = useCallback(() => {
+  useLayoutEffect(() => {
     const element = contentRef.current
+
     if (!element) {
       return
     }
 
-    element.classList.add('line-clamp-2')
-    const collapsed = element.clientHeight
-    element.classList.remove('line-clamp-2')
-    const full = element.scrollHeight
-
-    setCollapsedHeight(collapsed)
-    setFullHeight(full)
-    setCanExpand(full > collapsed + 1)
-  }, [])
-
-  useLayoutEffect(() => {
-    measureHeights()
-    window.addEventListener('resize', measureHeights)
-    return () => window.removeEventListener('resize', measureHeights)
-  }, [item.description, measureHeights])
-
-  useLayoutEffect(() => {
-    if (!expanded) {
-      measureHeights()
+    const measureHeight = () => {
+      setContentHeight(element.scrollHeight)
     }
-  }, [expanded, measureHeights])
 
-  const isMeasured = collapsedHeight !== null && fullHeight !== null
+    measureHeight()
+    window.addEventListener('resize', measureHeight)
+    return () => window.removeEventListener('resize', measureHeight)
+  }, [item.description])
+
   const toggleExpanded = () => {
-    if (canExpand) {
+    if (hasDescription) {
       setExpanded((value) => !value)
     }
   }
 
   const cardClassName = clsx(
-    'flex w-full items-start gap-4 text-start sm:gap-8',
-    canExpand &&
+    'flex w-full items-start gap-4 text-start sm:gap-6',
+    hasDescription &&
       'cursor-pointer rounded-xl border-0 bg-transparent p-3 -m-3 transition-colors hover:bg-neutral-50 sm:p-4 sm:-m-4 dark:hover:bg-neutral-900/40'
   )
 
   const cardContent = (
     <>
-      <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-xl">
+      <div className="relative aspect-square w-20 shrink-0 self-center overflow-hidden rounded-xl">
         {(() => {
           const imageUrl = resolveItineraryImageUrl(item.imageUrl)
 
@@ -68,34 +54,36 @@ function ThingToDoItem({ item }: { item: ItineraryThingToDo }) {
           src={imageUrl}
           alt={item.name}
           className="object-cover shadow-inner"
-          sizes="96px"
+          sizes="80px"
           unoptimized={isProxiedItineraryImageUrl(imageUrl)}
         />
           )
         })()}
       </div>
 
-      <div className="min-w-0 flex-1 text-sm/5 text-muted-foreground">
+      <div className="min-w-0 flex-1 self-center text-sm/5 text-muted-foreground">
         <p>{item.time}</p>
-        <p className="mt-2 font-medium text-foreground">{item.name}</p>
-        <div
-          className={clsx(
-            'overflow-hidden transition-[max-height] duration-500 ease-in-out',
-            isMeasured && 'motion-reduce:transition-none'
-          )}
-          style={isMeasured ? { maxHeight: expanded ? fullHeight : collapsedHeight } : undefined}
-        >
-          <p ref={contentRef} className="mt-1">
-            {item.description}
-          </p>
-        </div>
+        <p className="mt-1 text-lg font-semibold leading-6 text-foreground">{item.name}</p>
+        {hasDescription ? (
+          <div
+            className="overflow-hidden transition-all duration-300 ease-in-out motion-reduce:transition-none"
+            style={{
+              maxHeight: expanded ? contentHeight : 0,
+              opacity: expanded ? 1 : 0,
+            }}
+          >
+            <div ref={contentRef}>
+              <p className="pt-1">{item.description}</p>
+            </div>
+          </div>
+        ) : null}
       </div>
 
-      {canExpand ? (
+      {hasDescription ? (
         <ChevronDownIcon
           aria-hidden="true"
           className={clsx(
-            'mt-6 size-5 shrink-0 self-start text-[#00b277] transition-transform duration-500 ease-in-out',
+            'size-5 shrink-0 self-center text-[#00b277] transition-transform duration-300 ease-in-out motion-reduce:transition-none',
             expanded && 'rotate-180'
           )}
         />
@@ -103,7 +91,7 @@ function ThingToDoItem({ item }: { item: ItineraryThingToDo }) {
     </>
   )
 
-  if (canExpand) {
+  if (hasDescription) {
     return (
       <button
         type="button"
