@@ -5,13 +5,240 @@ import ButtonClose from '@/components/button-close'
 import { CloseButton, Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react'
 import { Album02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { PlayIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 import { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import { type SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react'
 
-const EmblaCarousel = ({ images, option }: { images: string[]; option: EmblaOptionsType }) => {
+type GalleryMediaKind = 'image' | 'video' | 'embed'
+
+type GalleryMedia = {
+  playbackUrl: string
+  kind: GalleryMediaKind
+  providerLabel?: string
+  posterUrl?: string
+}
+
+const VIDEO_FILE_PATTERN = /\.(mp4|webm|ogg|mov|m4v)(?:$|\?)/i
+
+function getGoogleDriveFileId(url: URL): string | null {
+  const pathMatch = url.pathname.match(/\/file\/d\/([^/]+)/i)
+  if (pathMatch?.[1]) return pathMatch[1]
+
+  return url.searchParams.get('id')
+}
+
+function getPinterestPinId(url: URL): string | null {
+  const pinMatch = url.pathname.match(/\/pin\/(\d+)/i)
+  return pinMatch?.[1] ?? null
+}
+
+function getProviderLabel(hostname: string): string | undefined {
+  const normalizedHostname = hostname.replace(/^www\./i, '')
+
+  if (normalizedHostname.includes('google.com')) return 'Google Drive'
+  if (normalizedHostname.includes('pinterest.com')) return 'Pinterest'
+  if (normalizedHostname.includes('pexels.com')) return 'Pexels'
+
+  return normalizedHostname || undefined
+}
+
+function resolveGalleryMedia(url: string): GalleryMedia {
+  const trimmedUrl = url.trim()
+
+  if (!trimmedUrl) {
+    return {
+      playbackUrl: '',
+      kind: 'image',
+    }
+  }
+
+  if (trimmedUrl.startsWith('/')) {
+    return {
+      playbackUrl: trimmedUrl,
+      kind: VIDEO_FILE_PATTERN.test(trimmedUrl) ? 'video' : 'image',
+    }
+  }
+
+  try {
+    const parsedUrl = new URL(trimmedUrl)
+    const hostname = parsedUrl.hostname.toLowerCase()
+    const pathname = parsedUrl.pathname.toLowerCase()
+
+    const googleDriveFileId = getGoogleDriveFileId(parsedUrl)
+    if (googleDriveFileId && hostname.includes('drive.google.com')) {
+      return {
+        playbackUrl: `/api/media/google-drive/${googleDriveFileId}`,
+        kind: 'video',
+        providerLabel: 'Google Drive',
+        posterUrl: `https://drive.google.com/thumbnail?id=${googleDriveFileId}&sz=w1600`,
+      }
+    }
+
+    const pinterestPinId = getPinterestPinId(parsedUrl)
+    if (pinterestPinId && hostname.includes('pinterest.com')) {
+      return {
+        playbackUrl: `https://assets.pinterest.com/ext/embed.html?id=${pinterestPinId}`,
+        kind: 'embed',
+        providerLabel: 'Pinterest',
+      }
+    }
+
+    if (hostname === 'videos.pexels.com' || VIDEO_FILE_PATTERN.test(trimmedUrl)) {
+      return {
+        playbackUrl: trimmedUrl,
+        kind: 'video',
+        providerLabel: getProviderLabel(hostname),
+      }
+    }
+
+    if (pathname.includes('/video/') || pathname.includes('/videos/')) {
+      parsedUrl.searchParams.set('autoplay', '1')
+      parsedUrl.searchParams.set('muted', '1')
+      parsedUrl.searchParams.set('playsinline', '1')
+
+      return {
+        playbackUrl: parsedUrl.toString(),
+        kind: 'embed',
+        providerLabel: getProviderLabel(hostname),
+      }
+    }
+  } catch {
+    // Fall back to image rendering for malformed URLs or non-HTTP values.
+  }
+
+  return {
+    playbackUrl: trimmedUrl,
+    kind: 'image',
+  }
+}
+
+function prioritizeGalleryMedia(mediaItems: GalleryMedia[]): GalleryMedia[] {
+  const firstVideoIndex = mediaItems.findIndex((item) => item.kind === 'video')
+  const featuredIndex =
+    firstVideoIndex >= 0 ? firstVideoIndex : mediaItems.findIndex((item) => item.kind === 'embed')
+
+  if (featuredIndex <= 0) return mediaItems
+
+  return [mediaItems[featuredIndex], ...mediaItems.slice(0, featuredIndex), ...mediaItems.slice(featuredIndex + 1)]
+}
+
+const stopMediaEvent = (event: SyntheticEvent) => {
+  event.stopPropagation()
+}
+
+const MediaPlaceholder = ({
+  label,
+  className,
+}: {
+  label: string
+  className?: string
+}) => (
+  <div
+    className={clsx(
+      'absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-xl bg-linear-to-br from-neutral-900 via-neutral-800 to-neutral-700 text-center text-white',
+      className
+    )}
+  >
+    <span className="flex size-12 items-center justify-center rounded-full bg-white/15 backdrop-blur-sm">
+      <PlayIcon className="size-6" />
+    </span>
+    <span className="px-3 text-xs font-medium tracking-wide uppercase text-white/85">{label}</span>
+  </div>
+)
+
+const GalleryMediaSurface = ({
+  media,
+  alt,
+  sizes,
+  className,
+  priority = false,
+  controls = false,
+  compact = false,
+  autoPlay = false,
+}: {
+  media: GalleryMedia
+  alt: string
+  sizes?: string
+  className?: string
+  priority?: boolean
+  controls?: boolean
+  compact?: boolean
+  autoPlay?: boolean
+}) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  useEffect(() => {
+    if (!autoPlay || media.kind !== 'video' || !videoRef.current) return
+
+    const videoElement = videoRef.current
+    const attemptPlayback = () => {
+      void videoElement.play().catch(() => {
+        // Ignore autoplay rejections; browser policies can still intervene.
+      })
+    }
+
+    attemptPlayback()
+    videoElement.addEventListener('loadeddata', attemptPlayback)
+
+    return () => {
+      videoElement.removeEventListener('loadeddata', attemptPlayback)
+    }
+  }, [autoPlay, media.kind, media.playbackUrl])
+
+  if (media.kind === 'video') {
+    return (
+      <video
+        ref={videoRef}
+        className={clsx('absolute inset-0 size-full rounded-xl object-cover', className)}
+        controls={controls}
+        autoPlay={autoPlay}
+        loop={autoPlay}
+        playsInline
+        preload={autoPlay ? 'auto' : controls ? 'metadata' : 'none'}
+        muted={autoPlay || !controls}
+        poster={media.posterUrl}
+        onClick={stopMediaEvent}
+        onPointerDown={stopMediaEvent}
+      >
+        <source src={media.playbackUrl} />
+        Your browser does not support the video tag.
+      </video>
+    )
+  }
+
+  if (media.kind === 'embed') {
+    if (compact) {
+      return <MediaPlaceholder label={media.providerLabel || 'Video'} className={className} />
+    }
+
+    return (
+      <iframe
+        src={media.playbackUrl}
+        title={`${media.providerLabel || 'Embedded'} media`}
+        className={clsx('absolute inset-0 size-full rounded-xl border-0 bg-black', className)}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+        allowFullScreen
+        loading="lazy"
+      />
+    )
+  }
+
+  return (
+    <Image
+      fill
+      alt={alt}
+      src={media.playbackUrl}
+      className={clsx('rounded-xl object-cover', className)}
+      sizes={sizes}
+      priority={priority}
+    />
+  )
+}
+
+const EmblaCarousel = ({ mediaItems, option }: { mediaItems: GalleryMedia[]; option: EmblaOptionsType }) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel({
     ...option,
@@ -49,15 +276,26 @@ const EmblaCarousel = ({ images, option }: { images: string[]; option: EmblaOpti
     <div className="relative size-full embla">
       <div className="embla__viewport relative mx-auto size-full overflow-hidden" ref={emblaMainRef}>
         <div className="embla__container size-full">
-          {images.map((image, index) => (
+          {mediaItems.map((media, index) => (
             <div className="relative z-50 flex embla__slide basis-full items-center justify-center" key={index}>
-              <Image
-                alt="Slide image"
-                src={image}
-                width={1280}
-                height={853}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-              />
+              <div className="relative aspect-3/2 w-full overflow-hidden rounded-xl bg-black">
+                {media.kind === 'image' ? (
+                  <Image
+                    alt="Slide media"
+                    src={media.playbackUrl}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
+                    className="object-contain"
+                  />
+                ) : (
+                  <GalleryMediaSurface
+                    media={media}
+                    alt="Slide media"
+                    controls
+                    className={media.kind === 'video' ? 'object-contain' : undefined}
+                  />
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -74,7 +312,7 @@ const EmblaCarousel = ({ images, option }: { images: string[]; option: EmblaOpti
       <div className="embla-thumbs fixed inset-x-0 bottom-5 z-10">
         <div className="embla-thumbs__viewport mx-auto max-w-28" ref={emblaThumbsRef}>
           <div className="embla-thumbs__container flex">
-            {images.map((image, index) => (
+            {mediaItems.map((media, index) => (
               <div
                 key={index}
                 className={clsx(
@@ -85,7 +323,14 @@ const EmblaCarousel = ({ images, option }: { images: string[]; option: EmblaOpti
                 )}
                 onClick={() => onThumbClick(index)}
               >
-                <Image alt="Slide image" src={image} fill sizes="100px" className={'object-cover'} />
+                {media.kind === 'image' ? (
+                  <Image alt="Slide media" src={media.playbackUrl} fill sizes="100px" className="object-cover" />
+                ) : (
+                  <MediaPlaceholder
+                    label={media.providerLabel || (media.kind === 'video' ? 'Video' : 'Media')}
+                    className="rounded-md"
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -102,6 +347,7 @@ interface Props {
 const HeaderGallery = ({ images, gridType = 'grid1' }: Props) => {
   let [isOpen, setIsOpen] = useState(false)
   let [startIndex, setStartIndex] = useState(0)
+  const mediaItems = prioritizeGalleryMedia(images.map(resolveGalleryMedia))
 
   const handleOpenDialog = (index = 0) => {
     setStartIndex(index)
@@ -110,10 +356,10 @@ const HeaderGallery = ({ images, gridType = 'grid1' }: Props) => {
 
   return (
     <>
-      {gridType === 'grid1' && <HeaderGalleryGrid1 images={images} handleOpenDialog={handleOpenDialog} />}
-      {gridType === 'grid2' && <HeaderGalleryGrid2 images={images} handleOpenDialog={handleOpenDialog} />}
-      {gridType === 'grid3' && <HeaderGalleryGrid3 images={images} handleOpenDialog={handleOpenDialog} />}
-      {gridType === 'grid4' && <HeaderGalleryGrid4 images={images} handleOpenDialog={handleOpenDialog} />}
+      {gridType === 'grid1' && <HeaderGalleryGrid1 mediaItems={mediaItems} handleOpenDialog={handleOpenDialog} />}
+      {gridType === 'grid2' && <HeaderGalleryGrid2 mediaItems={mediaItems} handleOpenDialog={handleOpenDialog} />}
+      {gridType === 'grid3' && <HeaderGalleryGrid3 mediaItems={mediaItems} handleOpenDialog={handleOpenDialog} />}
+      {gridType === 'grid4' && <HeaderGalleryGrid4 mediaItems={mediaItems} handleOpenDialog={handleOpenDialog} />}
 
       {/* Dialog for full-screen image gallery */}
       <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
@@ -126,7 +372,7 @@ const HeaderGallery = ({ images, gridType = 'grid1' }: Props) => {
             transition
             className="relative mx-auto aspect-3/2 max-h-full w-full max-w-7xl flex-1 transition data-closed:opacity-0"
           >
-            <EmblaCarousel images={images} option={{ startIndex, slidesToScroll: 1 }} />
+            <EmblaCarousel mediaItems={mediaItems} option={{ startIndex, slidesToScroll: 1 }} />
           </DialogPanel>
         </div>
       </Dialog>
@@ -135,35 +381,35 @@ const HeaderGallery = ({ images, gridType = 'grid1' }: Props) => {
 }
 
 const HeaderGalleryGrid1 = ({
-  images,
+  mediaItems,
   handleOpenDialog,
 }: {
-  images: string[]
+  mediaItems: GalleryMedia[]
   handleOpenDialog: (index?: number) => void
 }) => {
   return (
     <header className="relative md:grid md:grid-cols-4 md:gap-2">
       <div className="relative aspect-4/5 size-full md:col-span-2 md:aspect-4/4" onClick={() => handleOpenDialog(0)}>
-        {images[0] && (
-          <Image
-            fill
-            className="rounded-xl object-cover transition-[filter] hover:brightness-75"
-            src={images[0]}
-            alt="bigger"
+        {mediaItems[0] && (
+          <GalleryMediaSurface
+            media={mediaItems[0]}
+            alt="Primary itinerary media"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
+            className="transition-[filter] hover:brightness-75"
+            autoPlay={mediaItems[0].kind === 'video'}
             priority
           />
         )}
       </div>
       <div className="hidden md:col-span-2 md:grid md:grid-cols-2 md:gap-2">
-        {images.slice(1, 5).map((item, index) => (
+        {mediaItems.slice(1, 5).map((item, index) => (
           <div className="relative aspect-2/2 size-full" key={index} onClick={() => handleOpenDialog(index + 1)}>
-            <Image
-              fill
-              className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
-              src={item || ''}
-              alt="others"
+            <GalleryMediaSurface
+              media={item}
+              alt={`Itinerary gallery media ${index + 2}`}
               sizes="(max-width: 768px) 33vw, 33vw"
+              className="brightness-100 transition-[filter] hover:brightness-75"
+              autoPlay={item.kind === 'video'}
               priority
             />
           </div>
@@ -175,36 +421,36 @@ const HeaderGalleryGrid1 = ({
   )
 }
 const HeaderGalleryGrid2 = ({
-  images,
+  mediaItems,
   handleOpenDialog,
 }: {
-  images: string[]
+  mediaItems: GalleryMedia[]
   handleOpenDialog: (index?: number) => void
 }) => {
   return (
     <header className="relative md:grid md:grid-cols-4">
       <div className="relative aspect-4/5 size-full md:col-span-3 md:aspect-5/4" onClick={() => handleOpenDialog(0)}>
-        {images[0] && (
-          <Image
-            alt=""
-            src={images[0]}
-            fill
-            className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
+        {mediaItems[0] && (
+          <GalleryMediaSurface
+            media={mediaItems[0]}
+            alt="Primary itinerary media"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
+            className="brightness-100 transition-[filter] hover:brightness-75"
+            autoPlay={mediaItems[0].kind === 'video'}
             priority
           />
         )}
       </div>
 
       <div className="hidden md:grid md:grid-cols-1 md:gap-y-2 md:ps-2">
-        {images.slice(1, 4).map((item, index) => (
+        {mediaItems.slice(1, 4).map((item, index) => (
           <div className="relative aspect-3/2 size-full" key={index} onClick={() => handleOpenDialog(index + 1)}>
-            <Image
-              alt=""
-              src={item}
-              fill
-              className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
+            <GalleryMediaSurface
+              media={item}
+              alt={`Itinerary gallery media ${index + 2}`}
               sizes="(max-width: 768px) 33vw, 33vw"
+              className="brightness-100 transition-[filter] hover:brightness-75"
+              autoPlay={item.kind === 'video'}
               priority
             />
           </div>
@@ -216,22 +462,22 @@ const HeaderGalleryGrid2 = ({
   )
 }
 const HeaderGalleryGrid3 = ({
-  images,
+  mediaItems,
   handleOpenDialog,
 }: {
-  images: string[]
+  mediaItems: GalleryMedia[]
   handleOpenDialog: (index?: number) => void
 }) => {
   return (
     <header className="relative md:grid md:grid-cols-3 md:gap-x-2">
       <div className="relative aspect-4/5 size-full md:aspect-3/4" onClick={() => handleOpenDialog(0)}>
-        {images[0] && (
-          <Image
-            alt=""
-            src={images[0]}
-            fill
-            className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
+        {mediaItems[0] && (
+          <GalleryMediaSurface
+            media={mediaItems[0]}
+            alt="Primary itinerary media"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
+            className="brightness-100 transition-[filter] hover:brightness-75"
+            autoPlay={mediaItems[0].kind === 'video'}
             priority
           />
         )}
@@ -239,25 +485,25 @@ const HeaderGalleryGrid3 = ({
 
       <div className="hidden md:grid md:grid-cols-1 md:gap-y-2">
         <div className="relative aspect-3/2 size-full" onClick={() => handleOpenDialog(1)}>
-          {images[1] && (
-            <Image
-              alt=""
-              src={images[1]}
-              fill
-              className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
+          {mediaItems[1] && (
+            <GalleryMediaSurface
+              media={mediaItems[1]}
+              alt="Itinerary gallery media 2"
               sizes="(max-width: 768px) 33vw, 33vw"
+              className="brightness-100 transition-[filter] hover:brightness-75"
+              autoPlay={mediaItems[1].kind === 'video'}
               priority
             />
           )}
         </div>
         <div className="relative aspect-3/2 size-full" onClick={() => handleOpenDialog(2)}>
-          {images[2] && (
-            <Image
-              alt=""
-              src={images[2]}
-              fill
-              className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
+          {mediaItems[2] && (
+            <GalleryMediaSurface
+              media={mediaItems[2]}
+              alt="Itinerary gallery media 3"
               sizes="(max-width: 768px) 33vw, 33vw"
+              className="brightness-100 transition-[filter] hover:brightness-75"
+              autoPlay={mediaItems[2].kind === 'video'}
               priority
             />
           )}
@@ -265,13 +511,13 @@ const HeaderGalleryGrid3 = ({
       </div>
 
       <div className="relative hidden size-full md:block md:aspect-3/4" onClick={() => handleOpenDialog(3)}>
-        {images[3] && (
-          <Image
-            alt=""
-            src={images[3]}
-            fill
-            className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
+        {mediaItems[3] && (
+          <GalleryMediaSurface
+            media={mediaItems[3]}
+            alt="Itinerary gallery media 4"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
+            className="brightness-100 transition-[filter] hover:brightness-75"
+            autoPlay={mediaItems[3].kind === 'video'}
             priority
           />
         )}
@@ -282,35 +528,35 @@ const HeaderGalleryGrid3 = ({
   )
 }
 const HeaderGalleryGrid4 = ({
-  images,
+  mediaItems,
   handleOpenDialog,
 }: {
-  images: string[]
+  mediaItems: GalleryMedia[]
   handleOpenDialog: (index?: number) => void
 }) => {
   return (
     <header className="relative md:grid md:grid-cols-3 md:gap-x-2">
       <div className="relative aspect-4/5 size-full md:aspect-3/4" onClick={() => handleOpenDialog(0)}>
-        {images[0] && (
-          <Image
-            alt=""
-            src={images[0]}
-            fill
-            className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
+        {mediaItems[0] && (
+          <GalleryMediaSurface
+            media={mediaItems[0]}
+            alt="Primary itinerary media"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
+            className="brightness-100 transition-[filter] hover:brightness-75"
+            autoPlay={mediaItems[0].kind === 'video'}
             priority
           />
         )}
       </div>
 
       <div className="relative hidden aspect-4/5 size-full md:block md:aspect-3/4" onClick={() => handleOpenDialog(3)}>
-        {images[3] && (
-          <Image
-            alt=""
-            src={images[3]}
-            fill
-            className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
+        {mediaItems[3] && (
+          <GalleryMediaSurface
+            media={mediaItems[3]}
+            alt="Itinerary gallery media 4"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
+            className="brightness-100 transition-[filter] hover:brightness-75"
+            autoPlay={mediaItems[3].kind === 'video'}
             priority
           />
         )}
@@ -318,25 +564,25 @@ const HeaderGalleryGrid4 = ({
 
       <div className="hidden md:grid md:grid-cols-1 md:gap-y-2">
         <div className="relative aspect-3/2 size-full" onClick={() => handleOpenDialog(1)}>
-          {images[1] && (
-            <Image
-              alt=""
-              src={images[1]}
-              fill
-              className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
+          {mediaItems[1] && (
+            <GalleryMediaSurface
+              media={mediaItems[1]}
+              alt="Itinerary gallery media 2"
               sizes="(max-width: 768px) 33vw, 33vw"
+              className="brightness-100 transition-[filter] hover:brightness-75"
+              autoPlay={mediaItems[1].kind === 'video'}
               priority
             />
           )}
         </div>
         <div className="relative aspect-3/2 size-full" onClick={() => handleOpenDialog(2)}>
-          {images[2] && (
-            <Image
-              alt=""
-              src={images[2]}
-              fill
-              className="rounded-xl object-cover brightness-100 transition-[filter] hover:brightness-75"
+          {mediaItems[2] && (
+            <GalleryMediaSurface
+              media={mediaItems[2]}
+              alt="Itinerary gallery media 3"
               sizes="(max-width: 768px) 33vw, 33vw"
+              className="brightness-100 transition-[filter] hover:brightness-75"
+              autoPlay={mediaItems[2].kind === 'video'}
               priority
             />
           )}
@@ -352,7 +598,7 @@ const ButtonShowAllPhotos = ({ handleOpenDialog }: { handleOpenDialog: (index?: 
   <div className="absolute bottom-3 left-3">
     <Button color="light" onClick={() => handleOpenDialog()}>
       <HugeiconsIcon icon={Album02Icon} size={20} className="-ml-1" />
-      <span className="text-sm">Show all photos</span>
+      <span className="text-sm">Show all media</span>
     </Button>
   </div>
 )
