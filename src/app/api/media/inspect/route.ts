@@ -1,5 +1,4 @@
 import {
-  buildGoogleDriveStreamUrl,
   buildGoogleDriveThumbnailUrl,
   getGoogleDriveFileId,
 } from '@/lib/google-drive-media'
@@ -54,8 +53,8 @@ export async function GET(request: NextRequest) {
       return Response.json(
         {
           kind: 'video',
-          playbackUrl: buildGoogleDriveStreamUrl(googleDriveFileId),
-          posterUrl: buildGoogleDriveThumbnailUrl(googleDriveFileId, 'w800'),
+          playbackUrl: `/api/media/google-drive/${googleDriveFileId}`,
+          posterUrl: buildGoogleDriveThumbnailUrl(googleDriveFileId, 'w600'),
           providerLabel: 'Google Drive',
         },
         { headers: { 'Cache-Control': MEDIA_CACHE_CONTROL } }

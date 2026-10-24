@@ -181,6 +181,11 @@ const GalleryMediaSurface = ({
   autoPlay?: boolean
 }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null)
+  const [isVideoReady, setIsVideoReady] = useState(false)
+
+  useEffect(() => {
+    setIsVideoReady(false)
+  }, [media.kind, media.playbackUrl, media.posterUrl])
 
   useEffect(() => {
     if (!autoPlay || media.kind !== 'video' || !videoRef.current) return
@@ -200,24 +205,59 @@ const GalleryMediaSurface = ({
     }
   }, [autoPlay, media.kind, media.playbackUrl])
 
+  useEffect(() => {
+    if (media.kind !== 'video' || !videoRef.current) return
+
+    const videoElement = videoRef.current
+    const markVideoReady = () => {
+      setIsVideoReady(true)
+    }
+
+    if (videoElement.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      markVideoReady()
+    }
+
+    videoElement.addEventListener('loadeddata', markVideoReady)
+    videoElement.addEventListener('canplay', markVideoReady)
+
+    return () => {
+      videoElement.removeEventListener('loadeddata', markVideoReady)
+      videoElement.removeEventListener('canplay', markVideoReady)
+    }
+  }, [media.kind, media.playbackUrl])
+
   if (media.kind === 'video') {
     return (
-      <video
-        ref={videoRef}
-        className={clsx('absolute inset-0 size-full rounded-xl object-cover', className)}
-        controls={controls}
-        autoPlay={autoPlay}
-        loop={autoPlay}
-        playsInline
-        preload={autoPlay ? 'auto' : controls ? 'metadata' : 'none'}
-        muted={autoPlay || !controls}
-        poster={media.posterUrl}
-        onClick={stopMediaEvent}
-        onPointerDown={stopMediaEvent}
-      >
-        <source src={media.playbackUrl} />
-        Your browser does not support the video tag.
-      </video>
+      <>
+        {media.posterUrl && !isVideoReady && (
+          <Image
+            fill
+            alt={alt}
+            src={media.posterUrl}
+            className={clsx('rounded-xl object-cover', className)}
+            sizes={sizes}
+            priority={priority}
+            unoptimized={shouldBypassNextImageOptimization(media.posterUrl)}
+          />
+        )}
+
+        <video
+          ref={videoRef}
+          className={clsx('absolute inset-0 size-full rounded-xl object-cover', !isVideoReady && 'opacity-0', className)}
+          controls={controls}
+          autoPlay={autoPlay}
+          loop={autoPlay}
+          playsInline
+          preload={autoPlay ? 'auto' : controls ? 'metadata' : 'none'}
+          muted={autoPlay || !controls}
+          poster={media.posterUrl}
+          onClick={stopMediaEvent}
+          onPointerDown={stopMediaEvent}
+        >
+          <source src={media.playbackUrl} />
+          Your browser does not support the video tag.
+        </video>
+      </>
     )
   }
 
