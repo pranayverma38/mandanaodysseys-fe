@@ -20,4 +20,4 @@ export function toStripeAmount(amountInDollars: number): number {
   return Math.round(amountInDollars * 100)
 }
 
-export const STRIPE_CHECKOUT_CURRENCY = 'usd'
+export const STRIPE_CHECKOUT_CURRENCY = 'aud'

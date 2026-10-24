@@ -27,7 +27,7 @@ export const PriceRangeSlider = ({
   showTitle?: boolean
 }) => {
   const [rangePrices, setRangePrices] = useState<number[]>([defaultValue?.[0] ?? min, defaultValue?.[1] ?? max])
-  const { formatPrice } = useLocale()
+  const { formatAudPrice } = useLocale()
 
   return (
     <div className={clsx('relative flex flex-col gap-y-6', className)}>
@@ -55,8 +55,8 @@ export const PriceRangeSlider = ({
           <div className="ps-1 text-xs/6 text-neutral-700 dark:text-neutral-300">Min price</div>
           <div className="relative mt-0.5 w-full rounded-lg bg-neutral-100 px-4 py-2 text-sm dark:bg-neutral-800">
             {rangePrices[0] >= 1000
-              ? `${formatPrice(rangePrices[0] / 1000).replace(/(\d[\d.,]*)/, '$1k')}`
-              : formatPrice(rangePrices[0])}
+              ? `${formatAudPrice(rangePrices[0] / 1000).replace(/(\d[\d.,]*)/, '$1k')}`
+              : formatAudPrice(rangePrices[0])}
           </div>
           <input type="hidden" name={inputMinName} value={rangePrices[0]} />
         </div>
@@ -64,8 +64,8 @@ export const PriceRangeSlider = ({
           <div className="ps-1 text-xs/6 text-neutral-700 dark:text-neutral-300">Max price</div>
           <div className="relative mt-0.5 w-full rounded-lg bg-neutral-100 px-4 py-2 text-sm dark:bg-neutral-800">
             {rangePrices[1] >= 1000
-              ? `${formatPrice(rangePrices[1] / 1000).replace(/(\d[\d.,]*)/, '$1k')}`
-              : formatPrice(rangePrices[1])}
+              ? `${formatAudPrice(rangePrices[1] / 1000).replace(/(\d[\d.,]*)/, '$1k')}`
+              : formatAudPrice(rangePrices[1])}
           </div>
           <input type="hidden" name={inputMaxName} value={rangePrices[1]} />
         </div>

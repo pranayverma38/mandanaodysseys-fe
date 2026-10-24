@@ -3,6 +3,7 @@ import type { CurrencyCode } from '@/lib/locale/constants'
 export type ExchangeRates = Partial<Record<CurrencyCode, number>>
 
 const USD_PRICE_PATTERN = /(?:US\$|\$)\s*([\d,]+(?:\.\d+)?)/g
+const PRICE_IN_TEXT_PATTERN = /(?:A\$|US\$|\$)\s*([\d,]+(?:\.\d+)?)/g
 
 export function parseUsdAmount(value: string | number): number | null {
   if (typeof value === 'number') {
@@ -10,7 +11,7 @@ export function parseUsdAmount(value: string | number): number | null {
   }
 
   const cleaned = value.replace(/,/g, '')
-  const match = cleaned.match(/(?:US\$|\$)\s*([\d.]+)/i) ?? cleaned.match(/([\d.]+)/)
+  const match = cleaned.match(/(?:A\$|US\$|\$)\s*([\d.]+)/i) ?? cleaned.match(/([\d.]+)/)
 
   if (!match) {
     return null
@@ -88,14 +89,12 @@ export function formatUsdPriceInText(
   return text.replace(USD_PRICE_PATTERN, (match) => formatUsdPrice(match, currency, rates))
 }
 
-function parseAmount(value: string | number): number | null {
-  if (typeof value === 'number') {
-    return Number.isFinite(value) ? value : null
-  }
-
-  const cleaned = value.replace(/,/g, '')
-  const amount = parseFloat(cleaned)
-  return Number.isFinite(amount) ? amount : null
+export function formatAudPriceInText(
+  text: string,
+  currency: CurrencyCode,
+  rates: ExchangeRates
+): string {
+  return text.replace(PRICE_IN_TEXT_PATTERN, (match) => formatAudPrice(match, currency, rates))
 }
 
 /** Format a price stored in AUD into the user's selected display currency. */
@@ -104,7 +103,7 @@ export function formatAudPrice(
   currency: CurrencyCode,
   rates: ExchangeRates
 ): string {
-  const amount = parseAmount(value)
+  const amount = parseUsdAmount(value)
 
   if (amount === null) {
     return typeof value === 'string' ? value : String(value)

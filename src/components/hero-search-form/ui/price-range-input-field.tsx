@@ -44,14 +44,14 @@ export const PriceRangeInputField: FC<Props> = ({
   max = 1000000,
 }) => {
   const [rangePrices, setRangePrices] = useState([90000, 800000])
-  const { formatPrice } = useLocale()
+  const { formatAudPrice } = useLocale()
 
   const formatRangeLabel = (value: number) => {
     if (value >= 1000) {
-      return `${formatPrice(value / 1000).replace(/(\d[\d.,]*)/, '$1k')}`
+      return `${formatAudPrice(value / 1000).replace(/(\d[\d.,]*)/, '$1k')}`
     }
 
-    return formatPrice(value)
+    return formatAudPrice(value)
   }
 
   return (

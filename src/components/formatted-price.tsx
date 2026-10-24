@@ -8,11 +8,11 @@ interface Props {
   value: string | number
   className?: string
   children?: ReactNode
-  /** Prices stored in AUD (custom itineraries). Defaults to USD (packages). */
+  /** Store prices from Medusa are AUD. Pass USD only for leftover template data. */
   baseCurrency?: 'USD' | 'AUD'
 }
 
-const FormattedPrice: FC<Props> = ({ value, className, children, baseCurrency = 'USD' }) => {
+const FormattedPrice: FC<Props> = ({ value, className, children, baseCurrency = 'AUD' }) => {
   const { formatPrice, formatAudPrice, currency } = useLocale()
   const formatter = baseCurrency === 'AUD' ? formatAudPrice : formatPrice
 
