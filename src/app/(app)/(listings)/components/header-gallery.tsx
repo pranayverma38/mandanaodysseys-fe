@@ -7,6 +7,7 @@ import { Album02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { PlayIcon } from '@heroicons/react/24/solid'
 import {
+  buildGoogleDriveStreamUrl,
   buildGoogleDriveThumbnailUrl,
   getGoogleDriveFileId,
   isGoogleDriveUrl,
@@ -16,7 +17,7 @@ import clsx from 'clsx'
 import { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
-import { type SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { type SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 type GalleryMediaKind = 'image' | 'video' | 'embed'
 
@@ -44,7 +45,7 @@ function getProviderLabel(hostname: string): string | undefined {
   return normalizedHostname || undefined
 }
 
-function resolveGalleryMedia(url: string): GalleryMedia {
+function resolveGalleryImage(url: string): GalleryMedia {
   const trimmedUrl = url.trim()
 
   if (!trimmedUrl) {
@@ -57,14 +58,13 @@ function resolveGalleryMedia(url: string): GalleryMedia {
   if (trimmedUrl.startsWith('/')) {
     return {
       playbackUrl: trimmedUrl,
-      kind: VIDEO_FILE_PATTERN.test(trimmedUrl) ? 'video' : 'image',
+      kind: 'image',
     }
   }
 
   try {
     const parsedUrl = new URL(trimmedUrl)
     const hostname = parsedUrl.hostname.toLowerCase()
-    const pathname = parsedUrl.pathname.toLowerCase()
 
     const googleDriveFileId = getGoogleDriveFileId(parsedUrl)
     if (googleDriveFileId && hostname.includes('drive.google.com')) {
@@ -86,12 +86,45 @@ function resolveGalleryMedia(url: string): GalleryMedia {
         providerLabel: 'Pinterest',
       }
     }
+  } catch {
+    // Fall back to image rendering for malformed URLs or non-HTTP values.
+  }
 
-    if (hostname === 'videos.pexels.com' || VIDEO_FILE_PATTERN.test(trimmedUrl)) {
+  return {
+    playbackUrl: resolveItineraryImageUrl(trimmedUrl),
+    kind: 'image',
+  }
+}
+
+function resolveGalleryVideo(url: string): GalleryMedia {
+  const trimmedUrl = url.trim()
+
+  if (!trimmedUrl) {
+    return {
+      playbackUrl: '',
+      kind: 'video',
+    }
+  }
+
+  if (trimmedUrl.startsWith('/')) {
+    return {
+      playbackUrl: trimmedUrl,
+      kind: 'video',
+    }
+  }
+
+  try {
+    const parsedUrl = new URL(trimmedUrl)
+    const hostname = parsedUrl.hostname.toLowerCase()
+    const pathname = parsedUrl.pathname.toLowerCase()
+    const googleDriveFileId = getGoogleDriveFileId(parsedUrl)
+
+    if (googleDriveFileId && hostname.includes('drive.google.com')) {
       return {
-        playbackUrl: trimmedUrl,
+        playbackUrl: buildGoogleDriveStreamUrl(googleDriveFileId),
         kind: 'video',
-        providerLabel: getProviderLabel(hostname),
+        providerLabel: 'Google Drive',
+        posterUrl: buildGoogleDriveThumbnailUrl(googleDriveFileId, 'w1200'),
       }
     }
 
@@ -106,31 +139,25 @@ function resolveGalleryMedia(url: string): GalleryMedia {
         providerLabel: getProviderLabel(hostname),
       }
     }
-  } catch {
-    // Fall back to image rendering for malformed URLs or non-HTTP values.
-  }
 
-  return {
-    playbackUrl: resolveItineraryImageUrl(trimmedUrl),
-    kind: 'image',
+    return {
+      playbackUrl: trimmedUrl,
+      kind: 'video',
+      providerLabel: getProviderLabel(hostname),
+    }
+  } catch {
+    return {
+      playbackUrl: trimmedUrl,
+      kind: VIDEO_FILE_PATTERN.test(trimmedUrl) ? 'video' : 'embed',
+    }
   }
 }
 
-function prioritizeGalleryMedia(mediaItems: GalleryMedia[]): GalleryMedia[] {
-  const firstVideoIndex = mediaItems.findIndex((item) => item.kind === 'video')
-  const firstDriveMediaIndex = mediaItems.findIndex(
-    (item) => item.providerLabel === 'Google Drive' && Boolean(item.posterUrl)
-  )
-  const featuredIndex =
-    firstVideoIndex >= 0
-      ? firstVideoIndex
-      : firstDriveMediaIndex >= 0
-        ? firstDriveMediaIndex
-        : mediaItems.findIndex((item) => item.kind === 'embed')
-
-  if (featuredIndex <= 0) return mediaItems
-
-  return [mediaItems[featuredIndex], ...mediaItems.slice(0, featuredIndex), ...mediaItems.slice(featuredIndex + 1)]
+function buildGalleryMediaItems(images: string[], videos: string[]): GalleryMedia[] {
+  return [
+    ...videos.map(resolveGalleryVideo),
+    ...images.map(resolveGalleryImage),
+  ].filter((mediaItem) => Boolean(mediaItem.playbackUrl))
 }
 
 const stopMediaEvent = (event: SyntheticEvent) => {
@@ -403,61 +430,13 @@ const EmblaCarousel = ({ mediaItems, option }: { mediaItems: GalleryMedia[]; opt
 
 interface Props {
   images: string[]
+  videos?: string[]
   gridType?: 'grid1' | 'grid2' | 'grid3' | 'grid4'
 }
-const HeaderGallery = ({ images, gridType = 'grid1' }: Props) => {
+const HeaderGallery = ({ images, videos = [], gridType = 'grid1' }: Props) => {
   let [isOpen, setIsOpen] = useState(false)
   let [startIndex, setStartIndex] = useState(0)
-  const [mediaItems, setMediaItems] = useState<GalleryMedia[]>(() =>
-    prioritizeGalleryMedia(images.map(resolveGalleryMedia))
-  )
-
-  useEffect(() => {
-    let isCancelled = false
-
-    const initialMediaItems = prioritizeGalleryMedia(images.map(resolveGalleryMedia))
-    setMediaItems(initialMediaItems)
-
-    if (!images.some(isGoogleDriveUrl)) {
-      return () => {
-        isCancelled = true
-      }
-    }
-
-    const resolveDriveMedia = async () => {
-      const resolvedItems = await Promise.all(
-        images.map(async (url) => {
-          if (!isGoogleDriveUrl(url)) {
-            return resolveGalleryMedia(url)
-          }
-
-          try {
-            const response = await fetch(`/api/media/inspect?src=${encodeURIComponent(url)}`, {
-              cache: 'no-store',
-            })
-
-            if (!response.ok) {
-              return resolveGalleryMedia(url)
-            }
-
-            return (await response.json()) as GalleryMedia
-          } catch {
-            return resolveGalleryMedia(url)
-          }
-        })
-      )
-
-      if (!isCancelled) {
-        setMediaItems(prioritizeGalleryMedia(resolvedItems))
-      }
-    }
-
-    void resolveDriveMedia()
-
-    return () => {
-      isCancelled = true
-    }
-  }, [images])
+  const mediaItems = useMemo(() => buildGalleryMediaItems(images, videos), [images, videos])
 
   const handleOpenDialog = (index = 0) => {
     setStartIndex(index)

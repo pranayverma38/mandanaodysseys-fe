@@ -24,6 +24,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
     address,
     destination,
     galleryImgs,
+    galleryVideos = [],
     categories,
     pricing,
     reviewCount,
@@ -68,7 +69,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mt-5 flex flex-col gap-3 lg:mt-8">
           <ItineraryStarRating point={reviewStart} reviewCount={reviewCount} />
-          <HeaderGallery images={galleryImgs} gridType="grid4" />
+          <HeaderGallery images={galleryImgs} videos={galleryVideos} gridType="grid4" />
         </div>
 
       <main className="mt-10 grid min-w-0 grid-cols-1 lg:grid-cols-[59%_minmax(0,1fr)] lg:gap-x-8 xl:gap-x-[8%]">

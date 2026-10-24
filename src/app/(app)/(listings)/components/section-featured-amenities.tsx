@@ -3,7 +3,7 @@ import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 
 interface Props {
-  featuredAmenities: { icon: string; text: string }[]
+  featuredAmenities: { icon: string | null; text: string }[]
 }
 
 export const SectionFeaturedAmenities = ({ featuredAmenities }: Props) => {

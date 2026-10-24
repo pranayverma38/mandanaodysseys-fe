@@ -29,7 +29,7 @@ export default function AmenitiesChips({
   data = DEMO_DATA,
 }: {
   className?: string
-  data?: { icon: string; text: string }[]
+  data?: { icon: string | null; text: string }[]
 }) {
   return (
     <div className={clsx('flex flex-wrap items-center gap-1.5', className)}>

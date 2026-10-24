@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { SectionHeading } from './section-heading'
 
 interface Props {
-  amenities: { text: string; icon: string }[]
+  amenities: { text: string; icon: string | null }[]
 }
 
 const SectionAmenities = ({ amenities }: Props) => {

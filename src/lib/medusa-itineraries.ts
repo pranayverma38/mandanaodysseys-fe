@@ -27,7 +27,8 @@ type ApiItinerary = {
   mobility: string
   featured_image?: string
   gallery_imgs: string[]
-  amenities: { icon: string; text: string }[]
+  gallery_videos: string[]
+  amenities: { icon: string | null; text: string }[]
   pricing: { price: string; originalPrice: string; feeAndTaxes: string; total: string; priceLabel?: string }
   description: string
   things_to_do: { name: string; time: string; description: string; imageUrl: string; lat: number; lng: number }[]
@@ -60,7 +61,11 @@ function normalizeItinerary(api: ApiItinerary): ItineraryDetail {
     mobility: (api.mobility as ItineraryDetail['mobility']) || 'Easy',
     featuredImage: api.featured_image || '',
     galleryImgs: api.gallery_imgs || [],
-    amenities: api.amenities || [],
+    galleryVideos: api.gallery_videos || [],
+    amenities: (api.amenities || []).map((amenity) => ({
+      icon: typeof amenity?.icon === 'string' ? amenity.icon : null,
+      text: amenity?.text || '',
+    })),
     pricing: {
       price: api.pricing?.price || '',
       originalPrice: api.pricing?.originalPrice || '',

@@ -8,7 +8,7 @@ export type ItineraryCategoryRef = {
 }
 
 export type ItineraryAmenity = {
-  icon: string
+  icon: string | null
   text: string
 }
 
@@ -76,6 +76,7 @@ export type ItineraryDetail = {
   mobility: ItineraryMobility
   featuredImage: string
   galleryImgs: string[]
+  galleryVideos?: string[]
   /** Additional amenities — duration (and mobility on detail page) are prepended when displayed */
   amenities: ItineraryAmenity[]
   pricing: ItineraryPricing
