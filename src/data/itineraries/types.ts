@@ -19,6 +19,11 @@ export type ItineraryThingToDo = {
   imageUrl: string
   lat: number
   lng: number
+  subActivities?: {
+    icon: string | null
+    subtitle: string
+    description: string
+  }[]
 }
 
 export type ItineraryReview = {

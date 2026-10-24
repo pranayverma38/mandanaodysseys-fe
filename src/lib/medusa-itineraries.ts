@@ -32,7 +32,19 @@ type ApiItinerary = {
   amenities: { icon: string | null; text: string }[]
   pricing: { price: string; originalPrice: string; feeAndTaxes: string; total: string; priceLabel?: string }
   description: string
-  things_to_do: { name: string; time: string; description: string; imageUrl: string; lat: number; lng: number }[]
+  things_to_do: {
+    name: string
+    time: string
+    description: string
+    imageUrl: string
+    lat: number
+    lng: number
+    sub_activities?: {
+      icon: string | null
+      subtitle: string
+      description: string
+    }[]
+  }[]
   includes: string[]
   excludes: string[]
   accommodations: { name: string; imageUrl: string; rating: number; location: string }[]
@@ -76,7 +88,14 @@ function normalizeItinerary(api: ApiItinerary): ItineraryDetail {
       priceLabel: api.pricing?.priceLabel,
     },
     description: api.description || '',
-    thingsToDo: api.things_to_do || [],
+    thingsToDo: (api.things_to_do || []).map((item) => ({
+      ...item,
+      subActivities: (item.sub_activities || []).map((subActivity) => ({
+        icon: typeof subActivity?.icon === 'string' ? subActivity.icon : null,
+        subtitle: subActivity?.subtitle || '',
+        description: subActivity?.description || '',
+      })),
+    })),
     includes: api.includes || [],
     excludes: api.excludes || [],
     accommodations: api.accommodations || [],
