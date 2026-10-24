@@ -124,9 +124,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     }
 
     initGoogleTranslate(() => {
-      if (language !== DEFAULT_LANGUAGE) {
-        triggerGoogleTranslate(language)
-      }
+      triggerGoogleTranslate(language)
     })
   }, [hydrated, language])
 
