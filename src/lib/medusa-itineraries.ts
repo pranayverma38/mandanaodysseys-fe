@@ -26,6 +26,7 @@ type ApiItinerary = {
   duration: { days: number; nights: number; label: string }
   mobility: string
   featured_image?: string
+  pdf_link?: string | null
   gallery_imgs: string[]
   gallery_videos: string[]
   amenities: { icon: string | null; text: string }[]
@@ -60,6 +61,7 @@ function normalizeItinerary(api: ApiItinerary): ItineraryDetail {
     },
     mobility: (api.mobility as ItineraryDetail['mobility']) || 'Easy',
     featuredImage: api.featured_image || '',
+    pdfLink: api.pdf_link?.trim() || null,
     galleryImgs: api.gallery_imgs || [],
     galleryVideos: api.gallery_videos || [],
     amenities: (api.amenities || []).map((amenity) => ({

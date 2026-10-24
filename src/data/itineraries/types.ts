@@ -75,6 +75,8 @@ export type ItineraryDetail = {
   /** Physical activity level — shown in amenities after duration */
   mobility: ItineraryMobility
   featuredImage: string
+  /** Google Drive (or other) PDF URL from Medusa. Hidden in UI when empty. */
+  pdfLink?: string | null
   galleryImgs: string[]
   galleryVideos?: string[]
   /** Additional amenities — duration (and mobility on detail page) are prepended when displayed */
