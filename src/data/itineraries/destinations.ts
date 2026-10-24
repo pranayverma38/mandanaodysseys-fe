@@ -24,3 +24,19 @@ export function getItineraryDestinationName(destinationSlug: string) {
 export function isItineraryDestinationSlug(slug: string) {
   return ITINERARY_DESTINATIONS.some((destination) => destination.slug === slug)
 }
+
+/** Map a Medusa destination value such as "Nepal" or "sri lanka" onto a known slug. */
+export function resolveItineraryDestinationSlug(value: string): string | null {
+  const normalized = value.trim().toLowerCase().replace(/\s+/g, '-')
+
+  if (!normalized) {
+    return null
+  }
+
+  const match = DESTINATIONS.find(
+    (destination) =>
+      destination.slug === normalized || destination.name.toLowerCase().replace(/\s+/g, '-') === normalized
+  )
+
+  return match?.slug ?? null
+}

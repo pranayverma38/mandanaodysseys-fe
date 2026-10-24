@@ -5,6 +5,7 @@ import {
   getDestinationPath,
   getDestinationsByContinent,
 } from '@/data/destinations'
+import { getDestinationPackageCounts } from '@/data/itineraries/package-counts'
 import { createPageMetadata } from '@/lib/seo'
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline'
 import { Metadata } from 'next'
@@ -18,7 +19,13 @@ export const metadata: Metadata = createPageMetadata({
   path: '/destinations',
 })
 
-export default function DestinationsPage() {
+function formatPackageCount(count: number) {
+  return `${count} ${count === 1 ? 'package' : 'packages'}`
+}
+
+export default async function DestinationsPage() {
+  const packageCounts = await getDestinationPackageCounts()
+
   return (
     <div className="container flex flex-col gap-y-16 py-16 lg:gap-y-24 lg:pb-28">
       {DESTINATION_CONTINENTS.map((continent) => {
@@ -57,7 +64,9 @@ export default function DestinationsPage() {
                       </div>
                     </div>
                     <p className="line-clamp-2 text-sm text-white/80">{destination.description}</p>
-                    <p className="text-xs font-medium text-white/70">{destination.packageCount}+ packages</p>
+                    <p className="text-xs font-medium text-white/70">
+                      {formatPackageCount(packageCounts[destination.slug] ?? 0)}
+                    </p>
                   </div>
                 </Link>
               ))}
