@@ -23,7 +23,7 @@ const SectionAmenities = ({ amenities }: Props) => {
         <div className="grid grid-cols-1 gap-6 text-sm text-gray-700 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 dark:text-gray-300">
           {amenities.slice(0, 9).map((item) => (
             <div key={item.text} className="flex items-center gap-x-3">
-              <HugeiconsIcon icon={ICONS_MAP[item.icon] || Wifi01Icon} size={24} />
+              <HugeiconsIcon icon={(item.icon && ICONS_MAP[item.icon]) || Wifi01Icon} size={24} />
               <span>{item.text}</span>
             </div>
           ))}
@@ -44,7 +44,7 @@ const SectionAmenities = ({ amenities }: Props) => {
           <div className="grid grid-cols-1 gap-6 text-sm text-gray-700 dark:text-gray-300">
             {amenities.map((item) => (
               <div key={item.text} className="flex items-center gap-x-3">
-                <HugeiconsIcon icon={ICONS_MAP[item.icon] || Wifi01Icon} size={24} />
+                <HugeiconsIcon icon={(item.icon && ICONS_MAP[item.icon]) || Wifi01Icon} size={24} />
                 <span>{item.text}</span>
               </div>
             ))}

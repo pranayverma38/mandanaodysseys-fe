@@ -36,7 +36,7 @@ export default function AmenitiesChips({
       {data.map((item, index) => (
         <LightChip key={index}>
           <HugeiconsIcon
-            icon={ICONS_MAP[item.icon] || CheckmarkCircle02Icon}
+            icon={(item.icon && ICONS_MAP[item.icon]) || CheckmarkCircle02Icon}
             size={16}
             color="currentColor"
             strokeWidth={1.5}
