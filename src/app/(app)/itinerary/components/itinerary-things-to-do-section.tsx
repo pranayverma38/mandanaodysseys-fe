@@ -97,7 +97,7 @@ function ThingToDoItem({ item }: { item: ItineraryThingToDo }) {
 
   const cardContent = (
     <>
-      <div className="relative aspect-square w-20 shrink-0 self-center overflow-hidden rounded-xl">
+      <div className="relative aspect-square w-20 shrink-0 self-start overflow-hidden rounded-xl">
         {(() => {
           const imageUrl = resolveItineraryImageUrl(item.imageUrl)
 
