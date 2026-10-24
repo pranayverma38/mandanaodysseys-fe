@@ -46,12 +46,14 @@ import {
   SlowWindsIcon,
   StarCircleIcon,
   SteeringIcon,
+  Sun03Icon,
   Time04Icon,
   Tv01Icon,
   UserMultipleIcon,
   WheelchairIcon,
   Wifi01Icon,
   WindTurbineIcon,
+  Moon02Icon,
 } from '@hugeicons/core-free-icons'
 import { IconSvgElement } from '@hugeicons/react'
 
@@ -1088,4 +1090,11 @@ export const ICONS_MAP: Record<string, IconSvgElement> = {
   DashboardSpeed01Icon: DashboardSpeed01Icon,
   AccelerationIcon: AccelerationIcon,
   StarCircleIcon: StarCircleIcon,
+  MorningIcon: Sun03Icon,
+  AfternoonIcon: Time04Icon,
+  EveningIcon: Moon02Icon,
+  FoodIcon: ChefHatIcon,
+  TransportIcon: SteeringIcon,
+  StayIcon: BedSingle02Icon,
+  ActivityIcon: StarCircleIcon,
 }
