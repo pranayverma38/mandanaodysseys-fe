@@ -6,6 +6,11 @@ import { CloseButton, Dialog, DialogBackdrop, DialogPanel } from '@headlessui/re
 import { Album02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { PlayIcon } from '@heroicons/react/24/solid'
+import {
+  buildGoogleDriveThumbnailUrl,
+  getGoogleDriveFileId,
+  isGoogleDriveUrl,
+} from '@/lib/google-drive-media'
 import { isProxiedItineraryImageUrl, resolveItineraryImageUrl } from '@/lib/itinerary-image-url'
 import clsx from 'clsx'
 import { EmblaOptionsType } from 'embla-carousel'
@@ -23,21 +28,6 @@ type GalleryMedia = {
 }
 
 const VIDEO_FILE_PATTERN = /\.(mp4|webm|ogg|mov|m4v)(?:$|\?)/i
-
-function getGoogleDriveFileId(url: URL): string | null {
-  const pathMatch = url.pathname.match(/\/file\/d\/([^/]+)/i)
-  if (pathMatch?.[1]) return pathMatch[1]
-
-  return url.searchParams.get('id')
-}
-
-function isGoogleDriveUrl(url: string): boolean {
-  try {
-    return new URL(url).hostname.toLowerCase().includes('drive.google.com')
-  } catch {
-    return false
-  }
-}
 
 function getPinterestPinId(url: URL): string | null {
   const pinMatch = url.pathname.match(/\/pin\/(\d+)/i)
@@ -78,11 +68,13 @@ function resolveGalleryMedia(url: string): GalleryMedia {
 
     const googleDriveFileId = getGoogleDriveFileId(parsedUrl)
     if (googleDriveFileId && hostname.includes('drive.google.com')) {
+      const thumbnailUrl = buildGoogleDriveThumbnailUrl(googleDriveFileId, 'w600')
+
       return {
-        playbackUrl: resolveItineraryImageUrl(trimmedUrl),
+        playbackUrl: thumbnailUrl,
         kind: 'image',
         providerLabel: 'Google Drive',
-        posterUrl: `https://drive.google.com/thumbnail?id=${googleDriveFileId}&sz=w1600`,
+        posterUrl: thumbnailUrl,
       }
     }
 
@@ -143,6 +135,10 @@ function prioritizeGalleryMedia(mediaItems: GalleryMedia[]): GalleryMedia[] {
 
 const stopMediaEvent = (event: SyntheticEvent) => {
   event.stopPropagation()
+}
+
+function shouldBypassNextImageOptimization(url: string): boolean {
+  return isProxiedItineraryImageUrl(url) || isGoogleDriveUrl(url)
 }
 
 const MediaPlaceholder = ({
@@ -250,7 +246,7 @@ const GalleryMediaSurface = ({
       className={clsx('rounded-xl object-cover', className)}
       sizes={sizes}
       priority={priority}
-      unoptimized={isProxiedItineraryImageUrl(media.playbackUrl)}
+      unoptimized={shouldBypassNextImageOptimization(media.playbackUrl)}
     />
   )
 }
@@ -303,6 +299,7 @@ const EmblaCarousel = ({ mediaItems, option }: { mediaItems: GalleryMedia[]; opt
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
                     className="object-contain"
+                    unoptimized={shouldBypassNextImageOptimization(media.playbackUrl)}
                   />
                 ) : (
                   <GalleryMediaSurface
@@ -341,7 +338,14 @@ const EmblaCarousel = ({ mediaItems, option }: { mediaItems: GalleryMedia[]; opt
                 onClick={() => onThumbClick(index)}
               >
                 {media.kind === 'image' ? (
-                  <Image alt="Slide media" src={media.playbackUrl} fill sizes="100px" className="object-cover" />
+                  <Image
+                    alt="Slide media"
+                    src={media.playbackUrl}
+                    fill
+                    sizes="100px"
+                    className="object-cover"
+                    unoptimized={shouldBypassNextImageOptimization(media.playbackUrl)}
+                  />
                 ) : (
                   <MediaPlaceholder
                     label={media.providerLabel || (media.kind === 'video' ? 'Video' : 'Media')}

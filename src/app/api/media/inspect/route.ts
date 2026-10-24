@@ -1,14 +1,12 @@
+import {
+  buildGoogleDriveStreamUrl,
+  buildGoogleDriveThumbnailUrl,
+  getGoogleDriveFileId,
+} from '@/lib/google-drive-media'
 import { resolveItineraryImageUrl } from '@/lib/itinerary-image-url'
 import { NextRequest } from 'next/server'
 
-const GOOGLE_DRIVE_THUMBNAIL_SIZE = 'w1600'
-
-function getGoogleDriveFileId(url: URL): string | null {
-  const pathMatch = url.pathname.match(/\/file\/d\/([^/]+)/i)
-  if (pathMatch?.[1]) return pathMatch[1]
-
-  return url.searchParams.get('id')
-}
+const MEDIA_CACHE_CONTROL = 'public, s-maxage=86400, stale-while-revalidate=604800'
 
 async function getGoogleDriveContentType(fileId: string): Promise<string | null> {
   const upstreamUrl = new URL('https://drive.google.com/uc')
@@ -17,7 +15,7 @@ async function getGoogleDriveContentType(fileId: string): Promise<string | null>
 
   const response = await fetch(upstreamUrl, {
     method: 'HEAD',
-    cache: 'no-store',
+    next: { revalidate: 86400 },
   })
 
   if (!response.ok) {
@@ -31,7 +29,10 @@ export async function GET(request: NextRequest) {
   const sourceUrl = request.nextUrl.searchParams.get('src')
 
   if (!sourceUrl) {
-    return Response.json({ message: 'Missing media source.' }, { status: 400 })
+    return Response.json(
+      { message: 'Missing media source.' },
+      { status: 400, headers: { 'Cache-Control': 'no-store' } }
+    )
   }
 
   let parsedUrl: URL
@@ -39,7 +40,10 @@ export async function GET(request: NextRequest) {
   try {
     parsedUrl = new URL(sourceUrl)
   } catch {
-    return Response.json({ message: 'Invalid media source.' }, { status: 400 })
+    return Response.json(
+      { message: 'Invalid media source.' },
+      { status: 400, headers: { 'Cache-Control': 'no-store' } }
+    )
   }
 
   const googleDriveFileId = getGoogleDriveFileId(parsedUrl)
@@ -47,23 +51,32 @@ export async function GET(request: NextRequest) {
     const contentType = await getGoogleDriveContentType(googleDriveFileId)
 
     if (contentType?.startsWith('video/')) {
-      return Response.json({
-        kind: 'video',
-        playbackUrl: `/api/media/google-drive/${googleDriveFileId}`,
-        posterUrl: `https://drive.google.com/thumbnail?id=${googleDriveFileId}&sz=${GOOGLE_DRIVE_THUMBNAIL_SIZE}`,
-        providerLabel: 'Google Drive',
-      })
+      return Response.json(
+        {
+          kind: 'video',
+          playbackUrl: buildGoogleDriveStreamUrl(googleDriveFileId),
+          posterUrl: buildGoogleDriveThumbnailUrl(googleDriveFileId, 'w800'),
+          providerLabel: 'Google Drive',
+        },
+        { headers: { 'Cache-Control': MEDIA_CACHE_CONTROL } }
+      )
     }
 
-    return Response.json({
-      kind: 'image',
-      playbackUrl: resolveItineraryImageUrl(sourceUrl),
-      providerLabel: 'Google Drive',
-    })
+    return Response.json(
+      {
+        kind: 'image',
+        playbackUrl: resolveItineraryImageUrl(sourceUrl),
+        providerLabel: 'Google Drive',
+      },
+      { headers: { 'Cache-Control': MEDIA_CACHE_CONTROL } }
+    )
   }
 
-  return Response.json({
-    kind: 'image',
-    playbackUrl: resolveItineraryImageUrl(sourceUrl),
-  })
+  return Response.json(
+    {
+      kind: 'image',
+      playbackUrl: resolveItineraryImageUrl(sourceUrl),
+    },
+    { headers: { 'Cache-Control': MEDIA_CACHE_CONTROL } }
+  )
 }

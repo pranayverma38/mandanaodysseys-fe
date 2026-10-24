@@ -1,13 +1,7 @@
+import { buildGoogleDriveThumbnailUrl, getGoogleDriveFileId } from '@/lib/google-drive-media'
 import { NextRequest } from 'next/server'
 
-const DEFAULT_THUMBNAIL_SIZE = 'w1600'
-
-function getGoogleDriveFileId(url: URL): string | null {
-  const pathMatch = url.pathname.match(/\/file\/d\/([^/]+)/i)
-  if (pathMatch?.[1]) return pathMatch[1]
-
-  return url.searchParams.get('id')
-}
+const MEDIA_CACHE_CONTROL = 'public, s-maxage=86400, stale-while-revalidate=604800'
 
 function decodeHtmlEntity(value: string): string {
   return value
@@ -76,10 +70,7 @@ async function resolveUpstreamImageUrl(url: string): Promise<string> {
 
   const googleDriveFileId = getGoogleDriveFileId(parsedUrl)
   if (googleDriveFileId && hostname.includes('drive.google.com')) {
-    const thumbnailUrl = new URL('https://drive.google.com/thumbnail')
-    thumbnailUrl.searchParams.set('id', googleDriveFileId)
-    thumbnailUrl.searchParams.set('sz', DEFAULT_THUMBNAIL_SIZE)
-    return thumbnailUrl.toString()
+    return buildGoogleDriveThumbnailUrl(googleDriveFileId, 'w800')
   }
 
   if (hostname === 'pin.it' || hostname.includes('pinterest.com')) {
@@ -106,7 +97,10 @@ export async function GET(request: NextRequest) {
   const sourceUrl = request.nextUrl.searchParams.get('src')
 
   if (!sourceUrl) {
-    return new Response('Missing image source.', { status: 400 })
+    return new Response('Missing image source.', {
+      status: 400,
+      headers: { 'Cache-Control': 'no-store' },
+    })
   }
 
   let parsedUrl: URL
@@ -114,17 +108,23 @@ export async function GET(request: NextRequest) {
   try {
     parsedUrl = new URL(sourceUrl)
   } catch {
-    return new Response('Invalid image source.', { status: 400 })
+    return new Response('Invalid image source.', {
+      status: 400,
+      headers: { 'Cache-Control': 'no-store' },
+    })
   }
 
   if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
-    return new Response('Unsupported image source.', { status: 400 })
+    return new Response('Unsupported image source.', {
+      status: 400,
+      headers: { 'Cache-Control': 'no-store' },
+    })
   }
 
   try {
     const upstreamImageUrl = await resolveUpstreamImageUrl(parsedUrl.toString())
     const upstreamResponse = await fetch(upstreamImageUrl, {
-      cache: 'no-store',
+      next: { revalidate: 86400 },
       headers: {
         'user-agent':
           'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
@@ -132,14 +132,23 @@ export async function GET(request: NextRequest) {
     })
 
     if (!upstreamResponse.ok) {
-      return new Response('Unable to load external image.', { status: upstreamResponse.status })
+      return new Response('Unable to load external image.', {
+        status: upstreamResponse.status,
+        headers: { 'Cache-Control': 'no-store' },
+      })
     }
 
     return new Response(upstreamResponse.body, {
       status: upstreamResponse.status,
-      headers: buildImageResponseHeaders(upstreamResponse.headers),
+      headers: {
+        ...Object.fromEntries(buildImageResponseHeaders(upstreamResponse.headers).entries()),
+        'Cache-Control': MEDIA_CACHE_CONTROL,
+      },
     })
   } catch {
-    return new Response('Unable to resolve external image.', { status: 502 })
+    return new Response('Unable to resolve external image.', {
+      status: 502,
+      headers: { 'Cache-Control': 'no-store' },
+    })
   }
 }
