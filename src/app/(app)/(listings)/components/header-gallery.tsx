@@ -7,7 +7,6 @@ import { Album02Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { PlayIcon } from '@heroicons/react/24/solid'
 import {
-  buildGoogleDriveStreamUrl,
   buildGoogleDriveThumbnailUrl,
   getGoogleDriveFileId,
   isGoogleDriveUrl,
@@ -26,6 +25,7 @@ type GalleryMedia = {
   kind: GalleryMediaKind
   providerLabel?: string
   posterUrl?: string
+  mimeType?: string
 }
 
 const VIDEO_FILE_PATTERN = /\.(mp4|webm|ogg|mov|m4v)(?:$|\?)/i
@@ -121,10 +121,11 @@ function resolveGalleryVideo(url: string): GalleryMedia {
 
     if (googleDriveFileId && hostname.includes('drive.google.com')) {
       return {
-        playbackUrl: buildGoogleDriveStreamUrl(googleDriveFileId),
+        playbackUrl: `/api/media/google-drive/${googleDriveFileId}`,
         kind: 'video',
         providerLabel: 'Google Drive',
         posterUrl: buildGoogleDriveThumbnailUrl(googleDriveFileId, 'w1200'),
+        mimeType: 'video/mp4',
       }
     }
 
@@ -197,6 +198,7 @@ const GalleryMediaSurface = ({
   controls = false,
   compact = false,
   autoPlay = false,
+  eager = false,
 }: {
   media: GalleryMedia
   alt: string
@@ -206,6 +208,7 @@ const GalleryMediaSurface = ({
   controls?: boolean
   compact?: boolean
   autoPlay?: boolean
+  eager?: boolean
 }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [isVideoReady, setIsVideoReady] = useState(false)
@@ -278,10 +281,12 @@ const GalleryMediaSurface = ({
           preload={autoPlay ? 'auto' : controls ? 'metadata' : 'none'}
           muted={autoPlay || !controls}
           poster={media.posterUrl}
+          disablePictureInPicture
+          disableRemotePlayback
           onClick={stopMediaEvent}
           onPointerDown={stopMediaEvent}
         >
-          <source src={media.playbackUrl} />
+          <source src={media.playbackUrl} type={media.mimeType} />
           Your browser does not support the video tag.
         </video>
       </>
@@ -300,7 +305,7 @@ const GalleryMediaSurface = ({
         className={clsx('absolute inset-0 size-full rounded-xl border-0 bg-black', className)}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         allowFullScreen
-        loading="lazy"
+        loading={eager ? 'eager' : 'lazy'}
       />
     )
   }
@@ -373,6 +378,7 @@ const EmblaCarousel = ({ mediaItems, option }: { mediaItems: GalleryMedia[]; opt
                     media={media}
                     alt="Slide media"
                     controls
+                    eager={index === selectedIndex}
                     className={media.kind === 'video' ? 'object-contain' : undefined}
                   />
                 )}
@@ -486,6 +492,7 @@ const HeaderGalleryGrid1 = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
             className="transition-[filter] hover:brightness-75"
             autoPlay={mediaItems[0].kind === 'video'}
+            eager
             priority
           />
         )}
@@ -499,6 +506,7 @@ const HeaderGalleryGrid1 = ({
               sizes="(max-width: 768px) 33vw, 33vw"
               className="brightness-100 transition-[filter] hover:brightness-75"
               autoPlay={item.kind === 'video'}
+              eager
               priority
             />
           </div>
@@ -526,6 +534,7 @@ const HeaderGalleryGrid2 = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
             className="brightness-100 transition-[filter] hover:brightness-75"
             autoPlay={mediaItems[0].kind === 'video'}
+            eager
             priority
           />
         )}
@@ -540,6 +549,7 @@ const HeaderGalleryGrid2 = ({
               sizes="(max-width: 768px) 33vw, 33vw"
               className="brightness-100 transition-[filter] hover:brightness-75"
               autoPlay={item.kind === 'video'}
+              eager
               priority
             />
           </div>
@@ -567,6 +577,7 @@ const HeaderGalleryGrid3 = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
             className="brightness-100 transition-[filter] hover:brightness-75"
             autoPlay={mediaItems[0].kind === 'video'}
+            eager
             priority
           />
         )}
@@ -581,6 +592,7 @@ const HeaderGalleryGrid3 = ({
               sizes="(max-width: 768px) 33vw, 33vw"
               className="brightness-100 transition-[filter] hover:brightness-75"
               autoPlay={mediaItems[1].kind === 'video'}
+              eager
               priority
             />
           )}
@@ -593,6 +605,7 @@ const HeaderGalleryGrid3 = ({
               sizes="(max-width: 768px) 33vw, 33vw"
               className="brightness-100 transition-[filter] hover:brightness-75"
               autoPlay={mediaItems[2].kind === 'video'}
+              eager
               priority
             />
           )}
@@ -607,6 +620,7 @@ const HeaderGalleryGrid3 = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
             className="brightness-100 transition-[filter] hover:brightness-75"
             autoPlay={mediaItems[3].kind === 'video'}
+            eager
             priority
           />
         )}
@@ -633,6 +647,7 @@ const HeaderGalleryGrid4 = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
             className="brightness-100 transition-[filter] hover:brightness-75"
             autoPlay={mediaItems[0].kind === 'video'}
+            eager
             priority
           />
         )}
@@ -646,6 +661,7 @@ const HeaderGalleryGrid4 = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 80vw"
             className="brightness-100 transition-[filter] hover:brightness-75"
             autoPlay={mediaItems[3].kind === 'video'}
+            eager
             priority
           />
         )}
@@ -660,6 +676,7 @@ const HeaderGalleryGrid4 = ({
               sizes="(max-width: 768px) 33vw, 33vw"
               className="brightness-100 transition-[filter] hover:brightness-75"
               autoPlay={mediaItems[1].kind === 'video'}
+              eager
               priority
             />
           )}
@@ -672,6 +689,7 @@ const HeaderGalleryGrid4 = ({
               sizes="(max-width: 768px) 33vw, 33vw"
               className="brightness-100 transition-[filter] hover:brightness-75"
               autoPlay={mediaItems[2].kind === 'video'}
+              eager
               priority
             />
           )}
