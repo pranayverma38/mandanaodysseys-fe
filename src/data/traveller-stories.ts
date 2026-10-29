@@ -14,20 +14,20 @@ export const TRAVELLER_STORIES: TravellerStory[] = [
   },
   {
     id: 'story-1',
-    title: "Myur & Sonia's Bali Holiday",
-    destination: 'Bali',
+    title: "Myur & Sonia's Sri Lanka Holiday",
+    destination: 'Sri Lanka',
     videoSrc: '/videos/header/section-home-videos/story-1.webm',
   },
   {
     id: 'story-2',
-    title: "Rahul's Thailand Adventure",
-    destination: 'Thailand',
+    title: "Rahul's India Adventure",
+    destination: 'India',
     videoSrc: '/videos/header/section-home-videos/story-2.webm',
   },
   {
     id: 'story-3',
-    title: "Ananya's Vietnam Escape",
-    destination: 'Vietnam',
+    title: "Ananya's Bhutan Escape",
+    destination: 'Bhutan',
     videoSrc: '/videos/header/section-home-videos/story-3.webm',
   },
   {

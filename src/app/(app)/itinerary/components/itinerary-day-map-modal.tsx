@@ -1,9 +1,12 @@
 'use client'
 
 import { Button } from '@/components/button'
+import { ICONS_MAP } from '@/data/data'
 import { getItineraryDayLabel } from '@/data/itineraries/day-label'
 import type { ItineraryThingToDo } from '@/data/itineraries/types'
 import { isProxiedItineraryImageUrl, resolveItineraryImageUrl } from '@/lib/itinerary-image-url'
+import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Dialog, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { ChevronLeftIcon, ChevronRightIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
@@ -16,6 +19,59 @@ interface Props {
   isOpen: boolean
   onClose: () => void
   initialDayIndex?: number
+}
+
+const SUB_ACTIVITY_COLOR_CLASSES = [
+  'bg-amber-100 text-amber-600',
+  'bg-sky-100 text-sky-600',
+  'bg-violet-100 text-violet-600',
+  'bg-emerald-100 text-emerald-600',
+]
+
+function DayMapSubActivities({ item }: { item: ItineraryThingToDo }) {
+  const subActivities = (item.subActivities || []).filter(
+    (subActivity) => subActivity.subtitle.trim() || subActivity.description.trim()
+  )
+
+  if (!subActivities.length) {
+    return <p className="text-sm leading-6 text-muted-foreground">{item.description}</p>
+  }
+
+  return (
+    <div className="space-y-4">
+      {subActivities.map((subActivity, index) => {
+        const colorClassName = SUB_ACTIVITY_COLOR_CLASSES[index % SUB_ACTIVITY_COLOR_CLASSES.length]
+        const hasSubtitle = subActivity.subtitle.trim().length > 0
+        const hasCustomIcon = Boolean(subActivity.icon && ICONS_MAP[subActivity.icon])
+        const isDescriptionOnly = !hasSubtitle && !hasCustomIcon
+
+        if (isDescriptionOnly) {
+          return (
+            <div key={`${subActivity.description}-${index}`}>
+              <p className="text-sm leading-6 text-muted-foreground">{subActivity.description}</p>
+            </div>
+          )
+        }
+
+        return (
+          <div key={`${subActivity.subtitle}-${index}`} className="grid grid-cols-[auto_1fr] gap-x-3">
+            <div className={clsx('mt-0.5 flex size-9 items-center justify-center rounded-full', colorClassName)}>
+              <HugeiconsIcon
+                icon={(subActivity.icon && ICONS_MAP[subActivity.icon]) || CheckmarkCircle02Icon}
+                size={18}
+                strokeWidth={1.8}
+              />
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold leading-6 text-foreground">{subActivity.subtitle}</p>
+              <p className="text-sm leading-6 text-muted-foreground">{subActivity.description}</p>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 const ItineraryDayMapModal = ({ thingsToDo, isOpen, onClose, initialDayIndex = 0 }: Props) => {
@@ -119,9 +175,9 @@ const ItineraryDayMapModal = ({ thingsToDo, isOpen, onClose, initialDayIndex = 0
                         <h3 className="mt-1 text-base font-medium text-foreground sm:mt-2 sm:text-lg">
                           {activeItem.name}
                         </h3>
-                        <p className="mt-1.5 line-clamp-3 text-xs leading-relaxed text-muted-foreground sm:mt-3 sm:line-clamp-none sm:text-sm">
-                          {activeItem.description}
-                        </p>
+                        <div className="mt-3">
+                          <DayMapSubActivities item={activeItem} />
+                        </div>
                       </div>
                     </div>
                   </div>

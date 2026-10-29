@@ -4,6 +4,7 @@ import { THAILAND_TEMPERATURE_CITIES } from './temperature-cities'
 export const thailand: DestinationDetail = {
   name: 'Thailand',
   slug: 'thailand',
+  enabled: false,
   continent: 'Asia',
   country: 'Thailand',
   description: 'Tropical islands, bustling Bangkok, and world-renowned hospitality.',

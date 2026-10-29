@@ -36,7 +36,7 @@ const STATS = [
 const testimonials = [
   {
     name: 'Sarah Mitchell',
-    job: 'Bali & Java Guided Tour',
+    job: 'Bhutan & Nepal Guided Tour',
     quote:
       'Mandana Odysseys made planning our honeymoon effortless. Every detail was handled professionally, and the local guides exceeded our expectations.',
   },

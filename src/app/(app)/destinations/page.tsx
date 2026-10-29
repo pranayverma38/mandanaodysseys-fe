@@ -15,7 +15,7 @@ import Link from 'next/link'
 export const metadata: Metadata = createPageMetadata({
   title: 'Destinations',
   description:
-    'Explore international travel destinations with Mandana Odysseys. Browse tour packages across Asia and Oceania — India, Sri Lanka, Thailand, Nepal, Vietnam, Bali, and Australia.',
+    'Explore international travel destinations with Mandana Odysseys. Browse tour packages across South Asia — India, Sri Lanka, Nepal, and Bhutan.',
   path: '/destinations',
 })
 

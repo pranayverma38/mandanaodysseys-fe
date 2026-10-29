@@ -169,6 +169,37 @@ export const NEPAL_TEMPERATURE_CITIES: DestinationCityTemperature[] = [
   },
 ]
 
+export const BHUTAN_TEMPERATURE_CITIES: DestinationCityTemperature[] = [
+  {
+    city: 'Thimphu',
+    temperatures: climate([
+      [10, -2, 8], [12, 0, 15], [16, 4, 35], [19, 8, 65], [21, 12, 130], [23, 15, 280],
+      [24, 16, 360], [23, 15, 330], [22, 13, 220], [19, 8, 55], [15, 3, 10], [11, -1, 6],
+    ]),
+  },
+  {
+    city: 'Paro',
+    temperatures: climate([
+      [9, -4, 10], [11, -2, 18], [15, 2, 40], [18, 6, 70], [20, 10, 140], [22, 13, 300],
+      [23, 14, 380], [22, 14, 340], [21, 11, 230], [18, 6, 60], [14, 1, 12], [10, -3, 8],
+    ]),
+  },
+  {
+    city: 'Punakha',
+    temperatures: climate([
+      [20, 7, 12], [22, 9, 20], [26, 12, 35], [29, 16, 65], [31, 20, 150], [31, 22, 360],
+      [30, 23, 470], [30, 22, 410], [29, 21, 260], [28, 17, 75], [24, 12, 18], [21, 8, 10],
+    ]),
+  },
+  {
+    city: 'Bumthang',
+    temperatures: climate([
+      [8, -7, 6], [10, -4, 10], [14, 0, 22], [17, 4, 45], [19, 8, 110], [22, 11, 220],
+      [23, 12, 280], [22, 11, 250], [21, 9, 170], [17, 4, 35], [13, -1, 8], [9, -5, 5],
+    ]),
+  },
+]
+
 export const SRI_LANKA_TEMPERATURE_CITIES: DestinationCityTemperature[] = [
   {
     city: 'Colombo',

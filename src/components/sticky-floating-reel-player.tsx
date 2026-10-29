@@ -19,18 +19,18 @@ type Story = {
 const STORIES: Story[] = [
   {
     src: '/videos/header/reel-player/story.webm',
-    name: 'THAILAND',
-    avatar: DESTINATIONS.find((d) => d.slug === 'thailand')!.thumbnail,
+    name: 'INDIA',
+    avatar: DESTINATIONS.find((d) => d.slug === 'india')!.thumbnail,
   },
   {
     src: '/videos/header/reel-player/story-1.webm',
-    name: 'BALI',
-    avatar: DESTINATIONS.find((d) => d.slug === 'bali')!.thumbnail,
+    name: 'NEPAL',
+    avatar: DESTINATIONS.find((d) => d.slug === 'nepal')!.thumbnail,
   },
   {
     src: '/videos/header/reel-player/story-2.webm',
-    name: 'VIETNAM',
-    avatar: DESTINATIONS.find((d) => d.slug === 'vietnam')!.thumbnail,
+    name: 'SRI LANKA',
+    avatar: DESTINATIONS.find((d) => d.slug === 'sri-lanka')!.thumbnail,
   },
 ]
 

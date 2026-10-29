@@ -4,6 +4,7 @@ import { INDIA_TEMPERATURE_CITIES } from './temperature-cities'
 export const india: DestinationDetail = {
   name: 'India',
   slug: 'india',
+  enabled: true,
   continent: 'Asia',
   country: 'India',
   description: 'Heritage cities, Himalayan peaks, and vibrant culture across the subcontinent.',

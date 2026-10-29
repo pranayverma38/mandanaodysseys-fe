@@ -43,6 +43,7 @@ export type DestinationFaq = {
 export type Destination = {
   name: string
   slug: string
+  enabled: boolean
   continent: DestinationContinent
   country: string
   description: string

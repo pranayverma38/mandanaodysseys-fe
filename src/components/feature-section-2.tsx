@@ -45,7 +45,7 @@ const faqs_demo = [
   {
     question: 'What destinations does Mandana Odysseys offer?',
     answer:
-      'Mandana Odysseys curates tours across Asia and Oceania—including India, Sri Lanka, Bali, Australia, and more. Browse destinations by region or tour type to find family holidays, honeymoons, adventure trips, and cruise packages.',
+      'Mandana Odysseys curates journeys across South Asia, including India, Sri Lanka, Nepal, and Bhutan. Browse destinations by region or tour type to find family holidays, honeymoons, adventure trips, and cultural escapes.',
   },
   {
     question: 'How do I book a tour with Mandana Odysseys?',

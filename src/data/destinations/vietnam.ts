@@ -4,6 +4,7 @@ import { VIETNAM_TEMPERATURE_CITIES } from './temperature-cities'
 export const vietnam: DestinationDetail = {
   name: 'Vietnam',
   slug: 'vietnam',
+  enabled: false,
   continent: 'Asia',
   country: 'Vietnam',
   description: 'Ha Long Bay, lantern-lit streets, and rich cuisine from north to south.',

@@ -4,6 +4,7 @@ import { BALI_TEMPERATURE_CITIES } from './temperature-cities'
 export const bali: DestinationDetail = {
   name: 'Bali',
   slug: 'bali',
+  enabled: false,
   continent: 'Asia',
   country: 'Indonesia',
   description: 'Rice terraces, spiritual retreats, and surf-ready shores in Indonesia.',

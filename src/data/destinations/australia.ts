@@ -4,6 +4,7 @@ import { AUSTRALIA_TEMPERATURE_CITIES } from './temperature-cities'
 export const australia: DestinationDetail = {
   name: 'Australia',
   slug: 'australia',
+  enabled: false,
   continent: 'Oceania',
   country: 'Australia',
   description: 'Reef dives, outback adventures, and cosmopolitan coastal cities.',

@@ -1,5 +1,5 @@
 import type { ItineraryDetail } from './types'
-import { getItineraryDestinationName } from './destinations'
+import { getItineraryDestinationName, resolveItineraryDestinationSlug } from './destinations'
 import { buildItineraryListingAmenities } from './details/_shared'
 import { filterItineraryListings } from './search'
 import { fetchItinerariesFromMedusa, fetchItineraryByHandleFromMedusa } from '@/lib/medusa-itineraries'
@@ -22,8 +22,12 @@ import { thailandBangkokChiangMaiCultural } from './details/thailand-bangkok-chi
 import { thailandPhuketSoloBeachEscape } from './details/thailand-phuket-solo-beach-escape'
 import { swissAlpsLakeGenevaEscape } from './details/swiss-alps-lake-geneva-escape'
 
-/** Static fallback — used when Medusa API is unreachable */
-export const ITINERARY_DETAILS: ItineraryDetail[] = [
+function isEnabledItineraryDestination(destination: string): boolean {
+  return resolveItineraryDestinationSlug(destination) !== null
+}
+
+/** Static fallback catalog. Disabled-destination itineraries stay here but are hidden from the public frontend. */
+export const ALL_ITINERARY_DETAILS: ItineraryDetail[] = [
   goldenTriangleIndiaTour,
   coloursPalacesAndTheTaj,
   desertDunesToRoyalPalaces,
@@ -44,10 +48,15 @@ export const ITINERARY_DETAILS: ItineraryDetail[] = [
   swissAlpsLakeGenevaEscape,
 ]
 
+/** Public itinerary catalog — only itineraries whose destination is currently enabled. */
+export const ITINERARY_DETAILS: ItineraryDetail[] = ALL_ITINERARY_DETAILS.filter((item) =>
+  isEnabledItineraryDestination(item.destination)
+)
+
 /** Fetch itineraries from Medusa; fall back to static data if API is unavailable */
 async function resolveItineraries(): Promise<ItineraryDetail[]> {
   const apiItineraries = await fetchItinerariesFromMedusa()
-  return apiItineraries ?? ITINERARY_DETAILS
+  return apiItineraries?.filter((item) => isEnabledItineraryDestination(item.destination)) ?? ITINERARY_DETAILS
 }
 
 export async function getItineraries() {
@@ -95,14 +104,12 @@ export async function getItineraries() {
 export async function getItineraryByHandle(handle: string) {
   // Try Medusa API first
   const apiItinerary = await fetchItineraryByHandleFromMedusa(handle)
-  if (apiItinerary) return apiItinerary
+  if (apiItinerary && isEnabledItineraryDestination(apiItinerary.destination)) {
+    return apiItinerary
+  }
 
   // Fall back to static data
-  return (
-    ITINERARY_DETAILS.find((item) => item.handle === handle) ??
-    ITINERARY_DETAILS.find((item) => item.handle === 'golden-triangle-india-tour') ??
-    null
-  )
+  return ITINERARY_DETAILS.find((item) => item.handle === handle) ?? null
 }
 
 export async function getItineraryListingsByFilters(options?: {

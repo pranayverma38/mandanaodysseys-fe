@@ -1,5 +1,6 @@
 import { australia } from './australia'
 import { bali } from './bali'
+import { bhutan } from './bhutan'
 import { india } from './india'
 import { nepal } from './nepal'
 import { sriLanka } from './sri-lanka'
@@ -8,9 +9,10 @@ import { thailand } from './thailand'
 import type { Destination, DestinationContinent, DestinationDetail } from './types'
 import { vietnam } from './vietnam'
 
-export const DESTINATION_DETAILS: DestinationDetail[] = [
+export const ALL_DESTINATION_DETAILS: DestinationDetail[] = [
   india,
   sriLanka,
+  bhutan,
   thailand,
   nepal,
   vietnam,
@@ -19,9 +21,15 @@ export const DESTINATION_DETAILS: DestinationDetail[] = [
   switzerland,
 ]
 
+export const DESTINATION_DETAILS: DestinationDetail[] = ALL_DESTINATION_DETAILS.filter(
+  (destination) => destination.enabled
+)
+
 export const DESTINATIONS: Destination[] = DESTINATION_DETAILS
 
-export const DESTINATION_CONTINENTS: DestinationContinent[] = ['Asia', 'Europe', 'Oceania']
+export const DESTINATION_CONTINENTS: DestinationContinent[] = [
+  ...new Set(DESTINATIONS.map((destination) => destination.continent)),
+]
 
 export function getDestinationDetailBySlug(slug: string): DestinationDetail | undefined {
   return DESTINATION_DETAILS.find((destination) => destination.slug === slug)
@@ -33,6 +41,10 @@ export function getDestinationBySlug(slug: string): Destination | undefined {
 
 export function getDestinationsByContinent(continent: DestinationContinent): Destination[] {
   return DESTINATIONS.filter((destination) => destination.continent === continent)
+}
+
+export function isDestinationEnabled(slug: string): boolean {
+  return DESTINATIONS.some((destination) => destination.slug === slug)
 }
 
 export function getDestinationPath(slug: string): string {

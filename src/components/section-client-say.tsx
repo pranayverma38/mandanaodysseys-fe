@@ -36,13 +36,13 @@ const DEFAULT_TESTIMONIALS: ClientTestimonial[] = [
     id: 2,
     clientName: 'Daniel Foster',
     content:
-      'We wanted a custom Vietnam and Thailand itinerary for our anniversary. The team listened, adjusted the plan quickly, and delivered a trip we will never forget.',
+      'We wanted a custom India and Bhutan itinerary for our anniversary. The team listened, adjusted the plan quickly, and delivered a trip we will never forget.',
   },
   {
     id: 3,
     clientName: 'Mei Lin Tan',
     content:
-      'From Bali beaches to Nepal trekking, Mandana Odysseys handled visas, guides, and logistics so we could just enjoy the journey. Already booked our next package with them.',
+      'From Sri Lanka beaches to Nepal trekking, Mandana Odysseys handled visas, guides, and logistics so we could just enjoy the journey. Already booked our next package with them.',
   },
 ]
 

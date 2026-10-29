@@ -4,6 +4,7 @@ import { SRI_LANKA_TEMPERATURE_CITIES } from './temperature-cities'
 export const sriLanka: DestinationDetail = {
   name: 'Sri Lanka',
   slug: 'sri-lanka',
+  enabled: true,
   continent: 'Asia',
   country: 'Sri Lanka',
   description: 'Tea hills, golden beaches, and ancient temples on the pearl of the Indian Ocean.',

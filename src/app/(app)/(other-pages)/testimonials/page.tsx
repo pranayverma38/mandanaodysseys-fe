@@ -24,20 +24,20 @@ const carouselTestimonials: ClientTestimonial[] = [
     id: 2,
     clientName: 'Daniel Foster',
     content:
-      'We wanted a custom Vietnam and Thailand itinerary for our anniversary. The team listened, adjusted the plan quickly, and delivered a trip we will never forget.',
+      'We wanted a custom India and Bhutan itinerary for our anniversary. The team listened, adjusted the plan quickly, and delivered a trip we will never forget.',
   },
   {
     id: 3,
     clientName: 'Mei Lin Tan',
     content:
-      'From Bali beaches to Nepal trekking, Mandana Odysseys handled visas, guides, and logistics so we could just enjoy the journey. Already booked our next package with them.',
+      'From Sri Lanka beaches to Nepal trekking, Mandana Odysseys handled visas, guides, and logistics so we could just enjoy the journey. Already booked our next package with them.',
   },
 ]
 
 const featuredReviews = [
   {
     name: 'Sarah Mitchell',
-    trip: 'Bali & Java Honeymoon Package',
+    trip: 'Bhutan & Nepal Himalayan Escape',
     quote:
       'Mandana Odysseys made planning our honeymoon effortless. Flights, boutique stays, and local guides were all arranged in one package — and the price beat every quote we compared.',
   },
@@ -61,13 +61,13 @@ const featuredReviews = [
   },
   {
     name: 'Emma Walsh',
-    trip: 'Thailand Beach & Temple Escape',
+    trip: 'Sri Lanka Heritage & Coast Escape',
     quote:
       'I was nervous booking an international package online, but Mandana Odysseys earned my trust. Clear pricing, responsive support, and a smooth trip from airport pickup to checkout.',
   },
   {
     name: 'David Okonkwo',
-    trip: 'Australia & New Zealand Adventure',
+    trip: 'Bhutan Cultural Discovery',
     quote:
       'A once-in-a-lifetime trip executed flawlessly. Mandana Odysseys recommended the right mix of cities, nature, and experiences — easily the best vacation we have ever taken.',
   },

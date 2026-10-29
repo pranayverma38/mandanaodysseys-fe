@@ -4,6 +4,7 @@ import { SWITZERLAND_TEMPERATURE_CITIES } from './temperature-cities'
 export const switzerland: DestinationDetail = {
   name: 'Switzerland',
   slug: 'switzerland',
+  enabled: false,
   continent: 'Europe',
   country: 'Switzerland',
   description: 'Alpine peaks, scenic train routes, and lakeside cities in the heart of Europe.',

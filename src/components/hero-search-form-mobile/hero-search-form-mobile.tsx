@@ -34,7 +34,7 @@ const HeroSearchFormMobile = ({
   let guestsText = 'Add guests'
 
   if (pathname.startsWith('/experience-search')) {
-    locationText = 'Experiences in Bali'
+    locationText = 'Experiences in India'
     weekText = 'Mar 22 - 27'
     guestsText = '2 guests'
   }

@@ -4,6 +4,7 @@ import { NEPAL_TEMPERATURE_CITIES } from './temperature-cities'
 export const nepal: DestinationDetail = {
   name: 'Nepal',
   slug: 'nepal',
+  enabled: true,
   continent: 'Asia',
   country: 'Nepal',
   description: 'Everest trails, sacred valleys, and adventure in the heart of the Himalayas.',

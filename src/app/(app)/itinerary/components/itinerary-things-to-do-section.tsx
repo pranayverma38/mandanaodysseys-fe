@@ -39,7 +39,7 @@ function ThingToDoSubActivities({ item }: { item: ItineraryThingToDo }) {
         if (isDescriptionOnly) {
           return (
             <div key={`${subActivity.description}-${index}`} className={clsx('pb-5', isLastItem && 'pb-0')}>
-              <p className="text-sm leading-7 text-muted-foreground sm:text-[15px]">
+              <p className="text-sm leading-6 text-muted-foreground">
                 {subActivity.description}
               </p>
             </div>

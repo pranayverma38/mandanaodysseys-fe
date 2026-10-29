@@ -16,15 +16,15 @@ export function BreadcrumbExample() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="#">Thailand</BreadcrumbLink>
+          <BreadcrumbLink href="#">India</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="#">Bangkok Region</BreadcrumbLink>
+          <BreadcrumbLink href="#">Rajasthan Region</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Bangkok</BreadcrumbPage>
+          <BreadcrumbPage>Jaipur</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

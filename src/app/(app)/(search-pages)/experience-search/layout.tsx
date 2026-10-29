@@ -7,23 +7,25 @@ import { Heading } from '@/components/heading'
 import NewsletterSection from '@/components/newsletter-section-1'
 import SectionGridCategoryBox from '@/components/section-grid-category-box'
 import { DESTINATIONS, getDestinationPath } from '@/data/destinations'
+import { getDestinationPackageCounts } from '@/data/itineraries/package-counts'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import { ReactNode } from 'react'
 
-const destinationCategories = DESTINATIONS.map((destination) => ({
-  id: `destination://${destination.slug}`,
-  name: destination.name,
-  titleRaw: destination.name,
-  subtitle: destination.country,
-  handle: destination.slug,
-  region: destination.continent,
-  href: getDestinationPath(destination.slug),
-  description: destination.description,
-  count: destination.packageCount,
-  thumbnail: destination.thumbnail,
-}))
+const Layout = async ({ children }: { children: ReactNode }) => {
+  const packageCounts = await getDestinationPackageCounts()
+  const destinationCategories = DESTINATIONS.map((destination) => ({
+    id: `destination://${destination.slug}`,
+    name: destination.name,
+    titleRaw: destination.name,
+    subtitle: destination.country,
+    handle: destination.slug,
+    region: destination.continent,
+    href: getDestinationPath(destination.slug),
+    description: destination.description,
+    count: packageCounts[destination.slug] ?? 0,
+    thumbnail: destination.thumbnail,
+  }))
 
-const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <ApplicationLayout header={<Header hasBorderBottom={false} />}>
       {children}
