@@ -33,6 +33,7 @@ interface Props {
   clearDataButtonClassName?: string
   min?: number
   max?: number
+  baseCurrency?: 'USD' | 'AUD'
 }
 
 export const PriceRangeInputField: FC<Props> = ({
@@ -42,16 +43,18 @@ export const PriceRangeInputField: FC<Props> = ({
   clearDataButtonClassName,
   min = 0,
   max = 1000000,
+  baseCurrency = 'USD',
 }) => {
   const [rangePrices, setRangePrices] = useState([90000, 800000])
-  const { formatAudPrice } = useLocale()
+  const { formatAudPrice, formatPrice } = useLocale()
+  const formatBasePrice = baseCurrency === 'USD' ? formatPrice : formatAudPrice
 
   const formatRangeLabel = (value: number) => {
     if (value >= 1000) {
-      return `${formatAudPrice(value / 1000).replace(/(\d[\d.,]*)/, '$1k')}`
+      return `${formatBasePrice(value / 1000).replace(/(\d[\d.,]*)/, '$1k')}`
     }
 
-    return formatAudPrice(value)
+    return formatBasePrice(value)
   }
 
   return (
@@ -85,6 +88,7 @@ export const PriceRangeInputField: FC<Props> = ({
                 min={min}
                 max={max}
                 defaultValue={rangePrices}
+                baseCurrency={baseCurrency}
                 onChange={(value) => {
                   setRangePrices(value)
                 }}

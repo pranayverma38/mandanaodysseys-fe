@@ -28,7 +28,7 @@ const ItineraryInclusionsSection = ({ includes, excludes }: Props) => {
                 color={INCLUDED_ICON_COLOR}
               />
               <span>
-                <FormattedPriceText text={item} />
+                <FormattedPriceText text={item} baseCurrency="USD" />
               </span>
             </div>
           ))}
@@ -39,7 +39,7 @@ const ItineraryInclusionsSection = ({ includes, excludes }: Props) => {
             <div key={item} className="flex items-start gap-x-3">
               <XMarkIcon aria-hidden="true" strokeWidth={2} className="mt-0.5 size-6 shrink-0 text-red-500" />
               <span>
-                <FormattedPriceText text={item} />
+                <FormattedPriceText text={item} baseCurrency="USD" />
               </span>
             </div>
           ))}

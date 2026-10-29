@@ -65,7 +65,7 @@ const ExperiencesCard: FC<Props> = ({ size = 'default', className = '', data }) 
 
         <div className="mt-5 flex items-center justify-between gap-2">
           <div>
-            <FormattedPrice value={price} className="text-base font-medium underline" />
+            <FormattedPrice value={price} baseCurrency="USD" className="text-base font-medium underline" />
             <span className="text-sm text-gray-500 dark:text-gray-400">{priceSuffix}</span>
           </div>
           <StartRating reviewCount={reviewCount} point={reviewStart} />

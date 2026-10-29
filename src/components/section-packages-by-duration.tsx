@@ -80,7 +80,7 @@ function DurationDestinationCard({
         <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
           <p className="text-lg font-medium text-white sm:text-xl">{destination.name}</p>
           <p className="mt-1 text-sm text-white/90 sm:text-base">
-            Starts from <FormattedPrice value={destination.fromPrice} />
+            Starts from <FormattedPrice value={destination.fromPrice} baseCurrency="USD" />
           </p>
         </div>
       </div>

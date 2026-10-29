@@ -46,9 +46,9 @@ const ItineraryPricingSidebar = ({ handle, pricing, onSubmit }: Props) => {
     <div className="listingSection__wrap rounded-2xl shadow-lg-for-card bg-card p-4 sm:p-6 2xl:p-7">
       <div className="flex items-end text-2xl font-[540]">
         <span className="font-normal text-muted-foreground-lighter line-through notranslate">
-          <FormattedPrice value={pricing.originalPrice} />
+          <FormattedPrice value={pricing.originalPrice} baseCurrency="USD" />
         </span>
-        <FormattedPrice value={pricing.price} className="mx-2" />
+        <FormattedPrice value={pricing.price} baseCurrency="USD" className="mx-2" />
         <span className="text-base font-normal text-muted-foreground"> / guest</span>
       </div>
 
@@ -70,11 +70,11 @@ const ItineraryPricingSidebar = ({ handle, pricing, onSubmit }: Props) => {
       <DescriptionList>
         <DescriptionTerm>Fee & Taxes</DescriptionTerm>
         <DescriptionDetails className="sm:text-right notranslate">
-          <FormattedPrice value={scaledPricing.feeAndTaxes} />
+          <FormattedPrice value={scaledPricing.feeAndTaxes} baseCurrency="USD" />
         </DescriptionDetails>
         <DescriptionTerm className="font-medium sm:text-gray-900">Total</DescriptionTerm>
         <DescriptionDetails className="font-medium sm:text-right notranslate">
-          <FormattedPrice value={scaledPricing.total} />
+          <FormattedPrice value={scaledPricing.total} baseCurrency="USD" />
         </DescriptionDetails>
       </DescriptionList>
 

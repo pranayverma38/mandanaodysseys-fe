@@ -32,6 +32,19 @@ function ThingToDoSubActivities({ item }: { item: ItineraryThingToDo }) {
       {subActivities.map((subActivity, index) => {
         const colorClassName = SUB_ACTIVITY_COLOR_CLASSES[index % SUB_ACTIVITY_COLOR_CLASSES.length]
         const isLastItem = index === subActivities.length - 1
+        const hasSubtitle = subActivity.subtitle.trim().length > 0
+        const hasCustomIcon = Boolean(subActivity.icon && ICONS_MAP[subActivity.icon])
+        const isDescriptionOnly = !hasSubtitle && !hasCustomIcon
+
+        if (isDescriptionOnly) {
+          return (
+            <div key={`${subActivity.description}-${index}`} className={clsx('pb-5', isLastItem && 'pb-0')}>
+              <p className="text-sm leading-7 text-muted-foreground sm:text-[15px]">
+                {subActivity.description}
+              </p>
+            </div>
+          )
+        }
 
         return (
           <div key={`${subActivity.subtitle}-${index}`} className="grid grid-cols-[auto_1fr] gap-x-3">

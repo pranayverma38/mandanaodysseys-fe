@@ -8,7 +8,7 @@ interface Props {
   value: string | number
   className?: string
   children?: ReactNode
-  /** Store prices from Medusa are AUD. Pass USD only for leftover template data. */
+  /** Pass the source currency explicitly when the stored amount is not AUD. */
   baseCurrency?: 'USD' | 'AUD'
 }
 

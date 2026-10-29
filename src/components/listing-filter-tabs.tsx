@@ -407,6 +407,7 @@ const PriceRagePanel = ({
       onChange={handleChange}
       min={min}
       max={max}
+      baseCurrency="USD"
     />
   )
 }
