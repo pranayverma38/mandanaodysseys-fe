@@ -48,6 +48,13 @@ type ApiItinerary = {
   }[]
   includes: string[]
   excludes: string[]
+  experiences?: {
+    title: string
+    subtitle: string
+    imageUrl: string
+    description: string
+    location: string
+  }[]
   accommodations: { name: string; imageUrl: string; rating: number; location: string }[]
   map: { lat: number | null; lng: number | null }
   reviews: { id: string; title: string; rating: number; content: string; author: string; date: string; datetime: string; authorAvatarUrl?: string }[]
@@ -99,6 +106,7 @@ function normalizeItinerary(api: ApiItinerary): ItineraryDetail {
     })),
     includes: api.includes || [],
     excludes: api.excludes || [],
+    experiences: api.experiences || [],
     accommodations: api.accommodations || [],
     map: { lat: api.map?.lat ?? 0, lng: api.map?.lng ?? 0 },
     reviews: (api.reviews || []).map((r) => ({

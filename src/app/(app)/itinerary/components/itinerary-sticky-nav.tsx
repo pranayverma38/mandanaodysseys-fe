@@ -3,6 +3,7 @@
 import {
   BedSingle02Icon,
   LeftToRightListDashIcon,
+  Location06Icon,
   MapsIcon,
   StarCircleIcon,
 } from '@hugeicons/core-free-icons'
@@ -10,7 +11,7 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 
-type TabId = 'your-trip' | 'inclusions' | 'accommodation' | 'reviews'
+type TabId = 'your-trip' | 'inclusions' | 'experiences' | 'accommodation' | 'reviews'
 
 const ACTIVE_ORANGE = '#fc6200'
 
@@ -22,6 +23,12 @@ const TABS: {
 }[] = [
   { id: 'your-trip', label: 'Your Trip', targetId: 'itinerary-your-trip', icon: MapsIcon },
   { id: 'inclusions', label: 'Inclusions', targetId: 'itinerary-inclusions', icon: LeftToRightListDashIcon },
+  {
+    id: 'experiences',
+    label: 'Experiences',
+    targetId: 'itinerary-experiences',
+    icon: Location06Icon,
+  },
   {
     id: 'accommodation',
     label: 'Accommodation',

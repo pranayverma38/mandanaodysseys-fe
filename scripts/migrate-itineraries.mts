@@ -48,6 +48,13 @@ function toApiPayload(it: (typeof ITINERARY_DETAILS)[number]) {
     })),
     includes: it.includes,
     excludes: it.excludes,
+    experiences: (it.experiences || []).map((experience) => ({
+      title: experience.title,
+      subtitle: experience.subtitle,
+      imageUrl: experience.imageUrl,
+      description: experience.description,
+      location: experience.location,
+    })),
     accommodations: it.accommodations.map((a) => ({
       name: a.name,
       imageUrl: a.imageUrl,

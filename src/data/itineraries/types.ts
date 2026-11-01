@@ -53,6 +53,14 @@ export type ItineraryAccommodation = {
   location: string
 }
 
+export type ItineraryExperience = {
+  title: string
+  subtitle: string
+  imageUrl: string
+  description: string
+  location: string
+}
+
 /** A stop within the itinerary `address` string (e.g. Delhi, Agra, Jaipur). */
 export type ItineraryLocation = {
   name: string
@@ -91,6 +99,7 @@ export type ItineraryDetail = {
   thingsToDo: ItineraryThingToDo[]
   includes: string[]
   excludes: string[]
+  experiences?: ItineraryExperience[]
   accommodations: ItineraryAccommodation[]
   map: { lat: number; lng: number }
   reviews: ItineraryReview[]

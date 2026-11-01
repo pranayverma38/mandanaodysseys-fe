@@ -13,6 +13,7 @@ import ItineraryStarRating from './itinerary-star-rating'
 import ItineraryStickyNav from './itinerary-sticky-nav'
 import ItineraryAccommodationSection from './itinerary-accommodation-section'
 import ItineraryBenefitsSection from './itinerary-benefits-section'
+import ItineraryExperiencesSection from './itinerary-experiences-section'
 import ItineraryReviewsSection from './itinerary-reviews-section'
 
 interface Props {
@@ -39,6 +40,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
     thingsToDo,
     includes,
     excludes,
+    experiences = [],
     accommodations,
     reviews,
   } = itinerary
@@ -124,6 +126,13 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
           <ItineraryInclusionsSection includes={includes} excludes={excludes} />
 
           <Divider className="my-8 xl:my-12" />
+
+          {experiences.length ? (
+            <>
+              <ItineraryExperiencesSection experiences={experiences} />
+              <Divider className="my-8 xl:my-12" />
+            </>
+          ) : null}
 
           <ItineraryAccommodationSection accommodations={accommodations} />
         </div>
