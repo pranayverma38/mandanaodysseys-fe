@@ -6,6 +6,7 @@ import { DirectionProvider } from '@/components/ui/direction'
 import { isSmoothScrollEnabled } from '@/lib/smooth-scroll'
 import { cn } from '@/lib/utils'
 import { LocaleProvider } from '@/providers/locale-provider'
+import { AmbientAudioProvider } from '@/providers/ambient-audio-provider'
 import '@/styles/tailwind.css'
 import clsx from 'clsx'
 import { rootMetadata } from '@/lib/seo'
@@ -61,11 +62,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <LocaleProvider>
               <NavigationProgress />
               <AuthModalRoot>
-                <ScrollSmootherProvider>
-                  {children}
+                <AmbientAudioProvider>
+                  <ScrollSmootherProvider>
+                    {children}
 
-                  {/* CustomizeControl demo removed */}
-                </ScrollSmootherProvider>
+                    {/* CustomizeControl demo removed */}
+                  </ScrollSmootherProvider>
+                </AmbientAudioProvider>
               </AuthModalRoot>
             </LocaleProvider>
           </DirectionProvider>
