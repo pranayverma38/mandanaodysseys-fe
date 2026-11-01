@@ -194,6 +194,7 @@ const GalleryMediaSurface = ({
   alt,
   sizes,
   className,
+  fit = 'cover',
   priority = false,
   controls = false,
   compact = false,
@@ -204,6 +205,7 @@ const GalleryMediaSurface = ({
   alt: string
   sizes?: string
   className?: string
+  fit?: 'cover' | 'contain'
   priority?: boolean
   controls?: boolean
   compact?: boolean
@@ -212,6 +214,7 @@ const GalleryMediaSurface = ({
 }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [isVideoReady, setIsVideoReady] = useState(false)
+  const mediaFitClassName = fit === 'contain' ? 'object-contain' : 'object-cover'
 
   useEffect(() => {
     setIsVideoReady(false)
@@ -264,7 +267,7 @@ const GalleryMediaSurface = ({
             fill
             alt={alt}
             src={media.posterUrl}
-            className={clsx('rounded-xl object-cover', className)}
+            className={clsx('rounded-xl', mediaFitClassName, className)}
             sizes={sizes}
             priority={priority}
             unoptimized={shouldBypassNextImageOptimization(media.posterUrl)}
@@ -273,7 +276,12 @@ const GalleryMediaSurface = ({
 
         <video
           ref={videoRef}
-          className={clsx('absolute inset-0 size-full rounded-xl object-cover', !isVideoReady && 'opacity-0', className)}
+          className={clsx(
+            'absolute inset-0 size-full rounded-xl',
+            mediaFitClassName,
+            !isVideoReady && 'opacity-0',
+            className
+          )}
           controls={controls}
           autoPlay={autoPlay}
           loop={autoPlay}
@@ -281,6 +289,7 @@ const GalleryMediaSurface = ({
           preload={autoPlay ? 'auto' : controls ? 'metadata' : 'none'}
           muted={autoPlay || !controls}
           poster={media.posterUrl}
+          controlsList={controls ? 'nodownload noplaybackrate noremoteplayback' : undefined}
           disablePictureInPicture
           disableRemotePlayback
           onClick={stopMediaEvent}
@@ -315,7 +324,7 @@ const GalleryMediaSurface = ({
       fill
       alt={alt}
       src={media.playbackUrl}
-      className={clsx('rounded-xl object-cover', className)}
+      className={clsx('rounded-xl', mediaFitClassName, className)}
       sizes={sizes}
       priority={priority}
       unoptimized={shouldBypassNextImageOptimization(media.playbackUrl)}
@@ -325,6 +334,7 @@ const GalleryMediaSurface = ({
 
 const EmblaCarousel = ({ mediaItems, option }: { mediaItems: GalleryMedia[]; option: EmblaOptionsType }) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const selectedMedia = mediaItems[selectedIndex]
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel({
     ...option,
     direction: process.env.NEXT_PUBLIC_THEME_DIR,
@@ -358,30 +368,27 @@ const EmblaCarousel = ({ mediaItems, option }: { mediaItems: GalleryMedia[]; opt
   }, [emblaMainApi, onSelect])
 
   return (
-    <div className="relative size-full embla">
-      <div className="embla__viewport relative mx-auto size-full overflow-hidden" ref={emblaMainRef}>
-        <div className="embla__container size-full">
+    <div className="relative flex size-full min-h-0 flex-col embla">
+      <div className="embla__viewport relative size-full min-h-0 flex-1 overflow-hidden" ref={emblaMainRef}>
+        <div className="embla__container h-full w-full">
           {mediaItems.map((media, index) => (
-            <div className="relative z-50 flex embla__slide basis-full items-center justify-center" key={index}>
-              <div className="relative aspect-3/2 w-full overflow-hidden rounded-xl bg-black">
-                {media.kind === 'image' ? (
-                  <Image
-                    alt="Slide media"
-                    src={media.playbackUrl}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-                    className="object-contain"
-                    unoptimized={shouldBypassNextImageOptimization(media.playbackUrl)}
-                  />
-                ) : (
-                  <GalleryMediaSurface
-                    media={media}
-                    alt="Slide media"
-                    controls
-                    eager={index === selectedIndex}
-                    className={media.kind === 'video' ? 'object-contain' : undefined}
-                  />
+            <div
+              className="relative z-50 flex h-full min-w-0 embla__slide basis-full items-center justify-center px-3 pb-3 sm:px-4 sm:pb-4"
+              key={index}
+            >
+              <div
+                className={clsx(
+                  'relative flex h-full w-full items-center justify-center overflow-hidden rounded-2xl bg-black',
+                  media.kind === 'video' && 'p-2 sm:p-4'
                 )}
+              >
+                <GalleryMediaSurface
+                  media={media}
+                  alt="Slide media"
+                  controls={media.kind === 'video'}
+                  eager={index === selectedIndex}
+                  fit="contain"
+                />
               </div>
             </div>
           ))}
@@ -396,8 +403,13 @@ const EmblaCarousel = ({ mediaItems, option }: { mediaItems: GalleryMedia[]; opt
         </div>
       </div>
 
-      <div className="embla-thumbs fixed inset-x-0 bottom-5 z-10">
-        <div className="embla-thumbs__viewport mx-auto max-w-28" ref={emblaThumbsRef}>
+      <div
+        className={clsx(
+          'embla-thumbs shrink-0 px-4 pb-4 sm:px-6 sm:pb-6',
+          selectedMedia?.kind === 'video' ? 'pt-1 sm:pt-2' : ''
+        )}
+      >
+        <div className="embla-thumbs__viewport mx-auto w-full max-w-5xl overflow-hidden" ref={emblaThumbsRef}>
           <div className="embla-thumbs__container flex">
             {mediaItems.map((media, index) => (
               <div
@@ -421,7 +433,7 @@ const EmblaCarousel = ({ mediaItems, option }: { mediaItems: GalleryMedia[]; opt
                   />
                 ) : (
                   <MediaPlaceholder
-                    label={media.providerLabel || (media.kind === 'video' ? 'Video' : 'Media')}
+                    label={media.kind === 'video' ? 'Video' : media.providerLabel || 'Media'}
                     className="rounded-md"
                   />
                 )}
@@ -465,7 +477,7 @@ const HeaderGallery = ({ images, videos = [], gridType = 'grid1' }: Props) => {
         <div className="fixed inset-0 flex w-screen items-center justify-center">
           <DialogPanel
             transition
-            className="relative mx-auto aspect-3/2 max-h-full w-full max-w-7xl flex-1 transition data-closed:opacity-0"
+            className="relative mx-auto flex h-[min(92vh,880px)] w-full max-w-7xl flex-1 overflow-hidden rounded-[28px] bg-neutral-950/95 transition data-closed:opacity-0"
           >
             <EmblaCarousel mediaItems={mediaItems} option={{ startIndex, slidesToScroll: 1 }} />
           </DialogPanel>
