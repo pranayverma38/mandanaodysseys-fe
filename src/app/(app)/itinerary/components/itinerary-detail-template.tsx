@@ -68,7 +68,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
 
   return (
     <>
-      <ItineraryStickyNav />
+      <ItineraryStickyNav showExperiencesTab={experiences.length > 0} />
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mt-5 flex flex-col gap-3 lg:mt-8">
           <ItineraryStarRating point={reviewStart} reviewCount={reviewCount} />
@@ -133,7 +133,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
           </div>
         ) : null}
 
-        <div className="order-5 flex min-w-0 flex-col lg:order-none">
+        <div className="order-5 flex min-w-0 flex-col lg:order-none lg:col-start-1">
           <Divider className="my-8 xl:my-12" />
           <ItineraryAccommodationSection accommodations={accommodations} />
         </div>

@@ -9,7 +9,7 @@ import {
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 type TabId = 'your-trip' | 'inclusions' | 'experiences' | 'accommodation' | 'reviews'
 
@@ -38,11 +38,25 @@ const TABS: {
   { id: 'reviews', label: 'Reviews', targetId: 'itinerary-reviews', icon: StarCircleIcon },
 ]
 
-const ItineraryStickyNav = () => {
+interface Props {
+  showExperiencesTab?: boolean
+}
+
+const ItineraryStickyNav = ({ showExperiencesTab = true }: Props) => {
   const [activeTab, setActiveTab] = useState<TabId>('your-trip')
+  const tabs = useMemo(
+    () => (showExperiencesTab ? TABS : TABS.filter((tab) => tab.id !== 'experiences')),
+    [showExperiencesTab]
+  )
 
   useEffect(() => {
-    const sections = TABS.map((tab) => document.getElementById(tab.targetId)).filter(
+    if (!showExperiencesTab && activeTab === 'experiences') {
+      setActiveTab('your-trip')
+    }
+  }, [activeTab, showExperiencesTab])
+
+  useEffect(() => {
+    const sections = tabs.map((tab) => document.getElementById(tab.targetId)).filter(
       (section): section is HTMLElement => section !== null
     )
 
@@ -57,7 +71,7 @@ const ItineraryStickyNav = () => {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
 
         if (visible[0]?.target.id) {
-          const tab = TABS.find((item) => item.targetId === visible[0].target.id)
+          const tab = tabs.find((item) => item.targetId === visible[0].target.id)
           if (tab) {
             setActiveTab(tab.id)
           }
@@ -72,7 +86,7 @@ const ItineraryStickyNav = () => {
     sections.forEach((section) => observer.observe(section))
 
     return () => observer.disconnect()
-  }, [])
+  }, [tabs])
 
   const scrollToSection = (targetId: string, tabId: TabId) => {
     const section = document.getElementById(targetId)
@@ -92,7 +106,7 @@ const ItineraryStickyNav = () => {
       >
         <div className="hidden-scrollbar -mx-4 overflow-x-auto px-4 sm:-mx-6 sm:px-6 md:mx-0 md:overflow-visible md:px-0">
           <ul className="flex w-max items-center gap-6 sm:gap-8 md:w-full md:gap-12">
-            {TABS.map((tab) => {
+            {tabs.map((tab) => {
               const isActive = activeTab === tab.id
 
               return (
