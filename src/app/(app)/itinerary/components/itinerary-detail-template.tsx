@@ -106,7 +106,7 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
           </div>
         </div>
 
-        <div className="order-4 mt-8 w-full min-w-0 lg:order-none lg:mt-0 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
+        <div className="order-6 mt-8 w-full min-w-0 lg:order-none lg:mt-0 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
           <div className="sticky top-17 min-w-0 max-w-full">
             <ItineraryPricingSidebar handle={handle} pricing={pricing} onSubmit={handleSubmitForm} />
 
@@ -124,16 +124,17 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
 
         <div className="order-3 flex min-w-0 flex-col lg:order-none">
           <ItineraryInclusionsSection includes={includes} excludes={excludes} />
+        </div>
 
+        {experiences.length ? (
+          <div className="order-4 col-span-full lg:order-none">
+            <Divider className="my-8 xl:my-12" />
+            <ItineraryExperiencesSection experiences={experiences} />
+          </div>
+        ) : null}
+
+        <div className="order-5 flex min-w-0 flex-col lg:order-none">
           <Divider className="my-8 xl:my-12" />
-
-          {experiences.length ? (
-            <>
-              <ItineraryExperiencesSection experiences={experiences} />
-              <Divider className="my-8 xl:my-12" />
-            </>
-          ) : null}
-
           <ItineraryAccommodationSection accommodations={accommodations} />
         </div>
       </main>
