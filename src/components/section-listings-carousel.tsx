@@ -2,6 +2,7 @@
 
 import { TItineraryListing } from '@/data/listings'
 import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
+import { cn } from '@/lib/utils'
 import type { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
@@ -17,6 +18,21 @@ interface Props {
   headingFontClassName?: string
   subHeading?: string
   listings: TItineraryListing[]
+  rows?: number
+}
+
+function chunkListings(listings: TItineraryListing[], rows: number) {
+  const rowCount = Math.max(1, rows)
+
+  if (rowCount === 1) {
+    return listings.map((listing) => [listing])
+  }
+
+  const columns: TItineraryListing[][] = []
+  for (let index = 0; index < listings.length; index += rowCount) {
+    columns.push(listings.slice(index, index + rowCount))
+  }
+  return columns
 }
 
 const SectionListingsCarousel = ({
@@ -25,6 +41,7 @@ const SectionListingsCarousel = ({
   listings,
   headingFontClassName,
   subHeading,
+  rows = 1,
 }: Props) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -36,6 +53,7 @@ const SectionListingsCarousel = ({
     [WheelGesturesPlugin()]
   )
   const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = useCarouselArrowButtons(emblaApi)
+  const listingColumns = chunkListings(listings, rows)
 
   return (
     <div className={className}>
@@ -60,12 +78,16 @@ const SectionListingsCarousel = ({
 
       <div className="mt-8 embla sm:mt-10" ref={emblaRef}>
         <div className="-ms-4 embla__container sm:-ms-6">
-          {listings.map((listing) => (
+          {listingColumns.map((column) => (
             <div
-              key={listing.id}
+              key={column.map((listing) => listing.id).join('-')}
               className="embla__slide basis-[86%] ps-4 sm:ps-6 md:basis-[45%] lg:basis-1/3 xl:basis-[29%] 2xl:basis-1/4"
             >
-              <ExperiencesCard data={listing} />
+              <div className={cn('h-full', rows > 1 && 'flex flex-col gap-4 sm:gap-6')}>
+                {column.map((listing) => (
+                  <ExperiencesCard key={listing.id} data={listing} className="h-full" />
+                ))}
+              </div>
             </div>
           ))}
         </div>

@@ -41,6 +41,10 @@
     @apply max-w-full overflow-x-clip font-sans;
     overscroll-behavior-x: none;
   }
+
+  html[data-navigating] {
+    cursor: progress;
+  }
   body {
     @apply max-w-full overflow-x-clip bg-background text-foreground;
     overscroll-behavior-x: none;
@@ -329,8 +333,29 @@
     animation: travel-quote-wave 3s linear infinite;
   }
 
+  @keyframes hero-music-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    100% {
+      transform: scale(1.85);
+      opacity: 0;
+    }
+  }
+
+  .animate-hero-music-ring {
+    animation: hero-music-ring 2.4s ease-out infinite;
+  }
+
+  .animate-hero-music-ring-delay {
+    animation: hero-music-ring 2.4s ease-out 0.6s infinite;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .animate-travel-quote-wave {
+    .animate-travel-quote-wave,
+    .animate-hero-music-ring,
+    .animate-hero-music-ring-delay {
       animation: none;
     }
   }

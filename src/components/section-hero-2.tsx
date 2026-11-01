@@ -1,6 +1,7 @@
 import { ListingType } from '@/type'
 import clsx from 'clsx'
 import { ReactNode } from 'react'
+import HeroBannerMusicButton from './hero-banner-music-button'
 import HeroSection2Content from './section-hero-2-content'
 import './hero-search-glare.css'
 
@@ -54,6 +55,8 @@ const HeroSection2 = ({
         searchFormInitTab={searchFormInitTab}
         showSearchTabs={showSearchTabs}
       />
+
+      <HeroBannerMusicButton />
 
       <div
         className="pointer-events-none absolute bottom-0 left-0 z-10 w-full leading-0"

@@ -1,5 +1,7 @@
 import { DESTINATIONS, getDestinationBySlug, getDestinationPath, getTourTypePath } from '@/data/destinations'
-import { ITINERARY_DETAILS } from '@/data/itineraries/index'
+import { getItineraryDetails } from '@/data/itineraries/index'
+import { resolveItineraryDestinationSlug } from '@/data/itineraries/destinations'
+import type { ItineraryDetail } from '@/data/itineraries/types'
 
 export type EliteGatewayDestinationCard = {
   id: string
@@ -52,7 +54,11 @@ const ELITE_GATEWAY_FILTERS = [
   },
 ] as const
 
-function getAllDestinations(): EliteGatewayDestinationCard[] {
+function getItinerarySlug(itinerary: ItineraryDetail) {
+  return resolveItineraryDestinationSlug(itinerary.destination)
+}
+
+function getAllDestinations(itineraries: ItineraryDetail[]): EliteGatewayDestinationCard[] {
   return DESTINATIONS.map((destination) => ({
     id: `destination://${destination.slug}`,
     name: destination.name,
@@ -60,17 +66,21 @@ function getAllDestinations(): EliteGatewayDestinationCard[] {
     thumbnail: destination.thumbnail,
     href: getDestinationPath(destination.slug),
     description: destination.description,
-    count: ITINERARY_DETAILS.filter((itinerary) => itinerary.destination === destination.slug).length,
+    count: itineraries.filter((itinerary) => getItinerarySlug(itinerary) === destination.slug).length,
   }))
 }
 
-function getDestinationsForTourCategory(categorySlug: string): EliteGatewayDestinationCard[] {
+function getDestinationsForTourCategory(
+  categorySlug: string,
+  itineraries: ItineraryDetail[]
+): EliteGatewayDestinationCard[] {
   const destinationSlugs = new Set<string>()
 
-  for (const itinerary of ITINERARY_DETAILS) {
+  for (const itinerary of itineraries) {
+    const slug = getItinerarySlug(itinerary)
     const matchesCategory = itinerary.categories.some((tag) => tag.category === categorySlug)
-    if (matchesCategory) {
-      destinationSlugs.add(itinerary.destination)
+    if (slug && matchesCategory) {
+      destinationSlugs.add(slug)
     }
   }
 
@@ -84,15 +94,17 @@ function getDestinationsForTourCategory(categorySlug: string): EliteGatewayDesti
       thumbnail: destination.thumbnail,
       href: getTourTypePath(destination.slug, categorySlug),
       description: destination.description,
-      count: ITINERARY_DETAILS.filter(
+      count: itineraries.filter(
         (itinerary) =>
-          itinerary.destination === destination.slug &&
+          getItinerarySlug(itinerary) === destination.slug &&
           itinerary.categories.some((tag) => tag.category === categorySlug)
       ).length,
     }))
 }
 
 export async function getEliteGatewayGroups(): Promise<EliteGatewayGroup[]> {
+  const itineraries = await getItineraryDetails()
+
   return ELITE_GATEWAY_FILTERS.map((filter) => ({
     title: filter.title,
     handle: filter.handle,
@@ -100,7 +112,7 @@ export async function getEliteGatewayGroups(): Promise<EliteGatewayGroup[]> {
     categorySlug: filter.categorySlug,
     categories:
       filter.categorySlug === null
-        ? getAllDestinations()
-        : getDestinationsForTourCategory(filter.categorySlug),
+        ? getAllDestinations(itineraries)
+        : getDestinationsForTourCategory(filter.categorySlug, itineraries),
   }))
 }

@@ -26,6 +26,15 @@ function isEnabledItineraryDestination(destination: string): boolean {
   return resolveItineraryDestinationSlug(destination) !== null
 }
 
+function withCanonicalDestination(item: ItineraryDetail): ItineraryDetail {
+  const destination = resolveItineraryDestinationSlug(item.destination)
+  if (!destination || destination === item.destination) {
+    return item
+  }
+
+  return { ...item, destination }
+}
+
 /** Static fallback catalog. Disabled-destination itineraries stay here but are hidden from the public frontend. */
 export const ALL_ITINERARY_DETAILS: ItineraryDetail[] = [
   goldenTriangleIndiaTour,
@@ -56,7 +65,14 @@ export const ITINERARY_DETAILS: ItineraryDetail[] = ALL_ITINERARY_DETAILS.filter
 /** Fetch itineraries from Medusa; fall back to static data if API is unavailable */
 async function resolveItineraries(): Promise<ItineraryDetail[]> {
   const apiItineraries = await fetchItinerariesFromMedusa()
-  return apiItineraries?.filter((item) => isEnabledItineraryDestination(item.destination)) ?? ITINERARY_DETAILS
+  const source = apiItineraries ?? ITINERARY_DETAILS
+
+  return source.map(withCanonicalDestination).filter((item) => isEnabledItineraryDestination(item.destination))
+}
+
+/** Live itinerary catalog used by homepage groupings and destination pages. */
+export async function getItineraryDetails() {
+  return resolveItineraries()
 }
 
 export async function getItineraries() {
@@ -105,11 +121,12 @@ export async function getItineraryByHandle(handle: string) {
   // Try Medusa API first
   const apiItinerary = await fetchItineraryByHandleFromMedusa(handle)
   if (apiItinerary && isEnabledItineraryDestination(apiItinerary.destination)) {
-    return apiItinerary
+    return withCanonicalDestination(apiItinerary)
   }
 
   // Fall back to static data
-  return ITINERARY_DETAILS.find((item) => item.handle === handle) ?? null
+  const staticItinerary = ITINERARY_DETAILS.find((item) => item.handle === handle) ?? null
+  return staticItinerary ? withCanonicalDestination(staticItinerary) : null
 }
 
 export async function getItineraryListingsByFilters(options?: {
@@ -126,17 +143,20 @@ export async function getItineraryListingsByFilters(options?: {
 }
 
 export async function getItinerariesByDestination(destinationSlug: string) {
-  return ITINERARY_DETAILS.filter((item) => item.destination === destinationSlug)
+  const itineraries = await resolveItineraries()
+  return itineraries.filter((item) => item.destination === destinationSlug)
 }
 
 export async function getItinerariesByCategory(categorySlug: string) {
-  return ITINERARY_DETAILS.filter((item) => item.categories.some((tag) => tag.category === categorySlug))
+  const itineraries = await resolveItineraries()
+  return itineraries.filter((item) => item.categories.some((tag) => tag.category === categorySlug))
 }
 
 export async function getItinerariesByDurationRange(options?: { minDays?: number; maxDays?: number }) {
   const { minDays, maxDays } = options ?? {}
+  const itineraries = await resolveItineraries()
 
-  return ITINERARY_DETAILS.filter((item) => {
+  return itineraries.filter((item) => {
     if (minDays !== undefined && item.duration.days < minDays) {
       return false
     }

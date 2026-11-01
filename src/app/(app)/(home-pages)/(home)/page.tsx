@@ -73,6 +73,7 @@ async function Page() {
             <SectionListingsCarousel
               heading={`Hand Picked <span class="font-style-script text-[1.3em] text-[#FC6200] italic">Tours  </span> For You`}
               listings={itineraries}
+              rows={2}
             />
           </RevealInView>
           <RevealInView className="container">

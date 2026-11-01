@@ -2,6 +2,7 @@ import { Badge } from '@/components/badge'
 import BtnLikeIcon from '@/components/btn-like-icon'
 import StartRating from '@/components/start-rating'
 import { TItineraryListing } from '@/data/listings'
+import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
@@ -12,6 +13,23 @@ interface Props {
   className?: string
   data: TItineraryListing
   size?: 'default' | 'small'
+}
+
+function getVisibleAmenities(amenities: TItineraryListing['amenities']) {
+  return amenities
+    .filter((amenity) => {
+      const text = amenity.text.trim()
+      if (!text) {
+        return false
+      }
+
+      if (amenity.icon === 'Clock01Icon') {
+        return false
+      }
+
+      return !/\b(days?|nights?)\b/i.test(text)
+    })
+    .slice(0, 2)
 }
 
 const ExperiencesCard: FC<Props> = ({ size = 'default', className = '', data }) => {
@@ -30,10 +48,12 @@ const ExperiencesCard: FC<Props> = ({ size = 'default', className = '', data }) 
 
   const listingHref = `/itinerary/${listingHandle}`
   const priceSuffix = 'duration' in data ? ` · ${data.duration.label}` : ' / guest'
+  const locationLabel = 'destinationName' in data ? `${data.destinationName} · ${address}` : address
+  const visibleAmenities = getVisibleAmenities(amenities)
 
   const renderFeaturedImage = () => {
     return (
-      <div className="relative w-full">
+      <div className="relative w-full shrink-0">
         <div className="aspect-4/3 mask-b-from-60% mask-b-to-100%">
           <Image
             fill
@@ -55,16 +75,18 @@ const ExperiencesCard: FC<Props> = ({ size = 'default', className = '', data }) 
 
   const renderContent = () => {
     return (
-      <div className={size === 'default' ? 'p-4 pt-0' : 'p-2 pt-0'}>
-        <h2 className="text-lg font-medium">{title}</h2>
-        <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          {'destinationName' in data ? `${data.destinationName} · ${address}` : address}
+      <div className={cn('flex flex-1 flex-col', size === 'default' ? 'p-4 pt-0' : 'p-2 pt-0')}>
+        <h2 className="line-clamp-2 min-h-[2lh] text-lg leading-snug font-medium" title={title}>
+          {title}
+        </h2>
+        <div className="mt-1 truncate text-sm text-gray-500 dark:text-gray-400" title={locationLabel}>
+          {locationLabel}
         </div>
 
-        <AmenitiesChips className="mt-3.5 max-w-xs" data={amenities} />
+        <AmenitiesChips className="mt-3.5 min-h-6 max-w-full flex-nowrap overflow-hidden" data={visibleAmenities} />
 
-        <div className="mt-5 flex items-center justify-between gap-2">
-          <div>
+        <div className="mt-auto flex items-center justify-between gap-2 pt-5">
+          <div className="min-w-0 truncate">
             <FormattedPrice value={price} baseCurrency="USD" className="text-base font-medium underline" />
             <span className="text-sm text-gray-500 dark:text-gray-400">{priceSuffix}</span>
           </div>
@@ -76,9 +98,12 @@ const ExperiencesCard: FC<Props> = ({ size = 'default', className = '', data }) 
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-3xl border-2 border-slate-100 bg-white dark:border-neutral-800 dark:bg-neutral-900 ${className}`}
+      className={cn(
+        'group relative flex h-full flex-col overflow-hidden rounded-3xl border-2 border-slate-100 bg-white dark:border-neutral-800 dark:bg-neutral-900',
+        className
+      )}
     >
-      <div className="flex flex-col">
+      <div className="flex h-full flex-col">
         {renderFeaturedImage()}
         {renderContent()}
       </div>

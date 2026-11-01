@@ -7,10 +7,10 @@ import { createMobilityAmenity, type ItineraryMobility } from '../mobility'
 import type { ItineraryAmenity, ItineraryLocation, ItineraryPricing, ItineraryReview } from '../types'
 
 export function buildItineraryListingAmenities(
-  duration: ItineraryDuration,
+  _duration: ItineraryDuration,
   amenities: ItineraryAmenity[]
 ): ItineraryAmenity[] {
-  return [{ icon: 'Clock01Icon', text: duration.label }, ...amenities]
+  return amenities
 }
 
 export function buildItineraryDetailAmenities(

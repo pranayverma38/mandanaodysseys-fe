@@ -1,6 +1,8 @@
 import { getDestinationBySlug, getDestinationPath } from '@/data/destinations'
-import { ITINERARY_DETAILS } from '@/data/itineraries/index'
+import { getItineraryDetails } from '@/data/itineraries/index'
+import { resolveItineraryDestinationSlug } from '@/data/itineraries/destinations'
 import { parseItineraryPrice } from '@/data/itineraries/search'
+import type { ItineraryDetail } from '@/data/itineraries/types'
 
 export type PackagesByDurationBucket = {
   value: string
@@ -35,18 +37,26 @@ function matchesDurationDays(days: number, bucket: PackagesByDurationBucket) {
   return days >= bucket.min && days <= bucket.max
 }
 
-function getDestinationsForBucket(bucket: PackagesByDurationBucket): PackagesByDurationDestination[] {
+function getDestinationsForBucket(
+  bucket: PackagesByDurationBucket,
+  itineraries: ItineraryDetail[]
+): PackagesByDurationDestination[] {
   const destinationMap = new Map<string, { prices: number[]; count: number }>()
 
-  for (const itinerary of ITINERARY_DETAILS) {
+  for (const itinerary of itineraries) {
     if (!matchesDurationDays(itinerary.duration.days, bucket)) {
       continue
     }
 
-    const existing = destinationMap.get(itinerary.destination) ?? { prices: [], count: 0 }
+    const slug = resolveItineraryDestinationSlug(itinerary.destination)
+    if (!slug) {
+      continue
+    }
+
+    const existing = destinationMap.get(slug) ?? { prices: [], count: 0 }
     existing.prices.push(parseItineraryPrice(itinerary.pricing.price))
     existing.count += 1
-    destinationMap.set(itinerary.destination, existing)
+    destinationMap.set(slug, existing)
   }
 
   return [...destinationMap.entries()]
@@ -55,12 +65,14 @@ function getDestinationsForBucket(bucket: PackagesByDurationBucket): PackagesByD
       if (!destination) return null
 
       const minPrice = Math.min(...prices)
-      const matchingItinerary = ITINERARY_DETAILS.find(
-        (itinerary) =>
-          itinerary.destination === slug &&
+      const matchingItinerary = itineraries.find((itinerary) => {
+        const itinerarySlug = resolveItineraryDestinationSlug(itinerary.destination)
+        return (
+          itinerarySlug === slug &&
           matchesDurationDays(itinerary.duration.days, bucket) &&
           parseItineraryPrice(itinerary.pricing.price) === minPrice
-      )
+        )
+      })
 
       return {
         id: `packages-by-duration://${bucket.value}/${slug}`,
@@ -78,8 +90,10 @@ function getDestinationsForBucket(bucket: PackagesByDurationBucket): PackagesByD
 }
 
 export async function getPackagesByDurationGroups(): Promise<PackagesByDurationGroup[]> {
+  const itineraries = await getItineraryDetails()
+
   return PACKAGES_BY_DURATION_BUCKETS.map((bucket) => ({
     bucket,
-    destinations: getDestinationsForBucket(bucket),
+    destinations: getDestinationsForBucket(bucket, itineraries),
   }))
 }

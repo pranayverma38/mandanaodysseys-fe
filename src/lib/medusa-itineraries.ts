@@ -1,3 +1,4 @@
+import { resolveItineraryDestinationSlug } from '@/data/itineraries/destinations'
 import type { ItineraryDetail } from '@/data/itineraries/types'
 
 const BACKEND_URL =
@@ -60,7 +61,7 @@ function normalizeItinerary(api: ApiItinerary): ItineraryDetail {
     handle: api.handle,
     title: api.title,
     badge: api.badge,
-    destination: api.destination,
+    destination: resolveItineraryDestinationSlug(api.destination) ?? api.destination,
     address: api.address,
     locations: api.locations || [],
     reviewStart: api.review_start || 0,
