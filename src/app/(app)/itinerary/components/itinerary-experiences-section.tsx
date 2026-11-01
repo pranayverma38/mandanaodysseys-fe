@@ -56,12 +56,12 @@ function ExperienceHeroHeading() {
       <div className="shrink-0 text-center">
         <div className="flex flex-wrap items-end justify-center gap-x-3 gap-y-1 sm:gap-x-4">
           <h2
-            className="font-style-script text-[2.9rem] leading-none italic sm:text-[4.2rem]"
+            className="font-style-script text-[2.45rem] leading-none italic sm:text-[3.6rem]"
             style={{ color: EXPERIENCES_GOLD }}
           >
             Experiences
           </h2>
-          <span className="pb-1 font-marcellus text-xl leading-none text-[#202020] sm:pb-2 sm:text-[2rem]">
+          <span className="pb-1 font-marcellus text-[1.6rem] leading-none text-[#202020] sm:pb-2 sm:text-[2.7rem]">
             You&apos;ll Remember
           </span>
         </div>
