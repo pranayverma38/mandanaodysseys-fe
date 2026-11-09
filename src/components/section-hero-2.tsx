@@ -20,7 +20,7 @@ const HeroSection2 = ({
       Extraordinary <span data-slot="style-script">Journey</span> Awaits
     </>
   ),
-  videoUrl = '/videos/header/header-video.webm',
+  videoUrl = 'https://video.gumlet.io/6ade6b8fd8b4449c83d285c5/6af1a258b5b51ec4be6f1072/main.mp4',
   searchFormInitTab = 'Experiences',
   showSearchTabs = false,
 }: Props) => {
@@ -43,7 +43,7 @@ const HeroSection2 = ({
           playsInline
           className="absolute inset-0 size-full object-cover object-center"
         >
-          <source src={videoUrl} type="video/webm" />
+          <source src={videoUrl} />
           Your browser does not support the video tag.
         </video>
       </div>
