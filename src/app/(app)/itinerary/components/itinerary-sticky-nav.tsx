@@ -99,7 +99,7 @@ const ItineraryStickyNav = ({ showExperiencesTab = true }: Props) => {
   }
 
   return (
-    <div className="sticky top-0 z-10 w-full bg-background md:mt-4">
+    <div className="sticky top-0 z-40 w-full bg-background md:mt-4">
       <nav
         aria-label="Itinerary sections"
         className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"
