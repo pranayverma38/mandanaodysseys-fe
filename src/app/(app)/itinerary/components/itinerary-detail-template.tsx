@@ -1,4 +1,5 @@
 import { Divider } from '@/components/divider'
+import HomepageMandalaParallax from '@/components/homepage-mandala-parallax'
 import type { ItineraryDetail } from '@/data/itineraries/types'
 import ItineraryInclusionsSection from './itinerary-inclusions-section'
 import ItineraryPricingSidebar from './itinerary-pricing-sidebar'
@@ -69,85 +70,88 @@ const ItineraryDetailTemplate = ({ itinerary }: Props) => {
   return (
     <>
       <ItineraryStickyNav showExperiencesTab={experiences.length > 0} />
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mt-5 flex flex-col gap-3 lg:mt-8">
-          <ItineraryStarRating point={reviewStart} reviewCount={reviewCount} />
-          <HeaderGallery images={galleryImgs} videos={galleryVideos} gridType="grid4" />
-        </div>
+      <div className="relative overflow-hidden">
+        <HomepageMandalaParallax />
+        <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mt-5 flex flex-col gap-3 lg:mt-8">
+            <ItineraryStarRating point={reviewStart} reviewCount={reviewCount} />
+            <HeaderGallery images={galleryImgs} videos={galleryVideos} gridType="grid4" />
+          </div>
 
-      <main className="mt-10 grid min-w-0 grid-cols-1 lg:grid-cols-[59%_minmax(0,1fr)] lg:gap-x-8 xl:gap-x-[8%]">
-        <div className="order-1 flex min-w-0 flex-col lg:order-none">
-          <ItinerarySectionHeader
-            address={address}
-            categories={categories}
-            destination={destination}
-            title={title}
-            packageHandle={handle}
-            pdfLink={pdfLink}
-          />
+          <main className="mt-10 grid min-w-0 grid-cols-1 lg:grid-cols-[59%_minmax(0,1fr)] lg:gap-x-8 xl:gap-x-[8%]">
+            <div className="order-1 flex min-w-0 flex-col lg:order-none">
+              <ItinerarySectionHeader
+                address={address}
+                categories={categories}
+                destination={destination}
+                title={title}
+                packageHandle={handle}
+                pdfLink={pdfLink}
+              />
 
-          <Divider className="my-8 xl:my-12" />
+              <Divider className="my-8 xl:my-12" />
 
-          <SectionFeaturedAmenities
-            featuredAmenities={buildItineraryDetailAmenities(duration, mobility, amenities)}
-          />
+              <SectionFeaturedAmenities
+                featuredAmenities={buildItineraryDetailAmenities(duration, mobility, amenities)}
+              />
 
-          <Divider className="my-8 xl:my-12" />
+              <Divider className="my-8 xl:my-12" />
 
-          <div className="listingSection__wrap">
-            <SectionHeading>Description</SectionHeading>
-            <div className="flex flex-col gap-4 leading-relaxed text-muted-foreground">
-              {description.split('\n\n').map((paragraph, index) => (
-                <p key={index} className="whitespace-pre-line">
-                  {paragraph}
-                </p>
-              ))}
+              <div className="listingSection__wrap">
+                <SectionHeading>Description</SectionHeading>
+                <div className="flex flex-col gap-4 leading-relaxed text-muted-foreground">
+                  {description.split('\n\n').map((paragraph, index) => (
+                    <p key={index} className="whitespace-pre-line">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
             </div>
+
+            <div className="order-6 mt-8 w-full min-w-0 lg:order-none lg:mt-0 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
+              <div className="sticky top-17 min-w-0 max-w-full">
+                <ItineraryPricingSidebar handle={handle} pricing={pricing} onSubmit={handleSubmitForm} />
+
+                <ItineraryBenefitsSection />
+              </div>
+            </div>
+
+            <div className="order-2 col-span-full lg:order-none">
+              <Divider className="my-8 xl:my-12" />
+
+              <ItineraryTripMapSection thingsToDo={thingsToDo} />
+
+              <Divider className="my-8 xl:my-12" />
+            </div>
+
+            <div className="order-3 flex min-w-0 flex-col lg:order-none">
+              <ItineraryInclusionsSection includes={includes} excludes={excludes} />
+            </div>
+
+            {experiences.length ? (
+              <div className="order-4 col-span-full lg:order-none">
+                <Divider className="my-8 xl:my-12" />
+                <ItineraryExperiencesSection experiences={experiences} />
+              </div>
+            ) : null}
+
+            <div className="order-5 flex min-w-0 flex-col lg:order-none lg:col-start-1">
+              <Divider className="my-8 xl:my-12" />
+              <ItineraryAccommodationSection accommodations={accommodations} />
+            </div>
+          </main>
+
+          <Divider className="my-10 xl:my-16" />
+
+          <div id="itinerary-reviews" className="scroll-mt-20">
+            <ItineraryReviewsSection
+              reviewCount={reviewCount}
+              reviewStart={reviewStart}
+              reviews={reviews}
+            />
           </div>
         </div>
-
-        <div className="order-6 mt-8 w-full min-w-0 lg:order-none lg:mt-0 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
-          <div className="sticky top-17 min-w-0 max-w-full">
-            <ItineraryPricingSidebar handle={handle} pricing={pricing} onSubmit={handleSubmitForm} />
-
-            <ItineraryBenefitsSection />
-          </div>
-        </div>
-
-        <div className="order-2 col-span-full lg:order-none">
-          <Divider className="my-8 xl:my-12" />
-
-          <ItineraryTripMapSection thingsToDo={thingsToDo} />
-
-          <Divider className="my-8 xl:my-12" />
-        </div>
-
-        <div className="order-3 flex min-w-0 flex-col lg:order-none">
-          <ItineraryInclusionsSection includes={includes} excludes={excludes} />
-        </div>
-
-        {experiences.length ? (
-          <div className="order-4 col-span-full lg:order-none">
-            <Divider className="my-8 xl:my-12" />
-            <ItineraryExperiencesSection experiences={experiences} />
-          </div>
-        ) : null}
-
-        <div className="order-5 flex min-w-0 flex-col lg:order-none lg:col-start-1">
-          <Divider className="my-8 xl:my-12" />
-          <ItineraryAccommodationSection accommodations={accommodations} />
-        </div>
-      </main>
-
-      <Divider className="my-10 xl:my-16" />
-
-      <div id="itinerary-reviews" className="scroll-mt-20">
-        <ItineraryReviewsSection
-          reviewCount={reviewCount}
-          reviewStart={reviewStart}
-          reviews={reviews}
-        />
-      </div>
       </div>
     </>
   )

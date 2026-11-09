@@ -59,33 +59,33 @@ export default function HomepageMandalaParallax() {
 
   return (
     <div ref={rootRef} aria-hidden className="pointer-events-none absolute inset-0 z-0">
-      <div ref={topRightRef} className="absolute right-0 top-[9%] hidden translate-x-1/2 opacity-20 md:block">
+      <div ref={topRightRef} className="absolute right-0 top-[9%] hidden translate-x-1/2 opacity-[0.15] md:block">
         <Image
           src="/svg/mandala_SVG.svg"
           alt=""
           width={720}
           height={720}
-          className="h-auto w-[28rem] origin-center animate-[spin_52s_linear_infinite] lg:w-[38rem] 2xl:w-[46rem]"
+          className="h-auto w-[28rem] origin-center animate-[spin_68s_linear_infinite] lg:w-[38rem] 2xl:w-[46rem]"
         />
       </div>
 
-      <div ref={leftRef} className="absolute left-0 top-[31%] hidden -translate-x-1/2 opacity-20 md:block">
+      <div ref={leftRef} className="absolute left-0 top-[31%] hidden -translate-x-1/2 opacity-[0.15] md:block">
         <Image
           src="/svg/mandala_SVG.svg"
           alt=""
           width={720}
           height={720}
-          className="h-auto w-[26rem] origin-center -scale-x-100 animate-[spin_52s_linear_infinite] lg:w-[34rem] 2xl:w-[42rem]"
+          className="h-auto w-[26rem] origin-center -scale-x-100 animate-[spin_68s_linear_infinite] lg:w-[34rem] 2xl:w-[42rem]"
         />
       </div>
 
-      <div ref={bottomRightRef} className="absolute right-0 top-[56%] hidden translate-x-1/2 opacity-20 md:block">
+      <div ref={bottomRightRef} className="absolute right-0 top-[56%] hidden translate-x-1/2 opacity-[0.15] md:block">
         <Image
           src="/svg/mandala_SVG.svg"
           alt=""
           width={720}
           height={720}
-          className="h-auto w-[22rem] origin-center animate-[spin_52s_linear_infinite] lg:w-[30rem] 2xl:w-[38rem]"
+          className="h-auto w-[22rem] origin-center animate-[spin_68s_linear_infinite] lg:w-[30rem] 2xl:w-[38rem]"
         />
       </div>
     </div>
