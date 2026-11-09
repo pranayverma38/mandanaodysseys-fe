@@ -12,6 +12,7 @@ export const northIndia: DestinationDetail = {
     'https://images.pexels.com/photos/17423832/pexels-photo-17423832.jpeg?auto=compress&cs=tinysrgb&w=800',
   heroImage:
     'https://images.pexels.com/photos/17423832/pexels-photo-17423832.jpeg?auto=compress&cs=tinysrgb&w=1920',
+  heroVideo: 'https://video.gumlet.io/6ade6b8fd8b4449c83d285c5/6af18437d49b8893475953fa/main.mp4',
   packageCount: 0,
   introTitle: 'India\'s grand north, layered in history',
   introDescription:

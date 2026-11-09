@@ -16,21 +16,25 @@ type Story = {
   avatar: string
 }
 
+function getDestinationThumbnail(slug: string): string {
+  return DESTINATIONS.find((destination) => destination.slug === slug)?.thumbnail ?? '/images/destinations/south-india-thumbnail.jpg'
+}
+
 const STORIES: Story[] = [
   {
     src: '/videos/header/reel-player/story.webm',
-    name: 'INDIA',
-    avatar: DESTINATIONS.find((d) => d.slug === 'india')!.thumbnail,
+    name: 'NORTH INDIA',
+    avatar: getDestinationThumbnail('north-india'),
   },
   {
     src: '/videos/header/reel-player/story-1.webm',
     name: 'NEPAL',
-    avatar: DESTINATIONS.find((d) => d.slug === 'nepal')!.thumbnail,
+    avatar: getDestinationThumbnail('nepal'),
   },
   {
     src: '/videos/header/reel-player/story-2.webm',
     name: 'SRI LANKA',
-    avatar: DESTINATIONS.find((d) => d.slug === 'sri-lanka')!.thumbnail,
+    avatar: getDestinationThumbnail('sri-lanka'),
   },
 ]
 

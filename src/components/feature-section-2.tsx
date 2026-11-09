@@ -37,10 +37,6 @@ const FAQ_IMAGES: StaticImageData[] = [
   faqImage33953,
 ]
 
-function getRandomFaqImage() {
-  return FAQ_IMAGES[Math.floor(Math.random() * FAQ_IMAGES.length)]
-}
-
 const faqs_demo = [
   {
     question: 'What destinations does Mandana Odysseys offer?',
@@ -118,8 +114,7 @@ const FeatureSection2 = ({
   imageUrl,
 }: FeatureSection2Props) => {
   const [openIndex, setOpenIndex] = useState(0)
-  const [randomFaqImage] = useState(getRandomFaqImage)
-  const resolvedImage = imageUrl ?? randomFaqImage
+  const resolvedImage = imageUrl ?? FAQ_IMAGES[0]
 
   return (
     <div className={clsx('flex flex-col justify-between gap-8 lg:flex-row', className)}>

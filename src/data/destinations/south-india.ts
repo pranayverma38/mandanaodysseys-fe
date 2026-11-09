@@ -8,10 +8,10 @@ export const southIndia: DestinationDetail = {
   continent: 'Asia',
   country: 'India',
   description: 'Temple towns, tropical coasts, spice hills, and backwater journeys across peninsular India.',
-  thumbnail:
-    'https://images.pexels.com/photos/1450363/pexels-photo-1450363.jpeg?auto=compress&cs=tinysrgb&w=800',
+  thumbnail: '/images/destinations/south-india-thumbnail.jpg',
   heroImage:
     'https://images.pexels.com/photos/1450363/pexels-photo-1450363.jpeg?auto=compress&cs=tinysrgb&w=1920',
+  heroVideo: 'https://video.gumlet.io/6ade6b8fd8b4449c83d285c5/6af184375a178b8ae08954bb/main.mp4',
   packageCount: 0,
   introTitle: 'Tropical India at its most soulful',
   introDescription:

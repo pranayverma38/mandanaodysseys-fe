@@ -56,6 +56,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         isSmoothScrollEnabled() && 'smooth-scroll-enabled'
       )}
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed&display=swap"
+        />
+      </head>
       <body className="bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <DirectionProvider direction={process.env.NEXT_PUBLIC_THEME_DIR} dir={process.env.NEXT_PUBLIC_THEME_DIR}>

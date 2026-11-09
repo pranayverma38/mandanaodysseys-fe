@@ -3,6 +3,7 @@ import {
   Atma,
   Carattere,
   IM_Fell_English_SC,
+  Kaushan_Script,
   Lobster,
   Mouse_Memoirs,
   Pattaya,
@@ -17,10 +18,14 @@ const vietnamFont = Pattaya({ subsets: ['latin'], weight: '400' })
 const baliFont = Lobster({ subsets: ['latin'], weight: '400' })
 const australiaFont = Mouse_Memoirs({ subsets: ['latin'], weight: '400' })
 const switzerlandFont = Carattere({ subsets: ['latin'], weight: '400' })
+const southIndiaFont = { className: 'font-libre-caslon-condensed' }
+const northIndiaFont = Kaushan_Script({ subsets: ['latin'], weight: '400' })
 
 /** Display fonts for Elite Gateways destination cards — keyed by destination slug. */
 const DESTINATION_DISPLAY_FONTS: Record<string, { className: string }> = {
   india: indiaFont,
+  'north-india': northIndiaFont,
+  'south-india': southIndiaFont,
   'sri-lanka': sriLankaFont,
   thailand: thailandFont,
   nepal: nepalFont,

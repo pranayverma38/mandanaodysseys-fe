@@ -294,6 +294,10 @@
 
 /* add marquee animation */
 @layer utilities {
+  .font-libre-caslon-condensed {
+    font-family: 'Libre Caslon Condensed', serif;
+  }
+
   @keyframes marquee {
     0% {
       transform: translateX(0);

@@ -4,7 +4,7 @@ import { Heading } from '@/components/heading'
 import { Text } from '@/components/text'
 import type { DestinationCityTemperature } from '@/data/destinations'
 import clsx from 'clsx'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 interface DestinationTemperatureChartProps {
   destinationName: string
@@ -85,12 +85,13 @@ function RainfallBar({ value, scaleMax }: RainfallBarProps) {
 
 export function DestinationTemperatureChart({ destinationName, cities }: DestinationTemperatureChartProps) {
   const months = cities[0]?.temperatures ?? []
+  const [selectedIndex, setSelectedIndex] = useState(0)
 
-  const [selectedIndex, setSelectedIndex] = useState(() => {
+  useEffect(() => {
     const currentMonth = new Date().toLocaleString('en-US', { month: 'short' })
     const match = months.findIndex((item) => item.month === currentMonth)
-    return match >= 0 ? match : 0
-  })
+    setSelectedIndex(match >= 0 ? match : 0)
+  }, [months])
 
   const { scaleMin, scaleMax, rainfallMax } = useMemo(() => {
     const allTemps = cities.flatMap((city) =>

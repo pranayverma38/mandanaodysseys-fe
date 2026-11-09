@@ -1,7 +1,6 @@
 import { australia } from './australia'
 import { bali } from './bali'
 import { bhutan } from './bhutan'
-import { india } from './india'
 import { nepal } from './nepal'
 import { northIndia } from './north-india'
 import { southIndia } from './south-india'
@@ -12,7 +11,6 @@ import type { Destination, DestinationContinent, DestinationDetail } from './typ
 import { vietnam } from './vietnam'
 
 export const ALL_DESTINATION_DETAILS: DestinationDetail[] = [
-  india,
   northIndia,
   southIndia,
   sriLanka,

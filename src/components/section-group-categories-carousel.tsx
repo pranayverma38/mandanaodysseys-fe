@@ -1,14 +1,10 @@
 'use client'
 import { GroupCategoryCarouselGroup } from '@/data/group-categories'
-import { ICONS_MAP } from '@/data/data'
 import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
-import { HugeiconsIcon } from '@hugeicons/react'
 import type { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
-import { ReactNode, useEffect, useState } from 'react'
-import { Button } from './button'
+import { ReactNode } from 'react'
 import CarouselCategories from './carousel-categories'
-import { FilterPanelTransition } from './filter-panel-transition'
 import { Heading } from './heading'
 import NextPrevButtons from './next-prev-btns'
 
@@ -21,21 +17,6 @@ interface Props {
   showCategoryOverlay?: boolean
   showCategoryCenteredLabel?: boolean
 }
-
-// example data
-const filterButtonClassName =
-  'gap-x-1.5 px-2.5 py-1 text-xs sm:gap-x-2.5 sm:px-[calc(--spacing(5)-1px)] sm:py-[calc(--spacing(2.5)-1px)] sm:text-base'
-
-const ex_group_collections = [
-  {
-    title: 'Most Popular',
-    handle: 'most-popular',
-    categories: [
-      // list your collection data
-    ],
-  },
-  // ...
-]
 
 const SectionGroupCategoriesCarousel = ({
   emblaOptions = {
@@ -52,40 +33,18 @@ const SectionGroupCategoriesCarousel = ({
   showCategoryOverlay = true,
   showCategoryCenteredLabel = false,
 }: Props) => {
-  // Tạo ref để truy cập các phương thức của carousel
   const [emblaRef, emblaApi] = useEmblaCarousel({
     ...emblaOptions,
     direction: process.env.NEXT_PUBLIC_THEME_DIR,
   })
-  const [groupSelected, setGroupSelected] = useState<string>(groupCategories?.[0].handle || '')
   const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = useCarouselArrowButtons(emblaApi)
-
-  useEffect(() => {
-    if (!emblaApi) return
-    emblaApi.reInit()
-    emblaApi.scrollTo(0)
-  }, [emblaApi, groupSelected])
+  const categories = groupCategories?.[0]?.categories || []
 
   return (
     <div className={className}>
       <Heading className="max-w-2xl">{heading}</Heading>
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4 sm:mt-12">
-        <div className="flex flex-wrap gap-1.5 sm:gap-2">
-          {groupCategories?.map((group) => (
-            <Button
-              key={group.handle}
-              className={filterButtonClassName}
-              onClick={() => setGroupSelected(group.handle)}
-              // @ts-ignore
-              outline={groupSelected !== group.handle}
-            >
-              {ICONS_MAP[group.icon] && <HugeiconsIcon icon={ICONS_MAP[group.icon]} size={16} className="sm:size-5!" />}
-              {group.title}
-            </Button>
-          ))}
-        </div>
-
         <NextPrevButtons
           className="ms-auto hidden sm:block xl:ms-0"
           onNextClick={onNextButtonClick}
@@ -95,15 +54,15 @@ const SectionGroupCategoriesCarousel = ({
         />
       </div>
 
-      <FilterPanelTransition filterKey={groupSelected} className="mt-8">
+      <div className="mt-8">
         <CarouselCategories
           emblaRef={emblaRef}
-          categories={groupCategories?.find((group) => group.handle === groupSelected)?.categories || []}
+          categories={categories}
           cardStyle={cardStyle}
           showCategoryOverlay={showCategoryOverlay}
           showCategoryCenteredLabel={showCategoryCenteredLabel}
         />
-      </FilterPanelTransition>
+      </div>
     </div>
   )
 }

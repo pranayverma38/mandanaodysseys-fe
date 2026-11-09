@@ -21,16 +21,12 @@ const NEWSLETTER_BG_IMAGES: StaticImageData[] = [
   ctaImage602509,
 ]
 
-function getRandomNewsletterBg() {
-  return NEWSLETTER_BG_IMAGES[Math.floor(Math.random() * NEWSLETTER_BG_IMAGES.length)]
-}
-
 interface NewsletterProps {
   className?: string
 }
 
 export default function NewsletterSection({ className = '' }: NewsletterProps) {
-  const [backgroundImage] = useState(getRandomNewsletterBg)
+  const [backgroundImage] = useState(NEWSLETTER_BG_IMAGES[0])
 
   return (
     <div className={className}>
