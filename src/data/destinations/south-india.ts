@@ -23,32 +23,28 @@ export const southIndia: DestinationDetail = {
       category: 'Cuisine',
       description:
         'Dosas, idlis, appam, Chettinad curries, seafood, filter coffee, and banana-leaf thalis make South India one of the subcontinent\'s richest food regions.',
-      image:
-        'https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/southindiacuisine.jpg',
     },
     {
       title: 'Culture',
       category: 'Culture',
       description:
         'Classical Carnatic music, Bharatanatyam dance, Onam festivities, temple rituals, and handloom traditions shape everyday life across the south.',
-      image:
-        'https://images.pexels.com/photos/11696781/pexels-photo-11696781.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/southindiaculture.jpg',
     },
     {
       title: 'Temple Kingdoms',
       category: 'History',
       description:
         'The Chola, Pandya, Vijayanagara, and Hoysala dynasties left behind monumental temples, palace cities, and sculptural traditions that still define the region.',
-      image:
-        'https://images.pexels.com/photos/3601433/pexels-photo-3601433.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/southindiahistory.jpg',
     },
     {
       title: 'Kerala Backwaters',
       category: 'Landmark',
       description:
         'The serene network of lagoons, canals, and palm-fringed villages in Kerala is one of South India\'s most recognisable travel experiences.',
-      image:
-        'https://images.pexels.com/photos/457878/pexels-photo-457878.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/southindiatourist.jpg',
     },
   ],
   bestTimeToVisit: [

@@ -24,16 +24,14 @@ export const sriLanka: DestinationDetail = {
       category: 'Cuisine',
       description:
         'Rice and curry feasts, hoppers, kottu roti, and fresh seafood reflect Sri Lanka\'s blend of Sinhalese, Tamil, and colonial influences.',
-      image:
-        'https://images.pexels.com/photos/34070063/pexels-photo-34070063.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/srilankacuisine.jpg',
     },
     {
       title: 'Culture',
       category: 'Culture',
       description:
         'Buddhist stupas, Kandy\'s Temple of the Tooth, tea estates, and vibrant festivals define the island\'s rich cultural identity.',
-      image:
-        'https://images.pexels.com/photos/11696781/pexels-photo-11696781.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/srilankaculture.jpg',
     },
     {
       title: 'Sigiriya',

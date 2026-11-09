@@ -24,24 +24,21 @@ export const nepal: DestinationDetail = {
       category: 'Cuisine',
       description:
         'Dal bhat, momos, and Newari feasts served in brass thalis — Nepali food is hearty, flavourful, and shaped by Himalayan geography.',
-      image:
-        'https://images.pexels.com/photos/30205313/pexels-photo-30205313.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/nepalcuisine.jpg',
     },
     {
       title: 'Culture',
       category: 'Culture',
       description:
         'Hindu and Buddhist heritage, prayer flags at Boudhanath, and festivals like Dashain and Tihar colour life in the Kathmandu Valley.',
-      image:
-        'https://images.pexels.com/photos/34457744/pexels-photo-34457744.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/nepalculture.jpg',
     },
     {
-      title: 'Mount Everest',
+      title: 'Kingdoms & Heritage',
       category: 'History',
       description:
-        'Everest entered world history when Edmund Hillary and Tenzing Norgay reached the summit in 1953. Sherpa communities had guided expeditions for decades before, drawing on generations of Himalayan mountaineering knowledge.',
-      image:
-        'https://images.pexels.com/photos/936719/pexels-photo-936719.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'Nepal’s history spans the Licchavi and Malla eras, the rise of Kathmandu Valley city-states, and the 18th-century unification of the kingdom under Prithvi Narayan Shah. Palaces, temples, and old trade routes still reflect that layered Himalayan past.',
+      image: '/images/destinations/nepalhistory.jpg',
     },
     {
       title: 'Kathmandu',

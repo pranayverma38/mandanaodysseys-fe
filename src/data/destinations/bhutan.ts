@@ -24,32 +24,28 @@ export const bhutan: DestinationDetail = {
       category: 'Cuisine',
       description:
         'Ema datshi, red rice, buckwheat noodles, and hearty stews reflect Bhutanese cooking shaped by altitude, chillies, and local dairy traditions.',
-      image:
-        'https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/bhutancuisine.jpg',
     },
     {
       title: 'Culture',
       category: 'Culture',
       description:
         'Prayer flags, masked tsechu festivals, national dress, and monastic life remain part of everyday identity across Bhutanese valleys.',
-      image:
-        'https://images.pexels.com/photos/939729/pexels-photo-939729.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/bhutanculture.jpg',
     },
     {
       title: 'Dzongs',
       category: 'History',
       description:
         'Bhutan’s great dzongs served as fortified monasteries and administrative centers from the 17th century onward, helping unify the kingdom under the Zhabdrung.',
-      image:
-        'https://images.pexels.com/photos/1586298/pexels-photo-1586298.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/bhutanhistory.jpg',
     },
     {
       title: 'Tiger’s Nest',
       category: 'Landmark',
       description:
         'Paro Taktsang clings to a cliff nearly 900 metres above the valley floor and remains Bhutan’s most iconic spiritual site.',
-      image:
-        'https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/bhutantourist.jpg',
     },
   ],
   bestTimeToVisit: [

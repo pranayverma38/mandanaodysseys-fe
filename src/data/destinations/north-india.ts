@@ -32,24 +32,21 @@ export const northIndia: DestinationDetail = {
       category: 'Culture',
       description:
         'From Sikh gurdwaras and Sufi shrines to Holi celebrations in Rajasthan and evening aarti on the Ganges, North India is intensely ceremonial and deeply lived-in.',
-      image:
-        'https://images.pexels.com/photos/31008414/pexels-photo-31008414.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/northindiaculture.jpg',
     },
     {
       title: 'Mughal & Rajput Heritage',
       category: 'History',
       description:
         'The region was shaped by powerful dynasties, from the Mughal emperors who built Delhi and Agra\'s great monuments to the Rajput rulers whose forts still crown Rajasthan\'s hills.',
-      image:
-        'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/northindiahistory.jpg',
     },
     {
       title: 'Taj Mahal',
       category: 'Landmark',
       description:
         'Agra\'s marble mausoleum remains North India\'s signature landmark, but it sits within a wider circuit of forts, stepwells, temples, and historic cities.',
-      image:
-        'https://images.pexels.com/photos/262780/pexels-photo-262780.jpeg?auto=compress&cs=tinysrgb&w=800',
+      image: '/images/destinations/northindiatourist.jpg',
     },
   ],
   bestTimeToVisit: [
