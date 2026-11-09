@@ -42,11 +42,10 @@ const SectionGroupCategoriesCarousel = ({
 
   return (
     <div className={className}>
-      <Heading className="max-w-2xl">{heading}</Heading>
-
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-4 sm:mt-12">
+      <div className="flex flex-wrap items-center justify-between gap-4 sm:gap-6">
+        <Heading className="max-w-2xl">{heading}</Heading>
         <NextPrevButtons
-          className="ms-auto hidden sm:block xl:ms-0"
+          className="hidden shrink-0 sm:block"
           onNextClick={onNextButtonClick}
           onPrevClick={onPrevButtonClick}
           nextBtnDisabled={nextBtnDisabled}
@@ -54,7 +53,7 @@ const SectionGroupCategoriesCarousel = ({
         />
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 sm:mt-12">
         <CarouselCategories
           emblaRef={emblaRef}
           categories={categories}

@@ -3,6 +3,7 @@ import { Button } from '@/components/button'
 import { Divider } from '@/components/divider'
 
 import { Heading } from '@/components/heading'
+import HomepageMandalaParallax from '@/components/homepage-mandala-parallax'
 import InspirationFutureGetawaysSection from '@/components/inspiration-future-getaways-section'
 import NewsletterSection from '@/components/newsletter-section-1'
 import { RevealInView } from '@/components/reveal-in-view'
@@ -67,8 +68,9 @@ async function Page() {
 
       
 
-      <div className="sticky-grid-scroll-intro bg-zinc-50 dark:bg-zinc-900">
-        <section className="py-6 sm:py-20 lg:py-28 2xl:py-32">
+      <div className="sticky-grid-scroll-intro relative overflow-hidden bg-zinc-50 dark:bg-zinc-900">
+        <HomepageMandalaParallax />
+        <section className="relative z-10 py-6 sm:py-20 lg:py-28 2xl:py-32">
           <RevealInView className="container pt-4 pb-12 sm:py-16 lg:py-20 2xl:py-24">
             <SectionListingsCarousel
               heading={`Hand Picked <span class="font-style-script text-[1.3em] text-[#FC6200] italic">Tours  </span> For You`}
