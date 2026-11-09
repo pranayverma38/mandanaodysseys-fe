@@ -3,6 +3,8 @@ import { bali } from './bali'
 import { bhutan } from './bhutan'
 import { india } from './india'
 import { nepal } from './nepal'
+import { northIndia } from './north-india'
+import { southIndia } from './south-india'
 import { sriLanka } from './sri-lanka'
 import { switzerland } from './switzerland'
 import { thailand } from './thailand'
@@ -11,6 +13,8 @@ import { vietnam } from './vietnam'
 
 export const ALL_DESTINATION_DETAILS: DestinationDetail[] = [
   india,
+  northIndia,
+  southIndia,
   sriLanka,
   bhutan,
   thailand,
