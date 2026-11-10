@@ -146,7 +146,7 @@ function ItineraryRow({ itinerary }: { itinerary: AdminCustomItinerary }) {
             rel="noopener noreferrer"
             className="mt-2 inline-block text-xs font-medium text-[#fc6200] underline-offset-2 hover:underline"
           >
-            View PDF
+            View Itinerary
           </a>
         </div>
 

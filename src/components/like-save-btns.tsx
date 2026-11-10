@@ -33,11 +33,11 @@ export const ViewPdfButton = ({ href }: { href: string }) => {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="View PDF"
+      aria-label="View Itinerary"
       className="inline-flex h-9 shrink-0 items-center gap-1 rounded-full border border-orange-400 bg-white px-2.5 text-xs font-medium text-neutral-950 transition hover:bg-orange-50 sm:h-10 sm:gap-2 sm:px-3.5 sm:text-sm"
     >
       <PdfFileIcon className="size-5 text-red-500" />
-      <span className="whitespace-nowrap">View PDF</span>
+      <span className="whitespace-nowrap">View Itinerary</span>
       <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="hidden text-neutral-800 sm:block" />
     </a>
   )
