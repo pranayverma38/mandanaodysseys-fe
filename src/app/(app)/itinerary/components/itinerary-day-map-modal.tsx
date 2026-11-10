@@ -78,7 +78,7 @@ const ItineraryDayMapModal = ({ thingsToDo, isOpen, onClose, initialDayIndex = 0
   const [activeIndex, setActiveIndex] = useState(initialDayIndex)
   const totalDays = thingsToDo.length
   const activeItem = thingsToDo[activeIndex]
-  const activeItemImageUrl = activeItem ? resolveItineraryImageUrl(activeItem.imageUrl) : ''
+  const activeItemImageUrl = activeItem ? resolveItineraryImageUrl(activeItem.imageUrl, { highRes: true }) : ''
   const { label: dayLabel } = activeItem
     ? getItineraryDayLabel(activeItem.time, activeIndex)
     : { label: `Day ${activeIndex + 1}` }
@@ -165,7 +165,8 @@ const ItineraryDayMapModal = ({ thingsToDo, isOpen, onClose, initialDayIndex = 0
                           src={activeItemImageUrl}
                           alt={activeItem.name}
                           className="object-cover"
-                          sizes="64px"
+                          sizes="(min-width: 1024px) 160px, (min-width: 640px) 64px, 56px"
+                          quality={90}
                           unoptimized={isProxiedItineraryImageUrl(activeItemImageUrl)}
                         />
                       </div>

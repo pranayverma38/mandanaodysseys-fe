@@ -1,5 +1,9 @@
 const GOOGLE_IMAGE_PROXY_PREFIX = '/api/media/image?src='
 
+interface ResolveItineraryImageOptions {
+  highRes?: boolean
+}
+
 function getGoogleDriveFileId(url: URL): string | null {
   const pathMatch = url.pathname.match(/\/file\/d\/([^/]+)/i)
   if (pathMatch?.[1]) return pathMatch[1]
@@ -20,7 +24,34 @@ function shouldProxyImageUrl(url: URL): boolean {
   )
 }
 
-export function resolveItineraryImageUrl(url: string): string {
+function buildProxyImageUrl(sourceUrl: string, { highRes = false }: ResolveItineraryImageOptions = {}): string {
+  return `${GOOGLE_IMAGE_PROXY_PREFIX}${encodeURIComponent(sourceUrl)}${highRes ? '&hd=1' : ''}`
+}
+
+function upgradeDirectImageUrl(url: URL): string {
+  const upgradedUrl = new URL(url.toString())
+  const hostname = upgradedUrl.hostname.toLowerCase()
+
+  if (hostname === 'images.pexels.com') {
+    upgradedUrl.searchParams.set('w', '2000')
+    upgradedUrl.searchParams.set('dpr', '2')
+    return upgradedUrl.toString()
+  }
+
+  if (hostname === 'images.unsplash.com') {
+    upgradedUrl.searchParams.set('w', '2000')
+    upgradedUrl.searchParams.set('q', '90')
+    upgradedUrl.searchParams.set('dpr', '2')
+    return upgradedUrl.toString()
+  }
+
+  return upgradedUrl.toString()
+}
+
+export function resolveItineraryImageUrl(
+  url: string,
+  { highRes = false }: ResolveItineraryImageOptions = {}
+): string {
   const trimmedUrl = url.trim()
 
   if (!trimmedUrl || trimmedUrl.startsWith('/')) {
@@ -32,11 +63,15 @@ export function resolveItineraryImageUrl(url: string): string {
 
     const googleDriveFileId = getGoogleDriveFileId(parsedUrl)
     if (googleDriveFileId && parsedUrl.hostname.toLowerCase().includes('drive.google.com')) {
-      return `${GOOGLE_IMAGE_PROXY_PREFIX}${encodeURIComponent(trimmedUrl)}`
+      return buildProxyImageUrl(trimmedUrl, { highRes })
     }
 
     if (shouldProxyImageUrl(parsedUrl)) {
-      return `${GOOGLE_IMAGE_PROXY_PREFIX}${encodeURIComponent(trimmedUrl)}`
+      return buildProxyImageUrl(trimmedUrl, { highRes })
+    }
+
+    if (highRes) {
+      return upgradeDirectImageUrl(parsedUrl)
     }
   } catch {
     return trimmedUrl

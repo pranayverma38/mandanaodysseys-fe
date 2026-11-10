@@ -64,13 +64,13 @@ async function resolvePinterestImageUrl(url: string): Promise<string> {
   return resolvedImageUrl
 }
 
-async function resolveUpstreamImageUrl(url: string): Promise<string> {
+async function resolveUpstreamImageUrl(url: string, { highRes = false }: { highRes?: boolean } = {}): Promise<string> {
   const parsedUrl = new URL(url)
   const hostname = parsedUrl.hostname.toLowerCase()
 
   const googleDriveFileId = getGoogleDriveFileId(parsedUrl)
   if (googleDriveFileId && hostname.includes('drive.google.com')) {
-    return buildGoogleDriveThumbnailUrl(googleDriveFileId, 'w800')
+    return buildGoogleDriveThumbnailUrl(googleDriveFileId, highRes ? 'w2400' : 'w1600')
   }
 
   if (hostname === 'pin.it' || hostname.includes('pinterest.com')) {
@@ -95,6 +95,7 @@ function buildImageResponseHeaders(upstreamHeaders: Headers): Headers {
 
 export async function GET(request: NextRequest) {
   const sourceUrl = request.nextUrl.searchParams.get('src')
+  const highRes = request.nextUrl.searchParams.get('hd') === '1'
 
   if (!sourceUrl) {
     return new Response('Missing image source.', {
@@ -122,7 +123,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const upstreamImageUrl = await resolveUpstreamImageUrl(parsedUrl.toString())
+    const upstreamImageUrl = await resolveUpstreamImageUrl(parsedUrl.toString(), { highRes })
     const upstreamResponse = await fetch(upstreamImageUrl, {
       next: { revalidate: 86400 },
       headers: {
