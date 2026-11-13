@@ -27,11 +27,13 @@ import { getEliteGatewayGroups } from '@/data/elite-gateways'
 import { getPackagesByDurationGroups } from '@/data/packages-by-duration'
 import { getBlogPosts } from '@/data/data'
 import { getItineraries } from '@/data/listings'
+import { getTravellerStories } from '@/data/traveller-stories'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 async function Page() {
   const itineraries = await getItineraries()
   const eliteGatewayGroups = await getEliteGatewayGroups()
   const packagesByDurationGroups = await getPackagesByDurationGroups()
+  const travellerStories = await getTravellerStories()
 
   return (
     <main className="relative section-space-bottom">
@@ -91,7 +93,7 @@ async function Page() {
         </section>
       </div>
 
-      <SectionTravellerStories />
+      <SectionTravellerStories stories={travellerStories} />
 
       <SectionStickyGridScroll />
 

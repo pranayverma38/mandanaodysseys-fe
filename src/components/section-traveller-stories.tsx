@@ -1,7 +1,7 @@
 'use client'
 
 import GoogleLogoSvg from '@/components/google-logo-svg'
-import { TRAVELLER_STORIES, type TravellerStory } from '@/data/traveller-stories'
+import { type TravellerStory } from '@/data/traveller-stories'
 import { useCarouselArrowButtons } from '@/hooks/use-carousel-arrow-buttons'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { SpeakerWaveIcon, SpeakerXMarkIcon, StarIcon, XMarkIcon } from '@heroicons/react/24/solid'
@@ -54,7 +54,7 @@ function TravellerStoryVideoFrame({
           autoPlay
           preload="none"
         >
-          <source src={story.videoSrc} type="video/webm" />
+          <source src={story.videoSrc} />
         </video>
       ) : (
         <div className="size-full bg-zinc-800" aria-hidden />
@@ -78,7 +78,7 @@ function TravellerStoryCard({
       <TravellerStoryVideoFrame story={story} shouldLoad={shouldLoad} onOpen={onOpen} />
       <p className="mt-4 max-w-[260px] text-sm font-medium text-white sm:text-base">{story.title}</p>
       <span className="mt-2 inline-flex rounded-full bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
-        {story.destination}
+        {story.location}
       </span>
     </div>
   )
@@ -158,7 +158,7 @@ function TravellerStoryPlayer({
           muted={isMuted}
           preload="auto"
         >
-          <source src={story.videoSrc} type="video/webm" />
+          <source src={story.videoSrc} />
         </video>
 
         <button
@@ -181,7 +181,7 @@ function TravellerStoryPlayer({
 
         <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-black/70 to-transparent p-4 pt-10 max-sm:pb-[max(1rem,env(safe-area-inset-bottom))]">
           <p className="text-sm font-semibold text-white sm:text-base">{story.title}</p>
-          <p className="mt-1 text-xs text-white/75">{story.destination}</p>
+          <p className="mt-1 text-xs text-white/75">{story.location}</p>
         </div>
       </div>
     </div>
@@ -215,7 +215,13 @@ function RatingBadge({
   )
 }
 
-const SectionTravellerStories = ({ className }: { className?: string }) => {
+const SectionTravellerStories = ({
+  className,
+  stories,
+}: {
+  className?: string
+  stories: TravellerStory[]
+}) => {
   const sectionRef = useRef<HTMLElement>(null)
   const [shouldLoadVideos, setShouldLoadVideos] = useState(false)
   const [visibleSlideIndexes, setVisibleSlideIndexes] = useState<number[]>([])
@@ -327,6 +333,10 @@ const SectionTravellerStories = ({ className }: { className?: string }) => {
     }
   }, [emblaApi, shouldLoadVideos])
 
+  if (!stories.length) {
+    return null
+  }
+
   return (
     <section
       ref={sectionRef}
@@ -362,7 +372,7 @@ const SectionTravellerStories = ({ className }: { className?: string }) => {
         <div className="relative mt-10 pb-14 sm:mt-12 sm:pb-16 lg:pb-20">
           <div className="embla overflow-hidden" ref={emblaRef}>
             <div className="-ms-4 embla__container sm:-ms-6">
-              {TRAVELLER_STORIES.map((story, index) => (
+              {stories.map((story, index) => (
                 <div
                   key={story.id}
                   className="embla__slide basis-[72%] ps-4 sm:basis-[40%] sm:ps-6 md:basis-[32%] lg:basis-[26%] xl:basis-1/5"

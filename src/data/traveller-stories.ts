@@ -1,39 +1,8 @@
-export type TravellerStory = {
-  id: string
-  title: string
-  destination: string
-  videoSrc: string
-}
+import { fetchReelsFromMedusa, type HomepageReel } from '@/lib/medusa-reels'
 
-export const TRAVELLER_STORIES: TravellerStory[] = [
-  {
-    id: 'main',
-    title: "Prajakta's Singapore Holiday",
-    destination: 'Singapore',
-    videoSrc: '/videos/header/section-home-videos/main.webm',
-  },
-  {
-    id: 'story-1',
-    title: "Myur & Sonia's Sri Lanka Holiday",
-    destination: 'Sri Lanka',
-    videoSrc: '/videos/header/section-home-videos/story-1.webm',
-  },
-  {
-    id: 'story-2',
-    title: "Rahul's India Adventure",
-    destination: 'India',
-    videoSrc: '/videos/header/section-home-videos/story-2.webm',
-  },
-  {
-    id: 'story-3',
-    title: "Ananya's Bhutan Escape",
-    destination: 'Bhutan',
-    videoSrc: '/videos/header/section-home-videos/story-3.webm',
-  },
-  {
-    id: 'story-4',
-    title: "Vikram's Nepal Trek",
-    destination: 'Nepal',
-    videoSrc: '/videos/header/section-home-videos/story-4.webm',
-  },
-]
+export type TravellerStory = HomepageReel
+
+export async function getTravellerStories(): Promise<TravellerStory[]> {
+  const reels = await fetchReelsFromMedusa()
+  return reels ?? []
+}
